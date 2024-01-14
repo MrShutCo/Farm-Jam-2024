@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefee7c127459f244b033eb26c983965, type: 3}
+  m_Name: Wheat
+  m_EditorClassIdentifier: 
+  BuildingFoundationLayout:
+  - {x: 0, y: 0}
+  IsWalkable: 1
+  TimeToHarvest: 10
+  growProgressSprites:
+  - {fileID: 21300000, guid: adb2ce6bd66ca3f4f9b6636053e0e6eb, type: 3}
+  readyToHarvestSprite: {fileID: 0}
+  purchasePrice: 0
+  sellPrice: 0
