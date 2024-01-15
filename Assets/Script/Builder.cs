@@ -28,6 +28,9 @@ public class Builder : MonoBehaviour
     Vector3Int prevMouseTile;
     Vector3Int currMouseTile;
 
+    Transform parent;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +59,11 @@ public class Builder : MonoBehaviour
     {
         playerControls = new PlayerControls();
         playerControls.Enable();
+
+
+        parent = GameObject.Find("Buildings")?.transform;
+        if (parent == null)
+            parent = new GameObject("Buildings").transform;
     }
 
     // Update is called once per frame
@@ -68,7 +76,8 @@ public class Builder : MonoBehaviour
             if (currMouseTile != prevMouseTile)
             {
                 Clear8x8Area(prevMouseTile, 1);
-            } else
+            }
+            else
             {
                 var placeColor = IsValidPlacement(currMouseTile, TileLayouts[currentTileLayout], 0) ? Color.green : Color.red;
                 PlaceTilePatternOnLayer(currMouseTile, TileLayouts[currentTileLayout], 1, Tile, placeColor);
@@ -81,7 +90,7 @@ public class Builder : MonoBehaviour
     {
         var v = MouseToCellPos();
         var layout = TileLayouts[currentTileLayout];
-        
+
         if (IsValidPlacement(v, layout, 0))
         {
             var newBuilding = Instantiate(Foundations[currentTileLayout]);
@@ -90,7 +99,9 @@ public class Builder : MonoBehaviour
 
             PlaceTilePatternOnLayer(v, layout, 0, Tile, Color.white);
             PlaceTilePatternOnLayer(v, layout, 1, Tile, Color.red);
-            
+
+            newBuilding.transform.parent = parent;
+
         }
     }
 
@@ -111,7 +122,7 @@ public class Builder : MonoBehaviour
         return true;
     }
 
-    void PlaceTilePatternOnLayer(Vector3Int origin, List<(int,int)> layout, int layer, Tile tilebase, Color colorMask)
+    void PlaceTilePatternOnLayer(Vector3Int origin, List<(int, int)> layout, int layer, Tile tilebase, Color colorMask)
     {
         // Place the building otherwise
         foreach (var tile in layout)

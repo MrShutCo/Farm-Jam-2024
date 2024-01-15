@@ -15,6 +15,6 @@ namespace Assets.Buildings
 
     public class Placeable : MonoBehaviour
     {
-        
+
     }
 }
