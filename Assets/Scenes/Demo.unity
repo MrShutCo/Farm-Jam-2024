@@ -731,7 +731,7 @@ MonoBehaviour:
   spawnMidPoint: {x: -5, y: 1}
   spawnWidth: 1
   spawnHeight: 1
-  amountToSpawn: 1
+  amountToSpawn: 5
 --- !u!1 &1409460229
 GameObject:
   m_ObjectHideFlags: 0
