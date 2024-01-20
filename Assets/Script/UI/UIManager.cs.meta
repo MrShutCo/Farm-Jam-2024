@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Script/UI/UIManager.cs.meta
 guid: 5ccdcc39bd25661488a4268d958ffd31
+========
+guid: 23bd4397000b3854980fded17d9cbef8
+>>>>>>>> dd031fabc248eaf035b2a4f83fffae975b528bfd:Assets/InputSystem/PlayerControls.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
