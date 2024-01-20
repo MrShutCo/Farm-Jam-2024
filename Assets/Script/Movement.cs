@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
@@ -11,9 +10,7 @@ public class Movement : MonoBehaviour
 
     Vector2 moveDirection;
     public float runSpeed = 20.0f;
-    PlayerControls playerControls;
-    InputAction move;
-    InputAction harvest;
+
 
     void Start()
     {
@@ -22,26 +19,24 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
-        playerControls = new PlayerControls();
     }
 
     private void OnEnable()
     {
-        move = playerControls.Player.Move;
-        move.Enable();
+
     }
 
     private void OnDisable()
     {
-        move.Disable();
     }
 
     void Update()
     {
         // Gives a value between -1 and 1
-        //horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
-        //vertical = Input.GetAxisRaw("Vertical"); // -1 is down
-        moveDirection = move.ReadValue<Vector2>();
+        var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
+        var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
+        moveDirection = new Vector2(horizontal, vertical).normalized;
+        //moveDirection = Input.GetAxis.ReadValue<Vector2>();
     }
 
     void FixedUpdate()

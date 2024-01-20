@@ -1,6 +1,10 @@
 using Assets.Buildings;
+using Assets.Script.Buildings;
+using Assets.Script.Humans;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,40 +14,51 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public int CurrTime;
-    public int Money;
-    public CropData SelectedCropToPlant;
+    public Dictionary<EResource, int> Resources { get; private set; }
+
+    public List<Placeable> EnabledPlaceables;
 
     public event UnityAction onTimeStep;
+    public Action<Building> onFarmCreate;
+    public Action onResourceChange;
+
+    public List<Building> Buildings;
 
     private void Awake()
     {
+        Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
+        Resources = InitializeResources();
+        
+        int count = FindObjectsOfType<GameManager>().Length;
+        if (count > 1)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        } else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         Instance = this;
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        AddResource(EResource.Food, 50);
     }
 
-    private void OnEnable()
+    public void AddResource(EResource resource, int amount)
     {
-        Crop.onPlantCrop += OnPlantCrop;
-        Crop.onHarvestCrop += OnHarvestCrop;
+        Resources[resource] += amount;
+        onResourceChange?.Invoke();
     }
 
-    private void OnDisable()
-    {
-        Crop.onPlantCrop -= OnPlantCrop;
-        Crop.onHarvestCrop -= OnHarvestCrop;
-    }
+    public Dictionary<EResource, int> InitializeResources()
+        => new Dictionary<EResource, int>()
+        {
+            { EResource.Food, 0 }, {EResource.Wood, 0 }, { EResource.Iron, 0 },
+            { EResource.Electronics, 0 }, { EResource.Plutonium, 0}
+        };
 
-    void OnPlantCrop(CropData crop)
-    {
-        Debug.Log("Planted Crop");
-    }
-
-    void OnHarvestCrop(CropData crop)
-    {
-        Debug.Log("Harvested Crop");
-    }
 }
