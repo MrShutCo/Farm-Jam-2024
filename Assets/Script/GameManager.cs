@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public int CurrTime;
-    public Dictionary<EResource, int> Resources { get; private set; }
 
+    public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
 
     public event UnityAction onTimeStep;
@@ -24,17 +24,21 @@ public class GameManager : MonoBehaviour
 
     public List<Building> Buildings;
 
+    public Carrier Carrier;
+
+
     private void Awake()
     {
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();
-        
+
         int count = FindObjectsOfType<GameManager>().Length;
         if (count > 1)
         {
             gameObject.SetActive(false);
             Destroy(gameObject);
-        } else
+        }
+        else
         {
             DontDestroyOnLoad(gameObject);
         }
@@ -60,5 +64,4 @@ public class GameManager : MonoBehaviour
             { EResource.Food, 0 }, {EResource.Wood, 0 }, { EResource.Iron, 0 },
             { EResource.Electronics, 0 }, { EResource.Plutonium, 0}
         };
-
 }

@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 5915218859309990001}
   - component: {fileID: 4452934615250403022}
   - component: {fileID: -6672937139033376201}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,6 +339,7 @@ MonoBehaviour:
   Name: Ziggy
   StatusBar: {fileID: 5000687817149657336, guid: 20e920e31418e7b48b2cecd633573a0e, type: 3}
   Canvas: {fileID: 4174042980537868655}
+  hired: 0
 --- !u!70 &4452934615250403022
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

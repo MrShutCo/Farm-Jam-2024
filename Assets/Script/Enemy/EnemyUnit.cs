@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyUnit : PoolableObject
+public class NPC : PoolableObject
 {
     [Header("Base Stats")]
     [SerializeField] int health = 1;

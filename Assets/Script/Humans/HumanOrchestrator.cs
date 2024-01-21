@@ -10,6 +10,7 @@ namespace Assets.Script.Humans
         [SerializeField] GameObject HumanObject;
 
         List<Human> humans = new List<Human>();
+        List<Human> outsideHumans = new List<Human>();
 
         // Start is called before the first frame update
         void Start()

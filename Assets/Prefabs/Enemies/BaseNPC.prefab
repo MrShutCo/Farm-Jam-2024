@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4428295296989136384}
   - component: {fileID: 7649504049527261464}
   m_Layer: 8
-  m_Name: BaseEnemyUnit
+  m_Name: BaseNPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -31,7 +31,7 @@ namespace Assets.Script.Humans
         }
 
         public override void StopJob() { }
-       
+
 
         public override void UpdateJob(Human human, double deltaTime)
         {
@@ -41,7 +41,8 @@ namespace Assets.Script.Humans
             {
                 human.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 OnStopJob?.Invoke();
-            } else
+            }
+            else
             {
                 human.GetComponent<Rigidbody2D>().velocity = speed * diffVector.normalized;
             }
@@ -59,7 +60,7 @@ namespace Assets.Script.Humans
             Name = $"Work {building.HarvestedResouce} at {building.transform.position}";
         }
 
-        public override void StartJob() 
+        public override void StartJob()
         {
             building.CurrHumans++;
         }

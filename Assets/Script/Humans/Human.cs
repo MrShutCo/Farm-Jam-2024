@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Assets.Script.Humans
 {
- 
+
     public enum EResource
     {
-        Food, Wood, Iron, Electronics, Plutonium, 
+        Food, Wood, Iron, Electronics, Plutonium,
     }
 
     public class Human : MonoBehaviour
@@ -19,6 +19,7 @@ namespace Assets.Script.Humans
 
         [SerializeField] GameObject StatusBar;
         [SerializeField] Canvas Canvas;
+        [SerializeField] bool hired;
         TextMeshProUGUI jobText;
 
         List<FloatingStatusBar> skillBars;
