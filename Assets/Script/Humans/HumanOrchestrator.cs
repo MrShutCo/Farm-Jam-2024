@@ -1,6 +1,8 @@
+using Assets.Script.Buildings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -17,8 +19,6 @@ namespace Assets.Script.Humans
         {
             var firstbuilding = GameManager.Instance.Buildings[0];
             humans = GetComponentsInChildren<Human>().ToList();
-            humans[0].AddJob(new MoveToJob(firstbuilding.transform.position));
-            humans[0].AddJob(new WorkJob(firstbuilding));
         }
 
         // Update is called once per frame
@@ -32,6 +32,42 @@ namespace Assets.Script.Humans
                 humans[0].AddJob(new MoveToJob(b.transform.position));
                 humans[0].AddJob(new WorkJob(b));
             }
+            
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                AssignIdleWorkers();    
+            }
         }
+
+        void AssignIdleWorkers()
+        {
+            List<Human> idleHumans = GetIdleHumans().ToList();
+            List<Building> nonFullBuildings = GameManager.Instance.Buildings.Where(b => b.CurrHumans < b.MaxCapacity).ToList();
+            List<int> capacities = nonFullBuildings.Select(b => b.CurrHumans).ToList();
+            while (idleHumans.Count > 0 && nonFullBuildings.Count() > 0)
+            {
+                var nextBuilding = nonFullBuildings.First();
+                var bestHumanForJob = GetHighestSkilledHuman(idleHumans, nextBuilding.HarvestedResouce);
+                bestHumanForJob.AddJob(new MoveToJob(nextBuilding.transform.position));
+                bestHumanForJob.AddJob(new WorkJob(nextBuilding));
+                idleHumans.Remove(bestHumanForJob);
+                capacities[0]++;
+                if (nonFullBuildings[0].MaxCapacity == capacities[0])
+                {
+                    nonFullBuildings.RemoveAt(0);
+                    capacities.RemoveAt(0);
+                }
+            }            
+        }
+
+        IEnumerable<Human> GetIdleHumans() => humans.Where(h => h.IsIdle());
+        Human GetHighestSkilledHuman(IEnumerable<Human> possibleHumans, EResource resource)
+        {
+            var bestHuman = possibleHumans.First();
+            foreach (var human in possibleHumans)
+                bestHuman = human.Skills[resource] > bestHuman.Skills[resource] ? human : bestHuman;
+            return bestHuman;
+        }
+        
     }
 }

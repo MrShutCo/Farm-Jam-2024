@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public Action onResourceChange;
 
     public List<Building> Buildings;
+    public Human CurrentlySelectedHuman;
 
     public Carrier Carrier;
 

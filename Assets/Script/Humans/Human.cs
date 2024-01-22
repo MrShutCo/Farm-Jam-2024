@@ -64,6 +64,14 @@ namespace Assets.Script.Humans
         }
 
         public void StopCurrentJob() => OnJobComplete();
+        public bool IsIdle() => currentJobs.Count == 0;
+
+        public void SelectHuman()
+        {
+            Canvas.gameObject.SetActive(true);
+            GameManager.Instance.CurrentlySelectedHuman?.Canvas.gameObject.SetActive(false);
+            GameManager.Instance.CurrentlySelectedHuman = this;
+        }
 
         public void OnMouseEnter()
         {
@@ -72,6 +80,7 @@ namespace Assets.Script.Humans
 
         public void OnMouseExit()
         {
+            if (GameManager.Instance.CurrentlySelectedHuman == this) return;
             Canvas.gameObject.SetActive(false);
         }
 
@@ -96,9 +105,12 @@ namespace Assets.Script.Humans
 
         void OnJobComplete()
         {
-            currentJobs.Peek().OnStopJob -= OnJobComplete;
-            currentJobs.Peek().StopJob();
-            currentJobs.Dequeue();
+            if (currentJobs?.Count > 0)
+            { 
+                currentJobs.Peek().OnStopJob -= OnJobComplete;
+                currentJobs.Peek().StopJob();
+                currentJobs.Dequeue();
+            }
             jobText.text = "";
             if (currentJobs?.Count > 0)
             {
