@@ -21,8 +21,13 @@ public class GameManager : MonoBehaviour
     public event UnityAction onTimeStep;
     public Action<Building> onFarmCreate;
     public Action onResourceChange;
+    public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
+    public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
+    public Action onEnterHomeBase;
+    public Action onExitHomeBase;
 
     public List<Building> Buildings;
+    public Transform Player;
     public Human CurrentlySelectedHuman;
 
     public Carrier Carrier;
@@ -30,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Player = FindObjectOfType<Player>().transform;
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();
 

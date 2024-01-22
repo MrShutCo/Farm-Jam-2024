@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -21,6 +22,7 @@ namespace Assets.Script.Humans
         [SerializeField] Canvas Canvas;
         [SerializeField] bool hired;
         TextMeshProUGUI jobText;
+        Rigidbody2D rb;
 
         List<FloatingStatusBar> skillBars;
 
@@ -31,6 +33,16 @@ namespace Assets.Script.Humans
             currentJobs = new Queue<Job>();
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             skillBars = new List<FloatingStatusBar>();
+            rb = GetComponent<Rigidbody2D>();
+        }
+        private void OnEnable()
+        {
+            rb.simulated = true;
+        }
+
+        private void OnDisable()
+        {
+            rb.simulated = false;
         }
 
         public void Start()
@@ -57,7 +69,7 @@ namespace Assets.Script.Humans
         {
             if (currentJobs.Count == 0)
             {
-                newJob.StartJob();
+                newJob.StartJob(rb);
                 newJob.OnStopJob += OnJobComplete;
             }
             currentJobs.Enqueue(newJob);
@@ -73,6 +85,13 @@ namespace Assets.Script.Humans
             GameManager.Instance.CurrentlySelectedHuman = this;
         }
 
+        public void ClearCurrentJobs()
+        {
+            while (currentJobs.Count > 0)
+            {
+                currentJobs.Dequeue().StopJob();
+            }
+        }
         public void OnMouseEnter()
         {
             Canvas.gameObject.SetActive(true);
@@ -102,6 +121,14 @@ namespace Assets.Script.Humans
             }
 
         }
+        public void FixedUpdate()
+        {
+            if (currentJobs?.Count > 0)
+            {
+                currentJobs.Peek().FixedUpdateJob(this, Time.fixedDeltaTime);
+                jobText.text = currentJobs.Peek().Name;
+            }
+        }
 
         void OnJobComplete()
         {
@@ -114,7 +141,7 @@ namespace Assets.Script.Humans
             jobText.text = "";
             if (currentJobs?.Count > 0)
             {
-                currentJobs.Peek().StartJob();
+                currentJobs.Peek().StartJob(rb);
                 currentJobs.Peek().OnStopJob += OnJobComplete;
             }
         }
