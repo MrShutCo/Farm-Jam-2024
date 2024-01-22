@@ -69,7 +69,7 @@ namespace Assets.Script.Humans
         {
             if (currentJobs.Count == 0)
             {
-                newJob.StartJob();
+                newJob.StartJob(rb);
                 newJob.OnStopJob += OnJobComplete;
             }
             currentJobs.Enqueue(newJob);
@@ -77,6 +77,13 @@ namespace Assets.Script.Humans
 
         public void StopCurrentJob() => OnJobComplete();
 
+        public void ClearCurrentJobs()
+        {
+            while (currentJobs.Count > 0)
+            {
+                currentJobs.Dequeue().StopJob();
+            }
+        }
         public void OnMouseEnter()
         {
             Canvas.gameObject.SetActive(true);
@@ -105,6 +112,14 @@ namespace Assets.Script.Humans
             }
 
         }
+        public void FixedUpdate()
+        {
+            if (currentJobs?.Count > 0)
+            {
+                currentJobs.Peek().FixedUpdateJob(this, Time.fixedDeltaTime);
+                jobText.text = currentJobs.Peek().Name;
+            }
+        }
 
         void OnJobComplete()
         {
@@ -114,7 +129,7 @@ namespace Assets.Script.Humans
             jobText.text = "";
             if (currentJobs?.Count > 0)
             {
-                currentJobs.Peek().StartJob();
+                currentJobs.Peek().StartJob(rb);
                 currentJobs.Peek().OnStopJob += OnJobComplete;
             }
         }

@@ -27,10 +27,12 @@ public class GameManager : MonoBehaviour
     public Action onExitHomeBase;
 
     public List<Building> Buildings;
+    public Transform Player;
 
 
     private void Awake()
     {
+        Player = FindObjectOfType<Player>().transform;
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();
 

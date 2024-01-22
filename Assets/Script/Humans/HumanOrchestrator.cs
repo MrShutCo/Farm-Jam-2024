@@ -32,6 +32,19 @@ namespace Assets.Script.Humans
                 humans[0].AddJob(new MoveToJob(b.transform.position));
                 humans[0].AddJob(new WorkJob(b));
             }
+
+            if (Input.GetKeyDown(KeyCode.J)) //Test Wander Behaviour
+            {
+                humans[0].StopCurrentJob();
+                humans[0].ClearCurrentJobs();
+                humans[0].AddJob(new Wander(humans[0]));
+            }
+            if (Input.GetKeyDown(KeyCode.K)) //Test Approach player (as target)
+            {
+                humans[0].StopCurrentJob();
+                humans[0].ClearCurrentJobs();
+                humans[0].AddJob(new ApproachTarget(GameManager.Instance.Player.position));
+            }
         }
     }
 }
