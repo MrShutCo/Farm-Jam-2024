@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Script.Humans;
+using System.Linq;
 
 public class Carrier : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class Carrier : MonoBehaviour
         else
         {
             CarriedHumans.Add(human);
+            human.enabled = false;
+            human.transform.SetParent(transform);
+            GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
             //put human in tendril or bag
             return true;
         }
@@ -27,9 +31,21 @@ public class Carrier : MonoBehaviour
     public void RemoveCarriedHumans(Human human)
     {
         CarriedHumans.Remove(human);
+        human.enabled = true;
+        human.transform.SetParent(null);
     }
-    public void AddCarriedResources(EResource resource, int amount)
+    public bool AddCarriedResources(EResource resource, int amount)
     {
-        CarriedResources[resource] += amount;
+        //if total resources is greater than max resources
+        if (CarriedResources.Values.Sum() + amount > maxResources)
+        {
+            return false;
+        }
+        else
+        {
+            CarriedResources[resource] += amount;
+            GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
+            return true;
+        }
     }
 }

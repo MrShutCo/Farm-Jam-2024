@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -21,6 +22,7 @@ namespace Assets.Script.Humans
         [SerializeField] Canvas Canvas;
         [SerializeField] bool hired;
         TextMeshProUGUI jobText;
+        Rigidbody2D rb;
 
         List<FloatingStatusBar> skillBars;
 
@@ -31,6 +33,16 @@ namespace Assets.Script.Humans
             currentJobs = new Queue<Job>();
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             skillBars = new List<FloatingStatusBar>();
+            rb = GetComponent<Rigidbody2D>();
+        }
+        private void OnEnable()
+        {
+            rb.simulated = true;
+        }
+
+        private void OnDisable()
+        {
+            rb.simulated = false;
         }
 
         public void Start()

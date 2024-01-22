@@ -21,10 +21,12 @@ public class GameManager : MonoBehaviour
     public event UnityAction onTimeStep;
     public Action<Building> onFarmCreate;
     public Action onResourceChange;
+    public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
+    public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
+    public Action onEnterHomeBase;
+    public Action onExitHomeBase;
 
     public List<Building> Buildings;
-
-    public Carrier Carrier;
 
 
     private void Awake()
