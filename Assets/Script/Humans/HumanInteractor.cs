@@ -6,6 +6,8 @@ namespace Assets.Script.Humans
 {
     public class HumanInteractor : MonoBehaviour
     {
+        [SerializeField] LayerMask rightClickLayer;
+        RaycastHit2D[] hits;
 
         // Use this for initialization
         void Start()
@@ -32,17 +34,24 @@ namespace Assets.Script.Humans
 
             if (Input.GetMouseButtonDown(1) && GameManager.Instance.CurrentlySelectedHuman != null)
             {
+
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-                if (hit.collider != null)
+
+                hits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, rightClickLayer);
+
+                foreach (var item in hits)
                 {
-                   var clickedBuilding = hit.collider.GetComponent<Building>();
-                    if (clickedBuilding != null)
+                    if (item.collider != null)
                     {
-                        GameManager.Instance.CurrentlySelectedHuman.StopCurrentJob();
-                        GameManager.Instance.CurrentlySelectedHuman.AddJob(new MoveToJob(clickedBuilding.transform.position));
-                        GameManager.Instance.CurrentlySelectedHuman.AddJob(new WorkJob(clickedBuilding));
+                        var clickedBuilding = item.collider.GetComponent<Building>();
+                        if (clickedBuilding != null)
+                        {
+                            GameManager.Instance.CurrentlySelectedHuman.StopCurrentJob();
+                            GameManager.Instance.CurrentlySelectedHuman.AddJob(new MoveToJob(clickedBuilding.transform.position));
+                            GameManager.Instance.CurrentlySelectedHuman.AddJob(new WorkJob(clickedBuilding));
+                        }
                     }
+                    break;
                 }
             }
         }
