@@ -36,7 +36,7 @@ namespace Assets.Script.Humans
                 RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
                 if (hit.collider != null)
                 {
-                    var clickedBuilding = hit.collider.GetComponent<Building>();
+                   var clickedBuilding = hit.collider.GetComponent<Building>();
                     if (clickedBuilding != null)
                     {
                         GameManager.Instance.CurrentlySelectedHuman.StopCurrentJob();

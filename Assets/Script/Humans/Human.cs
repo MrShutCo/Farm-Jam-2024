@@ -116,8 +116,8 @@ namespace Assets.Script.Humans
         {
             if (currentJobs?.Count > 0)
             {
-                currentJobs.Peek().UpdateJob(this, Time.deltaTime);
                 jobText.text = currentJobs.Peek().Name;
+                currentJobs.Peek().UpdateJob(this, Time.deltaTime);
             }
 
         }
@@ -125,8 +125,9 @@ namespace Assets.Script.Humans
         {
             if (currentJobs?.Count > 0)
             {
-                currentJobs.Peek().FixedUpdateJob(this, Time.fixedDeltaTime);
                 jobText.text = currentJobs.Peek().Name;
+                currentJobs.Peek().FixedUpdateJob(this, Time.fixedDeltaTime);
+                
             }
         }
 

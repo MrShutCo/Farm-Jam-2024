@@ -24,13 +24,15 @@ namespace Assets.Script.Humans
         // Update is called once per frame
         void Update()
         {
+            var currentlySelect = GameManager.Instance.CurrentlySelectedHuman;
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 int i = (int)(Random.value * GameManager.Instance.Buildings.Count);
                 var b = GameManager.Instance.Buildings[i];
-                humans[0].StopCurrentJob();
-                humans[0].AddJob(new MoveToJob(b.transform.position));
-                humans[0].AddJob(new WorkJob(b));
+                currentlySelect.StopCurrentJob();
+                currentlySelect.AddJob(new MoveToJob(b.transform.position));
+                currentlySelect.AddJob(new WorkJob(b));
             }
             
             if (Input.GetKeyDown(KeyCode.P))
@@ -40,15 +42,15 @@ namespace Assets.Script.Humans
 
             if (Input.GetKeyDown(KeyCode.J)) //Test Wander Behaviour
             {
-                humans[0].StopCurrentJob();
-                humans[0].ClearCurrentJobs();
-                humans[0].AddJob(new Wander(humans[0]));
+                currentlySelect.StopCurrentJob();
+                currentlySelect.ClearCurrentJobs();
+                currentlySelect.AddJob(new Wander(currentlySelect));
             }
             if (Input.GetKeyDown(KeyCode.K)) //Test Approach player (as target)
             {
-                humans[0].StopCurrentJob();
-                humans[0].ClearCurrentJobs();
-                humans[0].AddJob(new ApproachTarget(GameManager.Instance.Player.position));
+                currentlySelect.StopCurrentJob();
+                currentlySelect.ClearCurrentJobs();
+                currentlySelect.AddJob(new ApproachTarget(GameManager.Instance.Player.position));
             }
         }
 
