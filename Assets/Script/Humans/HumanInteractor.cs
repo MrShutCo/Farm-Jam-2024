@@ -46,9 +46,10 @@ namespace Assets.Script.Humans
                         var clickedBuilding = item.collider.GetComponent<Building>();
                         if (clickedBuilding != null)
                         {
-                            GameManager.Instance.CurrentlySelectedHuman.StopCurrentJob();
-                            GameManager.Instance.CurrentlySelectedHuman.AddJob(new MoveToJob(clickedBuilding.transform.position));
-                            GameManager.Instance.CurrentlySelectedHuman.AddJob(new WorkJob(clickedBuilding));
+                            var currHuman = GameManager.Instance.CurrentlySelectedHuman;
+                            currHuman.StopCurrentJob();
+                            currHuman.AddJob(new MoveToJob(clickedBuilding.transform.position));
+                            currHuman.AddJob(new WorkJob(clickedBuilding));
                         }
                     }
                     break;

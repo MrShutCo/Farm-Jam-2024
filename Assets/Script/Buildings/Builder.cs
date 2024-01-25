@@ -13,9 +13,12 @@ namespace Assets.Script.Buildings
     public class Builder : MonoBehaviour
     {
 
-        public Tilemap Tilemap;
+        [SerializeField] Tilemap GroundMap;
+        [SerializeField] Tilemap EffectMap;
+        [SerializeField] Tilemap ColliderMap;
         [SerializeField] Tile WalkableTile;
         [SerializeField] Tile UnwalkableTile;
+        
 
         public Camera Camera;
 
@@ -53,7 +56,7 @@ namespace Assets.Script.Buildings
             if (Input.GetKeyDown(KeyCode.B))
             {
                 isBuildMode = !isBuildMode;
-                Clear8x8Area(currMouseTile, 1);
+                Clear8x8Area(currMouseTile, EffectMap);
             }
 
             if (isBuildMode)
@@ -66,13 +69,13 @@ namespace Assets.Script.Buildings
                 currMouseTile = MouseToCellPos();
                 if (currMouseTile != prevMouseTile)
                 {
-                    Clear8x8Area(prevMouseTile, 1);
+                    Clear8x8Area(prevMouseTile, EffectMap);
                 }
                 else
                 {
                     var layout = GameManager.Instance.EnabledPlaceables[currentTileLayout].Layout;
-                    var placeColor = IsValidPlacement(currMouseTile, layout, 0) ? Color.green : Color.red;
-                    PlaceTilePatternOnLayer(currMouseTile, layout, 1, WalkableTile, placeColor);
+                    var placeColor = IsValidPlacement(currMouseTile, layout, ColliderMap) ? Color.green : Color.red;
+                    PlaceTilePatternOnLayer(currMouseTile, layout, EffectMap, WalkableTile, placeColor);
                 }
                 prevMouseTile = currMouseTile;
             }
@@ -83,14 +86,19 @@ namespace Assets.Script.Buildings
             var v = MouseToCellPos();
             var placeable = GameManager.Instance.EnabledPlaceables[currentTileLayout];
 
-            if (IsValidPlacement(v, placeable.Layout, 0))
+            if (IsValidPlacement(v, placeable.Layout, ColliderMap))
             {
                 var newBuilding = Instantiate(placeable.BaseObject);
-                var worldPos = Tilemap.CellToWorld(v);
+                var worldPos = GroundMap.CellToWorld(v);
                 newBuilding.transform.position = worldPos + placeable.GetMidpoint() - new Vector3(0,0, worldPos.z);
 
-                PlaceTilePatternOnLayer(v, placeable.Layout, 0, placeable.IsWalkable ? WalkableTile : UnwalkableTile, Color.white);
-                PlaceTilePatternOnLayer(v, placeable.Layout, 1, WalkableTile, Color.red);
+                PlaceTilePatternOnLayer(v, placeable.Layout, ColliderMap, placeable.IsWalkable ? WalkableTile : UnwalkableTile, Color.white);
+                PlaceTilePatternOnLayer(v, placeable.Layout, EffectMap, WalkableTile, Color.red);
+                foreach (var pos in placeable.Layout)
+                {
+                    var actualPos = new Vector3Int(pos.x, pos.y, 0) + v;
+                    GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
+                }
 
                 newBuilding.transform.parent = parent;
 
@@ -101,20 +109,20 @@ namespace Assets.Script.Buildings
         {
             Vector3 mousePos = Input.mousePosition;
             var worldPos = Camera.ScreenToWorldPoint(mousePos);
-            return Tilemap.WorldToCell(worldPos);
+            return GroundMap.WorldToCell(worldPos);
         }
 
-        bool IsValidPlacement(Vector3Int origin, List<Vector2Int> layout, int layer)
+        bool IsValidPlacement(Vector3Int origin, List<Vector2Int> layout, Tilemap tilemap)
         {
             foreach (var tile in layout)
             {
-                var potentialSpot = Tilemap.GetTile(origin + new Vector3Int(tile.x, tile.y, 0));
+                var potentialSpot = tilemap.GetTile(origin + new Vector3Int(tile.x, tile.y, 0));
                 if (potentialSpot is not null) return false;
             }
             return true;
         }
 
-        void PlaceTilePatternOnLayer(Vector3Int origin, List<Vector2Int> layout, int layer, Tile tilebase, Color colorMask)
+        void PlaceTilePatternOnLayer(Vector3Int origin, List<Vector2Int> layout, Tilemap tilemap, Tile tilebase, Color colorMask)
         {
             // Place the building otherwise
             foreach (var tile in layout)
@@ -122,7 +130,7 @@ namespace Assets.Script.Buildings
                 var tilebaseCopy = tilebase;
                 if (tilebaseCopy)
                     tilebaseCopy.color = colorMask;
-                Tilemap.SetTile(origin + new Vector3Int(tile.x, tile.y, layer), tilebaseCopy);
+                tilemap.SetTile(origin + new Vector3Int(tile.x, tile.y, 0), tilebaseCopy);
             }
         }
 
@@ -132,17 +140,17 @@ namespace Assets.Script.Buildings
             {
                 if (Input.GetKeyDown($"{i}"))
                 {
-                    Clear8x8Area(currMouseTile, 1);
+                    Clear8x8Area(currMouseTile, EffectMap);
                     currentTileLayout = i-1;
                 }
             }
         }
 
-        void Clear8x8Area(Vector3Int origin, int layer)
+        void Clear8x8Area(Vector3Int origin, Tilemap tilemap)
         {
             for (int x = -4; x < 4; x++)
                 for (int y = -4; y < 4; y++)
-                    Tilemap.SetTile(origin + new Vector3Int(x, y, layer), null);
+                    tilemap.SetTile(origin + new Vector3Int(x, y, 0), null);
         }
     }
 }

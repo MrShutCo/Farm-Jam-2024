@@ -1,6 +1,7 @@
 ﻿using Assets.Script.Buildings;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -23,6 +24,8 @@ namespace Assets.Script.Humans
     {
         Vector3 target;
         int speed;
+        List<Node2D> path;
+        int currPathNodeDestination;
 
         public MoveToJob(Vector3 position)
         {
@@ -33,28 +36,57 @@ namespace Assets.Script.Humans
         public override void StartJob(Rigidbody2D rb)
         {
             base.StartJob(rb);
-            speed = 2;
+            speed = 3;
+            Grid2D.onGridUpdated += onGridUpdated;
         }
 
-        public override void StopJob() { }
+        public override void StopJob()
+        {
+            Grid2D.onGridUpdated -= onGridUpdated;
+        }
 
 
         public override void UpdateJob(Human human, double deltaTime)
         {
-
+            if (path == null)
+            {
+                var pathfinding = human.GetComponent<Pathfinding2D>();
+                path = pathfinding.FindPath(human.transform.position, target);
+            }
+            
         }
         public override void FixedUpdateJob(Human human, double fixedDeltaTime)
         {
-            var diffVector = target - human.transform.position;
+            if (path == null) return;
+            var nodePos = path[currPathNodeDestination];
+            var diffVector = nodePos.worldPosition - human.transform.position;
             diffVector.z = 0; // Account for different z levels
             if (diffVector.magnitude < 0.05)
             {
-                rb.velocity = Vector2.zero;
-                OnStopJob?.Invoke();
+                if (currPathNodeDestination + 1 == path.Count)
+                {
+                    rb.velocity = Vector2.zero;
+                    OnStopJob?.Invoke();
+                } else
+                {
+                    currPathNodeDestination++;
+                }
             }
             else
             {
                 rb.velocity = speed * diffVector.normalized;
+            }
+        }
+
+        void onGridUpdated(int x, int y)
+        {
+            for (int i = currPathNodeDestination; i < path.Count; i++)
+            {
+                if (path[i].GridX == x && path[i].GridY == y)
+                {
+                    path = null;
+                    break;
+                }
             }
         }
     }

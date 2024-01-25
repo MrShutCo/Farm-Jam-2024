@@ -34,6 +34,9 @@ namespace Assets.Script.Humans
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             skillBars = new List<FloatingStatusBar>();
             rb = GetComponent<Rigidbody2D>();
+            var p = GetComponent<Pathfinding2D>();
+            p.seeker = transform;
+            p.GridOwner = GameObject.Find("Grid");
         }
         private void OnEnable()
         {

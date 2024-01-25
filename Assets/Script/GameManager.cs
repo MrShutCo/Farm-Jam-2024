@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
+    public Grid2D PathfindingGrid;
 
     public event UnityAction onTimeStep;
     public Action<Building> onFarmCreate;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
         Player = FindObjectOfType<Player>().transform;
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();
+        PathfindingGrid = FindObjectOfType<Grid2D>();
 
         int count = FindObjectsOfType<GameManager>().Length;
         if (count > 1)
