@@ -45,7 +45,6 @@ namespace Assets.Script.Humans
             Grid2D.onGridUpdated -= onGridUpdated;
         }
 
-
         public override void UpdateJob(Human human, double deltaTime)
         {
             if (path == null)
@@ -93,10 +92,10 @@ namespace Assets.Script.Humans
 
     public class WorkJob : Job
     {
-        Building building;
+        ResourceBuilding building;
         double timeWorkedOnJob;
 
-        public WorkJob(Building building)
+        public WorkJob(ResourceBuilding building)
         {
             this.building = building;
             Name = $"Work {building.HarvestedResouce} at {building.transform.position}";

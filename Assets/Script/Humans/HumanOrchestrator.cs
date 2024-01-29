@@ -29,7 +29,7 @@ namespace Assets.Script.Humans
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 int i = (int)(Random.value * GameManager.Instance.Buildings.Count);
-                var b = GameManager.Instance.Buildings[i];
+                var b = GameManager.Instance.Buildings[i] as ResourceBuilding;
                 currentlySelect.StopCurrentJob();
                 currentlySelect.AddJob(new MoveToJob(b.transform.position));
                 currentlySelect.AddJob(new WorkJob(b));
@@ -61,7 +61,7 @@ namespace Assets.Script.Humans
             List<int> capacities = nonFullBuildings.Select(b => b.CurrHumans).ToList();
             while (idleHumans.Count > 0 && nonFullBuildings.Count() > 0)
             {
-                var nextBuilding = nonFullBuildings.First();
+                /*var nextBuilding = nonFullBuildings.First();
                 var bestHumanForJob = GetHighestSkilledHuman(idleHumans, nextBuilding.HarvestedResouce);
                 bestHumanForJob.AddJob(new MoveToJob(nextBuilding.transform.position));
                 bestHumanForJob.AddJob(new WorkJob(nextBuilding));
@@ -71,7 +71,7 @@ namespace Assets.Script.Humans
                 {
                     nonFullBuildings.RemoveAt(0);
                     capacities.RemoveAt(0);
-                }
+                }*/
             }            
         }
 

@@ -43,7 +43,7 @@ namespace Assets.Script.Humans
                 {
                     if (item.collider != null)
                     {
-                        var clickedBuilding = item.collider.GetComponent<Building>();
+                        var clickedBuilding = item.collider.GetComponent<ResourceBuilding>();
                         if (clickedBuilding != null)
                         {
                             var currHuman = GameManager.Instance.CurrentlySelectedHuman;

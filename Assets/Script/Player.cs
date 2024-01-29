@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public event Action<Vector2> onGrab;
     public event Action<Vector2> onDrop;
     [SerializeField] LayerMask grabbableLayers;
-    Vector2 facing = Vector2.down;
+    public Vector2 Facing = Vector2.down;
     AttackAction attackAction;
     GrabAction grabAction;
     DropAction dropAction;
@@ -38,15 +38,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            onAttack?.Invoke(facing);
+            onAttack?.Invoke(Facing);
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            onGrab?.Invoke(facing);
+            onGrab?.Invoke(Facing);
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            onDrop?.Invoke(facing);
+            onDrop?.Invoke(Facing);
         }
     }
     private void FixedUpdate()
@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
         onMove?.Invoke(moveDirection);
         UpdateFacing(moveDirection);
     }
+
     void UpdateFacing(Vector2 moveDirection)
     {
         if (moveDirection == Vector2.zero)
@@ -69,17 +70,17 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(moveDirection.x) > Mathf.Abs(moveDirection.y))
         {
             if (moveDirection.x > 0)
-                facing = Vector2.right;
+                Facing = Vector2.right;
 
             else if (moveDirection.x < 0)
-                facing = Vector2.left;
+                Facing = Vector2.left;
         }
         else if (Mathf.Abs(moveDirection.x) < Mathf.Abs(moveDirection.y))
         {
             if (moveDirection.y > 0)
-                facing = Vector2.up;
+                Facing = Vector2.up;
             else if (moveDirection.y < 0)
-                facing = Vector2.down;
+                Facing = Vector2.down;
         }
     }
 
@@ -101,6 +102,6 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, facing);
+        Gizmos.DrawRay(transform.position, Facing);
     }
 }

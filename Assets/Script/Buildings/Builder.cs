@@ -56,7 +56,20 @@ namespace Assets.Script.Buildings
             if (Input.GetKeyDown(KeyCode.B))
             {
                 isBuildMode = !isBuildMode;
-                Clear8x8Area(currMouseTile, EffectMap);
+                EffectMap.ClearAllTiles();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                EffectMap.ClearAllTiles();
+
+                GameManager.Instance.EnabledPlaceables[2] = FleshFactory.CreateFlesh(UnityEngine.Random.Range(1,5),UnityEngine.Random.Range(1,5), UnityEngine.Random.Range(3,12), 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                EffectMap.ClearAllTiles();
+                GameManager.Instance.EnabledPlaceables[currentTileLayout].RotateCW();
             }
 
             if (isBuildMode)
@@ -69,7 +82,7 @@ namespace Assets.Script.Buildings
                 currMouseTile = MouseToCellPos();
                 if (currMouseTile != prevMouseTile)
                 {
-                    Clear8x8Area(prevMouseTile, EffectMap);
+                    EffectMap.ClearAllTiles();
                 }
                 else
                 {
@@ -88,11 +101,14 @@ namespace Assets.Script.Buildings
 
             if (IsValidPlacement(v, placeable.Layout, ColliderMap))
             {
-                var newBuilding = Instantiate(placeable.BaseObject);
+                
+                //var newBuilding = Instantiate(placeable.BaseObject);
+                //newBuilding.GetComponent<Building>().Origin = new Vector2Int(v.x, v.y);
                 var worldPos = GroundMap.CellToWorld(v);
-                newBuilding.transform.position = worldPos + placeable.GetMidpoint() - new Vector3(0,0, worldPos.z);
+                //newBuilding.transform.position = worldPos + placeable.GetMidpoint() - new Vector3(0,0, worldPos.z);
 
-                PlaceTilePatternOnLayer(v, placeable.Layout, ColliderMap, placeable.IsWalkable ? WalkableTile : UnwalkableTile, Color.white);
+                var col = new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));
+                PlaceTilePatternOnLayer(v, placeable.Layout, ColliderMap, placeable.IsWalkable ? WalkableTile : UnwalkableTile, col);
                 PlaceTilePatternOnLayer(v, placeable.Layout, EffectMap, WalkableTile, Color.red);
                 foreach (var pos in placeable.Layout)
                 {
@@ -100,7 +116,7 @@ namespace Assets.Script.Buildings
                     GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
                 }
 
-                newBuilding.transform.parent = parent;
+                //newBuilding.transform.parent = parent;
 
             }
         }
@@ -140,17 +156,10 @@ namespace Assets.Script.Buildings
             {
                 if (Input.GetKeyDown($"{i}"))
                 {
-                    Clear8x8Area(currMouseTile, EffectMap);
+                    EffectMap.ClearAllTiles();
                     currentTileLayout = i-1;
                 }
             }
-        }
-
-        void Clear8x8Area(Vector3Int origin, Tilemap tilemap)
-        {
-            for (int x = -4; x < 4; x++)
-                for (int y = -4; y < 4; y++)
-                    tilemap.SetTile(origin + new Vector3Int(x, y, 0), null);
         }
     }
 }

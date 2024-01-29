@@ -1,3 +1,4 @@
+using Assets.Buildings;
 using Assets.Script.Humans;
 using System;
 using System.Collections;
@@ -13,28 +14,25 @@ namespace Assets.Script.Buildings
         public int CurrHumans;
         public int MaxCapacity;
 
-        public EResource HarvestedResouce;
-        public float TimeForOneSkillPoint;
+        public Placeable PlaceableData;
+        public Vector2Int Origin;
 
-        public float TimeToHarvestResource;
-        float timeCollectingResource;
-
-        [SerializeField] TextMeshProUGUI capacityText;
-
-        public void Update()
+        public void CanAddNewConnectors(Building other)
         {
-            if (CurrHumans == MaxCapacity)
+            foreach(var theirs in other.PlaceableData.Connectors)
             {
-                timeCollectingResource += Time.deltaTime;
+                var theirPosition = theirs.Position + other.Origin;
+                foreach (var ours in PlaceableData.Connectors)
+                {
+                    var ourPosition = Origin + ours.Position;
+                    // Left-Right connector
+                    if (ourPosition.y == theirPosition.y && ourPosition.x + 1 == theirPosition.x
+                        && theirs.EDirection == EDirection.Left && theirs.EDirection == EDirection.Right)
+                    {
+                        // Add connection
+                    }
+                }
             }
-
-            if (timeCollectingResource >= TimeToHarvestResource)
-            {
-                GameManager.Instance.AddResource(HarvestedResouce, 5);
-                timeCollectingResource = 0;
-            }
-
-            capacityText.text = $"{CurrHumans}/{MaxCapacity}";
         }
     }
 }
