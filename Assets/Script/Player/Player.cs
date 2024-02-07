@@ -8,25 +8,45 @@ using System;
 public class Player : MonoBehaviour
 {
     public event Action<Vector2> onMove;
-    public event Action<Vector2> onAttack;
-    public event Action<Vector2> onGrab;
-    public event Action<Vector2> onDrop;
-    [SerializeField] LayerMask grabbableLayers;
+    public event Action<Vector2, LayerMask> onAttack;
+    public event Action<Vector2, LayerMask> onCollect;
+    public event Action<Vector2, LayerMask> onGrab;
+    public event Action<Vector2, LayerMask> onDrop;
+
     public Vector2 Facing = Vector2.down;
+
+
+    [SerializeField] LayerMask collectableLayers;
+    [SerializeField] LayerMask grabbableLayers;
+    [SerializeField] LayerMask hittableLayers;
     AttackAction attackAction;
+    CollectAction collectAction;
     GrabAction grabAction;
     DropAction dropAction;
     Vector2 moveDirection;
+    Collider2D col;
+
+
+    public bool showDebug { get; private set; } = true;
+    public float GetHalfExtent()
+    {
+        return col.bounds.extents.x;
+    }
 
     private void Awake()
     {
+        Initializeation();
+    }
+    void Initializeation()
+    {
+        col = GetComponents<Collider2D>();
         attackAction = gameObject.AddComponent<AttackAction>();
-        grabAction = gameObject.AddComponent<GrabAction>();
+        collectAction = gameObject.AddComponent<CollectAction>();
         dropAction = gameObject.AddComponent<DropAction>();
     }
     private void Start()
     {
-        grabAction.SetGrabLayers(grabbableLayers);
+        collectAction.SetGrabLayers(collectableLayers);
     }
     private void OnEnable()
     {
@@ -38,15 +58,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            onAttack?.Invoke(Facing);
+            onAttack?.Invoke(Facing, hittableLayers);
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            onGrab?.Invoke(Facing);
+            onCollect?.Invoke(Facing, collectableLayers);
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            onDrop?.Invoke(Facing);
+            onDrop?.Invoke(Facing, collectableLayers);
         }
     }
     private void FixedUpdate()
@@ -101,6 +121,8 @@ public class Player : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!showDebug)
+            return;
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, Facing);
     }
