@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -468.9254, y: 270.5}
+  m_AnchoredPosition: {x: -337.08, y: 211.3}
   m_SizeDelta: {x: 295.1491, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &141843233
@@ -302,6 +302,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceTexts: {fileID: 141843233}
+  carriedHumansTexts: {fileID: 0}
+  carriedResourcesTexts: {fileID: 0}
 --- !u!1001 &191684024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -332,7 +334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2689423139825980084, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.52
       objectReference: {fileID: 0}
     - target: {fileID: 2689423139825980084, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -694,7 +696,11 @@ MonoBehaviour:
   EnabledPlaceables:
   - {fileID: 11400000, guid: 01c8d15c275b38a428aa8321383b22e0, type: 2}
   - {fileID: 11400000, guid: 2c9ba1526e269464cb91b2633f42cbdc, type: 2}
+  PathfindingGrid: {fileID: 0}
   Buildings: []
+  Player: {fileID: 0}
+  CurrentlySelectedHuman: {fileID: 0}
+  Carrier: {fileID: 0}
 --- !u!1 &748166683
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +797,7 @@ Transform:
   m_GameObject: {fileID: 845822230}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 3.52, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -890,7 +896,7 @@ Transform:
   m_GameObject: {fileID: 1026014514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 3.52, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2003,7 +2009,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff1f28a9cd609b40a74d5c4f9835953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tilemap: {fileID: 1409460230}
+  GroundMap: {fileID: 0}
+  EffectMap: {fileID: 0}
+  ColliderMap: {fileID: 0}
   WalkableTile: {fileID: 11400000, guid: 7562eabaa28e22f4f895f4a4666d15b6, type: 2}
   UnwalkableTile: {fileID: 11400000, guid: 4b2d50db5f5f037478b2234534985e14, type: 2}
   Camera: {fileID: 1026014516}
@@ -2022,74 +2030,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1274880951
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1274880952}
-  - component: {fileID: 1274880953}
-  - component: {fileID: 1274880954}
-  m_Layer: 0
-  m_Name: SpawnManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1274880952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274880951}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1647456882}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1274880953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274880951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fe04fba89a87574bba9af0fca7f62e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolableObjectPrefabs:
-  - {fileID: 0}
-  poolCapacity: 50
-  layersToAvoid:
-    serializedVersion: 2
-    m_Bits: 896
-  spawnVFX: {fileID: 0}
---- !u!114 &1274880954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274880951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b5f353988d77f48b6934271c1ee3c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnMidPoint: {x: -5, y: 1}
-  spawnWidth: 1
-  spawnHeight: 1
-  amountToSpawn: 0
 --- !u!1 &1287556935
 GameObject:
   m_ObjectHideFlags: 0
@@ -36813,7 +36753,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 679964637}
-  - {fileID: 1274880952}
   - {fileID: 182317985}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

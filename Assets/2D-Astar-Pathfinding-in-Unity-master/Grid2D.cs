@@ -14,6 +14,8 @@ public class Grid2D : MonoBehaviour
     public List<Node2D> path;
     Vector3 worldBottomLeft;
 
+    [SerializeField] private bool gridOff;
+
     float nodeDiameter;
     public int gridSizeX, gridSizeY;
 
@@ -25,18 +27,18 @@ public class Grid2D : MonoBehaviour
         CreateGrid();
     }
 
-    
+
 
     void CreateGrid()
     {
         Grid = new Node2D[gridSizeX, gridSizeY];
         worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
-
+        Vector3 worldPoint = worldBottomLeft;
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
             {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
+                worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
                 if (obstaclemap.HasTile(obstaclemap.WorldToCell(Grid[x, y].worldPosition)))
@@ -79,23 +81,23 @@ public class Grid2D : MonoBehaviour
 
 
         //Uncomment this code to enable diagonal movement
-        
+
         //checks and adds top right neighbor
-        if (node.GridX + 1 >= 0 && node.GridX + 1< gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
+        if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
             neighbors.Add(Grid[node.GridX + 1, node.GridY + 1]);
 
         //checks and adds bottom right neighbor
-        if (node.GridX + 1>= 0 && node.GridX + 1 < gridSizeX && node.GridY - 1 >= 0 && node.GridY - 1 < gridSizeY)
+        if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSizeX && node.GridY - 1 >= 0 && node.GridY - 1 < gridSizeY)
             neighbors.Add(Grid[node.GridX + 1, node.GridY - 1]);
 
         //checks and adds top left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY + 1>= 0 && node.GridY + 1 < gridSizeY)
+        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
             neighbors.Add(Grid[node.GridX - 1, node.GridY + 1]);
 
         //checks and adds bottom left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSizeY)
+        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY - 1 >= 0 && node.GridY - 1 < gridSizeY)
             neighbors.Add(Grid[node.GridX - 1, node.GridY - 1]);
-        
+
 
 
 
@@ -112,27 +114,32 @@ public class Grid2D : MonoBehaviour
 
     public void SetWalkableAt(int x, int y, bool isWalkable)
     {
-        var newPos = GetGridPos(new Vector2Int(x,y));
+        var newPos = GetGridPos(new Vector2Int(x, y));
         Grid[newPos.x, newPos.y].SetObstacle(true);
         onGridUpdated?.Invoke(newPos.x, newPos.y);
     }
-    
+
     //Draws visual representation of grid
     void OnDrawGizmos()
     {
+        if (gridOff)
+            return;
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
+        Color obstacleColor = Color.red;
+        Color walkableColor = Color.white;
+        Color obstaclePathColor = Color.black;
 
         if (Grid != null)
         {
             foreach (Node2D n in Grid)
             {
                 if (n.obstacle)
-                    Gizmos.color = Color.red;
+                    Gizmos.color = obstacleColor;
                 else
-                    Gizmos.color = Color.white;
+                    Gizmos.color = walkableColor;
 
                 if (path != null && path.Contains(n))
-                    Gizmos.color = Color.black;
+                    Gizmos.color = obstaclePathColor;
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeRadius));
 
             }

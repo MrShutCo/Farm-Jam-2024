@@ -17,7 +17,7 @@ namespace Assets.Script.Humans
         // Start is called before the first frame update
         void Start()
         {
-            var firstbuilding = GameManager.Instance.Buildings[0];
+            //var firstbuilding = GameManager.Instance.Buildings[0];
             humans = GetComponentsInChildren<Human>().ToList();
         }
 
@@ -34,10 +34,10 @@ namespace Assets.Script.Humans
                 currentlySelect.AddJob(new MoveToJob(b.transform.position));
                 currentlySelect.AddJob(new WorkJob(b));
             }
-            
+
             if (Input.GetKeyDown(KeyCode.P))
             {
-                AssignIdleWorkers();    
+                AssignIdleWorkers();
             }
 
             if (Input.GetKeyDown(KeyCode.J)) //Test Wander Behaviour
@@ -72,7 +72,7 @@ namespace Assets.Script.Humans
                     nonFullBuildings.RemoveAt(0);
                     capacities.RemoveAt(0);
                 }*/
-            }            
+            }
         }
 
         IEnumerable<Human> GetIdleHumans() => humans.Where(h => h.IsIdle());
@@ -83,6 +83,6 @@ namespace Assets.Script.Humans
                 bestHuman = human.Skills[resource] > bestHuman.Skills[resource] ? human : bestHuman;
             return bestHuman;
         }
-        
+
     }
 }

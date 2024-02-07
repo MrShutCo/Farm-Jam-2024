@@ -12,6 +12,9 @@ namespace Assets.Script.UI
         TextMeshProUGUI resourceTexts;
         [SerializeField] TextMeshProUGUI carriedHumansTexts;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
+        [SerializeField] TextMeshProUGUI performanceTexts;
+
+        [SerializeField] bool showFPS;
 
         // Use this for initialization
         void Start()
@@ -29,7 +32,8 @@ namespace Assets.Script.UI
         // Update is called once per frame
         void Update()
         {
-
+            if (showFPS)
+                OnPerformanceUpdate();
         }
 
         void onResourceUpdate()
@@ -65,6 +69,11 @@ namespace Assets.Script.UI
                 i++;
             }
             carriedResourcesTexts.text = text;
+        }
+        void OnPerformanceUpdate()
+        {
+            //show fps as a whole number that only updates once per second
+            performanceTexts.text = $"FPS: {Mathf.Round(1 / Time.deltaTime)}";
         }
     }
 }
