@@ -14,7 +14,7 @@ public class Grid2D : MonoBehaviour
     public List<Node2D> path;
     Vector3 worldBottomLeft;
 
-    [SerializeField] private bool gridOff;
+    [SerializeField] private bool debug;
 
     float nodeDiameter;
     public int gridSizeX, gridSizeY;
@@ -122,7 +122,7 @@ public class Grid2D : MonoBehaviour
     //Draws visual representation of grid
     void OnDrawGizmos()
     {
-        if (gridOff)
+        if (!debug)
             return;
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
         Color obstacleColor = Color.red;

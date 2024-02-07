@@ -52,7 +52,7 @@ namespace Assets.Script.Humans
                 var pathfinding = human.GetComponent<Pathfinding2D>();
                 path = pathfinding.FindPath(human.transform.position, target);
             }
-            
+
         }
         public override void FixedUpdateJob(Human human, double fixedDeltaTime)
         {
@@ -66,7 +66,8 @@ namespace Assets.Script.Humans
                 {
                     rb.velocity = Vector2.zero;
                     OnStopJob?.Invoke();
-                } else
+                }
+                else
                 {
                     currPathNodeDestination++;
                 }
@@ -105,11 +106,13 @@ namespace Assets.Script.Humans
         {
             base.StartJob(rb);
             building.CurrHumans++;
+
         }
 
         public override void StopJob()
         {
             building.CurrHumans--;
+
         }
 
         public override void UpdateJob(Human human, double deltaTime)
@@ -131,6 +134,8 @@ namespace Assets.Script.Humans
     public class Wander : Job
     {
         Vector3 target;
+        float wanderDistance = 10;
+        float timeOfLastTarget;
         float speed;
         float waitInterval = 1;
         float waitTimer = 0;
@@ -138,7 +143,6 @@ namespace Assets.Script.Humans
         public Wander(Human human)
         {
             Debug.Log("Wander");
-            //UpdateWanderTarget(human);
             Name = $"Wander to {target}";
         }
 
@@ -182,17 +186,21 @@ namespace Assets.Script.Humans
         }
         void UpdateWanderTarget(Human human)
         {
-            target = new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), 0) + human.transform.position;
+            if (Time.time - timeOfLastTarget < 5) return;
+            timeOfLastTarget = Time.time;
+            target = new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-wanderDistance, wanderDistance), 0) + human.transform.position;
             Debug.DrawRay(human.transform.position, target - human.transform.position, Color.red, 1);
+
         }
     }
     public class FleeTarget : Job
     {
-        Vector3 target;
+        Vector3 position;
         float speed;
-        public FleeTarget(Vector3 position)
+        public FleeTarget(Transform target)
         {
-            target = position;
+            Debug.Log("Flee");
+            position = target.position;
             Name = $"Flee to {target}";
         }
 
@@ -213,7 +221,7 @@ namespace Assets.Script.Humans
 
         public override void FixedUpdateJob(Human human, double fixedDeltaTime)
         {
-            var diffVector = human.transform.position - target;
+            var diffVector = human.transform.position - position;
 
             if (diffVector.magnitude > 10)
             {
@@ -228,12 +236,13 @@ namespace Assets.Script.Humans
     }
     public class ApproachTarget : Job
     {
-        Vector3 target;
+        Vector3 position;
         float speed;
         float range;
-        public ApproachTarget(Vector3 position)
+        public ApproachTarget(Transform target)
         {
-            target = position;
+            Debug.Log("Approach");
+            position = target.position;
             Name = $"Approach {target}";
         }
 
@@ -256,9 +265,9 @@ namespace Assets.Script.Humans
         public override void FixedUpdateJob(Human human, double fixedDeltaTime)
         {
 
-            var diffVector = target - human.transform.position;
+            var diffVector = position - human.transform.position;
 
-            if (diffVector.magnitude < 10)
+            if (diffVector.magnitude > 10)
             {
                 rb.velocity = Vector2.zero;
                 //Enqueue wander

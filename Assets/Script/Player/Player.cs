@@ -39,14 +39,13 @@ public class Player : MonoBehaviour
     }
     void Initializeation()
     {
-        col = GetComponents<Collider2D>();
+        col = GetComponent<Collider2D>();
         attackAction = gameObject.AddComponent<AttackAction>();
         collectAction = gameObject.AddComponent<CollectAction>();
         dropAction = gameObject.AddComponent<DropAction>();
     }
     private void Start()
     {
-        collectAction.SetGrabLayers(collectableLayers);
     }
     private void OnEnable()
     {
@@ -119,7 +118,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (!showDebug)
             return;

@@ -101,19 +101,19 @@ public class NPC : PoolableObject
     }
 
 
-    private void OnEnable()
-    {
-        _targetSensor.OnTargetInSensorRange += AddTarget;
-        _targetSensor.OnTargetOutOfSensorRange += RemoveTarget;
-    }
-    public override void OnDisable()
-    {
-        base.OnDisable();
-        _target = null;
-        _targetOptions.Clear();
-        _targetSensor.OnTargetInSensorRange -= AddTarget;
-        _targetSensor.OnTargetOutOfSensorRange -= RemoveTarget;
-    }
+    // private void OnEnable()
+    // {
+    //     _targetSensor.OnTargetInSensorRange += AddTarget;
+    //     _targetSensor.OnTargetOutOfSensorRange += RemoveTarget;
+    // }
+    // public override void OnDisable()
+    // {
+    //     base.OnDisable();
+    //     _target = null;
+    //     _targetOptions.Clear();
+    //     _targetSensor.OnTargetInSensorRange -= AddTarget;
+    //     _targetSensor.OnTargetOutOfSensorRange -= RemoveTarget;
+    // }
 
     private void AddTarget(Transform target)
     {
