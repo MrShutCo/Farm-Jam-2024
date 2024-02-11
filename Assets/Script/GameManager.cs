@@ -26,12 +26,17 @@ public class GameManager : MonoBehaviour
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
+    public Action<bool> onPause;
+    public Action<bool> onTeleport;
+    public Action<Collider2D> onGridChange;
 
     public List<Building> Buildings;
     public Transform Player;
     public Human CurrentlySelectedHuman;
 
     public Carrier Carrier;
+
+    bool paused;
 
 
     private void Awake()
@@ -55,10 +60,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         AddResource(EResource.Food, 50);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
     }
 
     public void AddResource(EResource resource, int amount)
@@ -73,4 +84,10 @@ public class GameManager : MonoBehaviour
             { EResource.Food, 0 }, {EResource.Wood, 0 }, { EResource.Iron, 0 },
             { EResource.Electronics, 0 }, { EResource.Plutonium, 0}
         };
+
+    public void TogglePause()
+    {
+        bool pause = !paused;
+        onPause?.Invoke(pause);
+    }
 }

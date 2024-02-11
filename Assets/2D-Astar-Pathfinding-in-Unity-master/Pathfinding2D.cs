@@ -27,7 +27,7 @@ public class Pathfinding2D : MonoBehaviour
         List<Node2D> openSet = new List<Node2D>();
         HashSet<Node2D> closedSet = new HashSet<Node2D>();
         openSet.Add(seekerNode);
-        
+
         //calculates path for pathfinding
         while (openSet.Count > 0)
         {
@@ -51,7 +51,7 @@ public class Pathfinding2D : MonoBehaviour
             {
                 return RetracePath(seekerNode, targetNode);
             }
-            
+
             //adds neighbor nodes to openSet
             foreach (Node2D neighbour in grid.GetNeighbors(node))
             {

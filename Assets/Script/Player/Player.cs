@@ -3,6 +3,7 @@ using Assets.Script.Humans;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 
 public class Player : MonoBehaviour
@@ -11,18 +12,18 @@ public class Player : MonoBehaviour
     public event Action<Vector2, LayerMask> onAttack;
     public event Action<Vector2, LayerMask> onCollect;
     public event Action<Vector2, LayerMask> onGrab;
+    public event Action<Vector2, LayerMask> onGrabRelease;
     public event Action<Vector2, LayerMask> onDrop;
+    public event Action<Vector2, LayerMask> onThrow;
 
     public Vector2 Facing = Vector2.down;
 
 
     [SerializeField] LayerMask collectableLayers;
-    [SerializeField] LayerMask grabbableLayers;
     [SerializeField] LayerMask hittableLayers;
+    [SerializeField] Grabber grabber;
     AttackAction attackAction;
     CollectAction collectAction;
-    GrabAction grabAction;
-    DropAction dropAction;
     Vector2 moveDirection;
     Collider2D col;
 
@@ -35,25 +36,15 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        Initializeation();
+        Initialization();
     }
-    void Initializeation()
+    void Initialization()
     {
-        col = GetComponents<Collider2D>();
+        col = GetComponent<Collider2D>();
         attackAction = gameObject.AddComponent<AttackAction>();
         collectAction = gameObject.AddComponent<CollectAction>();
-        dropAction = gameObject.AddComponent<DropAction>();
     }
-    private void Start()
-    {
-        collectAction.SetGrabLayers(collectableLayers);
-    }
-    private void OnEnable()
-    {
-    }
-    private void OnDisable()
-    {
-    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -66,13 +57,14 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            onDrop?.Invoke(Facing, collectableLayers);
+            grabber.GrabAction(Facing);
         }
     }
     private void FixedUpdate()
     {
         HandleMoveInput();
     }
+
     void HandleMoveInput()
     {
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left

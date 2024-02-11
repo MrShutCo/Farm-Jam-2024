@@ -59,20 +59,22 @@ namespace Assets.Script.Humans
             List<Human> idleHumans = GetIdleHumans().ToList();
             List<Building> nonFullBuildings = GameManager.Instance.Buildings.Where(b => b.CurrHumans < b.MaxCapacity).ToList();
             List<int> capacities = nonFullBuildings.Select(b => b.CurrHumans).ToList();
-            while (idleHumans.Count > 0 && nonFullBuildings.Count() > 0)
+
+            // Whileloop was empty. Commented out. I was getting some crashes
+            //while (idleHumans.Count > 0 && nonFullBuildings.Count() > 0)
+            //{
+            /*var nextBuilding = nonFullBuildings.First();
+            var bestHumanForJob = GetHighestSkilledHuman(idleHumans, nextBuilding.HarvestedResouce);
+            bestHumanForJob.AddJob(new MoveToJob(nextBuilding.transform.position));
+            bestHumanForJob.AddJob(new WorkJob(nextBuilding));
+            idleHumans.Remove(bestHumanForJob);
+            capacities[0]++;
+            if (nonFullBuildings[0].MaxCapacity == capacities[0])
             {
-                /*var nextBuilding = nonFullBuildings.First();
-                var bestHumanForJob = GetHighestSkilledHuman(idleHumans, nextBuilding.HarvestedResouce);
-                bestHumanForJob.AddJob(new MoveToJob(nextBuilding.transform.position));
-                bestHumanForJob.AddJob(new WorkJob(nextBuilding));
-                idleHumans.Remove(bestHumanForJob);
-                capacities[0]++;
-                if (nonFullBuildings[0].MaxCapacity == capacities[0])
-                {
-                    nonFullBuildings.RemoveAt(0);
-                    capacities.RemoveAt(0);
-                }*/
-            }
+                nonFullBuildings.RemoveAt(0);
+                capacities.RemoveAt(0);
+            }*/
+            //}
         }
 
         IEnumerable<Human> GetIdleHumans() => humans.Where(h => h.IsIdle());

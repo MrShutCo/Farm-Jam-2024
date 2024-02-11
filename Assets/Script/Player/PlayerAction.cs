@@ -18,6 +18,7 @@ public abstract class PlayerAction : MonoBehaviour
 
     protected virtual void Awake()
     {
+        _transform = transform;
         player = GetComponent<Player>();
         showDebug = player.showDebug;
         halfExtent = player.GetHalfExtent();
@@ -61,10 +62,11 @@ public class AttackAction : PlayerAction
         //Animate Attack
         Debug.Log("Attack");
 
-        Collider2D[] hits = GetHits(direction, targetLayers);
+        Collider2D[] hits = new Collider2D[GetHits(direction, targetLayers).Length];
+        hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)
         {
-            if (hit.GetComponent<Collider>().gameObject.TryGetComponent(out HealthBase health))
+            if (hit.GetComponent<Collider2D>().gameObject.TryGetComponent(out HealthBase health))
             {
                 health.TakeDamage(1);
                 //Animate Hit
@@ -97,8 +99,8 @@ public class CollectAction : PlayerAction
     }
     protected override void Action(Vector2 direction, LayerMask targetLayers)
     {
-        //Animate Grab
-        Debug.Log("Grab");
+        //Animate Collect
+        Debug.Log("Collect");
 
         hit = Physics2D.BoxCast(_transform.position, new Vector2(1, 1), 0, Vector2.zero, 0, targetLayers);
         if (hit.collider != null)
@@ -119,39 +121,7 @@ public class CollectAction : PlayerAction
         }
     }
 }
-public class GrabAction : PlayerAction
-{
-    Vector2 hitBoxSize = new Vector2(3, 1);
-    RaycastHit2D hit;
 
-    private void OnEnable()
-    {
-        player.onGrab += Action;
-    }
-    private void OnDisable()
-    {
-        player.onGrab -= Action;
-    }
-
-    protected override void Action(Vector2 direction, LayerMask targetLayers)
-    {
-        //Animate Grab
-        Debug.Log("Grab");
-
-        hit = Physics2D.BoxCast(_transform.position, new Vector2(1, 1), 0, Vector2.zero, 0, targetLayers);
-        if (hit.collider != null)
-        {
-            if (hit.collider.gameObject.TryGetComponent(out Human human))
-            {
-                //move sprite to bag or tendril
-            }
-            else if (hit.collider.gameObject.TryGetComponent(out EResource resource))
-            {
-                Destroy(hit.collider.gameObject);
-            }
-        }
-    }
-}
 
 [RequireComponent(typeof(Carrier))]
 public class DropAction : PlayerAction

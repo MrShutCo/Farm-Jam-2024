@@ -24,12 +24,13 @@ public class FloatingStatusBar : MonoBehaviour
 
     public void UpdateText(string text)
     {
-        Text.text = text;
+        if (text != null)
+            Text.text = text;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
