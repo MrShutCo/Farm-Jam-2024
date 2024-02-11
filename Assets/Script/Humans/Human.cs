@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Callbacks;
-using UnityEngine.UI;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -15,24 +14,22 @@ namespace Assets.Script.Humans
         Food, Wood, Iron, Electronics, Plutonium,
     }
 
-    public class Human : MonoBehaviour
+    public class Human : ControllerBase
     {
-        public event Action<bool> OnWild;
         public Dictionary<EResource, int> Skills;
         public string Name;
 
         [SerializeField] GameObject StatusBar;
         [SerializeField] Transform StatusPanel;
-        [SerializeField] bool hired;
-        [SerializeField] Canvas Canvas;
-        [SerializeField] bool wild;
+        [SerializeField] Transform targetSensor;
+
+        HumanWildBehaviour wildBehaviour;
 
         Transform _target;
         TextMeshProUGUI jobText;
         Rigidbody2D rb;
 
         List<FloatingStatusBar> skillBars;
-
         Queue<Job> currentJobs;
 
         public void Awake()
@@ -41,6 +38,7 @@ namespace Assets.Script.Humans
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             skillBars = new List<FloatingStatusBar>();
             rb = GetComponent<Rigidbody2D>();
+            wildBehaviour = GetComponent<HumanWildBehaviour>();
             var p = GetComponent<Pathfinding2D>();
             p.seeker = transform;
             //p.GridOwner = GameObject.Find("Grid");
@@ -48,11 +46,13 @@ namespace Assets.Script.Humans
         private void OnEnable()
         {
             rb.simulated = true;
+            wildBehaviour.onTargetFound += OverrideJobs;
         }
 
         private void OnDisable()
         {
             rb.simulated = false;
+            wildBehaviour.onTargetFound -= OverrideJobs;
         }
 
         public void Start()
@@ -72,9 +72,6 @@ namespace Assets.Script.Humans
                 skillBars.Add(bar);
                 yOffset -= 0.5f;
             }
-
-            OnWild?.Invoke(wild);
-
         }
 
 
@@ -106,6 +103,13 @@ namespace Assets.Script.Humans
                     currentJobs.Dequeue().StopJob();
                 }
         }
+
+        public void OverrideJobs(Job job)
+        {
+            ClearCurrentJobs();
+            AddJob(job);
+        }
+
         public void OnMouseEnter()
         {
             StatusPanel.gameObject.SetActive(true);
@@ -168,6 +172,21 @@ namespace Assets.Script.Humans
                 Debug.Log("Getting Grid");
                 var p = GetComponent<Pathfinding2D>();
                 p.GridOwner = other.gameObject;
+            }
+        }
+        protected override void ChangeLocation(bool home)
+        {
+            ClearCurrentJobs();
+            wildBehaviour.enabled = !home;
+            targetSensor.gameObject.SetActive(!home);
+            if (home)
+            {
+                var p = GetComponent<Pathfinding2D>();
+                p.GridOwner = GameManager.Instance.PathfindingGrid.gameObject;
+            }
+            else
+            {
+                wildBehaviour.InitiateWildBehaviour();
             }
         }
     }

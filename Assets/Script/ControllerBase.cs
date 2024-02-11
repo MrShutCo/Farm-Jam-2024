@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class ControllerBase : MonoBehaviour
 {
-    public bool home;
+    protected bool home;
     protected bool paused;
+    Collider2D[] colHits;
+
+
+    private void Awake()
+    {
+
+    }
 
     private void OnEnable()
     {
@@ -14,6 +21,26 @@ public class ControllerBase : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.onPause -= Pause;
+    }
+    private void Start()
+    {
+        colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0);
+        foreach (var hit in colHits)
+        {
+            if (hit.CompareTag("Grid"))
+            {
+                if (hit.GetComponent<Grid2D>() != GameManager.Instance.PathfindingGrid)
+                {
+                    home = false;
+                }
+                else
+                {
+                    home = true;
+                }
+                ChangeLocation(home);
+            }
+        }
+
     }
 
     public virtual void Pause(bool pause)
@@ -29,6 +56,7 @@ public class ControllerBase : MonoBehaviour
             paused = false;
         }
     }
+    protected virtual void ChangeLocation(bool home) { }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Grid"))
@@ -41,6 +69,7 @@ public class ControllerBase : MonoBehaviour
             {
                 home = true;
             }
+            ChangeLocation(home);
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractController : MonoBehaviour
 {
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
     Player player;
     [SerializeField] float offsetDistance = 1f;
     [SerializeField] float sizeOfInteracatableArea = 1.2f;
@@ -12,9 +12,8 @@ public class InteractController : MonoBehaviour
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         player = GetComponent<Player>();
-
     }
 
     private void Update()
@@ -29,7 +28,7 @@ public class InteractController : MonoBehaviour
 
     private void Check()
     {
-        if(!Check<Interactable>(t => highlightController.Highlight(t.gameObject)))
+        if (!Check<Interactable>(t => highlightController.Highlight(t.gameObject)))
         {
             highlightController.Hide();
         }
@@ -37,7 +36,7 @@ public class InteractController : MonoBehaviour
 
     public bool Check<T>(Action<T> onCheck)
     {
-        Vector2 position = rigidbody.position + player.Facing * offsetDistance;
+        Vector2 position = rb.position + player.Facing * offsetDistance;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(position, sizeOfInteracatableArea);
         foreach (var c in colliders)
         {
@@ -54,14 +53,14 @@ public class InteractController : MonoBehaviour
 
 public class ToolsCharacterController : MonoBehaviour
 {
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
     Player player;
     [SerializeField] float offsetDistance = 1f;
     [SerializeField] float sizeOfInteracatableArea = 1.2f;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         player = GetComponent<Player>();
     }
 
@@ -75,7 +74,7 @@ public class ToolsCharacterController : MonoBehaviour
 
     private void UseTool()
     {
-        Vector2 position = rigidbody.position + player.Facing * offsetDistance;
+        Vector2 position = rb.position + player.Facing * offsetDistance;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(position, sizeOfInteracatableArea);
         foreach (var c in colliders)
         {

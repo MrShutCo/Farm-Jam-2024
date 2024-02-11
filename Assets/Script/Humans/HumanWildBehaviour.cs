@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class HumanWildBehaviour : MonoBehaviour
 {
+    public event Action<Job> onTargetFound;
     public enum NPCBehaviour
     {
         Cowardly,
@@ -20,12 +21,8 @@ public class HumanWildBehaviour : MonoBehaviour
     {
         human = GetComponent<Human>();
     }
-    private void Start()
-    {
-        InitiateWildHuman();
-    }
 
-    void InitiateWildHuman()
+    public void InitiateWildBehaviour()
     {
         var job = new Wander(human);
         human.AddJob(job);
@@ -33,10 +30,6 @@ public class HumanWildBehaviour : MonoBehaviour
     public void SetTarget(Transform target, bool overrideCurrent = false)
     {
         if (!overrideCurrent && _target != null) return;
-
-        Debug.Log("NewTarget Set");
-
-        human.ClearCurrentJobs();
 
         Job job = null;
 
@@ -49,7 +42,7 @@ public class HumanWildBehaviour : MonoBehaviour
                 job = new ApproachTarget(target);
                 break;
         }
-        human.AddJob(job);
+        onTargetFound?.Invoke(job);
         _target = target;
     }
 }

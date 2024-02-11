@@ -157,13 +157,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1714583009185057040}
   - component: {fileID: 7189885543334668281}
+  - component: {fileID: 6804169529524297044}
   m_Layer: 0
   m_Name: TargetSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1714583009185057040
 Transform:
   m_ObjectHideFlags: 0
@@ -214,6 +215,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 10
+--- !u!114 &6804169529524297044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4998677159580926860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b47400d8711b048a48502440f46287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorCollider: {fileID: 7189885543334668281}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &5763365322499958370
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,8 +425,7 @@ GameObject:
   - component: {fileID: -6672937139033376201}
   - component: {fileID: -8543497734682884617}
   - component: {fileID: 2865967497182730427}
-  - component: {fileID: 8780603147619824728}
-  - component: {fileID: 7863544196044998560}
+  - component: {fileID: 3451065008185679597}
   m_Layer: 8
   m_Name: Human
   m_TagString: NPC
@@ -501,7 +517,7 @@ MonoBehaviour:
   Name: Ziggy
   StatusBar: {fileID: 5000687817149657336, guid: 20e920e31418e7b48b2cecd633573a0e, type: 3}
   StatusPanel: {fileID: 1369910885371355747}
-  hired: 0
+  targetSensor: {fileID: 0}
 --- !u!70 &4452934615250403022
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -595,3 +611,15 @@ MonoBehaviour:
   healthPanel: {fileID: 2166355274715142896}
   maxHealth: 5
   currentHealth: 0
+--- !u!114 &3451065008185679597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7200735126398943186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d489b47f5db434287f6a6ca12f7e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

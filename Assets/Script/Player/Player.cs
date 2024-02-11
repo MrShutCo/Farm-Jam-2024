@@ -11,10 +11,7 @@ public class Player : MonoBehaviour
     public event Action<Vector2> onMove;
     public event Action<Vector2, LayerMask> onAttack;
     public event Action<Vector2, LayerMask> onCollect;
-    public event Action<Vector2, LayerMask> onGrab;
-    public event Action<Vector2, LayerMask> onGrabRelease;
     public event Action<Vector2, LayerMask> onDrop;
-    public event Action<Vector2, LayerMask> onThrow;
 
     public Vector2 Facing = Vector2.down;
 
