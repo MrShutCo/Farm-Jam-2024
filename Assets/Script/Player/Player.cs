@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (!showDebug)
             return;

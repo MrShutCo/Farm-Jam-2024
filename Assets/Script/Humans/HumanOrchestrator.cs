@@ -2,7 +2,6 @@ using Assets.Script.Buildings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -40,18 +39,6 @@ namespace Assets.Script.Humans
                 AssignIdleWorkers();
             }
 
-            if (Input.GetKeyDown(KeyCode.J)) //Test Wander Behaviour
-            {
-                currentlySelect.StopCurrentJob();
-                currentlySelect.ClearCurrentJobs();
-                currentlySelect.AddJob(new Wander(currentlySelect));
-            }
-            if (Input.GetKeyDown(KeyCode.K)) //Test Approach player (as target)
-            {
-                currentlySelect.StopCurrentJob();
-                currentlySelect.ClearCurrentJobs();
-                currentlySelect.AddJob(new ApproachTarget(GameManager.Instance.Player.position));
-            }
         }
 
         void AssignIdleWorkers()

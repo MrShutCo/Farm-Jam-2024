@@ -1,4 +1,5 @@
 ﻿using Assets.Script.Buildings;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,12 +17,17 @@ namespace Assets.Script.Humans
 
     public class Human : MonoBehaviour
     {
+        public event Action<bool> OnWild;
         public Dictionary<EResource, int> Skills;
         public string Name;
 
         [SerializeField] GameObject StatusBar;
         [SerializeField] Transform StatusPanel;
         [SerializeField] bool hired;
+        [SerializeField] Canvas Canvas;
+        [SerializeField] bool wild;
+
+        Transform _target;
         TextMeshProUGUI jobText;
         Rigidbody2D rb;
 
@@ -67,7 +73,10 @@ namespace Assets.Script.Humans
                 yOffset -= 0.5f;
             }
 
+            OnWild?.Invoke(wild);
+
         }
+
 
         public void AddJob(Job newJob)
         {
