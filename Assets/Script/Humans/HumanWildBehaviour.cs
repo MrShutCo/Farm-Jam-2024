@@ -21,6 +21,10 @@ public class HumanWildBehaviour : MonoBehaviour
     {
         human = GetComponent<Human>();
     }
+    private void Start()
+    {
+        InitiateWildBehaviour();
+    }
 
     public void InitiateWildBehaviour()
     {
