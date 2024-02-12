@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Assets.Script.Humans;
 using System;
 using UnityEngine;
+using Unity.VisualScripting;
+using UnityEditor;
 
 [RequireComponent(typeof(Player))]
 public abstract class PlayerAction : MonoBehaviour
@@ -49,6 +51,12 @@ public abstract class PlayerAction : MonoBehaviour
 
 public class AttackAction : PlayerAction
 {
+    int hitIndex = 0;
+    float cooldownDuration = 0.5f;
+    float cooldownTimer;
+
+    float comboAvailable = 0.25f;
+    float comboTimer;
     private void OnEnable()
     {
     }
@@ -57,20 +65,71 @@ public class AttackAction : PlayerAction
     }
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
+        if (cooldownTimer > 0) return;
+
+        if (comboTimer > 0 && hitIndex < 2)
+        {
+            hitIndex++;
+        }
         //Animate Attack
         Debug.Log("Attack");
 
-        Collider2D[] hits = new Collider2D[GetHits(direction, targetLayers).Length];
-        hits = GetHits(direction, targetLayers);
+        Collider2D[] hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)
         {
             if (hit.GetComponent<Collider2D>().gameObject.TryGetComponent(out HealthBase health))
             {
-                health.TakeDamage(1);
+                if (hitIndex == 2)
+                {
+                    health.TakeDamage(2);
+                    StartCoroutine(KnockBack(health));
+                }
+                else
+                    health.TakeDamage(1);
                 //Animate Hit
                 //Play Hit Sound
             }
         }
+        if (hitIndex < 2)
+        {
+            comboTimer = comboAvailable;
+        }
+        if (hitIndex > 2)
+        {
+            Cooldown();
+        }
+        IEnumerator KnockBack(HealthBase health)
+        {
+            health.TryGetComponent(out Rigidbody2D rb);
+            health.TryGetComponent(out Human human);
+            if (human != null)
+                human.ClearCurrentJobs();
+            rb.isKinematic = false;
+            rb.AddForce(direction * 8, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.25f);
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+
+        }
+    }
+    void Update()
+    {
+        if (comboTimer > 0)
+        {
+            comboTimer -= Time.deltaTime;
+        }
+        else
+        {
+            hitIndex = 0;
+        }
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
+    }
+    void Cooldown()
+    {
+        cooldownTimer = cooldownDuration;
     }
 }
 

@@ -22,19 +22,23 @@ public class ControllerBase : MonoBehaviour
     {
         GameManager.Instance.onPause -= Pause;
     }
-    private void Start()
+    protected virtual void Start()
     {
+        Debug.Log("Checking for grid at start");
         colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0);
         foreach (var hit in colHits)
         {
             if (hit.CompareTag("Grid"))
             {
-                if (hit.GetComponent<Grid2D>() != GameManager.Instance.PathfindingGrid)
+                Debug.Log("Checking Grid Collision");
+                if (hit.transform.parent.GetComponent<Grid2D>() != GameManager.Instance.PathfindingGrid)
                 {
+                    Debug.Log("Not Home " + this.name);
                     home = false;
                 }
                 else
                 {
+                    Debug.Log("Home " + this.name);
                     home = true;
                 }
                 ChangeLocation(home);

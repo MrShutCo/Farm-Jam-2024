@@ -69,6 +69,9 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            Debug.Log("Attack action: " + attackAction);
+            Debug.Log("Facing: " + Facing);
+            Debug.Log("Hittable layers: " + hittableLayers);
             attackAction.Action(Facing, hittableLayers);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -131,11 +134,8 @@ public class Player : MonoBehaviour
         {
             UpdateLastDirectionPressed();
         }
-        else
-        {
-            UpdateLastDirectionPressed();
-        }
-        Debug.Log("LastDirection Pressed :" + lastDirectionPressed + " " + Facing);
+
+        UpdateLastDirectionPressed();
 
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
     void UpdateLastDirectionPressed()
     {
         // Find the most recently pressed key
-        Vector2 mostRecentKey = Vector2.zero;
+        Vector2 mostRecentKey = Facing;
         float mostRecentTime = -1;
         foreach (var pair in keyPressTimes)
         {
@@ -171,9 +171,8 @@ public class Player : MonoBehaviour
     }
     void UpdateFacing()
     {
-        if (lastDirectionPressed != Facing)
+        if (lastDirectionPressed != Vector2.zero && lastDirectionPressed != Facing)
         {
-            Debug.Log("UpdateFacing: " + lastDirectionPressed + " " + Facing);
             Facing = lastDirectionPressed;
             onChangeDirection?.Invoke(Facing);
         }

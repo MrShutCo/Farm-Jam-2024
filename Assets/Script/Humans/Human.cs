@@ -35,6 +35,9 @@ namespace Assets.Script.Humans
         public void Awake()
         {
             currentJobs = new Queue<Job>();
+            if (StatusPanel == null)
+                StatusPanel = gameObject.transform.Find("StatusPanel");
+            targetSensor = GetComponentInChildren<TargetSensor>().transform;
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             skillBars = new List<FloatingStatusBar>();
             rb = GetComponent<Rigidbody2D>();
@@ -55,10 +58,11 @@ namespace Assets.Script.Humans
             wildBehaviour.onTargetFound -= OverrideJobs;
         }
 
-        public void Start()
+        protected override void Start()
         {
             Skills = GameManager.Instance.InitializeResources();
             SetUpStatusPanel();
+            base.Start();
         }
 
         void SetUpStatusPanel()
