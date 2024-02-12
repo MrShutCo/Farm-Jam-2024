@@ -47,6 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linePositionCount: 10
   grabbedObject: {fileID: 0}
+  wiggleAmount1: 0.92
+  wiggleSpeed1: 3
+  wiggleAmount2: 1.01
+  wiggleSpeed2: 2.25
 --- !u!120 &-7268747261315571568
 LineRenderer:
   serializedVersion: 2
@@ -102,19 +106,37 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 3
+    widthMultiplier: 0.25
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
+        value: 0.19580078
+        inSlope: 4.8810916
+        outSlope: 4.8810916
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.056352466
+      - serializedVersion: 3
+        time: 0.28314275
+        value: 0.93648225
+        inSlope: 1.3522677
+        outSlope: 0.33056742
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.25820342
+      - serializedVersion: 3
+        time: 1
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

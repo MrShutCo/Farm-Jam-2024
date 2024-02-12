@@ -13,6 +13,7 @@ public class HumanWildBehaviour : MonoBehaviour
         Aggressive
     }
 
+    TargetSensor targetSensor;
     Human human;
     Transform _target;
     NPCBehaviour npcBehaviour;
@@ -20,16 +21,30 @@ public class HumanWildBehaviour : MonoBehaviour
     private void Awake()
     {
         human = GetComponent<Human>();
+        targetSensor = GetComponentInChildren<TargetSensor>();
+        targetSensor.gameObject.SetActive(false);
+    }
+    void OnEnable()
+    {
+
+    }
+    void OnDisable()
+    {
+        DeactivateWildBehaviour();
     }
     private void Start()
     {
-        InitiateWildBehaviour();
-    }
 
+    }
     public void InitiateWildBehaviour()
     {
+        targetSensor.gameObject.SetActive(true);
         var job = new Wander(human);
         human.AddJob(job);
+    }
+    public void DeactivateWildBehaviour()
+    {
+        targetSensor.gameObject.SetActive(false);
     }
     public void SetTarget(Transform target, bool overrideCurrent = false)
     {

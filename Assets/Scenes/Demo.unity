@@ -231,6 +231,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 154307954301517741, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
+      propertyPath: HumanTracker
+      value: 
+      objectReference: {fileID: 1870262314}
     - target: {fileID: 1460443196234750807, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1805,34 +1809,6 @@ PrefabInstance:
       propertyPath: GridOwner
       value: 
       objectReference: {fileID: 657554656}
-    - target: {fileID: 4174042980537868655, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4267612619525623556, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5763365322499958370, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915218859309990001, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: hired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.26
@@ -1876,14 +1852,6 @@ PrefabInstance:
     - target: {fileID: 7200735126398943186, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_Name
       value: Human (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47439,34 +47407,6 @@ PrefabInstance:
       propertyPath: GridOwner
       value: 
       objectReference: {fileID: 657554656}
-    - target: {fileID: 4174042980537868655, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4267612619525623556, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5763365322499958370, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915218859309990001, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: hired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.06
@@ -47510,14 +47450,6 @@ PrefabInstance:
     - target: {fileID: 7200735126398943186, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_Name
       value: Human (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47811,6 +47743,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1870262314 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 433598882095880721, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
+  m_PrefabInstance: {fileID: 8497632159023034323}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1873582411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47893,38 +47830,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1545908169}
     m_Modifications:
-    - target: {fileID: 4174042980537868655, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4267612619525623556, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4998677159580926860, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5763365322499958370, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915218859309990001, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: hired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -226.9
@@ -47968,14 +47873,6 @@ PrefabInstance:
     - target: {fileID: 7200735126398943186, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_Name
       value: Human (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -48360,10 +48257,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1545908169}
     m_Modifications:
     - target: {fileID: -8543497734682884617, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: seeker
-      value: 
-      objectReference: {fileID: 987981123}
-    - target: {fileID: -8543497734682884617, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1575883737}
@@ -48371,34 +48264,6 @@ PrefabInstance:
       propertyPath: GridOwner
       value: 
       objectReference: {fileID: 657554656}
-    - target: {fileID: 4174042980537868655, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4267612619525623556, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923660116172618942, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5763365322499958370, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915218859309990001, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: hired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.88
@@ -48442,18 +48307,6 @@ PrefabInstance:
     - target: {fileID: 7200735126398943186, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_Name
       value: Human
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200735126398943186, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7526953325560176802, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

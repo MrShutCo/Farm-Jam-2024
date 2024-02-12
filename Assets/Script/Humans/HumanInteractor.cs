@@ -7,6 +7,7 @@ namespace Assets.Script.Humans
     public class HumanInteractor : MonoBehaviour
     {
         [SerializeField] LayerMask rightClickLayer;
+        [SerializeField] LayerMask leftClickLayer;
         RaycastHit2D[] hits;
 
         // Use this for initialization
@@ -21,7 +22,7 @@ namespace Assets.Script.Humans
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, leftClickLayer);
                 if (hit.collider != null)
                 {
                     var clickedUser = hit.collider.GetComponent<Human>();

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Humans;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
@@ -23,7 +23,7 @@ public abstract class PlayerAction : MonoBehaviour
         showDebug = player.showDebug;
         halfExtent = player.GetHalfExtent();
     }
-    protected abstract void Action(Vector2 direction, LayerMask targetLayers);
+    public abstract void Action(Vector2 direction, LayerMask targetLayers);
 
     protected Collider2D[] GetHits(Vector2 direction, LayerMask targetLayers)
     {
@@ -51,13 +51,11 @@ public class AttackAction : PlayerAction
 {
     private void OnEnable()
     {
-        player.onAttack += Action;
     }
     private void OnDisable()
     {
-        player.onAttack -= Action;
     }
-    protected override void Action(Vector2 direction, LayerMask targetLayers)
+    public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         //Animate Attack
         Debug.Log("Attack");
@@ -91,13 +89,11 @@ public class CollectAction : PlayerAction
 
     private void OnEnable()
     {
-        player.onCollect += Action;
     }
     private void OnDisable()
     {
-        player.onCollect -= Action;
     }
-    protected override void Action(Vector2 direction, LayerMask targetLayers)
+    public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         //Animate Collect
         Debug.Log("Collect");
@@ -134,13 +130,11 @@ public class DropAction : PlayerAction
     }
     private void OnEnable()
     {
-        player.onDrop += Action;
     }
     private void OnDisable()
     {
-        player.onDrop -= Action;
     }
-    protected override void Action(Vector2 direction, LayerMask targetLayers)
+    public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         //Animate Drop
         Debug.Log("Drop");
@@ -149,5 +143,56 @@ public class DropAction : PlayerAction
         {
             carrier.RemoveCarriedHumans(carrier.CarriedHumans[0]);
         }
+    }
+}
+public class DodgeAction : PlayerAction
+{
+    public event Action<bool> onDodge;
+    Rigidbody2D rb;
+    Collider2D col;
+    float dodgeDuration = 0.5f;
+    float dodgeTimer;
+    bool dodging;
+    protected override void Awake()
+    {
+        base.Awake();
+        rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
+    }
+    private void OnEnable()
+    {
+    }
+    private void OnDisable()
+    {
+    }
+    public override void Action(Vector2 direction, LayerMask targetLayers)
+    {
+        if (dodgeTimer <= 0)
+        {
+            dodging = true;
+
+            onDodge?.Invoke(dodging);
+            col.enabled = false;
+            Debug.Log("Dodge in direction: " + direction);
+            dodgeTimer = dodgeDuration;
+            rb.velocity = Vector2.zero;
+            rb.AddForce(direction * 15f, ForceMode2D.Impulse);
+        }
+        //Animate Dodge
+    }
+    void Update()
+    {
+        if (dodgeTimer > 0)
+        {
+            dodgeTimer -= Time.deltaTime;
+        }
+        else if (dodging)
+        {
+            col.enabled = true;
+            rb.velocity = Vector2.zero;
+            dodging = false;
+            onDodge?.Invoke(dodging);
+        }
+
     }
 }

@@ -58,10 +58,14 @@ namespace Assets.Script.Humans
         public void Start()
         {
             Skills = GameManager.Instance.InitializeResources();
+            SetUpStatusPanel();
+        }
+
+        void SetUpStatusPanel()
+        {
 
             StatusPanel.gameObject.SetActive(false);
             float yOffset = 1f;
-
             foreach (var skill in Skills)
             {
                 var status = Instantiate(StatusBar, StatusPanel.transform);

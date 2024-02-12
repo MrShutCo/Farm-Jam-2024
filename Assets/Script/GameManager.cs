@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        SetTargetFrameRate();
         AddResource(EResource.Food, 50);
     }
     private void Update()
@@ -89,5 +90,9 @@ public class GameManager : MonoBehaviour
     {
         bool pause = !paused;
         onPause?.Invoke(pause);
+    }
+    void SetTargetFrameRate()
+    {
+        Application.targetFrameRate = 120;
     }
 }
