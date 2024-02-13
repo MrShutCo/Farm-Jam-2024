@@ -25,7 +25,7 @@ public class CameraManager : MonoBehaviour
         GameManager.Instance.onGridChange -= UpdateConfiner;
     }
 
-    void ConfinerControl(bool isTeleporting)
+    void ConfinerControl(bool isTeleporting, Vector2 pos)
     {
         confiner.enabled = !isTeleporting;
     }

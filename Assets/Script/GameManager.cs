@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
+    public Grid2D PathfindingGridOutside;
 
     public event UnityAction onTimeStep;
     public Action<Building> onFarmCreate;
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviour
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
     public Action<bool> onPause;
-    public Action<bool> onTeleport;
+    public Action<bool, Vector2> onTeleport;
     public Action<Collider2D> onGridChange;
 
     public List<Building> Buildings;
@@ -65,6 +67,15 @@ public class GameManager : MonoBehaviour
         SetTargetFrameRate();
         AddResource(EResource.Food, 50);
     }
+    private void OnEnable()
+    {
+        onTeleport += UpdatePathFindingGrids;
+    }
+    private void OnDisable()
+    {
+        onTeleport -= UpdatePathFindingGrids;
+
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -94,5 +105,26 @@ public class GameManager : MonoBehaviour
     void SetTargetFrameRate()
     {
         Application.targetFrameRate = 120;
+    }
+
+    void UpdatePathFindingGrids(bool teleport, Vector2 position = default)
+    {
+        if (teleport)
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, 10);
+            if (colliders.Length > 0)
+            {
+                foreach (var collider in colliders)
+                {
+                    if (collider.TryGetComponent(out Grid2D grid))
+                    {
+                        if (PathfindingGrid == grid) continue;
+                        PathfindingGridOutside = grid;
+                    }
+                }
+            }
+            PathfindingGrid = FindObjectOfType<Grid2D>();
+            PathfindingGridOutside = FindObjectOfType<Grid2D>();
+        }
     }
 }
