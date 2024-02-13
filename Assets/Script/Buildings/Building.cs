@@ -34,5 +34,9 @@ namespace Assets.Script.Buildings
                 }
             }
         }
+
+
+        public bool AtCapacity() => CurrHumans == MaxCapacity;
+        public bool CanBeWorked() => CurrHumans > 0;
     }
 }

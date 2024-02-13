@@ -48,9 +48,7 @@ namespace Assets.Script.Humans
                         if (clickedBuilding != null)
                         {
                             var currHuman = GameManager.Instance.CurrentlySelectedHuman;
-                            currHuman.StopCurrentJob();
-                            currHuman.AddJob(new MoveToJob(clickedBuilding.transform.position));
-                            currHuman.AddJob(new WorkJob(clickedBuilding));
+                            GameManager.Instance.HumanOrchestrator.AssignJobToHuman(clickedBuilding.AssignHuman(currHuman), currHuman);
                         }
                     }
                     break;

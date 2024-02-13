@@ -11,12 +11,11 @@ namespace Assets.Script.Humans
 
     public enum EResource
     {
-        Food, Wood, Iron, Electronics, Plutonium,
+        Wood, Steel, Electronics, Blood, Organs, Bones
     }
 
     public class Human : ControllerBase
     {
-        public Dictionary<EResource, int> Skills;
         public string Name;
 
         [SerializeField] GameObject StatusBar;
@@ -29,17 +28,15 @@ namespace Assets.Script.Humans
         TextMeshProUGUI jobText;
         Rigidbody2D rb;
 
-        List<FloatingStatusBar> skillBars;
-        Queue<Job> currentJobs;
+        Task currentTask;
 
         public void Awake()
         {
-            currentJobs = new Queue<Job>();
+            currentTask = null;
             if (StatusPanel == null)
                 StatusPanel = gameObject.transform.Find("StatusPanel");
             targetSensor = GetComponentInChildren<TargetSensor>().transform;
             jobText = GetComponentInChildren<TextMeshProUGUI>();
-            skillBars = new List<FloatingStatusBar>();
             rb = GetComponent<Rigidbody2D>();
             wildBehaviour = GetComponent<HumanWildBehaviour>();
             var p = GetComponent<Pathfinding2D>();
@@ -49,18 +46,17 @@ namespace Assets.Script.Humans
         private void OnEnable()
         {
             rb.simulated = true;
-            wildBehaviour.onTargetFound += OverrideJobs;
+            //wildBehaviour.onTargetFound += OverrideJobs;
         }
 
         private void OnDisable()
         {
             rb.simulated = false;
-            wildBehaviour.onTargetFound -= OverrideJobs;
+            //wildBehaviour.onTargetFound -= OverrideJobs;
         }
 
         protected override void Start()
         {
-            Skills = GameManager.Instance.InitializeResources();
             SetUpStatusPanel();
             base.Start();
         }
@@ -69,7 +65,7 @@ namespace Assets.Script.Humans
         {
 
             StatusPanel.gameObject.SetActive(false);
-            float yOffset = 1f;
+            /*float yOffset = 1f;
             foreach (var skill in Skills)
             {
                 var status = Instantiate(StatusBar, StatusPanel.transform);
@@ -79,22 +75,10 @@ namespace Assets.Script.Humans
                 status.transform.localPosition = new Vector3(4, yOffset, 0);
                 skillBars.Add(bar);
                 yOffset -= 0.5f;
-            }
+            }*/
         }
 
-
-        public void AddJob(Job newJob)
-        {
-            if (currentJobs.Count == 0)
-            {
-                newJob.StartJob(rb);
-                newJob.OnStopJob += OnJobComplete;
-            }
-            currentJobs.Enqueue(newJob);
-        }
-
-        public void StopCurrentJob() => OnJobComplete();
-        public bool IsIdle() => currentJobs.Count == 0;
+        public bool IsIdle() => currentTask == null;
 
         public void SelectHuman()
         {
@@ -105,17 +89,14 @@ namespace Assets.Script.Humans
 
         public void ClearCurrentJobs()
         {
-            if (currentJobs.Count > 0)
-                for (int i = 0; i < currentJobs.Count; i++)
-                {
-                    currentJobs.Dequeue().StopJob();
-                }
+            // TODO
         }
 
-        public void OverrideJobs(Job job)
+        public void SetTask(Task task)
         {
             ClearCurrentJobs();
-            AddJob(job);
+            currentTask = task;
+            currentTask.StartTask(rb);
         }
 
         public void OnMouseEnter()
@@ -129,48 +110,18 @@ namespace Assets.Script.Humans
             StatusPanel.gameObject.SetActive(false);
         }
 
-        public void LevelUpSkill(EResource skill, int amount)
-        {
-            Skills[skill] += amount;
-            for (int i = 0; i < Skills.Count; i++)
-            {
-                skillBars[i].UpdateStatusBar(Skills[(EResource)i], 100);
-            }
-        }
-
         public void Update()
         {
-            if (currentJobs?.Count > 0)
-            {
-                jobText.text = currentJobs.Peek().Name;
-                currentJobs.Peek().UpdateJob(this, Time.deltaTime);
-            }
-
+            if (currentTask is null) return;
+            jobText.text = currentTask.Name;
+            currentTask.UpdateTask(this, Time.deltaTime);
         }
+
         public void FixedUpdate()
         {
-            if (currentJobs?.Count > 0)
-            {
-                jobText.text = currentJobs.Peek().Name;
-                currentJobs.Peek().FixedUpdateJob(this, Time.fixedDeltaTime);
-
-            }
-        }
-
-        void OnJobComplete()
-        {
-            if (currentJobs?.Count > 0)
-            {
-                currentJobs.Peek().OnStopJob -= OnJobComplete;
-                currentJobs.Peek().StopJob();
-                currentJobs.Dequeue();
-            }
-            jobText.text = "";
-            if (currentJobs?.Count > 0)
-            {
-                currentJobs.Peek().StartJob(rb);
-                currentJobs.Peek().OnStopJob += OnJobComplete;
-            }
+            if (currentTask is null) return;
+            jobText.text = currentTask.Name;
+            currentTask.FixedUpdateTask(this, Time.fixedDeltaTime);
         }
 
         private void OnCollisionEnter2D(Collision2D other)

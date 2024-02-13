@@ -36,11 +36,14 @@ public class GameManager : MonoBehaviour
 
     public Carrier Carrier;
 
+    public HumanOrchestrator HumanOrchestrator;
+
     bool paused;
 
 
     private void Awake()
     {
+        HumanOrchestrator = FindObjectOfType<HumanOrchestrator>();
         Player = FindObjectOfType<Player>().transform;
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();
@@ -63,7 +66,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetTargetFrameRate();
-        AddResource(EResource.Food, 50);
+        AddResource(EResource.Wood, 50);
     }
     private void Update()
     {
@@ -82,8 +85,9 @@ public class GameManager : MonoBehaviour
     public Dictionary<EResource, int> InitializeResources()
         => new Dictionary<EResource, int>()
         {
-            { EResource.Food, 0 }, {EResource.Wood, 0 }, { EResource.Iron, 0 },
-            { EResource.Electronics, 0 }, { EResource.Plutonium, 0}
+            { EResource.Wood, 0 }, { EResource.Steel, 0 },
+            { EResource.Electronics, 0 }, { EResource.Blood, 0 },
+            { EResource.Bones, 0 }, { EResource.Organs, 0 },
         };
 
     public void TogglePause()

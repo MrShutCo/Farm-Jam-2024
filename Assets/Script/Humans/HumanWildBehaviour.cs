@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class HumanWildBehaviour : MonoBehaviour
 {
-    public event Action<Job> onTargetFound;
+    public event Action<Task> onTargetFound;
     public enum NPCBehaviour
     {
         Cowardly,
@@ -40,7 +40,7 @@ public class HumanWildBehaviour : MonoBehaviour
     {
         targetSensor.gameObject.SetActive(true);
         var job = new Wander(human);
-        human.AddJob(job);
+        //human.AddJob(job);
     }
     public void DeactivateWildBehaviour()
     {
@@ -50,7 +50,7 @@ public class HumanWildBehaviour : MonoBehaviour
     {
         if (!overrideCurrent && _target != null) return;
 
-        Job job = null;
+        Task job = null;
 
         switch (npcBehaviour)
         {
