@@ -24,14 +24,14 @@ namespace Assets.Script.Humans
         [SerializeField] Transform targetSensor;
 
         HumanWildBehaviour wildBehaviour;
-
-        Transform _target;
+        WeaponSelector weaponSelector;
         TextMeshProUGUI jobText;
         Rigidbody2D rb;
         Pathfinding2D pathfinding;
         List<FloatingStatusBar> skillBars;
         Queue<Job> currentJobs;
         public Queue<Job> CurrentJobs => currentJobs;
+        public WeaponSelector WeaponSelector => weaponSelector;
 
         public void Awake()
         {
@@ -43,9 +43,11 @@ namespace Assets.Script.Humans
             skillBars = new List<FloatingStatusBar>();
             rb = GetComponent<Rigidbody2D>();
             wildBehaviour = GetComponent<HumanWildBehaviour>();
+            weaponSelector = GetComponent<WeaponSelector>();
             pathfinding = GetComponent<Pathfinding2D>();
             pathfinding.seeker = transform;
         }
+
         private void OnEnable()
         {
             rb.simulated = true;
@@ -67,7 +69,6 @@ namespace Assets.Script.Humans
 
         void SetUpStatusPanel()
         {
-
             StatusPanel.gameObject.SetActive(false);
             float yOffset = 1f;
             foreach (var skill in Skills)

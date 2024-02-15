@@ -5,50 +5,50 @@ using System;
 
 public class HealthBase : MonoBehaviour
 {
-    [SerializeField] FloatingStatusBar healthBarPrefab;
-    FloatingStatusBar healthBar;
-    [SerializeField] Transform healthPanel;
+    [SerializeField] protected FloatingStatusBar healthBarPrefab;
+    protected FloatingStatusBar healthBar;
+    [SerializeField] protected Transform healthPanel;
 
 
-    [SerializeField] int maxHealth = 5;
-    [SerializeField] int currentHealth;
+    [SerializeField] protected int maxHealth = 5;
+    [SerializeField] protected int currentHealth;
 
     Transform _transform;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _transform = transform;
         currentHealth = maxHealth;
     }
-    private void Start()
+    protected virtual void Start()
     {
         healthBar = Instantiate(healthBarPrefab, healthPanel.transform);
-        healthBar.UpdateStatusBar(currentHealth, maxHealth);
+        UpdateHealth();
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-        healthBar.UpdateStatusBar(currentHealth, maxHealth);
+        UpdateHealth();
         if (currentHealth <= 0)
         {
             Die();
         }
     }
-    public void Heal(int heal)
+    public virtual void Heal(int heal)
     {
         currentHealth += heal;
-        healthBar.UpdateStatusBar(currentHealth, maxHealth);
+        UpdateHealth();
     }
-    public void SetMaxHealth(int health)
+    public virtual void SetMaxHealth(int health)
     {
         maxHealth = health;
         currentHealth = maxHealth;
-        healthBar.UpdateStatusBar(currentHealth, maxHealth);
+        UpdateHealth();
     }
 
-    public void Die()
+    public virtual void Die()
     {
         Debug.Log(_transform.name + " died");
 
@@ -60,6 +60,11 @@ public class HealthBase : MonoBehaviour
     void DisableGameObject()
     {
         gameObject.SetActive(false);
+    }
+
+    protected virtual void UpdateHealth()
+    {
+        healthBar.UpdateStatusBar(currentHealth, maxHealth);
     }
 
 

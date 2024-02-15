@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public Action onResourceChange;
     public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
+    public Action<int, int> onHealthChange;
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
     public Action<bool> onPause;

@@ -19,8 +19,8 @@ TagManager:
   - Player
   - Grabbable
   - Selectable
-  - 
-  - 
+  - SpawnArea
+  - Bullet
   - 
   - 
   - 

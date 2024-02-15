@@ -289,10 +289,16 @@ namespace Assets.Script.Humans
     }
     public class AttackTarget : Job
     {
-        Vector3 target;
+        Transform target;
         float range;
-        float attackInterval = 1;
-        float attackTimer = 0;
+
+
+        public AttackTarget(Transform target)
+        {
+            Debug.Log("Approach");
+            this.target = target;
+            Name = $"Approach {target}";
+        }
         public override void StartJob(Rigidbody2D rb)
         {
             base.StartJob(rb);
@@ -306,18 +312,17 @@ namespace Assets.Script.Humans
 
         public override void UpdateJob(Human human, double deltaTime)
         {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
 
-            var diffVector = target - human.transform.position;
-            if (diffVector.magnitude <= range && attackTimer <= 0)
+            human.WeaponSelector.ActiveWeapon.Flip(direction);
+
+            if (diffVector.magnitude <= range)
             {
-                Debug.Log("attack");
-                attackTimer = attackInterval;
+                Debug.Log(human.transform + " is attacking");
+                human.WeaponSelector.ActiveWeapon.Shoot(direction);
             }
-            else if (diffVector.magnitude <= range && attackTimer > 0)
-            {
-                attackTimer -= (float)deltaTime;
-            }
-            else
+            else if (diffVector.magnitude > range)
             {
                 //enqueue approach target
                 OnStopJob?.Invoke();
