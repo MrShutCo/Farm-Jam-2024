@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82a94115665f21c459f4ca166f03d420, type: 3}
-  m_Name: TrailConfigTest
+  m_Name: ShotgunTrailConfig
   m_EditorClassIdentifier: 
   Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   WidthCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.009242145
-      value: 0.05024302
-      inSlope: -0.0490696
-      outSlope: -0.0490696
+      time: -0.0030165594
+      value: 0.2989928
+      inSlope: -0.297498
+      outSlope: -0.297498
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -28,8 +28,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.9995069
       value: 0.00074411
-      inSlope: -0.0490696
-      outSlope: -0.0490696
+      inSlope: -0.297498
+      outSlope: -0.297498
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -37,12 +37,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Duration: 0.5
-  MinVertexDistance: 0.1
+  Duration: 0.1
+  MinVertexDistance: 0.5
   Color:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 1, g: 0.8965509, b: 0, a: 1}
+    key1: {r: 1, g: 0.8980393, b: 0, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -58,7 +58,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 19661
     atime2: 0
     atime3: 0
     atime4: 0
@@ -69,5 +69,5 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  MissDistance: 100
-  SimulationSpeed: 100
+  MissDistance: 15
+  SimulationSpeed: 20

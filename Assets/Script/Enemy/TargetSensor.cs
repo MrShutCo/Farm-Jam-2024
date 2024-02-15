@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class TargetSensor : MonoBehaviour
 {
-    [SerializeField] Collider2D sensorCollider;
+    [SerializeField] CircleCollider2D sensorCollider;
     [SerializeField] LayerMask targetLayer;
 
     HumanWildBehaviour human;
+
+    public void SetSensorRange(float range)
+    {
+        sensorCollider.radius = range;
+    }
 
     private void Awake()
     {

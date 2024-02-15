@@ -32,6 +32,7 @@ namespace Assets.Script.Humans
         Queue<Job> currentJobs;
         public Queue<Job> CurrentJobs => currentJobs;
         public WeaponSelector WeaponSelector => weaponSelector;
+        public HumanWildBehaviour WildBehaviour => wildBehaviour;
 
         public void Awake()
         {

@@ -333,5 +333,168 @@ namespace Assets.Script.Humans
         {
         }
     }
+
+    public class DefensiveAttack : Job
+    {
+        Transform target;
+        public DefensiveAttack(Transform target)
+        {
+            Debug.Log("DefensiveAttack");
+            this.target = target;
+            Name = $"DefensiveAttack {target}";
+        }
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            human.WeaponSelector.ActiveWeapon.Flip(direction);
+
+            if (diffVector.magnitude <= human.WildBehaviour.npcType.DisengageRange)
+            {
+                Debug.Log(human.transform + " is attacking");
+                human.WeaponSelector.ActiveWeapon.Shoot(direction);
+            }
+            else
+            {
+                OnStopJob?.Invoke();
+            }
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            if (diffVector.magnitude > human.WildBehaviour.npcType.IdealCombatRange)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * direction;
+            }
+            else if (diffVector.magnitude < human.WildBehaviour.npcType.IdealCombatRange)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * -direction;
+            }
+        }
+    }
+
+    public class CloseRangeAssault : Job
+    {
+        Transform target;
+
+        float dodgeInterval = 2;
+        float timeSinceLastDodge;
+        public CloseRangeAssault(Transform target)
+        {
+            Debug.Log("CloseRangeTactics");
+            this.target = target;
+            Name = $"CloseRangeTactics {target}";
+        }
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+            timeSinceLastDodge += (float)fixedDeltaTime;
+
+            if (timeSinceLastDodge < 0.5f) return;
+            rb.isKinematic = true;
+            var diffVector = target.position - human.transform.position;
+
+            if (diffVector.magnitude > human.WildBehaviour.npcType.IdealCombatRange)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * diffVector.normalized;
+            }
+            else if (diffVector.magnitude < human.WildBehaviour.npcType.IdealCombatRange)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * -diffVector.normalized;
+            }
+            if (timeSinceLastDodge > dodgeInterval && diffVector.magnitude < human.WildBehaviour.npcType.IdealCombatRange * .75f)
+            {
+                Dodge(target.position);
+            }
+            if (timeSinceLastDodge > 0.5f)
+            {
+                human.WeaponSelector.ActiveWeapon.Shoot((target.position - human.transform.position).normalized);
+            }
+        }
+
+        void Dodge(Vector2 targetPos)
+        {
+            //dodge perpendicular to the target
+            var diffVector = targetPos - rb.position;
+            var dodgeDirection = new Vector2(diffVector.y, -diffVector.x).normalized;
+            rb.isKinematic = false;
+            rb.AddForce(dodgeDirection * 8, ForceMode2D.Impulse);
+            timeSinceLastDodge = 0;
+        }
+    }
+
+    public class Patrol : Job
+    {
+        Vector3 target;
+        float speed;
+        public Patrol(Vector3 position)
+        {
+            Debug.Log("Patrol");
+            target = position;
+            Name = $"Patrol to {target}";
+        }
+
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+            speed = 1;
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+            var diffVector = target - human.transform.position;
+
+            if (diffVector.magnitude < 0.05)
+            {
+                rb.velocity = Vector2.zero;
+                UpdatePatrolTarget(human);
+            }
+            else
+            {
+                rb.velocity = speed * diffVector.normalized;
+            }
+        }
+        void UpdatePatrolTarget(Human human)
+        {
+            target = new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), 0) + target;
+        }
+    }
     #endregion
 }

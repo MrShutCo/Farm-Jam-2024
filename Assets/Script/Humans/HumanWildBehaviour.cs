@@ -4,15 +4,22 @@ using System.Collections.Generic;
 using Assets.Script.Humans;
 using UnityEngine;
 
+
 public class HumanWildBehaviour : MonoBehaviour
 {
     public event Action<Job> onTargetFound;
     public enum NPCBehaviour
     {
-        Cowardly,
-        Aggressive,
-        Cautious
+        CivilianMelee,
+        CivilianRanged,
+        Defensive,
+        Assault,
+        Tank1,
+        Tank2,
+        Boss1
     }
+
+    public NPCTypeSO npcType;
 
     [SerializeField] Transform selectionCollider;
     [SerializeField] Transform weaponParent;
@@ -20,10 +27,11 @@ public class HumanWildBehaviour : MonoBehaviour
 
     Human human;
     Transform _target;
-    [SerializeField] NPCBehaviour npcBehaviour = NPCBehaviour.Aggressive;
+    [SerializeField] NPCBehaviour npcBehaviour = NPCBehaviour.CivilianMelee;
 
     float AttackRange = 5;
     float SightRange = 20;
+    Vector2 startPos;
 
 
     /// <summary>
@@ -60,6 +68,7 @@ public class HumanWildBehaviour : MonoBehaviour
     void OnEnable()
     {
         SwitchTools(true);
+        startPos = transform.position;
     }
     void OnDisable()
     {
@@ -68,71 +77,85 @@ public class HumanWildBehaviour : MonoBehaviour
     public void InitiateWildBehaviour()
     {
         targetSensor.gameObject.SetActive(true);
+        Job job = null;
 
         if (_target != null)
         {
             switch (npcBehaviour)
             {
-                case NPCBehaviour.Cowardly:
+                case NPCBehaviour.CivilianRanged:
                     if (Vector3.Distance(transform.position, _target.position) < SightRange)
                     {
                         if (Vector3.Distance(transform.position, _target.position) < AttackRange)
                         {
-                            var job = new AttackTarget(_target);
+                            job = new AttackTarget(_target);
                             human.AddJob(job);
                         }
                         else
                         {
-                            var job = new FleeTarget(_target);
+                            job = new FleeTarget(_target);
                             human.AddJob(job);
                         }
                     }
                     else
                     {
-                        var job = new Wander(human);
+                        job = new Wander(human);
                         human.AddJob(job);
                     }
                     break;
-                case NPCBehaviour.Aggressive:
-                    if (Vector3.Distance(transform.position, _target.position) < AttackRange)
+                case NPCBehaviour.Assault:
+                    if (_target == null && human.CurrentJobs.Count == 0)
                     {
-                        var job = new AttackTarget(_target);
-                        human.AddJob(job);
-                    }
-                    else if (Vector3.Distance(transform.position, _target.position) < SightRange)
-                    {
-                        var job = new ApproachTarget(_target);
-                        human.AddJob(job);
+                        if (human.CurrentJobs.Count == 0)
+                        {
+                            job = new Patrol(startPos);
+                            human.AddJob(job);
+                        }
+                        else return;
                     }
                     else
                     {
-                        var job = new Wander(human);
-                        human.AddJob(job);
+                        if (Vector2.Distance(transform.position, _target.position) > npcType.DisengageRange)
+                        {
+                            ClearTarget();
+                            return;
+                        }
+                        if (Vector3.Distance(transform.position, _target.position) < npcType.SightRange)
+                        {
+                            job = new CloseRangeAssault(_target);
+                            human.AddJob(job);
+                        }
                     }
                     break;
-                case NPCBehaviour.Cautious:
-
-                    if (Vector3.Distance(transform.position, _target.position) < AttackRange)
+                case NPCBehaviour.Defensive:
+                    if (_target == null && human.CurrentJobs.Count == 0)
                     {
-                        var job = new AttackTarget(_target);
-                        human.AddJob(job);
+                        if (human.CurrentJobs.Count == 0)
+                        {
+                            job = new Patrol(startPos);
+                            human.AddJob(job);
+                        }
+                        else return;
                     }
-                    else if (Vector3.Distance(transform.position, _target.position) < 10)
+                    else
                     {
-                        var job = new FleeTarget(_target);
-                        human.AddJob(job);
-                    }
-                    else if (Vector3.Distance(transform.position, _target.position) > SightRange)
-                    {
-                        var job = new Wander(human);
-                        human.AddJob(job);
+                        if (Vector2.Distance(transform.position, _target.position) > npcType.DisengageRange)
+                        {
+                            ClearTarget();
+                            return;
+                        }
+                        if (Vector3.Distance(transform.position, _target.position) < npcType.SightRange)
+                        {
+                            job = new DefensiveAttack(_target);
+                            human.AddJob(job);
+                        }
                     }
                     break;
             }
         }
         else
         {
-            var job = new Wander(human);
+            job = new Wander(human);
             human.AddJob(job);
 
         }
@@ -159,13 +182,13 @@ public class HumanWildBehaviour : MonoBehaviour
 
         switch (npcBehaviour)
         {
-            case NPCBehaviour.Cowardly:
+            case NPCBehaviour.CivilianRanged:
                 job = new FleeTarget(target);
                 break;
-            case NPCBehaviour.Aggressive:
+            case NPCBehaviour.Assault:
                 job = new ApproachTarget(target);
                 break;
-            case NPCBehaviour.Cautious:
+            case NPCBehaviour.Defensive:
                 job = new AttackTarget(target);
                 break;
         }

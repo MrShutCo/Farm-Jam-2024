@@ -47,49 +47,59 @@ public class WeaponScriptableObject : ScriptableObject
         if (Time.time > ShootConfig.FireRate + LastShootTime)
         {
             LastShootTime = Time.time;
-            ShootSystem.Play();
-            Debug.Log(Model.transform.parent.parent + " is shooting");
-            Vector2 shootDirection = (Vector2)direction
-             + new Vector2(
-                UnityEngine.Random.Range(
-                -ShootConfig.Spread.x,
-                ShootConfig.Spread.x
-             ),
-                UnityEngine.Random.Range(
-                -ShootConfig.Spread.y,
-                ShootConfig.Spread.y
-             )
-             );
-            shootDirection.Normalize();
-            hit = Physics2D.Raycast(
-                ShootSystem.transform.position,
-                shootDirection,
-                float.MaxValue,
-                ShootConfig.HitMask
-            );
-            if (hit)
+            for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
             {
-                ActiveMonoBehaviour.StartCoroutine(
-                    PlayTrail(
-                        ShootSystem.transform.position,
-                        hit.point,
-                        hit
-                    )
+                ShootSystem.Play();
+                Debug.Log(Model.transform.parent.parent + " is shooting");
+                Vector2 shootDirection = (Vector2)direction
+                 + new Vector2(
+                    UnityEngine.Random.Range(
+                    -ShootConfig.Spread.x,
+                    ShootConfig.Spread.x
+                 ),
+                    UnityEngine.Random.Range(
+                    -ShootConfig.Spread.y,
+                    ShootConfig.Spread.y
+                 )
+                 );
+                shootDirection.Normalize();
+                hit = Physics2D.Raycast(
+                    ShootSystem.transform.position,
+                    shootDirection,
+                    float.MaxValue,
+                    ShootConfig.HitMask
                 );
-                if (hit.collider.TryGetComponent(out HealthBase health))
+                if (hit)
                 {
-                    health.TakeDamage(ShootConfig.Damage);
+                    ActiveMonoBehaviour.StartCoroutine(
+                        PlayTrail(
+                            ShootSystem.transform.position,
+                            hit.point,
+                            hit
+                        )
+                    );
+                    if (hit.collider.TryGetComponent(out HealthBase health))
+                    {
+                        health.TakeDamage(ShootConfig.Damage);
+                    }
+                    if (ShootConfig.KnockbackForce != 0)
+                    {
+                        if (hit.collider.TryGetComponent(out Rigidbody2D rb))
+                        {
+                            //Addknockback
+                        }
+                    }
                 }
-            }
-            else
-            {
-                ActiveMonoBehaviour.StartCoroutine(
-                    PlayTrail(
-                        ShootSystem.transform.position,
-                        ShootSystem.transform.position + (Vector3)(shootDirection * TrailConfig.MissDistance),
-                        new RaycastHit2D()
-                    )
-                );
+                else
+                {
+                    ActiveMonoBehaviour.StartCoroutine(
+                        PlayTrail(
+                            ShootSystem.transform.position,
+                            ShootSystem.transform.position + (Vector3)(shootDirection * TrailConfig.MissDistance),
+                            new RaycastHit2D()
+                        )
+                    );
+                }
             }
         }
     }

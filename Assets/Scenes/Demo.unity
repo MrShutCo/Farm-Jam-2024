@@ -230,8 +230,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1302900334}
     - target: {fileID: 3451065008185679597, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: npcType
+      value: 
+      objectReference: {fileID: 11400000, guid: 84a1fe265845e5d419cff14afb03c547, type: 2}
+    - target: {fileID: 3451065008185679597, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: npcBehaviour
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -277,6 +281,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapon
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapons.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1957,8 +1977,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1302900334}
     - target: {fileID: 3451065008185679597, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: npcType
+      value: 
+      objectReference: {fileID: 11400000, guid: ab4c704f0577afe469f0fb2b35f0ed1c, type: 2}
+    - target: {fileID: 3451065008185679597, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: npcBehaviour
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48003,8 +48027,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1302900334}
     - target: {fileID: 3451065008185679597, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: npcType
+      value: 
+      objectReference: {fileID: 11400000, guid: ab4c704f0577afe469f0fb2b35f0ed1c, type: 2}
+    - target: {fileID: 3451065008185679597, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: npcBehaviour
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48050,6 +48078,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapons.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6292c7613c455fa4d819778839075c22, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -48136,9 +48176,17 @@ PrefabInstance:
       propertyPath: PathfindingGridOutside
       value: 
       objectReference: {fileID: 1302900335}
+    - target: {fileID: 1342283122927981088, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_CameraDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1483688405647871577, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2125112198687474106, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -29.720936
       objectReference: {fileID: 0}
     - target: {fileID: 2844374234219422867, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48184,6 +48232,14 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1088062573}
+    - target: {fileID: 2850520550992559556, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224358211833291119, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -29.720936
+      objectReference: {fileID: 0}
     - target: {fileID: 4098323192672901845, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: resourceTexts
       value: 
@@ -48212,6 +48268,18 @@ PrefabInstance:
       propertyPath: playerHealthBarPrefab
       value: 
       objectReference: {fileID: 478151960}
+    - target: {fileID: 5318383841793911977, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_RefResolutionX
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 5318383841793911977, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_RefResolutionY
+      value: 720
+      objectReference: {fileID: 0}
+    - target: {fileID: 6223376003044698413, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: orthographic size
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
