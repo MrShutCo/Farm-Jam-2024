@@ -69,9 +69,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            Debug.Log("Attack action: " + attackAction);
-            Debug.Log("Facing: " + Facing);
-            Debug.Log("Hittable layers: " + hittableLayers);
             attackAction.Action(Facing, hittableLayers);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))

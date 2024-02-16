@@ -29,6 +29,10 @@ namespace Assets.Script.Humans
         Rigidbody2D rb;
 
         Task currentTask;
+        Pathfinding2D pathfinding;
+        List<FloatingStatusBar> skillBars;
+        Queue<Job> currentJobs;
+        public Queue<Job> CurrentJobs => currentJobs;
 
         public void Awake()
         {
@@ -39,9 +43,8 @@ namespace Assets.Script.Humans
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             rb = GetComponent<Rigidbody2D>();
             wildBehaviour = GetComponent<HumanWildBehaviour>();
-            var p = GetComponent<Pathfinding2D>();
-            p.seeker = transform;
-            //p.GridOwner = GameObject.Find("Grid");
+            pathfinding = GetComponent<Pathfinding2D>();
+            pathfinding.seeker = transform;
         }
         private void OnEnable()
         {
@@ -130,8 +133,8 @@ namespace Assets.Script.Humans
             if (other.gameObject.CompareTag("Grid"))
             {
                 Debug.Log("Getting Grid");
-                var p = GetComponent<Pathfinding2D>();
-                p.GridOwner = other.gameObject;
+                pathfinding.GridOwner = other.gameObject;
+
             }
         }
         protected override void ChangeLocation(bool home)
@@ -141,11 +144,11 @@ namespace Assets.Script.Humans
             targetSensor.gameObject.SetActive(!home);
             if (home)
             {
-                var p = GetComponent<Pathfinding2D>();
-                p.GridOwner = GameManager.Instance.PathfindingGrid.gameObject;
+                pathfinding.GridOwner = GameManager.Instance.PathfindingGrid.gameObject;
             }
             else
             {
+                pathfinding.GridOwner = GameManager.Instance.PathfindingGridOutside.gameObject;
                 wildBehaviour.InitiateWildBehaviour();
             }
         }

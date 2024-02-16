@@ -219,7 +219,7 @@ namespace Assets.Script.Humans
     #region Outside Tasks
     public class Wander : Task
     {
-        Vector3 target;
+        Vector3 target = Vector3.zero;
         float wanderDistance = 10;
         float timeOfLastTarget;
         float speed;
@@ -254,7 +254,7 @@ namespace Assets.Script.Humans
             {
                 var diffVector = target - human.transform.position;
 
-                if (diffVector.magnitude < 0.05)
+                if (diffVector.magnitude < 0.05 || target == Vector3.zero)
                 {
                     rb.velocity = Vector2.zero;
                     UpdateWanderTarget(human);
@@ -275,6 +275,7 @@ namespace Assets.Script.Humans
         {
             if (Time.time - timeOfLastTarget < 5) return;
             timeOfLastTarget = Time.time;
+            UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
             target = new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-wanderDistance, wanderDistance), 0) + human.transform.position;
             Debug.DrawRay(human.transform.position, target - human.transform.position, Color.red, 1);
 
@@ -283,6 +284,7 @@ namespace Assets.Script.Humans
     public class FleeTarget : Task
     {
         Vector3 position;
+        float fleeDistance = 20;
         float speed;
         public FleeTarget(Transform target)
         {
@@ -310,10 +312,11 @@ namespace Assets.Script.Humans
         {
             var diffVector = human.transform.position - position;
 
-            if (diffVector.magnitude > 10)
+            if (diffVector.magnitude > fleeDistance)
             {
                 rb.velocity = Vector2.zero;
                 OnStopTask?.Invoke();
+                human.AddJob(new Wander(human));
             }
             else
             {

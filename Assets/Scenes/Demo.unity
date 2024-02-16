@@ -48114,6 +48114,10 @@ PrefabInstance:
       propertyPath: PathfindingGrid
       value: 
       objectReference: {fileID: 657554659}
+    - target: {fileID: 1306816979141117957, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: PathfindingGridOutside
+      value: 
+      objectReference: {fileID: 1302900335}
     - target: {fileID: 1483688405647871577, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: m_Name
       value: GameManager

@@ -6,12 +6,12 @@ public class ControllerBase : MonoBehaviour
 {
     protected bool home;
     protected bool paused;
+
     Collider2D[] colHits;
 
 
     private void Awake()
     {
-
     }
 
     private void OnEnable()
@@ -30,10 +30,10 @@ public class ControllerBase : MonoBehaviour
         {
             if (hit.CompareTag("Grid"))
             {
-                Debug.Log("Checking Grid Collision");
-                if (hit.transform.parent.GetComponent<Grid2D>() != GameManager.Instance.PathfindingGrid)
+                Grid2D grid = hit.transform.parent.GetComponent<Grid2D>();
+
+                if (grid != GameManager.Instance.PathfindingGrid)
                 {
-                    Debug.Log("Not Home " + this.name);
                     home = false;
                 }
                 else

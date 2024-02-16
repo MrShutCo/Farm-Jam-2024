@@ -15,11 +15,11 @@ public class Portal : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 var player = other.GetComponent<Rigidbody2D>();
-                GameManager.Instance.onTeleport?.Invoke(true);
+                GameManager.Instance.onTeleport?.Invoke(true, destination.transform.position);
                 player.simulated = false;
                 player.transform.position = destination.transform.position;
                 player.simulated = true;
-                GameManager.Instance.onTeleport?.Invoke(false);
+                GameManager.Instance.onTeleport?.Invoke(false, destination.transform.position);
             }
     }
 

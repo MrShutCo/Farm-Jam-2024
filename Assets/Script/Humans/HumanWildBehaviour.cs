@@ -46,6 +46,13 @@ public class HumanWildBehaviour : MonoBehaviour
     {
         targetSensor.gameObject.SetActive(false);
     }
+    private void Update()
+    {
+        if (human.CurrentJobs.Count == 0)
+        {
+            InitiateWildBehaviour();
+        }
+    }
     public void SetTarget(Transform target, bool overrideCurrent = false)
     {
         if (!overrideCurrent && _target != null) return;
