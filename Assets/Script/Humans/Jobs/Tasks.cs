@@ -98,11 +98,13 @@ namespace Assets.Script.Humans
     {
         ResourceBuilding building;
         double timeWorkedOnTask;
+        Human flayedHuman;
 
-        public WorkTask(ResourceBuilding building)
+        public WorkTask(ResourceBuilding building, Human flayedHuman)
         {
             this.building = building;
             Name = $"Work {building.HarvestedResouce} at {building.transform.position}";
+            this.flayedHuman = flayedHuman;
         }
 
         public override void StartTask(Rigidbody2D rb)
@@ -123,6 +125,10 @@ namespace Assets.Script.Humans
             {
                 OnStopTask?.Invoke();
                 timeWorkedOnTask = 0;
+                if (flayedHuman.TryGetComponent(out HealthBase health))
+                {
+                    health.TakeDamage(1);
+                }
             }
         }
         public override void FixedUpdateTask(Human human, double fixedDeltaTime)
@@ -183,7 +189,7 @@ namespace Assets.Script.Humans
             {
                 if (human.TryGetComponent(out HealthBase health))
                 {
-                    health.TakeDamage(1);
+                    health.TakeDamage(4);
                     timeSpentBeingFlayed = 0;
                 }
             }
@@ -196,6 +202,18 @@ namespace Assets.Script.Humans
         public override void UpdateTask(Human human, double deltaTime)
         {
         }
+    }
+
+    public class Idle : Task
+    {
+        public Idle()
+        {
+            Name = "Idle";
+        }
+
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
+        public override void StopTask() { }
+        public override void UpdateTask(Human human, double deltaTime) { }
     }
 
     #region Outside Tasks
@@ -222,6 +240,7 @@ namespace Assets.Script.Humans
 
         public override void StopTask()
         {
+            if (rb is null) return;
             rb.velocity = Vector2.zero;
         }
 

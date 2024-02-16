@@ -52,6 +52,7 @@ namespace Assets.Script.Humans
         private void OnDisable()
         {
             rb.simulated = false;
+            GameManager.Instance.onHumanDie?.Invoke(this);
             //wildBehaviour.onTargetFound -= OverrideJobs;
         }
 

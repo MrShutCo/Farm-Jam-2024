@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 namespace Assets.Script.Humans {
 
@@ -9,11 +9,13 @@ namespace Assets.Script.Humans {
 	{
         public bool IsActive;
 		public string Name;
+		public Action<Human> onJobComplete;
+        public bool IsRepeated { get; private set; }
 
-		Human human;
+        Human human;
         List<Task> _tasks;
 		int _activeTask;
-		bool _isRepeated;
+		
 
 		public Job(Human h)
 		{
@@ -26,7 +28,7 @@ namespace Assets.Script.Humans {
 			Name = name;
 			IsActive = true;
 			_tasks = jobs;
-			_isRepeated = isRepeated;
+			IsRepeated = isRepeated;
 			human = h;
 		}
 
@@ -37,22 +39,36 @@ namespace Assets.Script.Humans {
             human.SetTask(_tasks[0]);
 		}
 
+		public void StopJob()
+		{
+			_tasks[_activeTask].OnStopTask -= OnTaskComplete;
+			_tasks[_activeTask].StopTask();
+			IsActive = false;
+		}
+
 		public void AddTaskToJob(Task newTask, bool stopCurrentTask)
 		{
-			_tasks.Add(newTask);
 			if (stopCurrentTask)
 			{
 				_tasks[_activeTask].OnStopTask?.Invoke();
 			}
+            _tasks.Add(newTask);
+            if (_activeTask == _tasks.Count-1)
+			{
+                human.SetTask(_tasks[_activeTask]);
+                _tasks[_activeTask].OnStopTask += OnTaskComplete;
+            }
 		}
 
 		public void Update(double deltaTime)
 		{
+			if (!IsActive) return;
 			_tasks[_activeTask].UpdateTask(human, deltaTime);
 		}
 
 		public void FixedUpdate(double deltaTime)
 		{
+            if (!IsActive) return;
             _tasks[_activeTask].FixedUpdateTask(human, deltaTime);
         }
 
@@ -65,10 +81,11 @@ namespace Assets.Script.Humans {
                 _activeTask++;
             }
 
-            if (_isRepeated && _activeTask == _tasks.Count)
-            {
-                _activeTask = 0;
-            }
+			if (_activeTask == _tasks.Count)
+			{
+				onJobComplete?.Invoke(human);
+				if (IsRepeated) _activeTask = 0;
+			}
 
             //jobText.text = "";
             if (_activeTask < _tasks.Count)

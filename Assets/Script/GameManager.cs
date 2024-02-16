@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public Action<bool> onPause;
     public Action<bool> onTeleport;
     public Action<Collider2D> onGridChange;
+    public Action<Human> onHumanDie;
 
     public List<Building> Buildings;
     public Transform Player;

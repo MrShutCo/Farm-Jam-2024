@@ -18,10 +18,22 @@ namespace Assets.Script.Buildings
         [SerializeField] Transform[] workingPositions;
 
         List<Human> workingHumans;
+        public Human FlayedHuman { get; private set; }
 
         public ResourceBuilding()
 		{
-            workingHumans = new List<Human>();  
+            workingHumans = new List<Human>();
+            
+        }
+
+        public void Start()
+        {
+            GameManager.Instance.onHumanDie += onHumanDie;
+        }
+
+        public void OnDisable()
+        {
+            GameManager.Instance.onHumanDie -= onHumanDie;
         }
 
         public Job? AssignHuman(Human h)
@@ -32,26 +44,18 @@ namespace Assets.Script.Buildings
 
             var workingPosition = workingPositions[CurrHumans];
 
-            if (!CanBeWorked())
+            if (FlayedHuman is null)
             {
-                task = new Job(h, "Move to be flayed", new List<Task>()
-                {
-                    new MoveToTask(workingPosition.position),
-                }, false);
+                task = GetFlayed(h);
+                FlayedHuman = h;
             }
             else
             {
-                task = new Job(h, "Work", new List<Task>()
-                {
-                    new MoveToTask(workingPosition.position),
-                    new WorkTask(this),
-                    new MoveToTask(Vector3.zero),
-                    new DropoffResources(HarvestedResouce, 5)
-                }, true);
-                GameManager.Instance.HumanOrchestrator.AddTaskToJob(new GetFlayed(), workingHumans[0]);
+                task = Flay(h, workingPosition.position);
+                workingHumans.Add(h);
             }
             CurrHumans++;
-            workingHumans.Add(h);
+            
             return task;
         }
 
@@ -70,7 +74,43 @@ namespace Assets.Script.Buildings
             capacityText.text = $"{CurrHumans}/{MaxCapacity}";
         }
 
+        Job Flay(Human h, Vector3 pos)
+        {
+            return new Job(h, "Work", new List<Task>()
+            {
+                    new MoveToTask(pos),
+                    new WorkTask(this, FlayedHuman),
+                    new MoveToTask(Vector3.zero),
+                    new DropoffResources(HarvestedResouce, 5)
+            }, true);
+        }
 
+        Job WaitForNewFlay(Human h, Vector3 pos)
+        {
+            return new Job(h, "Wait for flay", new List<Task>()
+            {
+                new MoveToTask(pos),
+                new Idle()
+            }, false);
+        }
+
+        Job GetFlayed(Human h)
+        {
+            return new Job(h, "Move to be flayed", new List<Task>()
+                {
+                    new MoveToTask(workingPositions[0].position),
+                }, false);
+        }
+
+        void onHumanDie(Human h)
+        {
+            if (h == FlayedHuman)
+            {
+                FlayedHuman = null;
+                for (int i = 0; i < workingHumans.Count; i++)
+                    GameManager.Instance.HumanOrchestrator.AssignJobToHuman(WaitForNewFlay(workingHumans[i], workingPositions[i].position), workingHumans[i], false);
+            }
+        }
     }
 }
 

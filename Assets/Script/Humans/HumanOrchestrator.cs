@@ -10,18 +10,27 @@ namespace Assets.Script.Humans
     {
         [SerializeField] GameObject HumanObject;
 
-        Dictionary<Human, Job> humans = new();
+        Dictionary<Human, Queue<Job>> humans = new();
         List<Human> outsideHumans = new List<Human>();
 
-        public void AssignJobToHuman(Job j, Human h)
+        public void AssignJobToHuman(Job j, Human h, bool clearCurrentJob)
         {
-            humans[h] = j;
-            j.StartJob();
+            if (clearCurrentJob)
+            {
+                humans[h].Peek().StopJob();
+                humans[h].Dequeue();
+            }
+            humans[h].Enqueue(j);
+            if (humans[h].Count == 1)
+            {
+                j.StartJob();
+                j.onJobComplete += onJobComplete;
+            }
         }
 
-        public void AddTaskToJob(Task t, Human h)
+        public void AddTaskToCurrentJob(Task t, Human h)
         {
-            humans[h].AddTaskToJob(t, true);
+            humans[h].Peek().AddTaskToJob(t, false);
         }
 
         // Start is called before the first frame update
@@ -30,13 +39,27 @@ namespace Assets.Script.Humans
             var humanList = GetComponentsInChildren<Human>();
             foreach (var h in humanList)
             {
-                humans[h] = new Job(h, "Wander", new List<Task>() { new Wander(h) }, true);
+                var queue = new Queue<Job>();
+                queue.Enqueue(new Job(h, "Wander", new List<Task>() { new Wander(h) }, true));
+                humans[h] = queue;
             }
         }
 
         // Update is called once per frame
         void Update()
+        { 
+        }
+
+        void onJobComplete(Human h)
         {
+            // Repeat a job only if its repeatable AND we dont have another job queued up after.
+            if (!humans[h].Peek().IsRepeated || humans[h].Peek().IsRepeated && humans[h].Count > 1)
+            {
+                humans[h].Peek().onJobComplete -= onJobComplete;
+                humans[h].Dequeue();
+                humans[h].Peek().onJobComplete += onJobComplete;
+                humans[h].Peek().StartJob();
+            }
         }
     }
 }

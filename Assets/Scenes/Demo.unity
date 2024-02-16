@@ -47809,8 +47809,12 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 367496103480573175, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
+      propertyPath: TimeToCollect
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 367496103480573175, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
       propertyPath: HarvestedResouce
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 367496103480573175, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
       propertyPath: TimeForOneSkillPoint
@@ -47819,6 +47823,18 @@ PrefabInstance:
     - target: {fileID: 2095448434845005241, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
       propertyPath: m_Name
       value: habitat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303815085019527183, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2053667
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303815085019527183, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2053667
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303815085019527183, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6132076
       objectReference: {fileID: 0}
     - target: {fileID: 7085679979023049864, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -47894,6 +47910,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1950146333, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
+    - target: {fileID: 367496103480573175, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
+      propertyPath: TimeToCollect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 367496103480573175, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
       propertyPath: TimeForOneSkillPoint
       value: 0.3
@@ -48402,6 +48422,10 @@ PrefabInstance:
       propertyPath: GridOwner
       value: 
       objectReference: {fileID: 657554656}
+    - target: {fileID: 2865967497182730427, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: maxHealth
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.88
