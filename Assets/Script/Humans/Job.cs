@@ -334,6 +334,62 @@ namespace Assets.Script.Humans
         }
     }
 
+    public class AggressiveMelee : Job
+    {
+        Transform target;
+        float range;
+        public AggressiveMelee(Transform target)
+        {
+            Debug.Log("AggressiveMelee");
+            this.target = target;
+            Name = $"AggressiveMelee {target}";
+        }
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+            range = 5;
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            human.WeaponSelector.ActiveWeapon.Flip(direction);
+
+            if (diffVector.magnitude <= human.WeaponSelector.ActiveWeapon.TrailConfig.MissDistance)
+            {
+                Debug.Log(human.transform + " is attacking");
+                human.WeaponSelector.ActiveWeapon.Shoot(direction);
+            }
+            else if (diffVector.magnitude > range)
+            {
+                //enqueue approach target
+                OnStopJob?.Invoke();
+            }
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            if (diffVector.magnitude > range)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * direction;
+            }
+            else if (diffVector.magnitude < range)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * -direction;
+            }
+        }
+    }
+
     public class DefensiveAttack : Job
     {
         Transform target;
