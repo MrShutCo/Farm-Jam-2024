@@ -316,7 +316,7 @@ namespace Assets.Script.Humans
             {
                 rb.velocity = Vector2.zero;
                 OnStopTask?.Invoke();
-                human.AddJob(new Wander(human));
+                human.SetTask(new Wander(human));
             }
             else
             {
