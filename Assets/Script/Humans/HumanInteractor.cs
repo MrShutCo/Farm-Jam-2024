@@ -19,6 +19,8 @@ namespace Assets.Script.Humans
         // Update is called once per frame
         void Update()
         {
+           
+
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -37,6 +39,7 @@ namespace Assets.Script.Humans
             {
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                
 
                 hits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, rightClickLayer);
 
@@ -47,8 +50,11 @@ namespace Assets.Script.Humans
                         var clickedBuilding = item.collider.GetComponent<ResourceBuilding>();
                         if (clickedBuilding != null)
                         {
+                            
                             var currHuman = GameManager.Instance.CurrentlySelectedHuman;
-                            GameManager.Instance.HumanOrchestrator.AssignJobToHuman(clickedBuilding.AssignHuman(currHuman), currHuman, true);
+                            clickedBuilding.AssignHuman(currHuman, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                            GameManager.Instance.CurrentlySelectedHuman.Deselect();
+                            GameManager.Instance.CurrentlySelectedHuman = null;
                         }
                     }
                     break;

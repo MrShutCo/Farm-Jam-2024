@@ -48,6 +48,7 @@ public class HumanWildBehaviour : MonoBehaviour
     }
     private void Update()
     {
+        return;
         if (human.CurrentJobs.Count == 0)
         {
             InitiateWildBehaviour();

@@ -30,9 +30,10 @@ namespace Assets.Script.Humans
 
         Task currentTask;
         Pathfinding2D pathfinding;
-        List<FloatingStatusBar> skillBars;
         Queue<Job> currentJobs;
         public Queue<Job> CurrentJobs => currentJobs;
+
+        Package holdingPackage;
 
         public void Awake()
         {
@@ -45,6 +46,7 @@ namespace Assets.Script.Humans
             wildBehaviour = GetComponent<HumanWildBehaviour>();
             pathfinding = GetComponent<Pathfinding2D>();
             pathfinding.seeker = transform;
+            currentJobs = new Queue<Job>();
         }
         private void OnEnable()
         {
@@ -84,16 +86,49 @@ namespace Assets.Script.Humans
 
         public bool IsIdle() => currentTask == null;
 
+        public void HoldPackage(Package p)
+        {
+            holdingPackage = p;
+            holdingPackage.transform.parent = transform;
+        }
+
+        public void DropoffPackage()
+        {
+            GameManager.Instance.AddResource(holdingPackage.Resource, holdingPackage.Amount);
+            holdingPackage.Use();
+        }
+
         public void SelectHuman()
         {
             StatusPanel.gameObject.SetActive(true);
-            GameManager.Instance.CurrentlySelectedHuman?.StatusPanel.gameObject.SetActive(false);
+            GameManager.Instance.CurrentlySelectedHuman?.Deselect();
             GameManager.Instance.CurrentlySelectedHuman = this;
+        }
+
+        public void Deselect()
+        {
+            StatusPanel.gameObject.SetActive(false);
         }
 
         public void ClearCurrentJobs()
         {
             // TODO
+        }
+
+        public void AddJob(Job newJob)
+        {
+            currentJobs.Enqueue(newJob);
+            if (currentJobs.Count == 1)
+            {
+                newJob.StartJob();
+                newJob.onJobComplete += onJobComplete;
+            }
+        }
+
+        void onJobComplete(Human h)
+        {
+            currentJobs.Peek().onJobComplete -= onJobComplete;
+            currentJobs.Dequeue();
         }
 
         public void SetTask(Task task)
@@ -116,13 +151,24 @@ namespace Assets.Script.Humans
 
         public void Update()
         {
+            if (currentJobs != null && currentJobs.Count > 0)
+            {
+                currentJobs.Peek()?.Update(Time.deltaTime);
+            }
+
             if (currentTask is null) return;
             jobText.text = currentTask.Name;
             currentTask.UpdateTask(this, Time.deltaTime);
+
+            
         }
 
         public void FixedUpdate()
         {
+            if (currentJobs != null && currentJobs.Count > 0)
+            {
+                currentJobs.Peek()?.FixedUpdate(Time.deltaTime);
+            }
             if (currentTask is null) return;
             jobText.text = currentTask.Name;
             currentTask.FixedUpdateTask(this, Time.fixedDeltaTime);
@@ -151,6 +197,11 @@ namespace Assets.Script.Humans
                 pathfinding.GridOwner = GameManager.Instance.PathfindingGridOutside.gameObject;
                 wildBehaviour.InitiateWildBehaviour();
             }
+        }
+
+        public float GetWorkingRate(EResource resource)
+        {
+            return 1;
         }
     }
 }

@@ -94,45 +94,26 @@ namespace Assets.Script.Humans
         }
     }
 
-    public class WorkTask : Task
+    public class InstantTask : Task
     {
-        ResourceBuilding building;
-        double timeWorkedOnTask;
-        Human flayedHuman;
-
-        public WorkTask(ResourceBuilding building, Human flayedHuman)
+        Action action;
+        public InstantTask(string taskName, Action doAction)
         {
-            this.building = building;
-            Name = $"Work {building.HarvestedResouce} at {building.transform.position}";
-            this.flayedHuman = flayedHuman;
+            action = doAction;
         }
 
         public override void StartTask(Rigidbody2D rb)
         {
             base.StartTask(rb);
-
+            action();
+            
         }
 
-        public override void StopTask()
-        {
-        }
-
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
+        public override void StopTask() { }
         public override void UpdateTask(Human human, double deltaTime)
         {
-            timeWorkedOnTask += deltaTime;
-
-            if (timeWorkedOnTask >= building.TimeToCollect)
-            {
-                OnStopTask?.Invoke();
-                timeWorkedOnTask = 0;
-                if (flayedHuman.TryGetComponent(out HealthBase health))
-                {
-                    health.TakeDamage(1);
-                }
-            }
-        }
-        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
-        {
+            OnStopTask?.Invoke();
         }
     }
 

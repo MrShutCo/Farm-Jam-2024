@@ -26,7 +26,7 @@ namespace Assets.Script.Humans {
 		public Job(Human h, string name, List<Task> jobs, bool isRepeated)
 		{
 			Name = name;
-			IsActive = true;
+			IsActive = false;
 			_tasks = jobs;
 			IsRepeated = isRepeated;
 			human = h;
@@ -37,6 +37,7 @@ namespace Assets.Script.Humans {
 			if (_tasks.Count == 0) return;
             _tasks[_activeTask].OnStopTask += OnTaskComplete;
             human.SetTask(_tasks[0]);
+			IsActive = true;
 		}
 
 		public void StopJob()
@@ -81,7 +82,7 @@ namespace Assets.Script.Humans {
                 _activeTask++;
             }
 
-			if (_activeTask == _tasks.Count)
+			if (_activeTask >= _tasks.Count)
 			{
 				onJobComplete?.Invoke(human);
 				if (IsRepeated) _activeTask = 0;

@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public Action<Collider2D> onGridChange;
     public Action<Human> onHumanDie;
 
+    public Action<Building, Package> onPackageCreate;
+
     public List<Building> Buildings;
     public Transform Player;
     public Human CurrentlySelectedHuman;

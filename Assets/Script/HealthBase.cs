@@ -11,7 +11,7 @@ public class HealthBase : MonoBehaviour
 
 
     [SerializeField] int maxHealth = 5;
-    [SerializeField] int currentHealth;
+    [SerializeField] public int currentHealth { get; private set; }
 
     Transform _transform;
 
@@ -56,10 +56,12 @@ public class HealthBase : MonoBehaviour
         //Play Death Sound
         //Play Death Particle
         Invoke("DisableGameObject", 1f);//change length of time to match death animation
+        DisableGameObject();
     }
     void DisableGameObject()
     {
         gameObject.SetActive(false);
+        
     }
 
 
