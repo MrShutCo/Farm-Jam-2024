@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public enum WeaponType { Shotgun, AssaultRifle, Grenade, GatlingGun }
+public enum WeaponType { Shotgun, AssaultRifle, Grenade, GatlingGun, Pitchfork }
 
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 0)]
@@ -42,7 +42,6 @@ public class WeaponScriptableObject : ScriptableObject
 
     public void Shoot(Vector2 direction)
     {
-        Debug.Log(Model.transform.parent.parent + " is trying to shoot");
         RaycastHit2D hit;
         if (Time.time > ShootConfig.FireRate + LastShootTime)
         {
@@ -50,7 +49,6 @@ public class WeaponScriptableObject : ScriptableObject
             for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
             {
                 ShootSystem.Play();
-                Debug.Log(Model.transform.parent.parent + " is shooting");
                 Vector2 shootDirection = (Vector2)direction
                  + new Vector2(
                     UnityEngine.Random.Range(
@@ -112,7 +110,8 @@ public class WeaponScriptableObject : ScriptableObject
         }
         else
         {
-            Model.transform.localScale = new Vector3(-Model.transform.localScale.x, Model.transform.localScale.y, Model.transform.localScale.z);
+            if (Model.transform.localScale.x > 0)
+                Model.transform.localScale = new Vector3(-Model.transform.localScale.x, Model.transform.localScale.y, Model.transform.localScale.z);
         }
     }
 

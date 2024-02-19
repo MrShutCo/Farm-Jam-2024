@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,8 @@ public class ControllerBase : MonoBehaviour
     protected virtual void Start()
     {
         Debug.Log("Checking for grid at start");
-        colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0);
+        colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(20, 20), 0);
+        Debug.Log("Hits being checked: " + colHits.Length + " for " + this.name);
         foreach (var hit in colHits)
         {
             if (hit.CompareTag("Grid"))
@@ -34,6 +36,7 @@ public class ControllerBase : MonoBehaviour
 
                 if (grid != GameManager.Instance.PathfindingGrid)
                 {
+                    Debug.Log("Not Home " + this.name);
                     home = false;
                 }
                 else
@@ -42,6 +45,11 @@ public class ControllerBase : MonoBehaviour
                     home = true;
                 }
                 ChangeLocation(home);
+                break;
+            }
+            else
+            {
+                Debug.Log("Not Grid " + this.name);
             }
         }
 
@@ -61,7 +69,7 @@ public class ControllerBase : MonoBehaviour
         }
     }
     protected virtual void ChangeLocation(bool home) { }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollision(Collider other)
     {
         if (other.CompareTag("Grid"))
         {

@@ -5,9 +5,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class WeaponSelector : MonoBehaviour
 {
-    [SerializeField] private WeaponType Weapon;
     [SerializeField] private Transform WeaponParent;
-    [SerializeField] private List<WeaponScriptableObject> Weapons;
+    [SerializeField] private WeaponScriptableObject Weapon;
 
     [Space]
     [Header("Runtime Filled")]
@@ -15,7 +14,12 @@ public class WeaponSelector : MonoBehaviour
 
     private void Start()
     {
-        WeaponScriptableObject weapon = Instantiate(Weapons.Find(w => w.Type == Weapon));
+        if (Weapon == null)
+        {
+            Debug.LogError("No WeaponScriptable Object found for Weapon");
+            return;
+        }
+        WeaponScriptableObject weapon = Instantiate(Weapon);
 
         if (weapon == null)
         {

@@ -28,33 +28,7 @@ public class HumanWildBehaviour : MonoBehaviour
     Human human;
     Transform _target;
     [SerializeField] NPCBehaviour npcBehaviour = NPCBehaviour.CivilianMelee;
-
-    float AttackRange = 5;
-    float SightRange = 20;
     Vector2 startPos;
-
-
-    /// <summary>
-    /// Cautious:
-    /// If distance is < 10, flee
-    /// If distance is < attack range, attack
-    /// if distance is > sight range, hold ground
-    /// 
-    ///
-    /// Agressive:
-    /// If distance is < attack range attack
-    /// If distance is less than sight range, approach
-    /// If distance is greater than sight range, wander
-    ///
-    ///
-    /// Cowardly:
-    /// If distance is < sight range, flee
-    /// If distance is > sight range, wander
-    /// if distance is < attack range, attack
-    ///
-    ///
-    ///
-    /// </summary>
 
     private void Awake()
     {
@@ -84,25 +58,53 @@ public class HumanWildBehaviour : MonoBehaviour
             switch (npcBehaviour)
             {
                 case NPCBehaviour.CivilianRanged:
-                    if (Vector3.Distance(transform.position, _target.position) < SightRange)
+                    if (_target == null && human.CurrentJobs.Count == 0)
                     {
-                        if (Vector3.Distance(transform.position, _target.position) < AttackRange)
+                        if (human.CurrentJobs.Count == 0)
                         {
-                            job = new AttackTarget(_target);
+                            job = new Wander(human);
                             human.AddJob(job);
                         }
-                        else
-                        {
-                            job = new FleeTarget(_target);
-                            human.AddJob(job);
-                        }
+                        else return;
+                    }
+
+                    if (Vector2.Distance(transform.position, _target.position) > npcType.DisengageRange)
+                    {
+                        ClearTarget();
+                        return;
                     }
                     else
                     {
-                        job = new Wander(human);
+                        job = new FleeAndFire(_target);
                         human.AddJob(job);
                     }
                     break;
+                case NPCBehaviour.CivilianMelee:
+
+                    if (_target == null && human.CurrentJobs.Count == 0)
+                    {
+                        if (human.CurrentJobs.Count == 0)
+                        {
+                            job = new Wander(human);
+                            human.AddJob(job);
+                        }
+                        else return;
+                    }
+
+                    if (Vector2.Distance(transform.position, _target.position) > npcType.DisengageRange)
+                    {
+                        ClearTarget();
+                        return;
+                    }
+                    else
+                    {
+                        job = new ApproachAndAttack(_target);
+                        human.AddJob(job);
+                    }
+
+
+                    break;
+
                 case NPCBehaviour.Assault:
                     if (_target == null && human.CurrentJobs.Count == 0)
                     {
@@ -132,7 +134,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     {
                         if (human.CurrentJobs.Count == 0)
                         {
-                            job = new Patrol(startPos);
+                            job = new DefensiveIdle();
                             human.AddJob(job);
                         }
                         else return;
@@ -155,9 +157,28 @@ public class HumanWildBehaviour : MonoBehaviour
         }
         else
         {
-            job = new Wander(human);
-            human.AddJob(job);
-
+            if (human.CurrentJobs.Count == 0)
+            {
+                switch (npcBehaviour)
+                {
+                    case NPCBehaviour.CivilianRanged:
+                        job = new Wander(human);
+                        human.AddJob(job);
+                        break;
+                    case NPCBehaviour.CivilianMelee:
+                        job = new Wander(human);
+                        human.AddJob(job);
+                        break;
+                    case NPCBehaviour.Defensive:
+                        job = new DefensiveIdle();
+                        human.AddJob(job);
+                        break;
+                    case NPCBehaviour.Assault:
+                        job = new Patrol(startPos);
+                        human.AddJob(job);
+                        break;
+                }
+            }
         }
     }
 
@@ -183,15 +204,19 @@ public class HumanWildBehaviour : MonoBehaviour
         switch (npcBehaviour)
         {
             case NPCBehaviour.CivilianRanged:
-                job = new FleeTarget(target);
+                job = new FleeAndFire(target);
                 break;
             case NPCBehaviour.Assault:
-                job = new ApproachTarget(target);
+                job = new CloseRangeAssault(target);
                 break;
             case NPCBehaviour.Defensive:
-                job = new AttackTarget(target);
+                job = new DefensiveAttack(target);
+                break;
+            case NPCBehaviour.CivilianMelee:
+                job = new ApproachAndAttack(target);
                 break;
         }
+
         onTargetFound?.Invoke(job);
         _target = target;
     }

@@ -1,15 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GrabbableObjectBase : MonoBehaviour
 {
+    public event Action onGrabbed;
+    public event Action onThrown;
+    public event Action onLanded;
     [SerializeField] PhysicsMaterial2D frictionLess;
     [SerializeField] PhysicsMaterial2D frictionNormal;
     [SerializeField] LayerMask exclusionLayers;
+    [SerializeField] protected bool destroyOnLanding;
+    [SerializeField] ParticleSystem impactVFXPrefab;
+
     protected Transform _transform;
     protected Rigidbody2D rb;
     protected Collider2D col;
+    protected ParticleSystem impactVFX;
 
     bool thrown;
     public bool Thrown { get { return thrown; } }
@@ -21,6 +29,10 @@ public class GrabbableObjectBase : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.sharedMaterial = frictionNormal;
         col = GetComponent<Collider2D>();
+        if (impactVFXPrefab != null)
+        {
+            impactVFX = Instantiate(impactVFXPrefab, _transform.position, Quaternion.identity);
+        }
     }
 
     public virtual GrabbableObjectBase Grabbing(Transform grabParent)
@@ -29,6 +41,8 @@ public class GrabbableObjectBase : MonoBehaviour
         rb.simulated = false;
         col.enabled = false;
         _transform.parent = grabParent;
+        onGrabbed?.Invoke();
+
         return this;
     }
 
@@ -47,9 +61,10 @@ public class GrabbableObjectBase : MonoBehaviour
     }
     IEnumerator ThrowingCR()
     {
+        onThrown?.Invoke();
         rb.sharedMaterial = frictionLess;
         yield return new WaitForSeconds(.1f);
-        rb.sharedMaterial = frictionNormal;
+        Landing();
     }
     public void Reset()
     {
@@ -67,15 +82,26 @@ public class GrabbableObjectBase : MonoBehaviour
             if (health != null)
             {
                 health.TakeDamage(1);
-                CollisionImpact(other);
+                Landing();
             }
         }
     }
-    protected virtual void CollisionImpact(Collision2D other)
+    protected virtual void CollisionImpact()
     {
-        Debug.Log("Collision Impact: " + other.gameObject.name);
-
-        Destroy(gameObject);
+        if (impactVFX != null)
+        {
+            impactVFX.transform.position = _transform.position;
+            impactVFX.Play();
+        }
+        if (destroyOnLanding)
+            Destroy(gameObject);
+        else thrown = false;
+    }
+    void Landing()
+    {
+        rb.sharedMaterial = frictionNormal;
+        CollisionImpact();
+        onLanded?.Invoke();
     }
 
 }

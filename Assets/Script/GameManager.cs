@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         SetTargetFrameRate();
         AddResource(EResource.Food, 50);
+        UpdatePathFindingGrids(true, Player.position);
     }
     private void OnEnable()
     {
@@ -124,8 +125,6 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            PathfindingGrid = FindObjectOfType<Grid2D>();
-            PathfindingGridOutside = FindObjectOfType<Grid2D>();
         }
     }
 }

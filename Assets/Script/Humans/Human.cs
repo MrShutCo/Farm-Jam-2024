@@ -1,4 +1,4 @@
-﻿using Assets.Script.Buildings;
+using Assets.Script.Buildings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -180,7 +180,7 @@ namespace Assets.Script.Humans
             if (other.gameObject.CompareTag("Grid"))
             {
                 Debug.Log("Getting Grid");
-                pathfinding.GridOwner = other.gameObject;
+                pathfinding.GridOwner = other.transform.parent.gameObject;
 
             }
         }
@@ -195,6 +195,7 @@ namespace Assets.Script.Humans
             }
             else
             {
+                Debug.Log("Changed location to outside");
                 pathfinding.GridOwner = GameManager.Instance.PathfindingGridOutside.gameObject;
                 wildBehaviour.InitiateWildBehaviour();
             }

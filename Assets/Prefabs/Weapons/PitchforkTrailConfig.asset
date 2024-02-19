@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82a94115665f21c459f4ca166f03d420, type: 3}
-  m_Name: AssaultRifleTrailConfig
+  m_Name: PitchforkTrailConfig
   m_EditorClassIdentifier: 
   Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   WidthCurve:
@@ -41,8 +41,8 @@ MonoBehaviour:
   MinVertexDistance: 0.5
   Color:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0.7011266, a: 1}
-    key1: {r: 0.9450981, g: 0, b: 0.6627451, a: 0}
+    key0: {r: 1, g: 0, b: 0.11061096, a: 1}
+    key1: {r: 1, g: 0, b: 0.10980393, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -69,5 +69,5 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  MissDistance: 25
-  SimulationSpeed: 10
+  MissDistance: 3
+  SimulationSpeed: 5

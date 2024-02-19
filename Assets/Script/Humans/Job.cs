@@ -119,11 +119,11 @@ namespace Assets.Script.Humans
         {
             timeWorkedOnJob += deltaTime;
 
-            if (timeWorkedOnJob >= building.TimeForOneSkillPoint)
-            {
-                human.LevelUpSkill(building.HarvestedResouce, 1);
-                timeWorkedOnJob = 0;
-            }
+            // if (timeWorkedOnJob >= building.TimeForOneSkillPoint)
+            // {
+            //     human.LevelUpSkill(building.HarvestedResouce, 1);
+            //     timeWorkedOnJob = 0;
+            // }
         }
         public override void FixedUpdateJob(Human human, double fixedDeltaTime)
         {
@@ -142,7 +142,6 @@ namespace Assets.Script.Humans
         // int tries;
         public Wander(Human human)
         {
-            Debug.Log("Wander");
             Name = $"Wander to {target}";
         }
 
@@ -201,7 +200,6 @@ namespace Assets.Script.Humans
         float speed;
         public FleeTarget(Transform target)
         {
-            Debug.Log("Flee");
             position = target.position;
             Name = $"Flee to {target}";
         }
@@ -244,7 +242,6 @@ namespace Assets.Script.Humans
         float range;
         public ApproachTarget(Transform target)
         {
-            Debug.Log("Approach");
             position = target.position;
             Name = $"Approach {target}";
         }
@@ -295,7 +292,6 @@ namespace Assets.Script.Humans
 
         public AttackTarget(Transform target)
         {
-            Debug.Log("Approach");
             this.target = target;
             Name = $"Approach {target}";
         }
@@ -319,7 +315,6 @@ namespace Assets.Script.Humans
 
             if (diffVector.magnitude <= range)
             {
-                Debug.Log(human.transform + " is attacking");
                 human.WeaponSelector.ActiveWeapon.Shoot(direction);
             }
             else if (diffVector.magnitude > range)
@@ -340,7 +335,6 @@ namespace Assets.Script.Humans
         float range;
         public AggressiveMelee(Transform target)
         {
-            Debug.Log("AggressiveMelee");
             this.target = target;
             Name = $"AggressiveMelee {target}";
         }
@@ -364,7 +358,6 @@ namespace Assets.Script.Humans
 
             if (diffVector.magnitude <= human.WeaponSelector.ActiveWeapon.TrailConfig.MissDistance)
             {
-                Debug.Log(human.transform + " is attacking");
                 human.WeaponSelector.ActiveWeapon.Shoot(direction);
             }
             else if (diffVector.magnitude > range)
@@ -390,12 +383,36 @@ namespace Assets.Script.Humans
         }
     }
 
+    public class DefensiveIdle : Job
+    {
+        public DefensiveIdle()
+        {
+            Name = "DefensiveIdle";
+        }
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+        }
+    }
+
     public class DefensiveAttack : Job
     {
         Transform target;
         public DefensiveAttack(Transform target)
         {
-            Debug.Log("DefensiveAttack");
             this.target = target;
             Name = $"DefensiveAttack {target}";
         }
@@ -418,7 +435,6 @@ namespace Assets.Script.Humans
 
             if (diffVector.magnitude <= human.WildBehaviour.npcType.DisengageRange)
             {
-                Debug.Log(human.transform + " is attacking");
                 human.WeaponSelector.ActiveWeapon.Shoot(direction);
             }
             else
@@ -451,7 +467,6 @@ namespace Assets.Script.Humans
         float timeSinceLastDodge;
         public CloseRangeAssault(Transform target)
         {
-            Debug.Log("CloseRangeTactics");
             this.target = target;
             Name = $"CloseRangeTactics {target}";
         }
@@ -478,6 +493,8 @@ namespace Assets.Script.Humans
             rb.isKinematic = true;
             var diffVector = target.position - human.transform.position;
 
+            human.WeaponSelector.ActiveWeapon.Flip(diffVector.normalized);
+
             if (diffVector.magnitude > human.WildBehaviour.npcType.IdealCombatRange)
             {
                 rb.velocity = human.WildBehaviour.npcType.MoveSpeed * diffVector.normalized;
@@ -486,7 +503,7 @@ namespace Assets.Script.Humans
             {
                 rb.velocity = human.WildBehaviour.npcType.MoveSpeed * -diffVector.normalized;
             }
-            if (timeSinceLastDodge > dodgeInterval && diffVector.magnitude < human.WildBehaviour.npcType.IdealCombatRange * .75f)
+            if (timeSinceLastDodge > dodgeInterval && diffVector.magnitude < human.WildBehaviour.npcType.IdealCombatRange * .6f)
             {
                 Dodge(target.position);
             }
@@ -513,7 +530,6 @@ namespace Assets.Script.Humans
         float speed;
         public Patrol(Vector3 position)
         {
-            Debug.Log("Patrol");
             target = position;
             Name = $"Patrol to {target}";
         }
@@ -550,6 +566,89 @@ namespace Assets.Script.Humans
         void UpdatePatrolTarget(Human human)
         {
             target = new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), 0) + target;
+        }
+    }
+
+    public class FleeAndFire : Job
+    {
+        Transform target;
+        public FleeAndFire(Transform target)
+        {
+            this.target = target;
+            Name = $"FleeAndFire {target}";
+        }
+
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            human.WeaponSelector.ActiveWeapon.Flip(direction);
+
+            if (diffVector.magnitude <= human.WeaponSelector.ActiveWeapon.TrailConfig.MissDistance)
+            {
+                human.WeaponSelector.ActiveWeapon.Shoot(direction);
+            }
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+            var diffVector = target.transform.position - human.transform.position;
+            rb.velocity = human.WildBehaviour.npcType.MoveSpeed * -diffVector.normalized;
+        }
+    }
+    public class ApproachAndAttack : Job
+    {
+        Transform target;
+        float range;
+        public ApproachAndAttack(Transform target)
+        {
+            this.target = target;
+            Name = $"ApproachAndAttack {target}";
+        }
+        public override void StartJob(Rigidbody2D rb)
+        {
+            base.StartJob(rb);
+            range = 5;
+        }
+
+        public override void StopJob()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public override void UpdateJob(Human human, double deltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            human.WeaponSelector.ActiveWeapon.Flip(direction);
+
+            if (diffVector.magnitude <= human.WeaponSelector.ActiveWeapon.TrailConfig.MissDistance)
+            {
+                human.WeaponSelector.ActiveWeapon.Shoot(direction);
+            }
+        }
+
+        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        {
+            var diffVector = target.position - human.transform.position;
+            var direction = diffVector.normalized;
+
+            if (diffVector.magnitude > human.WeaponSelector.ActiveWeapon.TrailConfig.MissDistance)
+            {
+                rb.velocity = human.WildBehaviour.npcType.MoveSpeed * direction;
+            }
         }
     }
     #endregion

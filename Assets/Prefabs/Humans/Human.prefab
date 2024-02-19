@@ -455,9 +455,9 @@ GameObject:
   - component: {fileID: 4452934615250403022}
   - component: {fileID: -6672937139033376201}
   - component: {fileID: -8543497734682884617}
-  - component: {fileID: 2865967497182730427}
   - component: {fileID: 3451065008185679597}
   - component: {fileID: 7485466022761394409}
+  - component: {fileID: 4616194808220717136}
   m_Layer: 8
   m_Name: Human
   m_TagString: NPC
@@ -629,22 +629,6 @@ MonoBehaviour:
   seeker: {fileID: 6565776964955352030}
   target: {fileID: 0}
   GridOwner: {fileID: 0}
---- !u!114 &2865967497182730427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7200735126398943186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86f77755d98c6c40ac692035ce4e74f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarPrefab: {fileID: 3759767603245780192, guid: 33c90f7c44db15f44924e181874b422b, type: 3}
-  healthPanel: {fileID: 2166355274715142896}
-  maxHealth: 5
-  currentHealth: 0
 --- !u!114 &3451065008185679597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,9 +641,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d489b47f5db434287f6a6ca12f7e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcType: {fileID: 11400000, guid: 84a1fe265845e5d419cff14afb03c547, type: 2}
   selectionCollider: {fileID: 3338333174534165907}
   weaponParent: {fileID: 4090813393609384095}
-  npcBehaviour: 1
+  npcBehaviour: 2
 --- !u!114 &7485466022761394409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,11 +657,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 951542c583968d741b92370bcece58f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon: 0
   WeaponParent: {fileID: 4090813393609384095}
-  Weapons:
-  - {fileID: 11400000, guid: 1ba28b8ff618a4b40b6707d1b9093d4e, type: 2}
-  ActiveWeapon: {fileID: 11400000, guid: 1ba28b8ff618a4b40b6707d1b9093d4e, type: 2}
+  Weapon: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
+  ActiveWeapon: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
+--- !u!114 &4616194808220717136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7200735126398943186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f929016e776659141a3aafc82c80e0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 3759767603245780192, guid: 33c90f7c44db15f44924e181874b422b, type: 3}
+  healthPanel: {fileID: 2166355274715142896}
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1001 &6310676675692623051
 PrefabInstance:
   m_ObjectHideFlags: 0

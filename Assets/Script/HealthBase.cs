@@ -14,12 +14,14 @@ public class HealthBase : MonoBehaviour
     [SerializeField] protected int currentHealth;
 
     Transform _transform;
+    Rigidbody2D rb;
 
 
     protected virtual void Awake()
     {
         _transform = transform;
         currentHealth = maxHealth;
+        rb = GetComponent<Rigidbody2D>();
     }
     protected virtual void Start()
     {
@@ -29,6 +31,10 @@ public class HealthBase : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
+        if (IsInvoking())
+        {
+            return;
+        }
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         UpdateHealth();
         if (currentHealth <= 0)
@@ -48,16 +54,16 @@ public class HealthBase : MonoBehaviour
         UpdateHealth();
     }
 
-    public virtual void Die()
+    protected virtual void Die()
     {
         Debug.Log(_transform.name + " died");
+        rb.velocity = Vector2.zero;
 
         // Play Death Anim
         //Play Death Sound
         //Play Death Particle
-        Invoke("DisableGameObject", 1f);//change length of time to match death animation
     }
-    void DisableGameObject()
+    protected virtual void DisableGameObject()
     {
         gameObject.SetActive(false);
     }
