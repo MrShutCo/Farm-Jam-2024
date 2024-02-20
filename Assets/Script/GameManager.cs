@@ -26,12 +26,15 @@ public class GameManager : MonoBehaviour
     public Action onResourceChange;
     public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
+    public Action<int, int> onHealthChange;
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
     public Action<bool> onPause;
     public Action<bool, Vector2> onTeleport;
     public Action<Collider2D> onGridChange;
     public Action<Human> onHumanDie;
+
+    public Action<Building, Package> onPackageCreate;
 
     public List<Building> Buildings;
     public Transform Player;
@@ -69,7 +72,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetTargetFrameRate();
-        AddResource(EResource.Wood, 50);
+        AddResource(EResource.Food, 50);
+        UpdatePathFindingGrids(true, Player.position);
     }
     private void OnEnable()
     {
@@ -128,8 +132,6 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            PathfindingGrid = FindObjectOfType<Grid2D>();
-            PathfindingGridOutside = FindObjectOfType<Grid2D>();
         }
     }
 }

@@ -13,15 +13,19 @@ public class Player : MonoBehaviour
     public Vector2 lastDirectionPressed;
     private Dictionary<Vector2, float> keyPressTimes = new Dictionary<Vector2, float>
     {
-    { Vector2.up, -1 },
-    { Vector2.left, -1 },
-    { Vector2.down, -1 },
-    { Vector2.right, -1 }
+    { Vector2.up, 0 },
+    { Vector2.left, 0 },
+    { Vector2.down, 0 },
+    { Vector2.right, 0 }
     };
-
+    [Header("Outside Interactions")]
+    [SerializeField] int baseDamage = 20;
+    public int BaseDamage => baseDamage;
     [SerializeField] LayerMask collectableLayers;
     [SerializeField] LayerMask hittableLayers;
     [SerializeField] Grabber grabber;
+    [SerializeField] PortalMaker portalMaker;
+
     AttackAction attackAction;
     CollectAction collectAction;
     DodgeAction dodgeAction;
@@ -29,6 +33,7 @@ public class Player : MonoBehaviour
     Collider2D col;
 
     bool moveActive = true;
+    bool combatActive = true;
 
     [Header("VFX")]
     [SerializeField] ParticleSystem attackVFX;
@@ -54,19 +59,28 @@ public class Player : MonoBehaviour
         collectAction = gameObject.AddComponent<CollectAction>();
         dodgeAction = gameObject.AddComponent<DodgeAction>();
     }
+    private void Start()
+    {
+        portalMaker = GetComponentInChildren<PortalMaker>();
+    }
     private void OnEnable()
     {
         dodgeAction.onDodge += new Action<bool>((bool isActive) => moveActive = !isActive);
+        dodgeAction.onDodge += new Action<bool>((bool isActive) => combatActive = !isActive);
         dodgeAction.onDodge += new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
     }
     private void OnDisable()
     {
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => moveActive = !isActive);
+        dodgeAction.onDodge -= new Action<bool>((bool isActive) => combatActive = !isActive);
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
     }
 
     private void Update()
     {
+        if (!combatActive) return;
+        if (HandlePortalInput()) return;
+
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             attackAction.Action(Facing, hittableLayers);
@@ -81,8 +95,9 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            dodgeAction.Action(Facing, hittableLayers);
+            dodgeAction.Action(moveDirection, hittableLayers);
         }
+
     }
     private void FixedUpdate()
     {
@@ -140,7 +155,24 @@ public class Player : MonoBehaviour
         onMove?.Invoke(moveDirection);
         UpdateFacing();
     }
-    // Helper method to get the KeyCode for a direction
+    bool HandlePortalInput()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            portalMaker.enabled = true;
+            return true;
+        }
+        if (Input.GetKey(KeyCode.P))
+        {
+            return true;
+        }
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            portalMaker.enabled = false;
+            return false;
+        }
+        return false;
+    }
     KeyCode KeyCodeForDirection(Vector2 direction)
     {
         if (direction == Vector2.up) return KeyCode.W;
@@ -151,7 +183,6 @@ public class Player : MonoBehaviour
     }
     void UpdateLastDirectionPressed()
     {
-        // Find the most recently pressed key
         Vector2 mostRecentKey = Facing;
         float mostRecentTime = -1;
         foreach (var pair in keyPressTimes)
@@ -162,8 +193,6 @@ public class Player : MonoBehaviour
                 mostRecentTime = pair.Value;
             }
         }
-
-        // Update lastDirectionPressed
         lastDirectionPressed = mostRecentKey;
     }
     void UpdateFacing()

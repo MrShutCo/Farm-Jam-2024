@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,8 +25,7 @@ public class ControllerBase : MonoBehaviour
     }
     protected virtual void Start()
     {
-        Debug.Log("Checking for grid at start");
-        colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0);
+        colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(20, 20), 0);
         foreach (var hit in colHits)
         {
             if (hit.CompareTag("Grid"))
@@ -38,10 +38,10 @@ public class ControllerBase : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Home " + this.name);
                     home = true;
                 }
                 ChangeLocation(home);
+                break;
             }
         }
 
@@ -61,7 +61,7 @@ public class ControllerBase : MonoBehaviour
         }
     }
     protected virtual void ChangeLocation(bool home) { }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollision(Collider other)
     {
         if (other.CompareTag("Grid"))
         {
