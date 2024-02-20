@@ -13,15 +13,24 @@ namespace Assets.Script.UI
         [SerializeField] TextMeshProUGUI carriedHumansTexts;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
         [SerializeField] TextMeshProUGUI performanceTexts;
+        [SerializeField] GameObject playerHealthPanel;
+        [SerializeField] FloatingStatusBar playerHealthBar;
+
 
         [SerializeField] bool showFPS;
 
-        // Use this for initialization
-        void Start()
+
+        void OnEnable()
         {
+            Debug.Log("Game Manager: " + GameManager.Instance);
+            GameManager.Instance.onHealthChange += OnHealthUpdate;
             GameManager.Instance.onResourceChange += onResourceUpdate;
             GameManager.Instance.onCarriedHumansChange += OnCarriedHumansUpdate;
             GameManager.Instance.onCarriedResourcesChange += OnCarriedResourcesUpdate;
+        }
+        private void Start()
+        {
+
         }
 
         private void OnDisable()
@@ -39,6 +48,10 @@ namespace Assets.Script.UI
         void onResourceUpdate()
         {
             var resources = GameManager.Instance.Resources;
+            if (resources == null)
+            {
+                return;
+            }
             int i = 0;
             var text = "";
             foreach (var resource in resources)
@@ -74,6 +87,11 @@ namespace Assets.Script.UI
         {
             //show fps as a whole number that only updates once per second
             performanceTexts.text = $"FPS: {Mathf.Round(1 / Time.deltaTime)}";
+        }
+        void OnHealthUpdate(int currentHealth, int maxHealth)
+        {
+            Debug.Log("Updating Health");
+            playerHealthBar.UpdateStatusBar(currentHealth, maxHealth);
         }
     }
 }

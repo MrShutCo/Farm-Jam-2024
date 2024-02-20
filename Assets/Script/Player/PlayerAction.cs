@@ -11,8 +11,9 @@ public abstract class PlayerAction : MonoBehaviour
 {
     protected Player player;
     protected Transform _transform;
+    protected Collider2D col;
 
-    Vector2 hitBoxSize = new Vector2(3, 1);
+    Vector2 hitBoxSize = new Vector2(3, 2);
     protected float halfExtent;
 
     protected bool showDebug;
@@ -22,6 +23,7 @@ public abstract class PlayerAction : MonoBehaviour
     {
         _transform = transform;
         player = GetComponent<Player>();
+        col = player.GetComponent<Collider2D>();
         showDebug = player.showDebug;
         halfExtent = player.GetHalfExtent();
     }
@@ -31,7 +33,7 @@ public abstract class PlayerAction : MonoBehaviour
     {
         if (direction == Vector2.left || direction == Vector2.right)
         {
-            return Physics2D.OverlapBoxAll((Vector2)_transform.position + direction * halfExtent, hitBoxSize, 90, targetLayers);
+            return Physics2D.OverlapBoxAll((Vector2)col.bounds.center + direction * halfExtent, new Vector2(hitBoxSize.y, hitBoxSize.x), 0, targetLayers);
         }
         else if (direction == Vector2.up || direction == Vector2.down)
         {
@@ -46,6 +48,17 @@ public abstract class PlayerAction : MonoBehaviour
             return hits[0];
         }
         return null;
+    }
+    void OnDrawGizmos()
+    {
+        if (showDebug)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube((Vector2)col.bounds.center + Vector2.left * halfExtent, new Vector2(hitBoxSize.y, hitBoxSize.x));
+            Gizmos.DrawWireCube((Vector2)col.bounds.center + Vector2.right * halfExtent, new Vector2(hitBoxSize.y, hitBoxSize.x));
+            Gizmos.DrawWireCube((Vector2)col.bounds.center + Vector2.up * halfExtent, hitBoxSize);
+            Gizmos.DrawWireCube((Vector2)col.bounds.center + Vector2.down * halfExtent, hitBoxSize);
+        }
     }
 }
 
@@ -81,11 +94,11 @@ public class AttackAction : PlayerAction
             {
                 if (hitIndex == 2)
                 {
-                    health.TakeDamage(2);
+                    health.TakeDamage(player.BaseDamage * 2);
                     StartCoroutine(KnockBack(health));
                 }
                 else
-                    health.TakeDamage(1);
+                    health.TakeDamage(player.BaseDamage);
                 //Animate Hit
                 //Play Hit Sound
             }
@@ -209,7 +222,7 @@ public class DodgeAction : PlayerAction
     public event Action<bool> onDodge;
     Rigidbody2D rb;
     Collider2D col;
-    float dodgeDuration = 0.5f;
+    float dodgeDuration = 0.25f;
     float dodgeTimer;
     bool dodging;
     protected override void Awake()

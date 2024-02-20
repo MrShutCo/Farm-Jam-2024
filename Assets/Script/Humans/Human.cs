@@ -1,4 +1,4 @@
-﻿using Assets.Script.Buildings;
+using Assets.Script.Buildings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,8 +23,7 @@ namespace Assets.Script.Humans
         [SerializeField] Transform targetSensor;
 
         HumanWildBehaviour wildBehaviour;
-
-        Transform _target;
+        WeaponSelector weaponSelector;
         TextMeshProUGUI jobText;
         Rigidbody2D rb;
 
@@ -32,6 +31,8 @@ namespace Assets.Script.Humans
         Pathfinding2D pathfinding;
         Queue<Job> currentJobs;
         public Queue<Job> CurrentJobs => currentJobs;
+        public WeaponSelector WeaponSelector => weaponSelector;
+        public HumanWildBehaviour WildBehaviour => wildBehaviour;
 
         Package holdingPackage;
 
@@ -44,10 +45,12 @@ namespace Assets.Script.Humans
             jobText = GetComponentInChildren<TextMeshProUGUI>();
             rb = GetComponent<Rigidbody2D>();
             wildBehaviour = GetComponent<HumanWildBehaviour>();
+            weaponSelector = GetComponent<WeaponSelector>();
             pathfinding = GetComponent<Pathfinding2D>();
             pathfinding.seeker = transform;
             currentJobs = new Queue<Job>();
         }
+
         private void OnEnable()
         {
             rb.simulated = true;
@@ -69,7 +72,6 @@ namespace Assets.Script.Humans
 
         void SetUpStatusPanel()
         {
-
             StatusPanel.gameObject.SetActive(false);
             /*float yOffset = 1f;
             foreach (var skill in Skills)
@@ -179,7 +181,7 @@ namespace Assets.Script.Humans
             if (other.gameObject.CompareTag("Grid"))
             {
                 Debug.Log("Getting Grid");
-                pathfinding.GridOwner = other.gameObject;
+                pathfinding.GridOwner = other.transform.parent.gameObject;
 
             }
         }
@@ -194,6 +196,7 @@ namespace Assets.Script.Humans
             }
             else
             {
+                Debug.Log("Changed location to outside");
                 pathfinding.GridOwner = GameManager.Instance.PathfindingGridOutside.gameObject;
                 wildBehaviour.InitiateWildBehaviour();
             }

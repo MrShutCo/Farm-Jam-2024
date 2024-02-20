@@ -18,10 +18,14 @@ public class Player : MonoBehaviour
     { Vector2.down, -1 },
     { Vector2.right, -1 }
     };
-
+    [Header("Outside Interactions")]
+    [SerializeField] int baseDamage = 20;
+    public int BaseDamage => baseDamage;
     [SerializeField] LayerMask collectableLayers;
     [SerializeField] LayerMask hittableLayers;
     [SerializeField] Grabber grabber;
+    [SerializeField] PortalMaker portalMaker;
+
     AttackAction attackAction;
     CollectAction collectAction;
     DodgeAction dodgeAction;
@@ -29,6 +33,7 @@ public class Player : MonoBehaviour
     Collider2D col;
 
     bool moveActive = true;
+    bool combatActive = true;
 
     [Header("VFX")]
     [SerializeField] ParticleSystem attackVFX;
@@ -54,19 +59,28 @@ public class Player : MonoBehaviour
         collectAction = gameObject.AddComponent<CollectAction>();
         dodgeAction = gameObject.AddComponent<DodgeAction>();
     }
+    private void Start()
+    {
+        portalMaker = GetComponentInChildren<PortalMaker>();
+    }
     private void OnEnable()
     {
         dodgeAction.onDodge += new Action<bool>((bool isActive) => moveActive = !isActive);
+        dodgeAction.onDodge += new Action<bool>((bool isActive) => combatActive = !isActive);
         dodgeAction.onDodge += new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
     }
     private void OnDisable()
     {
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => moveActive = !isActive);
+        dodgeAction.onDodge -= new Action<bool>((bool isActive) => combatActive = !isActive);
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
     }
 
     private void Update()
     {
+        if (!combatActive) return;
+        if (HandlePortalInput()) return;
+
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             attackAction.Action(Facing, hittableLayers);
@@ -83,6 +97,7 @@ public class Player : MonoBehaviour
         {
             dodgeAction.Action(Facing, hittableLayers);
         }
+
     }
     private void FixedUpdate()
     {
@@ -139,6 +154,24 @@ public class Player : MonoBehaviour
         moveDirection = new Vector2(horizontal, vertical).normalized;
         onMove?.Invoke(moveDirection);
         UpdateFacing();
+    }
+    bool HandlePortalInput()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            portalMaker.enabled = true;
+            return true;
+        }
+        if (Input.GetKey(KeyCode.P))
+        {
+            return true;
+        }
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            portalMaker.enabled = false;
+            return false;
+        }
+        return false;
     }
     // Helper method to get the KeyCode for a direction
     KeyCode KeyCodeForDirection(Vector2 direction)

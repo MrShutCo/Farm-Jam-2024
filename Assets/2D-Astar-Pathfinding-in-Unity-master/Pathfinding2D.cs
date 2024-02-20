@@ -17,7 +17,6 @@ public class Pathfinding2D : MonoBehaviour
         grid = GridOwner.GetComponent<Grid2D>();
     }
 
-
     public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
     {
         //get player and target position in grid coords

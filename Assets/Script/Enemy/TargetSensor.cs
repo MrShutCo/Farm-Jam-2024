@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class TargetSensor : MonoBehaviour
 {
-    [SerializeField] Collider2D sensorCollider;
+    [SerializeField] CircleCollider2D sensorCollider;
     [SerializeField] LayerMask targetLayer;
 
     HumanWildBehaviour human;
+
+    public void SetSensorRange(float range)
+    {
+        sensorCollider.radius = range;
+    }
 
     private void Awake()
     {
@@ -20,7 +25,7 @@ public class TargetSensor : MonoBehaviour
         if (targetLayer == (targetLayer | (1 << other.gameObject.layer)))
         {
             Debug.Log("TargetSensor: Target found");
-            human.SetTarget(other.transform);
+            human.SetTarget(other.transform, true);
         }
     }
 }
