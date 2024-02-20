@@ -24,7 +24,6 @@ public class TargetSensor : MonoBehaviour
     {
         if (targetLayer == (targetLayer | (1 << other.gameObject.layer)))
         {
-            Debug.Log("TargetSensor: Target found");
             human.SetTarget(other.transform, true);
         }
     }

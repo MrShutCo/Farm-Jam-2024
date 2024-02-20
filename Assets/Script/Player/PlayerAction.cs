@@ -85,7 +85,6 @@ public class AttackAction : PlayerAction
             hitIndex++;
         }
         //Animate Attack
-        Debug.Log("Attack");
 
         Collider2D[] hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)
@@ -245,7 +244,6 @@ public class DodgeAction : PlayerAction
 
             onDodge?.Invoke(dodging);
             col.enabled = false;
-            Debug.Log("Dodge in direction: " + direction);
             dodgeTimer = dodgeDuration;
             rb.velocity = Vector2.zero;
             rb.AddForce(direction * 15f, ForceMode2D.Impulse);

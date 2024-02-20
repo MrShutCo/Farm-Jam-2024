@@ -106,7 +106,7 @@ namespace Assets.Script.Humans
         {
             base.StartTask(rb);
             action();
-            
+
         }
 
         public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
@@ -141,7 +141,7 @@ namespace Assets.Script.Humans
 
         public override void UpdateTask(Human human, double deltaTime)
         {
-            
+
             timeSpentDroppingOff += (float)deltaTime;
 
             if (timeSpentDroppingOff > timeToDropOff)
@@ -261,147 +261,12 @@ namespace Assets.Script.Humans
 
         }
     }
-    public class FleeTarget : Task
-    {
-        Vector3 position;
-        float fleeDistance = 20;
-        float speed;
-        public FleeTarget(Transform target)
-        {
-            position = target.position;
-            Name = $"Flee to {target}";
-        }
-
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
-            speed = 2;
-        }
-
-        public override void StopTask()
-        {
-            rb.velocity = Vector2.zero;
-        }
-
-        public override void UpdateTask(Human human, double deltaTime)
-        {
-        }
-
-        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
-        {
-            var diffVector = human.transform.position - position;
-
-            if (diffVector.magnitude > fleeDistance)
-            {
-                rb.velocity = Vector2.zero;
-                OnStopTask?.Invoke();
-                human.SetTask(new Wander(human));
-            }
-            else
-            {
-                rb.velocity = speed * diffVector.normalized;
-            }
-        }
-    }
-    public class ApproachTarget : Task
-    {
-        Vector3 position;
-        float speed;
-        float range;
-        public ApproachTarget(Transform target)
-        {
-            position = target.position;
-            Name = $"Approach {target}";
-        }
-
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
-            speed = 2;
-            range = 5;
-        }
-
-        public override void StopTask()
-        {
-            rb.velocity = Vector2.zero;
-        }
-
-        public override void UpdateTask(Human human, double deltaTime)
-        {
-        }
-
-        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
-        {
-
-            var diffVector = position - human.transform.position;
-
-            if (diffVector.magnitude > 10)
-            {
-                rb.velocity = Vector2.zero;
-                //Enqueue wander
-                OnStopTask?.Invoke();
-            }
-            else if (diffVector.magnitude < range)
-            {
-                //Enqueue attack
-                OnStopTask?.Invoke();
-            }
-            else
-            {
-                rb.velocity = speed * diffVector.normalized;
-            }
-        }
-    }
-    public class AttackTarget : Task
-    {
-        Transform target;
-        float range;
-
-
-        public AttackTarget(Transform target)
-        {
-            this.target = target;
-            Name = $"Approach {target}";
-        }
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
-            range = 5;
-        }
-
-        public override void StopTask()
-        {
-
-        }
-
-        public override void UpdateTask(Human human, double deltaTime)
-        {
-            var diffVector = target.position - human.transform.position;
-            var direction = diffVector.normalized;
-
-            human.WeaponSelector.ActiveWeapon.Flip(direction);
-
-            if (diffVector.magnitude <= range)
-            {
-                human.WeaponSelector.ActiveWeapon.Shoot(direction);
-            }
-            else if (diffVector.magnitude > range)
-            {
-                //enqueue approach target
-                OnStopTask?.Invoke();
-            }
-        }
-
-        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
-        {
-        }
-    }
 
     public class AggressiveMelee : Task
     {
         Transform target;
         float range;
-        
+
         public AggressiveMelee(Transform target)
         {
             this.target = target;
@@ -428,11 +293,6 @@ namespace Assets.Script.Humans
             if (diffVector.magnitude <= human.WeaponSelector.ActiveWeapon.TrailConfig.MissDistance)
             {
                 human.WeaponSelector.ActiveWeapon.Shoot(direction);
-            }
-            else if (diffVector.magnitude > range)
-            {
-                //enqueue approach target
-                OnStopTask?.Invoke();
             }
         }
 
@@ -505,10 +365,6 @@ namespace Assets.Script.Humans
             if (diffVector.magnitude <= human.WildBehaviour.npcType.DisengageRange)
             {
                 human.WeaponSelector.ActiveWeapon.Shoot(direction);
-            }
-            else
-            {
-                OnStopTask?.Invoke();
             }
         }
 
@@ -679,7 +535,6 @@ namespace Assets.Script.Humans
     public class ApproachAndAttack : Task
     {
         Transform target;
-        float range;
         public ApproachAndAttack(Transform target)
         {
             this.target = target;
@@ -688,7 +543,6 @@ namespace Assets.Script.Humans
         public override void StartTask(Rigidbody2D rb)
         {
             base.StartTask(rb);
-            range = 5;
         }
 
         public override void StopTask()

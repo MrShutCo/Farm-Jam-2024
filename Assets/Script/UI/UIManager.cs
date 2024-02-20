@@ -90,7 +90,6 @@ namespace Assets.Script.UI
         }
         void OnHealthUpdate(int currentHealth, int maxHealth)
         {
-            Debug.Log("Updating Health");
             playerHealthBar.UpdateStatusBar(currentHealth, maxHealth);
         }
     }

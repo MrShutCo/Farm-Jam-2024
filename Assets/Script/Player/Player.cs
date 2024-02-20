@@ -13,10 +13,10 @@ public class Player : MonoBehaviour
     public Vector2 lastDirectionPressed;
     private Dictionary<Vector2, float> keyPressTimes = new Dictionary<Vector2, float>
     {
-    { Vector2.up, -1 },
-    { Vector2.left, -1 },
-    { Vector2.down, -1 },
-    { Vector2.right, -1 }
+    { Vector2.up, 0 },
+    { Vector2.left, 0 },
+    { Vector2.down, 0 },
+    { Vector2.right, 0 }
     };
     [Header("Outside Interactions")]
     [SerializeField] int baseDamage = 20;
@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            dodgeAction.Action(Facing, hittableLayers);
+            dodgeAction.Action(moveDirection, hittableLayers);
         }
 
     }
@@ -173,7 +173,6 @@ public class Player : MonoBehaviour
         }
         return false;
     }
-    // Helper method to get the KeyCode for a direction
     KeyCode KeyCodeForDirection(Vector2 direction)
     {
         if (direction == Vector2.up) return KeyCode.W;
@@ -184,7 +183,6 @@ public class Player : MonoBehaviour
     }
     void UpdateLastDirectionPressed()
     {
-        // Find the most recently pressed key
         Vector2 mostRecentKey = Facing;
         float mostRecentTime = -1;
         foreach (var pair in keyPressTimes)
@@ -195,8 +193,6 @@ public class Player : MonoBehaviour
                 mostRecentTime = pair.Value;
             }
         }
-
-        // Update lastDirectionPressed
         lastDirectionPressed = mostRecentKey;
     }
     void UpdateFacing()

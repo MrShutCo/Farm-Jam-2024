@@ -25,9 +25,7 @@ public class ControllerBase : MonoBehaviour
     }
     protected virtual void Start()
     {
-        Debug.Log("Checking for grid at start");
         colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(20, 20), 0);
-        Debug.Log("Hits being checked: " + colHits.Length + " for " + this.name);
         foreach (var hit in colHits)
         {
             if (hit.CompareTag("Grid"))
@@ -36,20 +34,14 @@ public class ControllerBase : MonoBehaviour
 
                 if (grid != GameManager.Instance.PathfindingGrid)
                 {
-                    Debug.Log("Not Home " + this.name);
                     home = false;
                 }
                 else
                 {
-                    Debug.Log("Home " + this.name);
                     home = true;
                 }
                 ChangeLocation(home);
                 break;
-            }
-            else
-            {
-                Debug.Log("Not Grid " + this.name);
             }
         }
 

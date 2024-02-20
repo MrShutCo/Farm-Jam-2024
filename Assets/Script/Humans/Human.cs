@@ -37,7 +37,7 @@ namespace Assets.Script.Humans
         public HumanWildBehaviour WildBehaviour => wildBehaviour;
 
         Package holdingPackage;
-        
+
         private EfficiencyProfile _efficiencyProfile;
         private List<Trait> _traits;
 
@@ -167,7 +167,7 @@ namespace Assets.Script.Humans
             jobText.text = currentTask.Name;
             currentTask.UpdateTask(this, Time.deltaTime);
 
-            
+
         }
 
         public void FixedUpdate()
@@ -185,7 +185,6 @@ namespace Assets.Script.Humans
         {
             if (other.gameObject.CompareTag("Grid"))
             {
-                Debug.Log("Getting Grid");
                 pathfinding.GridOwner = other.transform.parent.gameObject;
 
             }
@@ -201,7 +200,6 @@ namespace Assets.Script.Humans
             }
             else
             {
-                Debug.Log("Changed location to outside");
                 pathfinding.GridOwner = GameManager.Instance.PathfindingGridOutside.gameObject;
                 wildBehaviour.InitiateWildBehaviour();
             }
