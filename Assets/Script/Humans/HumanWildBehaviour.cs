@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Humans;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -51,7 +52,8 @@ public class HumanWildBehaviour : MonoBehaviour
     public void InitiateWildBehaviour()
     {
         targetSensor.gameObject.SetActive(true);
-        Job job = null;
+        Job job = new Job(human);
+        
 
         if (_target != null)
         {
@@ -62,7 +64,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     {
                         if (human.CurrentJobs.Count == 0)
                         {
-                            job = new Wander(human);
+                            job.AddTaskToJob(new Wander(human), true);
                             human.AddJob(job);
                         }
                         else return;
@@ -75,7 +77,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     }
                     else
                     {
-                        job = new FleeAndFire(_target);
+                        job.AddTaskToJob(new FleeAndFire(_target), true);
                         human.AddJob(job);
                     }
                     break;
@@ -85,7 +87,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     {
                         if (human.CurrentJobs.Count == 0)
                         {
-                            job = new Wander(human);
+                            job.AddTaskToJob(new Wander(human), true);
                             human.AddJob(job);
                         }
                         else return;
@@ -98,7 +100,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     }
                     else
                     {
-                        job = new ApproachAndAttack(_target);
+                        job.AddTaskToJob(new ApproachAndAttack(_target), true);
                         human.AddJob(job);
                     }
 
@@ -110,7 +112,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     {
                         if (human.CurrentJobs.Count == 0)
                         {
-                            job = new Patrol(startPos);
+                            job.AddTaskToJob(new Patrol(startPos), true);
                             human.AddJob(job);
                         }
                         else return;
@@ -124,7 +126,7 @@ public class HumanWildBehaviour : MonoBehaviour
                         }
                         if (Vector3.Distance(transform.position, _target.position) < npcType.SightRange)
                         {
-                            job = new CloseRangeAssault(_target);
+                            job.AddTaskToJob(new CloseRangeAssault(_target), true);
                             human.AddJob(job);
                         }
                     }
@@ -134,7 +136,7 @@ public class HumanWildBehaviour : MonoBehaviour
                     {
                         if (human.CurrentJobs.Count == 0)
                         {
-                            job = new DefensiveIdle();
+                            job.AddTaskToJob(new DefensiveIdle(), true);
                             human.AddJob(job);
                         }
                         else return;
@@ -148,7 +150,7 @@ public class HumanWildBehaviour : MonoBehaviour
                         }
                         if (Vector3.Distance(transform.position, _target.position) < npcType.SightRange)
                         {
-                            job = new DefensiveAttack(_target);
+                            job.AddTaskToJob(new DefensiveAttack(_target), true);
                             human.AddJob(job);
                         }
                     }
@@ -162,19 +164,19 @@ public class HumanWildBehaviour : MonoBehaviour
                 switch (npcBehaviour)
                 {
                     case NPCBehaviour.CivilianRanged:
-                        job = new Wander(human);
+                        job.AddTaskToJob(new Wander(human), true);
                         human.AddJob(job);
                         break;
                     case NPCBehaviour.CivilianMelee:
-                        job = new Wander(human);
+                        job.AddTaskToJob(new Wander(human), true);
                         human.AddJob(job);
                         break;
                     case NPCBehaviour.Defensive:
-                        job = new DefensiveIdle();
+                        job.AddTaskToJob(new DefensiveIdle(), true);
                         human.AddJob(job);
                         break;
                     case NPCBehaviour.Assault:
-                        job = new Patrol(startPos);
+                        job.AddTaskToJob(new Patrol(startPos), true);
                         human.AddJob(job);
                         break;
                 }

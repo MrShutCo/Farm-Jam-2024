@@ -363,18 +363,18 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"Approach {target}";
         }
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
             range = 5;
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
 
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
             var diffVector = target.position - human.transform.position;
             var direction = diffVector.normalized;
@@ -388,16 +388,16 @@ namespace Assets.Script.Humans
             else if (diffVector.magnitude > range)
             {
                 //enqueue approach target
-                OnStopJob?.Invoke();
+                OnStopTask?.Invoke();
             }
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
         }
     }
 
-    public class AggressiveMelee : Job
+    public class AggressiveMelee : Task
     {
         Transform target;
         float range;
@@ -407,7 +407,7 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"AggressiveMelee {target}";
         }
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
             base.StartTask(rb);
             range = 5;
@@ -432,11 +432,11 @@ namespace Assets.Script.Humans
             else if (diffVector.magnitude > range)
             {
                 //enqueue approach target
-                OnStopJob?.Invoke();
+                OnStopTask?.Invoke();
             }
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
             var diffVector = target.position - human.transform.position;
             var direction = diffVector.normalized;
@@ -452,32 +452,32 @@ namespace Assets.Script.Humans
         }
     }
 
-    public class DefensiveIdle : Job
+    public class DefensiveIdle : Task
     {
         public DefensiveIdle()
         {
             Name = "DefensiveIdle";
         }
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
             rb.velocity = Vector2.zero;
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
         }
     }
 
-    public class DefensiveAttack : Job
+    public class DefensiveAttack : Task
     {
         Transform target;
         public DefensiveAttack(Transform target)
@@ -485,17 +485,17 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"DefensiveAttack {target}";
         }
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
             rb.velocity = Vector2.zero;
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
             var diffVector = target.position - human.transform.position;
             var direction = diffVector.normalized;
@@ -508,7 +508,7 @@ namespace Assets.Script.Humans
             }
             else
             {
-                OnStopJob?.Invoke();
+                OnStopTask?.Invoke();
             }
         }
 
@@ -528,7 +528,7 @@ namespace Assets.Script.Humans
         }
     }
 
-    public class CloseRangeAssault : Job
+    public class CloseRangeAssault : Task
     {
         Transform target;
 
@@ -539,22 +539,22 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"CloseRangeTactics {target}";
         }
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
             rb.velocity = Vector2.zero;
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
 
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
             timeSinceLastDodge += (float)fixedDeltaTime;
 
@@ -593,7 +593,7 @@ namespace Assets.Script.Humans
         }
     }
 
-    public class Patrol : Job
+    public class Patrol : Task
     {
         Vector3 target;
         float speed;
@@ -603,22 +603,22 @@ namespace Assets.Script.Humans
             Name = $"Patrol to {target}";
         }
 
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
             speed = 1;
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
             rb.velocity = Vector2.zero;
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
             var diffVector = target - human.transform.position;
 
@@ -638,7 +638,7 @@ namespace Assets.Script.Humans
         }
     }
 
-    public class FleeAndFire : Job
+    public class FleeAndFire : Task
     {
         Transform target;
         public FleeAndFire(Transform target)
@@ -647,17 +647,17 @@ namespace Assets.Script.Humans
             Name = $"FleeAndFire {target}";
         }
 
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
             rb.velocity = Vector2.zero;
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
             var diffVector = target.position - human.transform.position;
             var direction = diffVector.normalized;
@@ -670,13 +670,13 @@ namespace Assets.Script.Humans
             }
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
             var diffVector = target.transform.position - human.transform.position;
             rb.velocity = human.WildBehaviour.npcType.MoveSpeed * -diffVector.normalized;
         }
     }
-    public class ApproachAndAttack : Job
+    public class ApproachAndAttack : Task
     {
         Transform target;
         float range;
@@ -685,18 +685,18 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"ApproachAndAttack {target}";
         }
-        public override void StartJob(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb)
         {
-            base.StartJob(rb);
+            base.StartTask(rb);
             range = 5;
         }
 
-        public override void StopJob()
+        public override void StopTask()
         {
             rb.velocity = Vector2.zero;
         }
 
-        public override void UpdateJob(Human human, double deltaTime)
+        public override void UpdateTask(Human human, double deltaTime)
         {
             var diffVector = target.position - human.transform.position;
             var direction = diffVector.normalized;
@@ -709,7 +709,7 @@ namespace Assets.Script.Humans
             }
         }
 
-        public override void FixedUpdateJob(Human human, double fixedDeltaTime)
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
             var diffVector = target.position - human.transform.position;
             var direction = diffVector.normalized;

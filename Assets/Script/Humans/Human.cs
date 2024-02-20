@@ -11,7 +11,7 @@ namespace Assets.Script.Humans
 
     public enum EResource
     {
-        Wood, Steel, Electronics, Blood, Organs, Bones
+        Food, Wood, Steel, Electronics, Blood, Organs, Bones
     }
 
     public class Human : ControllerBase
