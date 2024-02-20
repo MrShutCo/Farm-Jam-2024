@@ -2,6 +2,8 @@ using Assets.Script.Buildings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Script.Humans.Traits;
 using TMPro;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -35,6 +37,9 @@ namespace Assets.Script.Humans
         public HumanWildBehaviour WildBehaviour => wildBehaviour;
 
         Package holdingPackage;
+        
+        private EfficiencyProfile _efficiencyProfile;
+        private List<Trait> _traits;
 
         public void Awake()
         {
@@ -204,7 +209,8 @@ namespace Assets.Script.Humans
 
         public float GetWorkingRate(EResource resource)
         {
-            return 1;
+            var newProfile = _traits.Aggregate(_efficiencyProfile, (current, trait) => trait.ActOn(current));
+            return newProfile.PullRate[resource];
         }
     }
 }

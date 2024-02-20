@@ -182,6 +182,7 @@ public class HumanWildBehaviour : MonoBehaviour
                 }
             }
         }
+        job.StartJob();
     }
 
     void SwitchTools(bool active)
