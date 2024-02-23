@@ -104,29 +104,76 @@ namespace Assets.Script.Humans
 
         public override void StartTask(Rigidbody2D rb)
         {
-            action();
             base.StartTask(rb);
+            action();
+
         }
 
         public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
         public override void StopTask() { }
         public override void UpdateTask(Human human, double deltaTime)
         {
-            
             OnStopTask?.Invoke();
+        }
+    }
+
+    public class DropoffResources : Task
+    {
+        EResource _resource;
+        int _amount;
+
+        float timeSpentDroppingOff;
+        float timeToDropOff = 1f;
+
+        public DropoffResources(EResource resource, int amount)
+        {
+            _resource = resource;
+            _amount = amount;
+        }
+
+        public override void FixedUpdateTask(Human human, double fixedDeltaTime)
+        {
+        }
+
+        public override void StopTask()
+        {
+        }
+
+        public override void UpdateTask(Human human, double deltaTime)
+        {
+
+            timeSpentDroppingOff += (float)deltaTime;
+
+            if (timeSpentDroppingOff > timeToDropOff)
+            {
+                GameManager.Instance.AddResource(_resource, _amount);
+                timeSpentDroppingOff = 0;
+                OnStopTask?.Invoke();
+            }
         }
     }
 
     public class GetFlayed : Task
     {
+        float timeSpentBeingFlayed;
+        float timeUntilDamageTaken = 6f;
 
         public GetFlayed()
         {
-            Name = "MFW flayed :(";
+            Name = "Getting Freaking Flayed :(";
         }
 
         public override void FixedUpdateTask(Human human, double fixedDeltaTime)
         {
+            timeSpentBeingFlayed += (float)fixedDeltaTime;
+            if (timeSpentBeingFlayed > timeUntilDamageTaken)
+            {
+                if (human.TryGetComponent(out HealthBase health))
+                {
+                    health.TakeDamage(4);
+                    timeSpentBeingFlayed = 0;
+                }
+            }
         }
 
         public override void StopTask()

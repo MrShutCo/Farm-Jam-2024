@@ -22,12 +22,12 @@ public class Package : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+			
 	}
 
     public void Use()
     {
-	    Destroy(gameObject);
+		Destroy(gameObject);
     }
 }
 

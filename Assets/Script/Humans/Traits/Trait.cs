@@ -11,35 +11,16 @@ namespace Assets.Script.Humans.Traits
         protected ERank _rank;
 
         public abstract EfficiencyProfile ActOn(EfficiencyProfile profile);
-
-        public override string ToString()
-        {
-            return $"({_rank}) {Name}";
-        }
     }
 
-    public class ResourceTrait : Trait
+    public class BloodTrait : Trait
     {
-        private EResource _resource;
-        private float[] _rankMultipliers = { 0f, 0.1f, 0.3f, 0.4f, 0.75f, 1f };
-
-        public ResourceTrait(EResource resource, ERank rank)
-        {
-            _rank = rank;
-            _resource = resource;
-            Name = resource switch
-            {
-                EResource.Blood => "Extra Juicy",
-                EResource.Bones => "Big Boned",
-                EResource.Organs => "Gutsy",
-                _ => Name
-            };
-        }
+        private float[] _bloodRankMultipliers = { 0f, 0.1f, 0.3f, 0.4f, 0.75f, 1f };
         
         public override EfficiencyProfile ActOn(EfficiencyProfile profile)
         {
-            profile.PullRate[EResource.Blood] += _rankMultipliers[(int)_rank];
-            profile.PushRate[EResource.Blood] += _rankMultipliers[(int)_rank];
+            profile.PullRate[EResource.Blood] += _bloodRankMultipliers[(int)_rank];
+            profile.PushRate[EResource.Blood] += _bloodRankMultipliers[(int)_rank];
             return profile;
         }
     }

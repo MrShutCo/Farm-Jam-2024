@@ -18,15 +18,8 @@ namespace Assets.Script.Humans
 
         // Update is called once per frame
         void Update()
-        { 
-            if (GameManager.Instance.GameState != EGameState.Normal) return; 
-            
-            if (GameManager.Instance.CurrentlySelectedHuman != null)
-            {
-                GameManager.Instance.CurrentlySelectedHuman.transform.position =
-                    Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                GameManager.Instance.CurrentlySelectedHuman.transform.position -= new Vector3(0,0, GameManager.Instance.CurrentlySelectedHuman.transform.position.z);
-            }
+        {
+           
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -35,7 +28,7 @@ namespace Assets.Script.Humans
                 if (hit.collider != null)
                 {
                     var clickedUser = hit.collider.GetComponent<Human>();
-                    if (clickedUser != null && clickedUser.CanBePickedUp())
+                    if (clickedUser != null)
                     {
                         clickedUser.SelectHuman();
                     }
@@ -63,12 +56,9 @@ namespace Assets.Script.Humans
                             GameManager.Instance.CurrentlySelectedHuman.Deselect();
                             GameManager.Instance.CurrentlySelectedHuman = null;
                         }
-
-                        return;
                     }
+                    break;
                 }
-
-                GameManager.Instance.CurrentlySelectedHuman = null;
             }
         }
     }

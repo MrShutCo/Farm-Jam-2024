@@ -23,12 +23,10 @@ namespace Assets.Script.Humans
         [SerializeField] GameObject StatusBar;
         [SerializeField] Transform StatusPanel;
         [SerializeField] Transform targetSensor;
-        [SerializeField] TextMeshProUGUI nameText;
-        [SerializeField] TextMeshProUGUI traitText;
-        
+
         HumanWildBehaviour wildBehaviour;
         WeaponSelector weaponSelector;
-
+        TextMeshProUGUI jobText;
         Rigidbody2D rb;
 
         Task currentTask;
@@ -49,20 +47,13 @@ namespace Assets.Script.Humans
             if (StatusPanel == null)
                 StatusPanel = gameObject.transform.Find("StatusPanel");
             targetSensor = GetComponentInChildren<TargetSensor>().transform;
-            nameText.text = Name;
+            jobText = GetComponentInChildren<TextMeshProUGUI>();
             rb = GetComponent<Rigidbody2D>();
             wildBehaviour = GetComponent<HumanWildBehaviour>();
             weaponSelector = GetComponent<WeaponSelector>();
             pathfinding = GetComponent<Pathfinding2D>();
             pathfinding.seeker = transform;
             currentJobs = new Queue<Job>();
-            _efficiencyProfile = new EfficiencyProfile();
-            _traits = new List<Trait>()
-            {
-                new ResourceTrait(EResource.Blood, ERank.F),
-                new ResourceTrait(EResource.Bones, ERank.F)
-            };
-            setTraitText();
         }
 
         private void OnEnable()
@@ -100,15 +91,12 @@ namespace Assets.Script.Humans
             }*/
         }
 
-        public bool CanBePickedUp() => currentTask == null && currentJobs.Count == 0;
-        
         public bool IsIdle() => currentTask == null;
 
         public void HoldPackage(Package p)
         {
             holdingPackage = p;
             holdingPackage.transform.parent = transform;
-            holdingPackage.transform.localPosition = new Vector3(0.5f, -0.11f,0);
         }
 
         public void DropoffPackage()
@@ -176,21 +164,10 @@ namespace Assets.Script.Humans
             }
 
             if (currentTask is null) return;
-            
+            jobText.text = currentTask.Name;
             currentTask.UpdateTask(this, Time.deltaTime);
-            
 
-        }
 
-        void setTraitText()
-        {
-            string s = "";
-            foreach (var trait in _traits)
-            {
-                s += trait + "\n";
-            }
-
-            traitText.text = s;
         }
 
         public void FixedUpdate()
@@ -200,7 +177,7 @@ namespace Assets.Script.Humans
                 currentJobs.Peek()?.FixedUpdate(Time.deltaTime);
             }
             if (currentTask is null) return;
-            nameText.text = currentTask.Name;
+            jobText.text = currentTask.Name;
             currentTask.FixedUpdateTask(this, Time.fixedDeltaTime);
         }
 

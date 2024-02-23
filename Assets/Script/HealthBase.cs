@@ -68,7 +68,6 @@ public class HealthBase : MonoBehaviour
     protected virtual void DisableGameObject()
     {
         gameObject.SetActive(false);
-        Destroy(gameObject);
     }
 
     protected virtual void UpdateHealth()
