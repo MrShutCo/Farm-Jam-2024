@@ -44,6 +44,7 @@ namespace Assets.Script.Humans
 
 		public void StopJob()
 		{
+			if (_tasks.Count == 0) return;
 			_tasks[_activeTask].OnStopTask -= OnTaskComplete;
 			_tasks[_activeTask].StopTask();
 			IsActive = false;

@@ -10,10 +10,16 @@ public class Carrier : MonoBehaviour
     int maxResources = 5;
 
     public List<Human> CarriedHumans;
-    public Dictionary<EResource, int> CarriedResources;
+    public Dictionary<EResource, int> CarriedResources = new();
 
     [SerializeField] RectTransform HumanTracker;
     [SerializeField] RectTransform ResourceTracker;
+
+    public void SetCarryCapacity(int humans, int resources)
+    {
+        maxHumans = humans;
+        maxResources = resources;
+    }
 
     public bool AddCarriedHumans(Human human)
     {
@@ -25,6 +31,7 @@ public class Carrier : MonoBehaviour
         {
             CarriedHumans.Add(human);
             human.enabled = false;
+            human.WildBehaviour.enabled = false;
             human.transform.SetParent(HumanTracker);
             OrganizeHumans();
             GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
@@ -40,14 +47,20 @@ public class Carrier : MonoBehaviour
     }
     public bool AddCarriedResources(EResource resource, int amount)
     {
-        //if total resources is greater than max resources
         if (CarriedResources.Values.Sum() + amount > maxResources)
         {
             return false;
         }
         else
         {
-            CarriedResources[resource] += amount;
+            if (CarriedResources.ContainsKey(resource))
+            {
+                CarriedResources[resource] += amount;
+            }
+            else
+            {
+                CarriedResources.Add(resource, amount);
+            }
             GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
             return true;
         }
@@ -60,5 +73,25 @@ public class Carrier : MonoBehaviour
         {
             CarriedHumans[i].transform.position = humanTrackerPos + new Vector2(i, .5f);
         }
+    }
+    public void DropOff()
+    {
+
+        for (int i = 0; i < CarriedHumans.Count; i++)
+        {
+            CarriedHumans[i].transform.SetParent(null);
+            CarriedHumans[i].enabled = true;
+            CarriedHumans[i].ChangeLocation(true);
+            CarriedHumans[i].ChangeLocation(true);
+            CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
+        }
+        CarriedHumans.Clear();
+        foreach (var resource in CarriedResources)
+        {
+            GameManager.Instance.AddResource(resource.Key, resource.Value);
+        }
+        CarriedResources.Clear();
+        GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
+        GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
     }
 }

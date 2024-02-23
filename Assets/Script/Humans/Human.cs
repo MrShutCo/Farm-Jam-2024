@@ -166,8 +166,6 @@ namespace Assets.Script.Humans
             if (currentTask is null) return;
             jobText.text = currentTask.Name;
             currentTask.UpdateTask(this, Time.deltaTime);
-
-
         }
 
         public void FixedUpdate()
@@ -189,13 +187,16 @@ namespace Assets.Script.Humans
 
             }
         }
-        protected override void ChangeLocation(bool home)
+        public override void ChangeLocation(bool home)
         {
-            ClearCurrentJobs();
             wildBehaviour.enabled = !home;
             targetSensor.gameObject.SetActive(!home);
             if (home)
             {
+                foreach (var job in currentJobs)
+                {
+                    job.StopJob();
+                }
                 pathfinding.GridOwner = GameManager.Instance.PathfindingGrid.gameObject;
             }
             else

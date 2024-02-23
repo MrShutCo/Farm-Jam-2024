@@ -11,6 +11,7 @@ public class PlayerHealth : HealthBase
     {
         base.Awake();
         player = GetComponent<Player>();
+        maxHealth = (int)player.stats.GetStat(EStat.Health);
     }
     protected override void Start()
     {
@@ -22,7 +23,6 @@ public class PlayerHealth : HealthBase
     }
     protected override void Die()
     {
-        base.Die();
         player.enabled = false;
         Invoke("ReturnHome", .5f);
 
@@ -32,6 +32,7 @@ public class PlayerHealth : HealthBase
     {
         transform.position = new Vector3(0, 0, 0);
         player.enabled = true;
+        Heal(maxHealth);
     }
 
 }

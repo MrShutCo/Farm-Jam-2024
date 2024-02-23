@@ -21,10 +21,11 @@ public class PortalMaker : MonoBehaviour
         spriteRenderer = graphics.GetComponent<SpriteRenderer>();
         col = graphics.GetComponent<Collider2D>();
         portal = graphics.GetComponent<Portal>();
+        this.enabled = false;
     }
     private void Start()
     {
-        this.enabled = false;
+
     }
     private void OnEnable()
     {
@@ -61,9 +62,9 @@ public class PortalMaker : MonoBehaviour
         {
             t += Time.deltaTime;
             float normalizedT = t / timeToGrow;
-            if (normalizedT > 0.9f)
+            if (normalizedT > 0.95f)
             {
-                spriteRenderer.color = Color.Lerp(spriteRenderer.color, targetColor, (normalizedT - .9f) * 10);
+                spriteRenderer.color = Color.Lerp(spriteRenderer.color, targetColor, (normalizedT - .95f) * 10);
             }
             graphics.transform.localScale = Vector3.Lerp(Vector3.zero, maxScale, normalizedT);
             yield return null;

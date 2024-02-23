@@ -7,8 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class Movement : MonoBehaviour
 {
-    [SerializeField] float runSpeed = 20.0f;
-
     Rigidbody2D body;
     Player player;
 
@@ -29,7 +27,7 @@ public class Movement : MonoBehaviour
     {
         player.onMove -= Move;
     }
-    void Move(Vector2 moveDirection)
+    void Move(Vector2 moveDirection, float runSpeed)
     {
         body.velocity = moveDirection * runSpeed;
     }

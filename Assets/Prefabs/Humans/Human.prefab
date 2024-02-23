@@ -584,8 +584,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Offset: {x: 0, y: -0.25}
+  m_Size: {x: 0.6, y: 0.6}
   m_Direction: 0
 --- !u!50 &-6672937139033376201
 Rigidbody2D:
@@ -644,7 +644,6 @@ MonoBehaviour:
   npcType: {fileID: 11400000, guid: 84a1fe265845e5d419cff14afb03c547, type: 2}
   selectionCollider: {fileID: 3338333174534165907}
   weaponParent: {fileID: 4090813393609384095}
-  npcBehaviour: 2
 --- !u!114 &7485466022761394409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,7 +674,6 @@ MonoBehaviour:
   healthBarPrefab: {fileID: 3759767603245780192, guid: 33c90f7c44db15f44924e181874b422b, type: 3}
   healthPanel: {fileID: 2166355274715142896}
   maxHealth: 100
-  currentHealth: 0
 --- !u!1001 &6310676675692623051
 PrefabInstance:
   m_ObjectHideFlags: 0

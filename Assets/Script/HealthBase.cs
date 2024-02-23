@@ -13,7 +13,7 @@ public class HealthBase : MonoBehaviour
     [SerializeField] protected int maxHealth = 5;
     [SerializeField] public int currentHealth { get; private set; }
 
-    Transform _transform;
+    protected Transform _transform;
     Rigidbody2D rb;
 
 
@@ -25,6 +25,7 @@ public class HealthBase : MonoBehaviour
     }
     protected virtual void Start()
     {
+        if (healthPanel == null) return;
         healthBar = Instantiate(healthBarPrefab, healthPanel.transform);
         UpdateHealth();
     }
@@ -57,7 +58,8 @@ public class HealthBase : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log(_transform.name + " died");
-        rb.velocity = Vector2.zero;
+        if (rb != null)
+            rb.velocity = Vector2.zero;
 
         // Play Death Anim
         //Play Death Sound
@@ -72,6 +74,7 @@ public class HealthBase : MonoBehaviour
 
     protected virtual void UpdateHealth()
     {
+        if (healthBar == null) return;
         healthBar.UpdateStatusBar(currentHealth, maxHealth);
     }
 

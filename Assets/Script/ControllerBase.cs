@@ -60,21 +60,6 @@ public class ControllerBase : MonoBehaviour
             paused = false;
         }
     }
-    protected virtual void ChangeLocation(bool home) { }
-    private void OnCollision(Collider other)
-    {
-        if (other.CompareTag("Grid"))
-        {
-            if (other.GetComponent<Grid2D>() != GameManager.Instance.PathfindingGrid)
-            {
-                home = false;
-            }
-            else
-            {
-                home = true;
-            }
-            ChangeLocation(home);
-        }
-    }
+    public virtual void ChangeLocation(bool home) { }
 
 }

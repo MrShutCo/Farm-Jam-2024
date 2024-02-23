@@ -7,10 +7,11 @@ using System;
 
 public class Player : MonoBehaviour
 {
-    public event Action<Vector2> onMove;
+    public event Action<Vector2, float> onMove;
     public event Action<Vector2> onChangeDirection;
     public Vector2 Facing = Vector2.down;
     public Vector2 lastDirectionPressed;
+    public Stats stats;
     private Dictionary<Vector2, float> keyPressTimes = new Dictionary<Vector2, float>
     {
     { Vector2.up, 0 },
@@ -19,21 +20,24 @@ public class Player : MonoBehaviour
     { Vector2.right, 0 }
     };
     [Header("Outside Interactions")]
-    [SerializeField] int baseDamage = 20;
-    public int BaseDamage => baseDamage;
+    [SerializeField] float baseDamage = 20;
+    public float BaseDamage => baseDamage;
     [SerializeField] LayerMask collectableLayers;
     [SerializeField] LayerMask hittableLayers;
     [SerializeField] Grabber grabber;
     [SerializeField] PortalMaker portalMaker;
 
+
     AttackAction attackAction;
     CollectAction collectAction;
     DodgeAction dodgeAction;
+    Carrier carrier;
     Vector2 moveDirection;
     Collider2D col;
 
     bool moveActive = true;
     bool combatActive = true;
+    float runSpeed;
 
     [Header("VFX")]
     [SerializeField] ParticleSystem attackVFX;
@@ -58,6 +62,11 @@ public class Player : MonoBehaviour
         attackAction = gameObject.AddComponent<AttackAction>();
         collectAction = gameObject.AddComponent<CollectAction>();
         dodgeAction = gameObject.AddComponent<DodgeAction>();
+        carrier = GetComponent<Carrier>();
+
+        baseDamage = stats.GetStat(EStat.Attack);
+        runSpeed = stats.GetStat(EStat.Speed);
+        carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
     }
     private void Start()
     {
@@ -152,7 +161,7 @@ public class Player : MonoBehaviour
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
         moveDirection = new Vector2(horizontal, vertical).normalized;
-        onMove?.Invoke(moveDirection);
+        onMove?.Invoke(moveDirection, runSpeed);
         UpdateFacing();
     }
     bool HandlePortalInput()

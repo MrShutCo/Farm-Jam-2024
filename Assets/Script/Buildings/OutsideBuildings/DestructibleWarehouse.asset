@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a78c3f58c1f8149b9fd61494cd8897, type: 3}
+  m_Name: DestructibleWarehouse
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 1933722541, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
+  - {fileID: 1764504398, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
+  pickUpPrefab: {fileID: 7361624677579321503, guid: fab2157ef51e93849af26e03c3fb08f2, type: 3}
+  health: 100

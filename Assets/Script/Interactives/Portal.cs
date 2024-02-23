@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
@@ -9,28 +10,19 @@ public class Portal : MonoBehaviour
     enum PortalDestinationType
     {
         Specify,
-        HomeA,
-        HomeB,
-        HomeC,
+        Home
     }
     [SerializeField] PortalDestinationType destinationType;
     [SerializeField] Portal destination;
     [SerializeField] bool isEntrance;
-    bool deactivate = false;
+    [SerializeField] bool deactivate = false;
+    [SerializeField] bool destroyDestinationOnComplete = false;
 
     private void OnEnable()
     {
-        if (destinationType == PortalDestinationType.HomeA)
+        if (destinationType == PortalDestinationType.Home)
         {
-            SetDestination(GameObject.Find("Portal-Home-A").GetComponent<Portal>());
-        }
-        else if (destinationType == PortalDestinationType.HomeB)
-        {
-            SetDestination(GameObject.Find("Portal-Home-B").GetComponent<Portal>());
-        }
-        else if (destinationType == PortalDestinationType.HomeC)
-        {
-            SetDestination(GameObject.Find("Portal-Home-C").GetComponent<Portal>());
+            SetDestination(GameObject.Find("Portal-Home").GetComponent<Portal>());
         }
     }
 
@@ -41,8 +33,10 @@ public class Portal : MonoBehaviour
         if (isEntrance)
             if (other.CompareTag("Player"))
             {
+                Debug.Log("Player at portal");
                 var player = other.GetComponent<Rigidbody2D>();
                 GameManager.Instance.onTeleport?.Invoke(true, destination.transform.position);
+                destination.Deactivate();
                 player.simulated = false;
                 player.transform.position = destination.transform.position;
                 player.simulated = true;
@@ -55,18 +49,20 @@ public class Portal : MonoBehaviour
         if (isEntrance)
             if (other.CompareTag("Player"))
             {
-                deactivate = false;
+                Activate();
             }
     }
 
     public void SetDestination(Portal portal)
     {
         destination = portal;
-        portal.Deactivate();
     }
     public void Deactivate()
     {
         deactivate = true;
     }
-
+    public void Activate()
+    {
+        deactivate = false;
+    }
 }

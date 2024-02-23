@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using Unity.VisualScripting;
 using UnityEditor;
+using System.IO.Compression;
 
 [RequireComponent(typeof(Player))]
 public abstract class PlayerAction : MonoBehaviour
@@ -40,6 +41,18 @@ public abstract class PlayerAction : MonoBehaviour
             return Physics2D.OverlapBoxAll((Vector2)_transform.position + direction * halfExtent, hitBoxSize, 0, targetLayers);
         }
         return null;
+    }
+    protected Vector2 HitPos(Vector2 direction)
+    {
+        if (direction == Vector2.left || direction == Vector2.right)
+        {
+            return (Vector2)col.bounds.center + direction * halfExtent;
+        }
+        else if (direction == Vector2.up || direction == Vector2.down)
+        {
+            return (Vector2)_transform.position + direction * halfExtent;
+        }
+        return Vector2.zero;
     }
     protected Collider2D FirstHit(Collider2D[] hits)
     {
@@ -89,15 +102,15 @@ public class AttackAction : PlayerAction
         Collider2D[] hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)
         {
-            if (hit.GetComponent<Collider2D>().gameObject.TryGetComponent(out HealthBase health))
+            if (hit.gameObject.TryGetComponent(out HealthBase health))
             {
                 if (hitIndex == 2)
                 {
-                    health.TakeDamage(player.BaseDamage * 2);
+                    health.TakeDamage((int)player.BaseDamage * 2);
                     StartCoroutine(KnockBack(health));
                 }
                 else
-                    health.TakeDamage(player.BaseDamage);
+                    health.TakeDamage((int)player.BaseDamage);
                 //Animate Hit
                 //Play Hit Sound
             }
@@ -112,8 +125,10 @@ public class AttackAction : PlayerAction
         }
         IEnumerator KnockBack(HealthBase health)
         {
+            if (health == null) yield break;
             health.TryGetComponent(out Rigidbody2D rb);
             health.TryGetComponent(out Human human);
+            if (rb == null) yield break;
             if (human != null)
                 human.ClearCurrentJobs();
             rb.isKinematic = false;
@@ -121,7 +136,6 @@ public class AttackAction : PlayerAction
             yield return new WaitForSeconds(0.25f);
             rb.isKinematic = true;
             rb.velocity = Vector2.zero;
-
         }
     }
     void Update()
@@ -149,7 +163,7 @@ public class AttackAction : PlayerAction
 [RequireComponent(typeof(Carrier))]
 public class CollectAction : PlayerAction
 {
-    RaycastHit2D hit;
+    Collider2D[] hits;
     Carrier carrier;
 
     protected override void Awake()
@@ -169,21 +183,20 @@ public class CollectAction : PlayerAction
         //Animate Collect
         Debug.Log("Collect");
 
-        hit = Physics2D.BoxCast(_transform.position, new Vector2(1, 1), 0, Vector2.zero, 0, targetLayers);
-        if (hit.collider != null)
+        hits = GetHits(direction, targetLayers);
+        foreach (var hit in hits)
         {
-            if (hit.collider.gameObject.TryGetComponent(out Human human))
+            if (hit.gameObject.TryGetComponent(out PickUpItem item))
+            {
+                item.PickUp(carrier);
+            }
+            else if (hit.gameObject.TryGetComponent(out Human human))
             {
                 if (carrier.AddCarriedHumans(human))
                 {
                     //move sprite to bag or tendril
                 }
                 else { Debug.Log("No room for human"); }
-            }
-            else if (hit.collider.gameObject.TryGetComponent(out EResource resource))
-            {
-                carrier.AddCarriedResources(resource, 1);
-                Destroy(hit.collider.gameObject);
             }
         }
     }
@@ -220,7 +233,6 @@ public class DodgeAction : PlayerAction
 {
     public event Action<bool> onDodge;
     Rigidbody2D rb;
-    Collider2D col;
     float dodgeDuration = 0.25f;
     float dodgeTimer;
     bool dodging;
@@ -228,7 +240,6 @@ public class DodgeAction : PlayerAction
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
     }
     private void OnEnable()
     {
