@@ -93,4 +93,35 @@ public class Carrier : MonoBehaviour
         GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
         GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
     }
+    public List<Human> LoseHumans()
+    {
+        List<Human> humans;
+        //randomly select 50% of carried humans to lose
+        int start = Mathf.CeilToInt(CarriedHumans.Count / 2);
+        int range = CarriedHumans.Count - start;
+        humans = CarriedHumans.GetRange(start, range);
+
+        foreach (var human in humans)
+        {
+            CarriedHumans.Remove(human);
+        }
+        return humans;
+    }
+    public Dictionary<EResource, int> LoseResources()
+    {
+        Dictionary<EResource, int> resourcesToRemove = new Dictionary<EResource, int>();
+
+        foreach (var resource in CarriedResources)
+        {
+            int quantityToLose = Mathf.CeilToInt(resource.Value / 2);
+            resourcesToRemove.Add(resource.Key, quantityToLose);
+        }
+
+        foreach (var resourceToRemove in resourcesToRemove)
+        {
+            CarriedResources[resourceToRemove.Key] -= resourceToRemove.Value;
+        }
+
+        return resourcesToRemove;
+    }
 }

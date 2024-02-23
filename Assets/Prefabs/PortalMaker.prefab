@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2cacb38f9b0f24c8c3a38fdc102701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetColor: {r: 0.70980394, g: 0, b: 1, a: 1}
+  targetColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &5052729218889214044
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 8862180859800174466}
   - component: {fileID: 3487681911895707654}
   - component: {fileID: 3160593971444290670}
+  - component: {fileID: 5327591970545682323}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -121,7 +122,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -493600300, guid: 526bd454d75d2f74183fb74ff76ab0ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -147,6 +148,8 @@ MonoBehaviour:
   destinationType: 1
   destination: {fileID: 0}
   isEntrance: 1
+  deactivate: 0
+  destroyDestinationOnComplete: 0
 --- !u!58 &3160593971444290670
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -182,3 +185,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!95 &5327591970545682323
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5052729218889214044}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1cc8ae927c4e1e94dbe89b4f00a7752b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

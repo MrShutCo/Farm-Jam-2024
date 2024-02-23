@@ -13,7 +13,7 @@ public class PortalMaker : MonoBehaviour
     Portal portal;
     float timeToGrow = 1;
 
-    Vector3 maxScale = new Vector3(4, 4, 4);
+    Vector3 maxScale = new Vector3(1, 1, 1);
 
     private void Awake()
     {
@@ -50,7 +50,7 @@ public class PortalMaker : MonoBehaviour
 
     void Rotate()
     {
-        graphics.transform.Rotate(Vector3.forward * 180 * Time.deltaTime);
+        graphics.transform.Rotate(Vector3.forward * 180 * 8 * Time.deltaTime);
     }
 
     IEnumerator LerpScale()
