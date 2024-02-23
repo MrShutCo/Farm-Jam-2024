@@ -11,6 +11,8 @@ namespace Assets.Script.Buildings
 {
     public abstract class Building : MonoBehaviour
     {
+        public Transform PickupLocation;
+        
         public int CurrHumans;
         public int MaxCapacity;
 

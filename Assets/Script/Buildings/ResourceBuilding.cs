@@ -27,7 +27,7 @@ namespace Assets.Script.Buildings
             public bool IsBeingWorked() => Flayers.Any(f => f != null);
         }
 
-        const float internalBufferCapacity = 3;
+        const float internalBufferCapacity = 10;
 
         public EResource HarvestedResouce;
         public float TimeToCollect;
@@ -40,7 +40,7 @@ namespace Assets.Script.Buildings
         [SerializeField] FloatingStatusBar internalBufferObject;
         [SerializeField] TextMeshProUGUI capacityText;
         [SerializeField] GameObject packages;
-        Queue<GameObject> packageObjects;
+        Stack<GameObject> packageObjects;
 
         List<FlaySubsection> workingHumans;
         Timer workTimer;
@@ -48,8 +48,8 @@ namespace Assets.Script.Buildings
         public ResourceBuilding()
 		{
             workingHumans = new();
-            workTimer = new Timer(2, true);
-            packageObjects = new Queue<GameObject>();
+            workTimer = new Timer(1, true);
+            packageObjects = new Stack<GameObject>();
 
             workingHumans = new List<FlaySubsection>()
             {
@@ -72,25 +72,22 @@ namespace Assets.Script.Buildings
         public void Update()
         {
             workTimer.Update(Time.deltaTime);
-            //capacityText.text = $"{CurrHumans}/{MaxCapacity}";
         }
 
         public void RemovePacket(Human h)
         {
             //packageObjects
-            var removed = packageObjects.Dequeue();
-            removed.transform.parent = h.transform;
+            packageObjects.Pop();
             NumFinishedPackets--;
         }
 
         void AddPacket()
         {
-            var newPackage = Instantiate(packagePrefab);
-            newPackage.transform.parent = packages.transform;
-            newPackage.transform.position = transform.position + new Vector3(NumFinishedPackets * 0.6f, -0.5f);
+            var newPackage = Instantiate(packagePrefab, packages.transform);
+            newPackage.transform.localPosition = new Vector3(-1 + NumFinishedPackets * 0.6f, 2.5f);
             newPackage.GetComponent<Package>().SetPackage(HarvestedResouce, (int)internalBufferCapacity);
            
-            packageObjects.Enqueue(newPackage);
+            packageObjects.Push(newPackage);
             NumFinishedPackets = Math.Min(NumFinishedPackets + 1, packageObjects.Count);
             GameManager.Instance.onPackageCreate?.Invoke(this, newPackage.GetComponent<Package>());
         }
@@ -105,7 +102,7 @@ namespace Assets.Script.Buildings
                 if (group.Flayee is not null && group.IsBeingWorked() && !IsPackagesFull())
                 {
                     totalResourceGained += group.Flayers.Sum(f => f == null ? 0 : f.GetWorkingRate(HarvestedResouce));
-                    group.Flayee.TakeDamage(1);
+                    group.Flayee.TakeDamage(5);
                     Console.WriteLine("Flayed damage taken");
                 }
             }
@@ -139,6 +136,7 @@ namespace Assets.Script.Buildings
                 {
                     subsection.Flayee = human.GetComponent<HealthBase>();
                     human.transform.position = GetWorldPosition(subsection.FlayeePosition);
+                    human.AddJob(new Job(human, "flay", new List<Task>(){new GetFlayed()},false));
                 }
                 // assign to flayer
                 for (int i = 0; i < subsection.FlayerPositions.Count; i++)

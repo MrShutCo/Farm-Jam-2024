@@ -19,6 +19,8 @@ namespace Assets.Script.UI
 
         [SerializeField] bool showFPS;
 
+        [SerializeField] private Canvas normalCanvas;
+        [SerializeField] private Canvas buildCanvas;
 
         void OnEnable()
         {
@@ -30,7 +32,26 @@ namespace Assets.Script.UI
         }
         private void Start()
         {
+            GameManager.Instance.onGameStateChange += state =>
+            {
+                switch (state)
+                {
+                    case EGameState.Build:
+                        disableAllCanvas();
+                        buildCanvas.gameObject.SetActive(true);
+                        break;
+                    case EGameState.Normal:
+                        disableAllCanvas();
+                        normalCanvas.gameObject.SetActive(true);
+                        break;
+                };
+            };
+        }
 
+        private void disableAllCanvas()
+        {
+            normalCanvas.gameObject.SetActive(false);
+            buildCanvas.gameObject.SetActive(false);
         }
 
         private void OnDisable()
@@ -41,6 +62,14 @@ namespace Assets.Script.UI
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                GameManager.Instance.SetGameState(EGameState.Normal);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                GameManager.Instance.SetGameState(EGameState.Build);
+            }
             if (showFPS)
                 OnPerformanceUpdate();
         }
