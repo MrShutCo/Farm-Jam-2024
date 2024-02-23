@@ -4,19 +4,21 @@ using System.Collections.Generic;
 using Assets.Script.Humans;
 using UnityEngine;
 
+public enum NPCBehaviour
+{
+    CivilianMelee,
+    CivilianRanged,
+    Defensive,
+    Assault,
+    Tank1,
+    Tank2,
+    Boss1
+}
+
 [CreateAssetMenu(fileName = "NPCType", menuName = "NPCType")]
 public class NPCTypeSO : ScriptableObject
 {
-    public enum NPCBehaviour
-    {
-        CivilianMelee,
-        CivilianRanged,
-        Defensive,
-        Assault,
-        Tank1,
-        Tank2,
-        Boss1
-    }
+
     [SerializeField] string npcName;
     [SerializeField] NPCBehaviour behaviour;
 

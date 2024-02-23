@@ -181,13 +181,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Facing: {x: 0, y: -1}
   lastDirectionPressed: {x: 0, y: 0}
+  stats: {fileID: 11400000, guid: b54e458899a892a4aa40b00337677ff9, type: 2}
   baseDamage: 20
   collectableLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 65792
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 131328
   grabber: {fileID: 7913843211112351263}
   portalMaker: {fileID: 4087346209319487547, guid: 4413cc59d3a0dd944a7fb516568393f6, type: 3}
   attackVFX: {fileID: 0}
@@ -270,7 +271,6 @@ MonoBehaviour:
   healthBarPrefab: {fileID: 3759767603245780192, guid: 33c90f7c44db15f44924e181874b422b, type: 3}
   healthPanel: {fileID: 0}
   maxHealth: 500
-  currentHealth: 0
 --- !u!1 &2427728006232444032
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2135380417691438307}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 33792
   tentaclePrefab: {fileID: 7948028722280533335, guid: 3d44c29da41583f4ebca5e9991a17f1a, type: 3}
   maxTentacles: 1
   tentacles: []
@@ -404,13 +404,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: PortalMaker
       objectReference: {fileID: 0}
+    - target: {fileID: 2557919793104599239, guid: 4413cc59d3a0dd944a7fb516568393f6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5265219511951377126, guid: 4413cc59d3a0dd944a7fb516568393f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -199.92
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5265219511951377126, guid: 4413cc59d3a0dd944a7fb516568393f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5265219511951377126, guid: 4413cc59d3a0dd944a7fb516568393f6, type: 3}
       propertyPath: m_LocalPosition.z

@@ -7,17 +7,6 @@ using UnityEngine;
 
 public class HumanWildBehaviour : MonoBehaviour
 {
-    public event Action<Task> onTargetFound;
-    public enum NPCBehaviour
-    {
-        CivilianMelee,
-        CivilianRanged,
-        Defensive,
-        Assault,
-        Tank1,
-        Tank2,
-        Boss1
-    }
     public NPCTypeSO npcType;
 
     [SerializeField] Transform selectionCollider;
@@ -27,7 +16,6 @@ public class HumanWildBehaviour : MonoBehaviour
     Human human;
     Job _job;
     Transform _target;
-    [SerializeField] NPCBehaviour npcBehaviour = NPCBehaviour.CivilianMelee;
     Vector2 startPos;
     float refreshInterval = .25f;
     float refreshTimer = 0;
@@ -47,6 +35,7 @@ public class HumanWildBehaviour : MonoBehaviour
     }
     void OnDisable()
     {
+        ClearTarget();
         SwitchTools(false);
     }
     public void InitiateWildBehaviour()
@@ -113,7 +102,8 @@ public class HumanWildBehaviour : MonoBehaviour
 
     void ChangeToIdle()
     {
-        switch (npcBehaviour)
+        _job.StopJob();
+        switch (npcType.Behaviour)
         {
             case NPCBehaviour.CivilianRanged:
                 _job.AddTaskToJob(new Wander(human), true);
@@ -131,7 +121,8 @@ public class HumanWildBehaviour : MonoBehaviour
     }
     void ChangeToTargetMode()
     {
-        switch (npcBehaviour)
+        _job.StopJob();
+        switch (npcType.Behaviour)
         {
             case NPCBehaviour.CivilianRanged:
                 _job.AddTaskToJob(new FleeAndFire(_target), true);
