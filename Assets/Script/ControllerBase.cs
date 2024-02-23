@@ -25,7 +25,7 @@ public class ControllerBase : MonoBehaviour
     }
     protected virtual void Start()
     {
-        colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(20, 20), 0);
+        /*colHits = Physics2D.OverlapBoxAll(transform.position, new Vector2(20, 20), 0);
         foreach (var hit in colHits)
         {
             if (hit.CompareTag("Grid"))
@@ -44,12 +44,12 @@ public class ControllerBase : MonoBehaviour
                 break;
             }
         }
-
+*/
     }
 
     public virtual void Pause(bool pause)
     {
-        if (pause)
+        /*if (pause)
         {
             Time.timeScale = 0;
             paused = true;
@@ -58,7 +58,7 @@ public class ControllerBase : MonoBehaviour
         {
             Time.timeScale = 1;
             paused = false;
-        }
+        }*/
     }
     public virtual void ChangeLocation(bool home) { }
 

@@ -18,7 +18,7 @@ public class HumanHealth : HealthBase
 
     protected override void Die()
     {
-        human.ClearCurrentJobs();
+        human.StopAllJobs();
         human.enabled = false;
         human.WildBehaviour.enabled = false;
         col.enabled = false;

@@ -10,7 +10,6 @@ public class Pathfinding2D : MonoBehaviour
     Node2D seekerNode, targetNode;
     public GameObject GridOwner;
 
-
     void Start()
     {
         //Instantiate grid

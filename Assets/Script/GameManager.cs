@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     public Transform Player;
     public Human CurrentlySelectedHuman;
 
+    public GameObject WildHumanoidParent;
+    public GameObject HomeHumanoidParent;
     public Carrier Carrier;
 
     public HumanOrchestrator HumanOrchestrator;

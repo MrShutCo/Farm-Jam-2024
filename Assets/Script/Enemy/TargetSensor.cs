@@ -8,7 +8,8 @@ public class TargetSensor : MonoBehaviour
     [SerializeField] CircleCollider2D sensorCollider;
     [SerializeField] LayerMask targetLayer;
 
-    HumanWildBehaviour human;
+    HumanWildBehaviour humanBehaviour;
+    private Human human;
 
     public void SetSensorRange(float range)
     {
@@ -17,14 +18,15 @@ public class TargetSensor : MonoBehaviour
 
     private void Awake()
     {
-        human = GetComponentInParent<HumanWildBehaviour>();
+        humanBehaviour = GetComponentInParent<HumanWildBehaviour>();
+        human = GetComponentInParent<Human>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (targetLayer == (targetLayer | (1 << other.gameObject.layer)))
         {
-            human.SetTarget(other.transform, true);
+            human.AddTaskToJob(humanBehaviour.SetTarget(other.transform, true), true);
         }
     }
 }

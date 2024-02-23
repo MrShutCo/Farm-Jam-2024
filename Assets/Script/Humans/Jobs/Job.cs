@@ -14,6 +14,7 @@ namespace Assets.Script.Humans
 		public bool IsRepeated { get; private set; }
 
 		Human human;
+		private Rigidbody2D _humanRigidBody;
 		List<Task> _tasks = new();
 		int _activeTask;
 
@@ -22,6 +23,7 @@ namespace Assets.Script.Humans
 		{
 			IsActive = false;
 			human = h;
+			_humanRigidBody = human.GetComponent<Rigidbody2D>();
 			_tasks = new List<Task>();
 		}
 
@@ -32,13 +34,14 @@ namespace Assets.Script.Humans
 			_tasks = jobs;
 			IsRepeated = isRepeated;
 			human = h;
+			_humanRigidBody = human.GetComponent<Rigidbody2D>();
 		}
 
 		public void StartJob()
 		{
 			if (_tasks.Count == 0) return;
 			_tasks[_activeTask].OnStopTask += OnTaskComplete;
-			human.SetTask(_tasks[0]);
+			_tasks[_activeTask].StartTask(_humanRigidBody);
 			IsActive = true;
 		}
 
@@ -52,15 +55,10 @@ namespace Assets.Script.Humans
 
 		public void AddTaskToJob(Task newTask, bool stopCurrentTask)
 		{
+			_tasks.Add(newTask);
 			if (stopCurrentTask && _tasks.Count > 0)
 			{
 				_tasks[_activeTask].OnStopTask?.Invoke();
-			}
-			_tasks.Add(newTask);
-			if (_activeTask == _tasks.Count - 1)
-			{
-				human.SetTask(_tasks[_activeTask]);
-				_tasks[_activeTask].OnStopTask += OnTaskComplete;
 			}
 		}
 
@@ -84,6 +82,7 @@ namespace Assets.Script.Humans
 				_tasks[_activeTask].StopTask();
 			}
 
+			// If theres no more tasks, job is complete
 			if (_activeTask >= _tasks.Count - 1)
 			{
 				onJobComplete?.Invoke(human);
@@ -97,9 +96,8 @@ namespace Assets.Script.Humans
 			//jobText.text = "";
 			if (_activeTask < _tasks.Count)
 			{
-				//human.StartJob(_tasks[_activeTask]);
-				human.SetTask(_tasks[_activeTask]);
 				_tasks[_activeTask].OnStopTask += OnTaskComplete;
+				_tasks[_activeTask].StartTask(_humanRigidBody);
 			}
 		}
 

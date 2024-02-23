@@ -12,9 +12,8 @@ public class HumanWildBehaviour : MonoBehaviour
     [SerializeField] Transform selectionCollider;
     [SerializeField] Transform weaponParent;
     TargetSensor targetSensor;
-
+    
     Human human;
-    Job _job;
     Transform _target;
     Vector2 startPos;
     float refreshInterval = .25f;
@@ -26,29 +25,28 @@ public class HumanWildBehaviour : MonoBehaviour
         targetSensor = GetComponentInChildren<TargetSensor>();
         targetSensor.SetSensorRange(npcType.SightRange);
         targetSensor.gameObject.SetActive(false);
-        _job = new Job(human, npcType.ToString(), new List<Task>(), true);
+        
     }
     void OnEnable()
     {
         SwitchTools(true);
         startPos = transform.position;
+        var newJob = new Job(human, npcType.ToString(), new List<Task>(), true);
+        if (_target != null)
+        {
+            newJob.AddTaskToJob(CheckForChange(), true);
+        }
+        else
+        {
+            newJob.AddTaskToJob(ChangeToIdle(), true);
+        }
+        human.StopAllJobs();
+        human.AddJob(newJob);
     }
     void OnDisable()
     {
         ClearTarget();
         SwitchTools(false);
-    }
-    public void InitiateWildBehaviour()
-    {
-        if (_target != null)
-        {
-            CheckForChange();
-        }
-        else
-        {
-            ChangeToIdle();
-        }
-        _job.StartJob();
     }
 
     void SwitchTools(bool active)
@@ -65,77 +63,51 @@ public class HumanWildBehaviour : MonoBehaviour
             refreshTimer = 0;
             if (_target != null)
             {
-                CheckForChange();
+                human.AddTaskToJob(CheckForChange(), true);
             }
         }
     }
-    public void SetTarget(Transform target, bool overrideCurrent = false)
+    public Task SetTarget(Transform target, bool overrideCurrent = false)
     {
-        if (!overrideCurrent && _target != null) return;
+        if (!overrideCurrent && _target != null) return new Idle();
         _target = target;
-        ChangeToTargetMode();
+        return ChangeToTargetMode();
     }
 
     bool IsOutsideRange(float range)
     {
         return Vector2.Distance(transform.position, _target.position) > range;
     }
-    bool IsInsideSightRange(float range)
-    {
-        return Vector2.Distance(transform.position, _target.position) < range;
-    }
 
-    void ClearTarget()
+    Task ClearTarget()
     {
         _target = null;
-        ChangeToIdle();
+        return ChangeToIdle();
     }
 
-    void CheckForChange()
-    {
-        if (_target != null)
-        {
-            if (IsOutsideRange(npcType.DisengageRange)) ClearTarget();
-            else ChangeToTargetMode();
-        }
-    }
+    Task CheckForChange() => IsOutsideRange(npcType.DisengageRange) ? ClearTarget() : ChangeToTargetMode();
+    
 
-    void ChangeToIdle()
+    Task ChangeToIdle()
     {
-        _job.StopJob();
-        switch (npcType.Behaviour)
+        human.StopCurrentJob();
+        return npcType.Behaviour switch
         {
-            case NPCBehaviour.CivilianRanged:
-                _job.AddTaskToJob(new Wander(human), true);
-                break;
-            case NPCBehaviour.CivilianMelee:
-                _job.AddTaskToJob(new Wander(human), true);
-                break;
-            case NPCBehaviour.Defensive:
-                _job.AddTaskToJob(new DefensiveIdle(), true);
-                break;
-            case NPCBehaviour.Assault:
-                _job.AddTaskToJob(new Patrol(startPos), true);
-                break;
-        }
+            NPCBehaviour.CivilianRanged => new Wander(human),
+            NPCBehaviour.CivilianMelee => new Wander(human),
+            NPCBehaviour.Defensive => new DefensiveIdle(),
+            NPCBehaviour.Assault => new Patrol(startPos),
+            _ => new Idle()
+        };
     }
-    void ChangeToTargetMode()
+    Task ChangeToTargetMode()
     {
-        _job.StopJob();
-        switch (npcType.Behaviour)
+        return npcType.Behaviour switch
         {
-            case NPCBehaviour.CivilianRanged:
-                _job.AddTaskToJob(new FleeAndFire(_target), true);
-                break;
-            case NPCBehaviour.CivilianMelee:
-                _job.AddTaskToJob(new ApproachAndAttack(_target), true);
-                break;
-            case NPCBehaviour.Assault:
-                _job.AddTaskToJob(new CloseRangeAssault(_target), true);
-                break;
-            case NPCBehaviour.Defensive:
-                _job.AddTaskToJob(new DefensiveAttack(_target), true);
-                break;
-        }
+            NPCBehaviour.Defensive => new FleeAndFire(_target),
+            NPCBehaviour.Assault => new CloseRangeAssault(_target),
+            NPCBehaviour.CivilianMelee => new ApproachAndAttack(_target),
+            NPCBehaviour.CivilianRanged => new FleeAndFire(_target)
+        };
     }
 }

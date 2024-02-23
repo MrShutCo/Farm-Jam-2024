@@ -16,7 +16,7 @@ namespace Assets.Script.Humans
         Food, Wood, Steel, Electronics, Blood, Organs, Bones
     }
 
-    public class Human : ControllerBase
+    public class Human : MonoBehaviour
     {
         public string Name;
 
@@ -31,7 +31,6 @@ namespace Assets.Script.Humans
 
         Rigidbody2D rb;
 
-        Task currentTask;
         Pathfinding2D pathfinding;
         Queue<Job> currentJobs;
         public Queue<Job> CurrentJobs => currentJobs;
@@ -45,7 +44,6 @@ namespace Assets.Script.Humans
 
         public void Awake()
         {
-            currentTask = null;
             if (StatusPanel == null)
                 StatusPanel = gameObject.transform.Find("StatusPanel");
             targetSensor = GetComponentInChildren<TargetSensor>().transform;
@@ -67,42 +65,30 @@ namespace Assets.Script.Humans
 
         private void OnEnable()
         {
+            StopAllJobs();
             rb.simulated = true;
-            //wildBehaviour.onTargetFound += OverrideJobs;
+            var world = GetComponentInParent<World>();
+            pathfinding.GridOwner = world.Grid.gameObject;
+            wildBehaviour.enabled = world.WorldType == EWorld.Wild;
         }
 
         private void OnDisable()
         {
             rb.simulated = false;
             GameManager.Instance.onHumanDie?.Invoke(this);
-            //wildBehaviour.onTargetFound -= OverrideJobs;
         }
 
-        protected override void Start()
+        protected void Start()
         {
             SetUpStatusPanel();
-            base.Start();
         }
 
         void SetUpStatusPanel()
         {
             StatusPanel.gameObject.SetActive(false);
-            /*float yOffset = 1f;
-            foreach (var skill in Skills)
-            {
-                var status = Instantiate(StatusBar, StatusPanel.transform);
-                var bar = status.GetComponent<FloatingStatusBar>();
-                bar.UpdateStatusBar(skill.Value, 100);
-                bar.UpdateText(skill.Key.ToString());
-                status.transform.localPosition = new Vector3(4, yOffset, 0);
-                skillBars.Add(bar);
-                yOffset -= 0.5f;
-            }*/
         }
 
-        public bool CanBePickedUp() => currentTask == null && currentJobs.Count == 0;
-        
-        public bool IsIdle() => currentTask == null;
+        public bool CanBePickedUp() => currentJobs.Count == 0;
 
         public void HoldPackage(Package p)
         {
@@ -128,12 +114,26 @@ namespace Assets.Script.Humans
         {
             StatusPanel.gameObject.SetActive(false);
         }
+        
+        #region Jobs
 
-        public void ClearCurrentJobs()
+        public void StopCurrentJob()
         {
-            // TODO
+            if (currentJobs.Count == 0) return;
+            currentJobs.Peek().StopJob();
         }
 
+        public void StopAllJobs()
+        {
+            if (currentJobs.Count == 0) return;
+            currentJobs.Peek().onJobComplete = null;
+            while (currentJobs.Count > 0)
+                currentJobs.Dequeue();
+        }
+
+        /// <summary>
+        /// AddJob appends job to end of queue, and if there are no jobs, its starts
+        /// </summary>
         public void AddJob(Job newJob)
         {
             currentJobs.Enqueue(newJob);
@@ -150,12 +150,13 @@ namespace Assets.Script.Humans
             currentJobs.Dequeue();
         }
 
-        public void SetTask(Task task)
+        public void AddTaskToJob(Task task, bool stopCurrentTask)
         {
-            ClearCurrentJobs();
-            currentTask = task;
-            currentTask.StartTask(rb);
+            if (currentJobs.Count == 0) return;
+            currentJobs.Peek().AddTaskToJob(task, stopCurrentTask);
         }
+        
+        #endregion
 
         public void OnMouseEnter()
         {
@@ -174,10 +175,6 @@ namespace Assets.Script.Humans
             {
                 currentJobs.Peek()?.Update(Time.deltaTime);
             }
-
-            if (currentTask is null) return;
-            
-            currentTask.UpdateTask(this, Time.deltaTime);
         }
 
         void setTraitText()
@@ -197,9 +194,6 @@ namespace Assets.Script.Humans
             {
                 currentJobs.Peek()?.FixedUpdate(Time.deltaTime);
             }
-            if (currentTask is null) return;
-            nameText.text = currentTask.Name;
-            currentTask.FixedUpdateTask(this, Time.fixedDeltaTime);
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -208,24 +202,6 @@ namespace Assets.Script.Humans
             {
                 pathfinding.GridOwner = other.transform.parent.gameObject;
 
-            }
-        }
-        public override void ChangeLocation(bool home)
-        {
-            wildBehaviour.enabled = !home;
-            targetSensor.gameObject.SetActive(!home);
-            if (home)
-            {
-                foreach (var job in currentJobs)
-                {
-                    job.StopJob();
-                }
-                pathfinding.GridOwner = GameManager.Instance.PathfindingGrid.gameObject;
-            }
-            else
-            {
-                pathfinding.GridOwner = GameManager.Instance.PathfindingGridOutside.gameObject;
-                wildBehaviour.InitiateWildBehaviour();
             }
         }
 

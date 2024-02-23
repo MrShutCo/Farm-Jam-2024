@@ -79,10 +79,9 @@ public class Carrier : MonoBehaviour
 
         for (int i = 0; i < CarriedHumans.Count; i++)
         {
-            CarriedHumans[i].transform.SetParent(null);
+            CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
+            CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
-            CarriedHumans[i].ChangeLocation(true);
-            CarriedHumans[i].ChangeLocation(true);
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
         }
         CarriedHumans.Clear();

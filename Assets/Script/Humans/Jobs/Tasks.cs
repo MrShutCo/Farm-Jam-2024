@@ -38,6 +38,7 @@ namespace Assets.Script.Humans
             base.StartTask(rb);
             speed = 3;
             Grid2D.onGridUpdated += onGridUpdated;
+            Debug.Log($"Started Move To");
         }
 
         public override void StopTask()
@@ -51,6 +52,10 @@ namespace Assets.Script.Humans
             {
                 var pathfinding = human.GetComponent<Pathfinding2D>();
                 path = pathfinding.FindPath(human.transform.position, target);
+                if (path.Count == 0)
+                {
+                    OnStopTask?.Invoke();
+                }
             }
 
         }
@@ -97,19 +102,26 @@ namespace Assets.Script.Humans
     public class InstantTask : Task
     {
         Action action;
+        private string _taskName;
         public InstantTask(string taskName, Action doAction)
         {
             action = doAction;
+            _taskName = taskName;
         }
 
         public override void StartTask(Rigidbody2D rb)
         {
             action();
+            Debug.Log($"Started Instant Task: {_taskName}");
             base.StartTask(rb);
         }
 
         public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
-        public override void StopTask() { }
+
+        public override void StopTask()
+        {
+            Debug.Log($"Stopped Instant Task: {_taskName}");
+        }
         public override void UpdateTask(Human human, double deltaTime)
         {
             

@@ -130,7 +130,7 @@ public class AttackAction : PlayerAction
             health.TryGetComponent(out Human human);
             if (rb == null) yield break;
             if (human != null)
-                human.ClearCurrentJobs();
+                human.StopAllJobs();
             rb.isKinematic = false;
             rb.AddForce(direction * 8, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.25f);
