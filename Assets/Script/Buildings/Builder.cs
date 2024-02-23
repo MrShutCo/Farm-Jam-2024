@@ -53,7 +53,7 @@ namespace Assets.Script.Buildings
         void Update()
         {
             // Toggle build mode
-            if (Input.GetKeyDown(KeyCode.B))
+            /*if (Input.GetKeyDown(KeyCode.B))
             {
                 isBuildMode = !isBuildMode;
                 EffectMap.ClearAllTiles();
@@ -70,9 +70,9 @@ namespace Assets.Script.Buildings
             {
                 EffectMap.ClearAllTiles();
                 GameManager.Instance.EnabledPlaceables[currentTileLayout].RotateCW();
-            }
+            }*/
 
-            if (isBuildMode)
+            if (GameManager.Instance.GameState == EGameState.Build)
             {
                 if (Input.GetMouseButtonDown(0))
                     AttemptToPlace();

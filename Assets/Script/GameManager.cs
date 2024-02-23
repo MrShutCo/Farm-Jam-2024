@@ -9,20 +9,23 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.Events;
 
+public enum EGameState
+{
+    Normal, Build
+}
+
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance;
 
-    public int CurrTime;
-
+    public EGameState GameState { get; private set; }
+    
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
     public Grid2D PathfindingGridOutside;
-
-    public event UnityAction onTimeStep;
-    public Action<Building> onFarmCreate;
+    
     public Action onResourceChange;
     public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
@@ -33,6 +36,7 @@ public class GameManager : MonoBehaviour
     public Action<bool, Vector2> onTeleport;
     public Action<Collider2D> onGridChange;
     public Action<Human> onHumanDie;
+    public Action<EGameState> onGameStateChange;
 
     public Action<Building, Package> onPackageCreate;
 
@@ -49,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        GameState = EGameState.Normal;
         HumanOrchestrator = FindObjectOfType<HumanOrchestrator>();
         Player = FindObjectOfType<Player>().transform;
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
@@ -92,6 +97,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetGameState(EGameState gameState)
+    {
+        GameState = gameState;
+        onGameStateChange?.Invoke(gameState);
+    }
+
     public void AddResource(EResource resource, int amount)
     {
         Resources[resource] += amount;
@@ -101,6 +112,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<EResource, int> InitializeResources()
         => new Dictionary<EResource, int>()
         {
+            { EResource.Food, 0 },
             { EResource.Wood, 0 }, { EResource.Steel, 0 },
             { EResource.Electronics, 0 }, { EResource.Blood, 0 },
             { EResource.Bones, 0 }, { EResource.Organs, 0 },
