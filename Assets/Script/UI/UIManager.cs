@@ -29,6 +29,7 @@ namespace Assets.Script.UI
             GameManager.Instance.onResourceChange += onResourceUpdate;
             GameManager.Instance.onCarriedHumansChange += OnCarriedHumansUpdate;
             GameManager.Instance.onCarriedResourcesChange += OnCarriedResourcesUpdate;
+            buildCanvas.enabled = false;
         }
         private void Start()
         {
