@@ -49,15 +49,12 @@ public class GameManager : MonoBehaviour
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
 
-    public HumanOrchestrator HumanOrchestrator;
-
     bool paused;
 
 
     private void Awake()
     {
         GameState = EGameState.Normal;
-        HumanOrchestrator = FindObjectOfType<HumanOrchestrator>();
         Player = FindObjectOfType<Player>().transform;
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();

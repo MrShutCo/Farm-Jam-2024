@@ -46,7 +46,7 @@ namespace Assets.Script.UI
             GameManager.Instance.onResourceChange += onResourceUpdate;
             GameManager.Instance.onCarriedHumansChange += OnCarriedHumansUpdate;
             GameManager.Instance.onCarriedResourcesChange += OnCarriedResourcesUpdate;
-            buildCanvas.enabled = false;
+            buildCanvas.gameObject.SetActive(false);
         }
         private void Start()
         {
@@ -87,14 +87,6 @@ namespace Assets.Script.UI
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                GameManager.Instance.SetGameState(EGameState.Normal);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                GameManager.Instance.SetGameState(EGameState.Build);
-            }
             if (showFPS)
                 OnPerformanceUpdate();
         }

@@ -72,17 +72,21 @@ public class Player : MonoBehaviour
     {
         portalMaker = GetComponentInChildren<PortalMaker>();
     }
+    
+    
     private void OnEnable()
     {
         dodgeAction.onDodge += new Action<bool>((bool isActive) => moveActive = !isActive);
         dodgeAction.onDodge += new Action<bool>((bool isActive) => combatActive = !isActive);
         dodgeAction.onDodge += new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
+        GameManager.Instance.onGameStateChange += onGameStateUpdate;
     }
     private void OnDisable()
     {
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => moveActive = !isActive);
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => combatActive = !isActive);
         dodgeAction.onDodge -= new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
+        GameManager.Instance.onGameStateChange -= onGameStateUpdate;
     }
 
     private void Update()
@@ -242,5 +246,22 @@ public class Player : MonoBehaviour
             vfx.Play();
         else
             vfx.Stop();
+    }
+
+    private void onGameStateUpdate(EGameState newGameState)
+    {
+        switch (newGameState)
+        {
+            case EGameState.Build:
+                moveActive = false;
+                combatActive = false;
+                moveDirection = Vector2.zero;
+                onMove?.Invoke(moveDirection, runSpeed);
+                break;
+            case EGameState.Normal:
+                moveActive = true;
+                combatActive = true;
+                break;
+        }
     }
 }

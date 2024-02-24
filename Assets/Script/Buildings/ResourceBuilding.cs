@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Assets.Script.Humans;
+using Script.Buildings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -27,57 +28,52 @@ namespace Assets.Script.Buildings
             public bool IsBeingWorked() => Flayers.Any(f => f != null);
         }
 
-        const float internalBufferCapacity = 10;
-
-        public EResource HarvestedResouce;
-        public float TimeToCollect;
-        public int Level;
-
-        float internalBuffer;
+        public ResourceBuildingDataSO buildingData; 
         public int NumFinishedPackets { get; private set; }
 
         [SerializeField] GameObject packagePrefab;
         [SerializeField] FloatingStatusBar internalBufferObject;
-        [SerializeField] TextMeshProUGUI capacityText;
         [SerializeField] GameObject packages;
-        Stack<GameObject> packageObjects;
-
-        List<FlaySubsection> workingHumans;
-        Timer workTimer;
+        [SerializeField] SpriteRenderer _spriteRenderer;
+        
+        Stack<GameObject> _packageObjects;
+        List<FlaySubsection> _workingHumans;
+        Timer _workTimer;
+        float _internalBuffer;
 
         public ResourceBuilding()
 		{
-            workingHumans = new();
-            workTimer = new Timer(1, true);
-            packageObjects = new Stack<GameObject>();
+            _workingHumans = new();
+            _workTimer = new Timer(1, true);
+            _packageObjects = new Stack<GameObject>();
 
-            workingHumans = new List<FlaySubsection>()
+            _workingHumans = new List<FlaySubsection>()
             {
-                new FlaySubsection(new Vector2(0, 0.5f), new (){ new Vector2(-1.25f, 0), new Vector2(1.25f, 0) })
+                new FlaySubsection(new Vector2(0, 0.5f), new() { new Vector2(-1.25f, 0), new Vector2(1.25f, 0) })
             };
         }
 
         public void Start()
         {
-            workTimer.OnTrigger += OnWork;
+            _workTimer.OnTrigger += OnWork;
             GameManager.Instance.onHumanDie += onHumanDie;
+            _spriteRenderer.sprite = buildingData.GetSprite();
         }
 
         public void OnDisable()
         {
-            workTimer.OnTrigger -= OnWork;
+            _workTimer.OnTrigger -= OnWork;
             GameManager.Instance.onHumanDie -= onHumanDie;
         }
 
         public void Update()
         {
-            workTimer.Update(Time.deltaTime);
+            _workTimer.Update(Time.deltaTime);
         }
 
         public void RemovePacket(Human h)
         {
-            //packageObjects
-            packageObjects.Pop();
+            _packageObjects.Pop();
             NumFinishedPackets--;
         }
 
@@ -85,40 +81,40 @@ namespace Assets.Script.Buildings
         {
             var newPackage = Instantiate(packagePrefab, packages.transform);
             newPackage.transform.localPosition = new Vector3(-1 + NumFinishedPackets * 0.6f, 2.5f);
-            newPackage.GetComponent<Package>().SetPackage(HarvestedResouce, (int)internalBufferCapacity);
+            newPackage.GetComponent<Package>().SetPackage(buildingData.resource, (int)buildingData.internalBufferCapacity);
            
-            packageObjects.Push(newPackage);
-            NumFinishedPackets = Math.Min(NumFinishedPackets + 1, packageObjects.Count);
+            _packageObjects.Push(newPackage);
+            NumFinishedPackets = Math.Min(NumFinishedPackets + 1, _packageObjects.Count);
             GameManager.Instance.onPackageCreate?.Invoke(this, newPackage.GetComponent<Package>());
         }
 
-        public bool IsPackagesFull() => NumFinishedPackets >= 4;
+        public bool IsPackagesFull() => NumFinishedPackets >= buildingData.GetMaxPackages();
 
         void OnWork()
         {
             float totalResourceGained = 0.0f;
-            foreach (var group in workingHumans)
+            foreach (var group in _workingHumans)
             {
                 if (group.Flayee is not null && group.IsBeingWorked() && !IsPackagesFull())
                 {
-                    totalResourceGained += group.Flayers.Sum(f => f == null ? 0 : f.GetWorkingRate(HarvestedResouce));
+                    totalResourceGained += group.Flayers.Sum(f => f == null ? 0 : f.GetWorkingRate(buildingData.resource));
                     group.Flayee.TakeDamage(5);
                     Console.WriteLine("Flayed damage taken");
                 }
             }
 
-            internalBuffer += totalResourceGained;
-            if (internalBuffer >= internalBufferCapacity)
+            _internalBuffer += totalResourceGained;
+            if (_internalBuffer >= buildingData.internalBufferCapacity)
             {
                 AddPacket();
-                internalBuffer -= internalBufferCapacity;
+                _internalBuffer -= buildingData.internalBufferCapacity;
             }
-            internalBufferObject.UpdateStatusBar(internalBuffer, (int)internalBufferCapacity);
+            internalBufferObject.UpdateStatusBar(_internalBuffer, (int)buildingData.internalBufferCapacity);
         }
 
         void onHumanDie(Human h)
         {
-            foreach (var group in workingHumans)
+            foreach (var group in _workingHumans)
             {
                 if (group.Flayee?.currentHealth <= 0)
                 {
@@ -129,7 +125,7 @@ namespace Assets.Script.Buildings
 
         public void AssignHuman(Human human, Vector2 mouseWorldPosition)
         {
-            foreach (var subsection in workingHumans)
+            foreach (var subsection in _workingHumans)
             {
                 // assign to flayee
                 if (IsOver(subsection.FlayeePosition, mouseWorldPosition) && subsection.Flayee == null)
@@ -137,6 +133,7 @@ namespace Assets.Script.Buildings
                     subsection.Flayee = human.GetComponent<HealthBase>();
                     human.transform.position = GetWorldPosition(subsection.FlayeePosition);
                     human.AddJob(new Job(human, "flay", new List<Task>(){new GetFlayed()},false));
+                    Debug.Log("Assigned flayee");
                 }
                 // assign to flayer
                 for (int i = 0; i < subsection.FlayerPositions.Count; i++)
@@ -145,6 +142,7 @@ namespace Assets.Script.Buildings
                     {
                         subsection.Flayers[i] = human;
                         human.transform.position = GetWorldPosition(subsection.FlayerPositions[i]);
+                        Debug.Log("Assigned flayer");
                     }
                 }
             }
