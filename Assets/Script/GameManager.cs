@@ -11,7 +11,7 @@ using UnityEngine.Events;
 
 public enum EGameState
 {
-    Normal, Build
+    Normal, Build, Death
 }
 
 public class GameManager : MonoBehaviour
@@ -20,12 +20,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public EGameState GameState { get; private set; }
-    
+
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
     public Grid2D PathfindingGridOutside;
-    
+
     public Action onResourceChange;
     public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public Action onExitHomeBase;
     public Action<bool> onPause;
     public Action<bool, Vector2> onTeleport;
+    public Action onDeath;
     public Action<Collider2D> onGridChange;
     public Action<Human> onHumanDie;
     public Action<EGameState> onGameStateChange;
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
         Buildings = FindObjectsByType<Building>(FindObjectsSortMode.None).ToList();
         Resources = InitializeResources();
         PathfindingGrid = FindObjectOfType<Grid2D>();
+        Carrier = Player.GetComponent<Carrier>();
 
         int count = FindObjectsOfType<GameManager>().Length;
         if (count > 1)

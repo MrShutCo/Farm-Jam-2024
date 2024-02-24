@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Assets.Script.Humans;
 using TMPro;
 using UnityEngine;
@@ -8,19 +9,35 @@ namespace Assets.Script.UI
 {
     public class UIManager : MonoBehaviour
     {
+        [Header("HomeBase Elements")]
         [SerializeField]
         TextMeshProUGUI resourceTexts;
+
+        [Header("Player Elements")]
         [SerializeField] TextMeshProUGUI carriedHumansTexts;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
-        [SerializeField] TextMeshProUGUI performanceTexts;
+        [SerializeField] RectTransform carriedHumanBackGround;
+        [SerializeField] RectTransform carriedResourceBackGround;
         [SerializeField] GameObject playerHealthPanel;
         [SerializeField] FloatingStatusBar playerHealthBar;
 
+        [Header("Performance Elements")]
+        [SerializeField] TextMeshProUGUI performanceTexts;
+
+        [Header("Death Elements")]
+        [SerializeField] RectTransform humansLostDisplay;
+        [SerializeField] RectTransform resourcesLostDisplay;
+
+        [Header("Icons")]
+        [SerializeField] Icon iconPrefab;
+        List<Icon> homeResourceIcons;
+        List<Icon> playerResourceIcons;
 
         [SerializeField] bool showFPS;
 
         [SerializeField] private Canvas normalCanvas;
         [SerializeField] private Canvas buildCanvas;
+        [SerializeField] private Canvas deathCanvas;
 
         void OnEnable()
         {
@@ -45,6 +62,12 @@ namespace Assets.Script.UI
                         disableAllCanvas();
                         normalCanvas.gameObject.SetActive(true);
                         break;
+                    case EGameState.Death:
+                        disableAllCanvas();
+                        deathCanvas.gameObject.SetActive(true);
+                        OnShowHumansLost();
+                        OnShowResourcesLost();
+                        break;
                 };
             };
         }
@@ -53,6 +76,7 @@ namespace Assets.Script.UI
         {
             normalCanvas.gameObject.SetActive(false);
             buildCanvas.gameObject.SetActive(false);
+            deathCanvas.gameObject.SetActive(false);
         }
 
         private void OnDisable()
@@ -77,6 +101,14 @@ namespace Assets.Script.UI
 
         void onResourceUpdate()
         {
+            if (homeResourceIcons != null)
+            {
+                foreach (var sprite in homeResourceIcons)
+                {
+                    Destroy(sprite.gameObject);
+                }
+            }
+            homeResourceIcons = new List<Icon>();
             var resources = GameManager.Instance.Resources;
             if (resources == null)
             {
@@ -86,7 +118,15 @@ namespace Assets.Script.UI
             var text = "";
             foreach (var resource in resources)
             {
-                text += $"{resource.Key.ToString()}: {resource.Value}\n";
+                if (resource.Value == 0)
+                {
+                    continue;
+                }
+
+                Icon icon = Instantiate(iconPrefab, resourceTexts.transform);
+                icon.SetIcon(resource.Key, resource.Value);
+                icon.transform.position = resourceTexts.transform.position + new Vector3(0, -i * 3f);
+                homeResourceIcons.Add(icon);
                 i++;
             }
             resourceTexts.text = text;
@@ -97,22 +137,44 @@ namespace Assets.Script.UI
             var text = "";
             foreach (var human in humans)
             {
-                text += $"{human.Name}\n";
+                human.GetComponent<Renderer>().sortingOrder = 120;
                 i++;
             }
             carriedHumansTexts.text = text;
+            UpdateCarrierBackgroundSize(carriedHumanBackGround, humans.Count);
         }
         void OnCarriedResourcesUpdate(Dictionary<EResource, int> resources)
         {
+            if (playerResourceIcons != null)
+            {
+                foreach (var sprite in playerResourceIcons)
+                {
+                    Destroy(sprite.gameObject);
+                }
+            }
+            playerResourceIcons = new List<Icon>();
             int i = 0;
             var text = "";
             foreach (var resource in resources)
             {
-                text += $"{resource.Key.ToString()}: {resource.Value}\n";
+                Icon icon = Instantiate(iconPrefab, carriedResourcesTexts.transform);
+                icon.SetIcon(resource.Key, resource.Value);
+                //make the icon line up with the text
+                icon.transform.position = carriedResourcesTexts.transform.position + new Vector3(i * 2, 0);
+                playerResourceIcons.Add(icon);
                 i++;
             }
             carriedResourcesTexts.text = text;
+            UpdateCarrierBackgroundSize(carriedResourceBackGround, resources.Count, 32);
         }
+
+        void UpdateCarrierBackgroundSize(RectTransform carrierBackGround, int qty, float width = 20)
+        {
+            var size = carrierBackGround.sizeDelta;
+            size.x = qty * width;
+            carrierBackGround.sizeDelta = size;
+        }
+
         void OnPerformanceUpdate()
         {
             //show fps as a whole number that only updates once per second
@@ -122,5 +184,33 @@ namespace Assets.Script.UI
         {
             playerHealthBar.UpdateStatusBar(currentHealth, maxHealth);
         }
+
+
+        void OnShowHumansLost()
+        {
+            var lostHumans = GameManager.Instance.Carrier.LoseHumans();
+            for (int i = 0; i < lostHumans.Count; i++)
+            {
+                var human = lostHumans[i];
+                human.transform.SetParent(humansLostDisplay.transform);
+                human.transform.position = humansLostDisplay.position + new Vector3(i, 0);
+                human.GetComponent<Renderer>().sortingOrder = 120;
+            }
+        }
+        void OnShowResourcesLost()
+        {
+            var lostResources = GameManager.Instance.Carrier.LoseResources();
+            int xPos = 0;
+            int separation = 3;
+            foreach (var resource in lostResources)
+            {
+                var icon = Instantiate(iconPrefab, resourcesLostDisplay.transform);
+                icon.transform.position = resourcesLostDisplay.position + new Vector3(xPos * separation, 0);
+                icon.SetIcon(resource.Key, resource.Value);
+                xPos++;
+            }
+        }
+
+
     }
 }
