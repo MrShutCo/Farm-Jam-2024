@@ -649,6 +649,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas-Death
       objectReference: {fileID: 0}
+    - target: {fileID: 3335742096421911937, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4108434925386805298, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2834,7 +2838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7535841778618231102, guid: 14620cedfd257bb4f9b844cc966bdef0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7671250173321276350, guid: 14620cedfd257bb4f9b844cc966bdef0, type: 3}
       propertyPath: m_Pivot.x
@@ -12027,7 +12031,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -12812,7 +12816,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2449949205713549940, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2530608040062744820, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -12921,6 +12925,10 @@ PrefabInstance:
     - target: {fileID: 7700278938833199392, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
       propertyPath: m_Name
       value: Canvas-Dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700278938833199392, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -130642,6 +130650,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3665792776338965429, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
   m_PrefabInstance: {fileID: 1506031381}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &2035281180 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7246295632757350059, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
+  m_PrefabInstance: {fileID: 134691801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2075780072 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1483688405647871577, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
@@ -131006,6 +131019,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1346667051}
     - target: {fileID: 4098323192672901845, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: humansLostDisplay
+      value: 
+      objectReference: {fileID: 2035281180}
+    - target: {fileID: 4098323192672901845, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: playerHealthPanel
       value: 
       objectReference: {fileID: 1379686981}
@@ -131313,6 +131330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas-Build
       objectReference: {fileID: 0}
+    - target: {fileID: 958644522858261071, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1612246296150789236, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -131431,6 +131452,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1673714662318292671, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 55.01001
+      objectReference: {fileID: 0}
     - target: {fileID: 2449949205713549940, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
