@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Cinemachine;
 using Script.Buildings;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -23,8 +24,9 @@ namespace Assets.Script.Buildings
         [SerializeField] private ResourceBuildingDataSO[] buildings;
         [SerializeField] private GameObject buildingPrefab;
         
-        public Camera Camera;
+        [SerializeField] Camera Camera;
         public int SelectedBuilding = -1;
+        
         
         bool isBuildMode;
         Vector3Int currMouseTile;
@@ -34,6 +36,8 @@ namespace Assets.Script.Buildings
         private void OnEnable()
         {
             isBuildMode = false;
+                
+            //Camera = camera.GetComponent<Camera>();
         }
 
         private void Awake()

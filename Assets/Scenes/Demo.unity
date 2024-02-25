@@ -12027,7 +12027,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -131397,6 +131397,10 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1026014516}
+    - target: {fileID: 4173461511114829923, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 853519052}
     - target: {fileID: 4173461511114829923, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
       propertyPath: EffectMap
       value: 
