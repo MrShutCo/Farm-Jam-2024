@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: road
+  m_Name: roadElbow
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1933722541, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
+  m_Sprite: {fileID: -229939189, guid: d62258042ef286e4481a8ac2276f786a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
