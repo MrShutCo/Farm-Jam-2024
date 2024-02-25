@@ -8,10 +8,12 @@ namespace Assets.Script.Humans
 {
     public abstract class Task
     {
+        protected Animator animator;
         protected Rigidbody2D rb;
-        public virtual void StartTask(Rigidbody2D rb)
+        public virtual void StartTask(Rigidbody2D rb, Animator animator)
         {
             this.rb = rb;
+            this.animator = animator;
         }
         public abstract void UpdateTask(Human human, double deltaTime);
         public abstract void FixedUpdateTask(Human human, double fixedDeltaTime);
@@ -33,9 +35,10 @@ namespace Assets.Script.Humans
             Name = $"Move to {target}";
         }
 
-        public override void StartTask(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb, Animator animator)
         {
-            base.StartTask(rb);
+            base.StartTask(rb, animator);
+            animator.SetTrigger("WalkTrigger");
             speed = 3;
             Grid2D.onGridUpdated += onGridUpdated;
             Debug.Log($"Started Move To");
@@ -43,6 +46,7 @@ namespace Assets.Script.Humans
 
         public override void StopTask()
         {
+            animator.SetTrigger("IdleTrigger");
             Grid2D.onGridUpdated -= onGridUpdated;
         }
 
@@ -64,6 +68,7 @@ namespace Assets.Script.Humans
             if (path == null || path.Count == 0) return;
             var nodePos = path[currPathNodeDestination];
             var diffVector = nodePos.worldPosition - human.transform.position;
+            
             diffVector.z = 0; // Account for different z levels
             if (diffVector.magnitude < 0.05)
             {
@@ -109,11 +114,11 @@ namespace Assets.Script.Humans
             _taskName = taskName;
         }
 
-        public override void StartTask(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb, Animator animator)
         {
             action();
             Debug.Log($"Started Instant Task: {_taskName}");
-            base.StartTask(rb);
+            base.StartTask(rb, animator);
         }
 
         public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
@@ -157,6 +162,12 @@ namespace Assets.Script.Humans
             Name = "Idle";
         }
 
+        public override void StartTask(Rigidbody2D rb, Animator animator)
+        {
+            base.StartTask(rb, animator);
+            animator.SetTrigger("IdleTrigger");
+        }
+
         public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
         public override void StopTask() { }
         public override void UpdateTask(Human human, double deltaTime) { }
@@ -177,9 +188,9 @@ namespace Assets.Script.Humans
             Name = $"Wander to {target}";
         }
 
-        public override void StartTask(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb, Animator animator)
         {
-            base.StartTask(rb);
+            base.StartTask(rb, animator);
             speed = 1;
         }
 
@@ -237,9 +248,9 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"AggressiveMelee {target}";
         }
-        public override void StartTask(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb, Animator animator)
         {
-            base.StartTask(rb);
+            base.StartTask(rb, animator);
             range = 5;
         }
 
@@ -283,10 +294,6 @@ namespace Assets.Script.Humans
         {
             Name = "DefensiveIdle";
         }
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
-        }
 
         public override void StopTask()
         {
@@ -309,10 +316,6 @@ namespace Assets.Script.Humans
         {
             this.target = target;
             Name = $"DefensiveAttack {target}";
-        }
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
         }
 
         public override void StopTask()
@@ -359,10 +362,6 @@ namespace Assets.Script.Humans
         {
             this.target = target;
             Name = $"CloseRangeTactics {target}";
-        }
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
         }
 
         public override void StopTask()
@@ -424,9 +423,9 @@ namespace Assets.Script.Humans
             Name = $"Patrol to {target}";
         }
 
-        public override void StartTask(Rigidbody2D rb)
+        public override void StartTask(Rigidbody2D rb, Animator animator)
         {
-            base.StartTask(rb);
+            base.StartTask(rb, animator);
             speed = 1;
         }
 
@@ -468,11 +467,6 @@ namespace Assets.Script.Humans
             Name = $"FleeAndFire {target}";
         }
 
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
-        }
-
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
@@ -504,10 +498,6 @@ namespace Assets.Script.Humans
         {
             this.target = target;
             Name = $"ApproachAndAttack {target}";
-        }
-        public override void StartTask(Rigidbody2D rb)
-        {
-            base.StartTask(rb);
         }
 
         public override void StopTask()

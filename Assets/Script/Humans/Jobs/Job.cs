@@ -15,17 +15,9 @@ namespace Assets.Script.Humans
 
 		Human human;
 		private Rigidbody2D _humanRigidBody;
+		private Animator _humanAnimatorBody;
 		List<Task> _tasks = new();
 		int _activeTask;
-
-
-		public Job(Human h)
-		{
-			IsActive = false;
-			human = h;
-			_humanRigidBody = human.GetComponent<Rigidbody2D>();
-			_tasks = new List<Task>();
-		}
 
 		public Job(Human h, string name, List<Task> jobs, bool isRepeated)
 		{
@@ -35,13 +27,14 @@ namespace Assets.Script.Humans
 			IsRepeated = isRepeated;
 			human = h;
 			_humanRigidBody = human.GetComponent<Rigidbody2D>();
+			_humanAnimatorBody = human.GetComponent<Animator>();
 		}
 
 		public void StartJob()
 		{
 			if (_tasks.Count == 0) return;
 			_tasks[_activeTask].OnStopTask += OnTaskComplete;
-			_tasks[_activeTask].StartTask(_humanRigidBody);
+			_tasks[_activeTask].StartTask(_humanRigidBody, _humanAnimatorBody);
 			IsActive = true;
 		}
 
@@ -97,7 +90,7 @@ namespace Assets.Script.Humans
 			if (_activeTask < _tasks.Count)
 			{
 				_tasks[_activeTask].OnStopTask += OnTaskComplete;
-				_tasks[_activeTask].StartTask(_humanRigidBody);
+				_tasks[_activeTask].StartTask(_humanRigidBody, _humanAnimatorBody);
 			}
 		}
 

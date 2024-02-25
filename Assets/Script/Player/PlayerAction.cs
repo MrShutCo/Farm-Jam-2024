@@ -13,6 +13,7 @@ public abstract class PlayerAction : MonoBehaviour
     protected Player player;
     protected Transform _transform;
     protected Collider2D col;
+    protected Animator animator;
 
     Vector2 hitBoxSize = new Vector2(3, 2);
     protected float halfExtent;
@@ -27,6 +28,7 @@ public abstract class PlayerAction : MonoBehaviour
         col = player.GetComponent<Collider2D>();
         showDebug = player.showDebug;
         halfExtent = player.GetHalfExtent();
+        animator = GetComponent<Animator>();
     }
     public abstract void Action(Vector2 direction, LayerMask targetLayers);
 
@@ -98,6 +100,7 @@ public class AttackAction : PlayerAction
             hitIndex++;
         }
         //Animate Attack
+        animator.SetTrigger("AttackTrigger");
 
         Collider2D[] hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)

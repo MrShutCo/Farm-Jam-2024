@@ -194,6 +194,8 @@ namespace Assets.Script.Humans
             {
                 currentJobs.Peek()?.FixedUpdate(Time.deltaTime);
             }
+            
+            transform.localScale = new Vector3(rb.velocity.x > 0 ? 1 : -1, 1, 1);
         }
 
         private void OnCollisionEnter2D(Collision2D other)

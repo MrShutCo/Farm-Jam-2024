@@ -27,7 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] Grabber grabber;
     [SerializeField] PortalMaker portalMaker;
 
-
+    Animator animator;
+    SpriteRenderer _spriteRenderer;
     AttackAction attackAction;
     CollectAction collectAction;
     DodgeAction dodgeAction;
@@ -44,7 +45,7 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem collectVFX;
     [SerializeField] ParticleSystem dodgeVFX;
 
-
+    private bool isFacingLeft;
 
     public bool showDebug = true;
     public float GetHalfExtent()
@@ -63,7 +64,8 @@ public class Player : MonoBehaviour
         collectAction = gameObject.AddComponent<CollectAction>();
         dodgeAction = gameObject.AddComponent<DodgeAction>();
         carrier = GetComponent<Carrier>();
-
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        
         baseDamage = stats.GetStat(EStat.Attack);
         runSpeed = stats.GetStat(EStat.Speed);
         carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
@@ -166,6 +168,7 @@ public class Player : MonoBehaviour
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
         moveDirection = new Vector2(horizontal, vertical).normalized;
         onMove?.Invoke(moveDirection, runSpeed);
+        _spriteRenderer.flipX = isFacingLeft;
         UpdateFacing();
     }
     bool HandlePortalInput()
@@ -213,6 +216,8 @@ public class Player : MonoBehaviour
         if (lastDirectionPressed != Vector2.zero && lastDirectionPressed != Facing)
         {
             Facing = lastDirectionPressed;
+            if (Facing == Vector2.left) transform.localScale = new Vector3(-1,1,1);
+            if (Facing == Vector2.right) transform.localScale = new Vector3(1,1,1);
             onChangeDirection?.Invoke(Facing);
         }
     }

@@ -11,11 +11,14 @@ public class Movement : MonoBehaviour
     Player player;
 
     //float moveLimiter = 0.7f;
-
+    private SpriteRenderer _spriteRenderer;
+    private bool lastFacingLeft;
+    
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         player = GetComponent<Player>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
