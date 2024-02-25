@@ -117,7 +117,7 @@ namespace Assets.Script.UI
 
                 Icon icon = Instantiate(iconPrefab, resourceTexts.transform);
                 icon.SetIcon(resource.Key, resource.Value);
-                icon.transform.position = resourceTexts.transform.position + new Vector3(0, -i * 3f);
+                icon.transform.position = resourceTexts.transform.position + new Vector3(0, -i * 1.5f);
                 homeResourceIcons.Add(icon);
                 i++;
             }

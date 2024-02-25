@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: PlayerHealthPlus200
   m_EditorClassIdentifier: Assembly-CSharp::StatsUpgrade
-  cost: 1
+  cost: 0
   unitsToUpgrade:
   - {fileID: 11400000, guid: b54e458899a892a4aa40b00337677ff9, type: 2}
   upgradeToApply: {fileID: 11400000, guid: 5a1d92c67b79312499edd5ca1433eb98, type: 2}
