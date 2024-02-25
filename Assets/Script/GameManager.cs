@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public EGameState GameState { get; private set; }
-
+    
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
