@@ -85,11 +85,11 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
         }
         CarriedHumans.Clear();
-        foreach (var resource in CarriedResources)
+        foreach (var resource in CarriedResources.ToList())
         {
             GameManager.Instance.AddResource(resource.Key, resource.Value);
+            CarriedResources[resource.Key] = 0;
         }
-        CarriedResources.Clear();
         GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
         GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
     }

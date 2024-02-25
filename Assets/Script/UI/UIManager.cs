@@ -39,6 +39,12 @@ namespace Assets.Script.UI
         [SerializeField] private Canvas buildCanvas;
         [SerializeField] private Canvas deathCanvas;
 
+        private void Awake()
+        {
+            homeResourceIcons = new List<Icon>();
+            playerResourceIcons = new List<Icon>();
+            PopulateResourceIcons();
+        }
         void OnEnable()
         {
             Debug.Log("Game Manager: " + GameManager.Instance);
@@ -91,16 +97,27 @@ namespace Assets.Script.UI
                 OnPerformanceUpdate();
         }
 
+        void PopulateResourceIcons()
+        {
+            var resources = EResource.GetValues(typeof(EResource));
+            for (int i = 0; i < resources.Length; i++)
+            {
+                var resource = (EResource)resources.GetValue(i);
+                var iconHome = Instantiate(iconPrefab, resourceTexts.transform);
+                iconHome.SetIcon(resource, 0);
+                iconHome.transform.position = resourceTexts.transform.position + new Vector3(0, -i * 1.5f);
+                homeResourceIcons.Add(iconHome);
+
+                var iconCarried = Instantiate(iconPrefab, carriedResourcesTexts.transform);
+                iconCarried.SetIcon(resource, 0);
+                iconCarried.transform.position = carriedResourcesTexts.transform.position + new Vector3(i * 2, 0);
+                playerResourceIcons.Add(iconCarried);
+                UpdateCarrierBackgroundSize(carriedResourceBackGround, playerResourceIcons.Count, 36);
+            }
+        }
+
         void onResourceUpdate()
         {
-            if (homeResourceIcons != null)
-            {
-                foreach (var sprite in homeResourceIcons)
-                {
-                    Destroy(sprite.gameObject);
-                }
-            }
-            homeResourceIcons = new List<Icon>();
             var resources = GameManager.Instance.Resources;
             if (resources == null)
             {
@@ -110,15 +127,7 @@ namespace Assets.Script.UI
             var text = "";
             foreach (var resource in resources)
             {
-                if (resource.Value == 0)
-                {
-                    continue;
-                }
-
-                Icon icon = Instantiate(iconPrefab, resourceTexts.transform);
-                icon.SetIcon(resource.Key, resource.Value);
-                icon.transform.position = resourceTexts.transform.position + new Vector3(0, -i * 1.5f);
-                homeResourceIcons.Add(icon);
+                homeResourceIcons[i].SetIcon(resource.Key, resource.Value);
                 i++;
             }
             resourceTexts.text = text;
@@ -137,27 +146,14 @@ namespace Assets.Script.UI
         }
         void OnCarriedResourcesUpdate(Dictionary<EResource, int> resources)
         {
-            if (playerResourceIcons != null)
-            {
-                foreach (var sprite in playerResourceIcons)
-                {
-                    Destroy(sprite.gameObject);
-                }
-            }
-            playerResourceIcons = new List<Icon>();
             int i = 0;
             var text = "";
             foreach (var resource in resources)
             {
-                Icon icon = Instantiate(iconPrefab, carriedResourcesTexts.transform);
-                icon.SetIcon(resource.Key, resource.Value);
-                //make the icon line up with the text
-                icon.transform.position = carriedResourcesTexts.transform.position + new Vector3(i * 2, 0);
-                playerResourceIcons.Add(icon);
+                playerResourceIcons[i].SetIcon(resource.Key, resource.Value);
                 i++;
             }
             carriedResourcesTexts.text = text;
-            UpdateCarrierBackgroundSize(carriedResourceBackGround, resources.Count, 32);
         }
 
         void UpdateCarrierBackgroundSize(RectTransform carrierBackGround, int qty, float width = 20)
@@ -166,7 +162,6 @@ namespace Assets.Script.UI
             size.x = qty * width;
             carrierBackGround.sizeDelta = size;
         }
-
         void OnPerformanceUpdate()
         {
             //show fps as a whole number that only updates once per second
@@ -176,8 +171,6 @@ namespace Assets.Script.UI
         {
             playerHealthBar.UpdateStatusBar(currentHealth, maxHealth);
         }
-
-
         void OnShowHumansLost()
         {
             var lostHumans = GameManager.Instance.Carrier.LoseHumans();
