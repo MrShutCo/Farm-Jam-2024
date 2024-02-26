@@ -48,12 +48,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2886418457755946643, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 354881111, guid: 5388f08b2463c22468db8b8e033d9c69, type: 3}
     - target: {fileID: 4798844661719070186, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
       propertyPath: impactVFXPrefab
       value: 
       objectReference: {fileID: 1187776586867947725, guid: edbe4bbb9838b6f4ca5dc9c411c22c20, type: 3}
     - target: {fileID: 4798844661719070186, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
       propertyPath: destroyOnLanding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552719998302972556, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552719998302972556, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552719998302972556, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9112749491027523190, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
@@ -67,6 +83,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9112749491027523190, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6850418804612720480}
+    - targetCorrespondingSourceObject: {fileID: 9112749491027523190, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3847052207607581650}
   m_SourcePrefab: {fileID: 100100000, guid: 4e3eded762633ca44a47714e08e8997a, type: 3}
 --- !u!1 &7195753168976103998 stripped
 GameObject:
@@ -91,3 +110,24 @@ MonoBehaviour:
   speed: 3
   checkDistance: 1
   FacingDirection: {x: 1, y: 0}
+--- !u!95 &-3847052207607581650
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7195753168976103998}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e190e14353e4a514db5666ffcbae92c6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

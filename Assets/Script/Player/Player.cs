@@ -65,7 +65,8 @@ public class Player : MonoBehaviour
         dodgeAction = gameObject.AddComponent<DodgeAction>();
         carrier = GetComponent<Carrier>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        
+        animator = GetComponent<Animator>();
+
         baseDamage = stats.GetStat(EStat.Attack);
         runSpeed = stats.GetStat(EStat.Speed);
         carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
@@ -74,8 +75,8 @@ public class Player : MonoBehaviour
     {
         portalMaker = GetComponentInChildren<PortalMaker>();
     }
-    
-    
+
+
     private void OnEnable()
     {
         dodgeAction.onDodge += new Action<bool>((bool isActive) => moveActive = !isActive);
@@ -167,6 +168,7 @@ public class Player : MonoBehaviour
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
         moveDirection = new Vector2(horizontal, vertical).normalized;
+        animator.SetBool("Moving", Mathf.Abs(moveDirection.magnitude) > 0.05f);
         onMove?.Invoke(moveDirection, runSpeed);
         _spriteRenderer.flipX = isFacingLeft;
         UpdateFacing();
@@ -216,8 +218,8 @@ public class Player : MonoBehaviour
         if (lastDirectionPressed != Vector2.zero && lastDirectionPressed != Facing)
         {
             Facing = lastDirectionPressed;
-            if (Facing == Vector2.left) transform.localScale = new Vector3(-1,1,1);
-            if (Facing == Vector2.right) transform.localScale = new Vector3(1,1,1);
+            if (Facing == Vector2.left) transform.localScale = new Vector3(-1, 1, 1);
+            if (Facing == Vector2.right) transform.localScale = new Vector3(1, 1, 1);
             onChangeDirection?.Invoke(Facing);
         }
     }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e858ef67ddd56452e8551bc8cb470f57
+guid: 5388f08b2463c22468db8b8e033d9c69
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,6 +81,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,144 +119,47 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: humanregularwalk_0
+      name: car_H
       rect:
         serializedVersion: 2
-        x: 4
+        x: 0
         y: 0
-        width: 8
+        width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c009246cb7234cfd9a8612989c93daa
-      internalID: -1040629374
+      spriteID: eea2c04eb1b19d34085ec563245c3c2d
+      internalID: 354881111
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: humanregularwalk_1
+      name: car_V
       rect:
         serializedVersion: 2
         x: 19
         y: 0
-        width: 10
+        width: 11
         height: 16
-      alignment: 0
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab6e27561e90146e4a026052dadbdd57
-      internalID: -1767441638
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: humanregularwalk_2
-      rect:
-        serializedVersion: 2
-        x: 36
-        y: 0
-        width: 8
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2c8f343ddd83c46a0b51b6e422924dbb
-      internalID: -1174919731
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: humanregularwalk_3
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 0
-        width: 12
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4104b5fca85314d279203b1e4d8e63d8
-      internalID: -1331171975
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: humanregularwalk_4
-      rect:
-        serializedVersion: 2
-        x: 66
-        y: 0
-        width: 12
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2d1c2127654c9410f9bb3dc9f34ccdf8
-      internalID: 1187583880
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: humanregularwalk_5
-      rect:
-        serializedVersion: 2
-        x: 82
-        y: 0
-        width: 12
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f68e85b68e6df41cd8011a7731ed5363
-      internalID: 313828425
+      spriteID: 345f2f12f34cfca40b7101c8a4b1352d
+      internalID: -879942686
       vertices: []
       indices: 
       edges: []
@@ -259,12 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      humanregularwalk_0: -1040629374
-      humanregularwalk_1: -1767441638
-      humanregularwalk_2: -1174919731
-      humanregularwalk_3: -1331171975
-      humanregularwalk_4: 1187583880
-      humanregularwalk_5: 313828425
+      car_H: 354881111
+      car_V: -879942686
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

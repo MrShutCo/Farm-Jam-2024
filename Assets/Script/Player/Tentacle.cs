@@ -13,6 +13,8 @@ public class Tentacle : MonoBehaviour
     LineRenderer line;
     Coroutine grabbingCR;
 
+    Vector2 lerpPosition;
+
     [SerializeField] GrabbableObjectBase grabbedObject;
 
     float timeOffset;
@@ -51,6 +53,8 @@ public class Tentacle : MonoBehaviour
     {
         if (!grabbing)
             RefreshLinePositions();
+
+        baseOffset = Vector2.Lerp(baseOffset, lerpPosition, Time.deltaTime * 1);
     }
     public void SetBaseOffset(Vector2 position)
     {
@@ -71,7 +75,7 @@ public class Tentacle : MonoBehaviour
             position = new Vector2(position.x, position.y);
         }
 
-        baseOffset = position;
+        lerpPosition = position;
     }
     public void ReturnToBasePosition(bool dropObjects = true)
     {

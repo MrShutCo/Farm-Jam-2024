@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -19,6 +20,7 @@ public class TilePathFollowers : MonoBehaviour, IGrabStoppable
     Rigidbody2D rb;
     Collider2D col;
     GrabbableObjectBase grabbable;
+    Animator animator;
     bool active = true;
 
     private void Awake()
@@ -28,6 +30,7 @@ public class TilePathFollowers : MonoBehaviour, IGrabStoppable
         col = GetComponent<Collider2D>();
         active = true;
         grabbable = GetComponent<GrabbableObjectBase>();
+        animator = GetComponent<Animator>();
     }
     private void OnEnable()
     {
@@ -57,15 +60,40 @@ public class TilePathFollowers : MonoBehaviour, IGrabStoppable
         // }
         // else
         if (active)
+        {
+            Flip();
             if (IsRoadClear())
                 Move();
+        }
+    }
+    void Flip()
+    {
+        if (rb.velocity.x > 0.01f)
+        {
+            _transform.localScale = new Vector3(1f, 1f, 1f);
+            animator.SetBool("Vertical", false);
+        }
+        else if (rb.velocity.x < -0.01f)
+        {
+            _transform.localScale = new Vector3(-1f, 1f, 1f);
+            animator.SetBool("Vertical", false);
+        }
+        else if (rb.velocity.y > 0.01f)
+        {
+            _transform.localScale = new Vector3(1f, 1f, 1f);
+            animator.SetBool("Vertical", true);
+        }
+        else if (rb.velocity.y < -0.01f)
+        {
+            _transform.localScale = new Vector3(-1f, 1f, 1f);
+            animator.SetBool("Vertical", true);
+        }
     }
 
     void Move()
     {
         rb.velocity = FacingDirection * speed;
         distanceMoved += Vector2.Distance(previousPosition, rb.position);
-
         previousPosition = rb.position;
     }
 
