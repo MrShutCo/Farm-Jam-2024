@@ -105,12 +105,12 @@ namespace Assets.Script.UI
                 var resource = (EResource)resources.GetValue(i);
                 var iconHome = Instantiate(iconPrefab, resourceTexts.transform);
                 iconHome.SetIcon(resource, 0);
-                iconHome.transform.position = resourceTexts.transform.position + new Vector3(0, -i * 1.5f);
+                iconHome.transform.localPosition = new Vector3(0, -i * 15f);
                 homeResourceIcons.Add(iconHome);
 
                 var iconCarried = Instantiate(iconPrefab, carriedResourcesTexts.transform);
                 iconCarried.SetIcon(resource, 0);
-                iconCarried.transform.position = carriedResourcesTexts.transform.position + new Vector3(i * 2, 0);
+                iconCarried.transform.localPosition = new Vector3(i * 36, 0);
                 playerResourceIcons.Add(iconCarried);
                 UpdateCarrierBackgroundSize(carriedResourceBackGround, playerResourceIcons.Count, 36);
             }
@@ -138,7 +138,7 @@ namespace Assets.Script.UI
             var text = "";
             foreach (var human in humans)
             {
-                human.GetComponent<Renderer>().sortingOrder = 120;
+                human.GetComponentInChildren<Renderer>().sortingOrder = 120;
                 i++;
             }
             carriedHumansTexts.text = text;
@@ -156,7 +156,7 @@ namespace Assets.Script.UI
             carriedResourcesTexts.text = text;
         }
 
-        void UpdateCarrierBackgroundSize(RectTransform carrierBackGround, int qty, float width = 20)
+        void UpdateCarrierBackgroundSize(RectTransform carrierBackGround, int qty, float width = 20.0f)
         {
             var size = carrierBackGround.sizeDelta;
             size.x = qty * width;

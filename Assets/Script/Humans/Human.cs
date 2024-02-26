@@ -41,6 +41,7 @@ namespace Assets.Script.Humans
 
         private EfficiencyProfile _efficiencyProfile;
         private List<Trait> _traits;
+        private SpriteRenderer _spriteRenderer;
 
         public void Awake()
         {
@@ -55,6 +56,7 @@ namespace Assets.Script.Humans
             pathfinding.seeker = transform;
             currentJobs = new Queue<Job>();
             _efficiencyProfile = new EfficiencyProfile();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _traits = new List<Trait>()
             {
                 new ResourceTrait(EResource.Blood, ERank.F),
@@ -203,7 +205,7 @@ namespace Assets.Script.Humans
                 currentJobs.Peek()?.FixedUpdate(Time.deltaTime);
             }
             
-            transform.localScale = new Vector3(rb.velocity.x > 0 ? 1 : -1, 1, 1);
+            _spriteRenderer.transform.localScale = new Vector3(rb.velocity.x > 0 ? 1 : -1, 1, 1);
         }
 
         private void OnCollisionEnter2D(Collision2D other)

@@ -26,8 +26,8 @@ namespace Assets.Script.Humans
 			_tasks = jobs;
 			IsRepeated = isRepeated;
 			human = h;
-			_humanRigidBody = human.GetComponent<Rigidbody2D>();
-			_humanAnimatorBody = human.GetComponent<Animator>();
+			_humanRigidBody = human.GetComponentInChildren<Rigidbody2D>();
+			_humanAnimatorBody = human.GetComponentInChildren<Animator>();
 		}
 
 		public void StartJob()
