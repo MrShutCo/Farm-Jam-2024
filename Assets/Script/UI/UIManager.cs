@@ -14,7 +14,7 @@ namespace Assets.Script.UI
         TextMeshProUGUI resourceTexts;
 
         [Header("Player Elements")]
-        [SerializeField] TextMeshProUGUI carriedHumansTexts;
+        [SerializeField] RectTransform carriedHumansParent;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
         [SerializeField] RectTransform carriedHumanBackGround;
         [SerializeField] RectTransform carriedResourceBackGround;
@@ -135,14 +135,23 @@ namespace Assets.Script.UI
         void OnCarriedHumansUpdate(List<Human> humans)
         {
             int i = 0;
-            var text = "";
             foreach (var human in humans)
             {
-                human.GetComponentInChildren<Renderer>().sortingOrder = 120;
+                human.transform.SetParent(carriedHumansParent);
                 i++;
             }
-            carriedHumansTexts.text = text;
+            OrganizeCarriedHumans(humans);
             UpdateCarrierBackgroundSize(carriedHumanBackGround, humans.Count);
+        }
+
+        void OrganizeCarriedHumans(List<Human> humans)
+        {
+            Vector2 humanTrackerPos = carriedHumansParent.position;
+            //organize humans on tracker
+            for (int i = 0; i < humans.Count; i++)
+            {
+                humans[i].transform.position = humanTrackerPos + new Vector2(i, .5f);
+            }
         }
         void OnCarriedResourcesUpdate(Dictionary<EResource, int> resources)
         {

@@ -42,9 +42,13 @@ public class Player : MonoBehaviour
     float runSpeed;
 
     [Header("VFX")]
-    [SerializeField] ParticleSystem attackVFX;
-    [SerializeField] ParticleSystem collectVFX;
     [SerializeField] ParticleSystem dodgeVFX;
+    [SerializeField] Animator vfxAnimator;
+
+    public Animator Animator => animator;
+    public Animator VFXAnimator => vfxAnimator;
+    public Collider2D Col => col;
+
 
     private bool isFacingLeft;
 
@@ -66,7 +70,7 @@ public class Player : MonoBehaviour
         dodgeAction = gameObject.AddComponent<DodgeAction>();
         carrier = GetComponent<Carrier>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        animator = GetComponentInChildren<Animator>();
+        animator = _spriteRenderer.GetComponent<Animator>();
         baseDamage = stats.GetStat(EStat.Attack);
         runSpeed = stats.GetStat(EStat.Speed);
         carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
@@ -168,7 +172,7 @@ public class Player : MonoBehaviour
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
         moveDirection = new Vector2(horizontal, vertical).normalized;
-        //animator.SetBool("Moving", Mathf.Abs(moveDirection.magnitude) > 0.05f);
+        animator.SetBool("Moving", Mathf.Abs(moveDirection.magnitude) > 0.05f);
         onMove?.Invoke(moveDirection, runSpeed);
         _spriteRenderer.flipX = isFacingLeft;
         UpdateFacing();

@@ -14,6 +14,7 @@ public abstract class PlayerAction : MonoBehaviour
     protected Transform _transform;
     protected Collider2D col;
     protected Animator animator;
+    protected Animator vfxAnimator;
 
     Vector2 hitBoxSize = new Vector2(3, 2);
     protected float halfExtent;
@@ -25,10 +26,14 @@ public abstract class PlayerAction : MonoBehaviour
     {
         _transform = transform;
         player = GetComponent<Player>();
-        col = player.GetComponent<Collider2D>();
+    }
+    protected virtual void Start()
+    {
+        col = player.Col;
         showDebug = player.showDebug;
         halfExtent = player.GetHalfExtent();
-        animator = GetComponentInChildren<Animator>();
+        animator = player.Animator;
+        vfxAnimator = player.VFXAnimator;
     }
     public abstract void Action(Vector2 direction, LayerMask targetLayers);
 
@@ -64,6 +69,7 @@ public abstract class PlayerAction : MonoBehaviour
         }
         return null;
     }
+
     void OnDrawGizmos()
     {
         if (showDebug)
@@ -101,6 +107,9 @@ public class AttackAction : PlayerAction
         }
         //Animate Attack
         animator.SetTrigger("AttackTrigger");
+        vfxAnimator.transform.position = HitPos(direction);
+        vfxAnimator.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        vfxAnimator.SetTrigger("AttackTrigger");
 
         Collider2D[] hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)
@@ -184,7 +193,9 @@ public class CollectAction : PlayerAction
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         //Animate Collect
-        Debug.Log("Collect");
+        vfxAnimator.transform.position = HitPos(direction);
+        vfxAnimator.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction + Vector2.up);
+        vfxAnimator.SetTrigger("CollectTrigger");
 
         hits = GetHits(direction, targetLayers);
         foreach (var hit in hits)

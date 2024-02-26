@@ -20,15 +20,15 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public EGameState GameState { get; private set; }
-    
+
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
     public Grid2D PathfindingGridOutside;
 
     public Action onResourceChange;
-    public Action<List<Human>> onCarriedHumansChange;// humans in bag/tendrils
-    public Action<Dictionary<EResource, int>> onCarriedResourcesChange; // resources in bag/tendrils
+    public Action<List<Human>> onCarriedHumansChange;
+    public Action<Dictionary<EResource, int>> onCarriedResourcesChange;
     public Action<int, int> onHealthChange;
     public Action onEnterHomeBase;
     public Action onExitHomeBase;

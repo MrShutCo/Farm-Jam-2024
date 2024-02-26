@@ -13,7 +13,6 @@ public class Carrier : MonoBehaviour
     public Dictionary<EResource, int> CarriedResources = new();
 
     [SerializeField] RectTransform HumanTracker;
-    [SerializeField] RectTransform ResourceTracker;
 
     public void SetCarryCapacity(int humans, int resources)
     {
@@ -32,8 +31,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans.Add(human);
             human.enabled = false;
             human.WildBehaviour.enabled = false;
-            human.transform.SetParent(HumanTracker);
-            OrganizeHumans();
+            human.GetComponentInChildren<Renderer>().sortingOrder = 120;
             GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
             //put human in tendril or bag
             return true;
@@ -63,15 +61,6 @@ public class Carrier : MonoBehaviour
             }
             GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
             return true;
-        }
-    }
-    void OrganizeHumans()
-    {
-        Vector2 humanTrackerPos = HumanTracker.position;
-        //organize humans on tracker
-        for (int i = 0; i < CarriedHumans.Count; i++)
-        {
-            CarriedHumans[i].transform.position = humanTrackerPos + new Vector2(i, .5f);
         }
     }
     public void DropOff()
