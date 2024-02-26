@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     { Vector2.down, 0 },
     { Vector2.right, 0 }
     };
+    
     [Header("Outside Interactions")]
     [SerializeField] float baseDamage = 20;
     public float BaseDamage => baseDamage;
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
         collectAction = gameObject.AddComponent<CollectAction>();
         dodgeAction = gameObject.AddComponent<DodgeAction>();
         carrier = GetComponent<Carrier>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         
         baseDamage = stats.GetStat(EStat.Attack);
         runSpeed = stats.GetStat(EStat.Speed);

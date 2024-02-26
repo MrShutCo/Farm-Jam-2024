@@ -12182,7 +12182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8996113023316204099, guid: 52b89ed9e1284044fbb3de4114858b05, type: 3}
       propertyPath: m_Name
-      value: Portal (1)
+      value: Portal-Wild
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -124476,6 +124476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1676694247}
   - component: {fileID: 1676694248}
+  - component: {fileID: 1676694249}
   m_Layer: 8
   m_Name: WildHumanoids
   m_TagString: Untagged
@@ -124542,6 +124543,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WorldType: 0
   Grid: {fileID: 1302900335}
+--- !u!114 &1676694249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676694246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292f286d2ea984366bab49a587d83e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalPosition: {fileID: 421613281}
+  distanceThresholds:
+  - 103.9
+  - 183.6
+  - 259.7
 --- !u!1 &1751182840
 GameObject:
   m_ObjectHideFlags: 0
@@ -130650,6 +130668,104 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3665792776338965429, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
   m_PrefabInstance: {fileID: 1506031381}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2020328236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2020328238}
+  - component: {fileID: 2020328237}
+  - component: {fileID: 2020328239}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &2020328237
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020328236}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7e1c95d76ce844562b9feb4384b18844, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -729313537
+  m_SortingLayer: -1
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: a4991016be82c418d8604987f6fd8747, type: 3}
+  m_Color: {r: 0.5943396, g: 0.28875935, b: 0.28875935, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 2
+  m_Size: {x: 64, y: 64}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &2020328238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020328236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.9, y: -5.9, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020328239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020328236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb7ca6e374d14eabbfe1ca820c3aae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.1
 --- !u!224 &2035281180 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7246295632757350059, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
@@ -131061,6 +131177,18 @@ PrefabInstance:
     - target: {fileID: 6223376003044698413, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: orthographic size
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6223376003044698413, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6223376003044698413, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6223376003044698413, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8973575707270312727, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: buildVirtualCam
@@ -131741,3 +131869,4 @@ SceneRoots:
   - {fileID: 1601983182}
   - {fileID: 1635767419}
   - {fileID: 51808695}
+  - {fileID: 2020328238}

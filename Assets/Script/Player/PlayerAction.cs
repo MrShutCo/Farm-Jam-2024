@@ -28,7 +28,7 @@ public abstract class PlayerAction : MonoBehaviour
         col = player.GetComponent<Collider2D>();
         showDebug = player.showDebug;
         halfExtent = player.GetHalfExtent();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
     public abstract void Action(Vector2 direction, LayerMask targetLayers);
 
