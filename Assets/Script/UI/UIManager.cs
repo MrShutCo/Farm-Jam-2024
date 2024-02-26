@@ -38,6 +38,7 @@ namespace Assets.Script.UI
         [SerializeField] private Canvas normalCanvas;
         [SerializeField] private Canvas buildCanvas;
         [SerializeField] private Canvas deathCanvas;
+        [SerializeField] private Canvas dialogueCanvas;
 
         private void Awake()
         {
@@ -74,6 +75,11 @@ namespace Assets.Script.UI
                         OnShowHumansLost();
                         OnShowResourcesLost();
                         break;
+                    case EGameState.Dialogue:
+                        disableAllCanvas();
+                        normalCanvas.gameObject.SetActive(true);
+                        dialogueCanvas.gameObject.SetActive(true);
+                        break;
                 };
             };
         }
@@ -83,6 +89,7 @@ namespace Assets.Script.UI
             normalCanvas.gameObject.SetActive(false);
             buildCanvas.gameObject.SetActive(false);
             deathCanvas.gameObject.SetActive(false);
+            dialogueCanvas.gameObject.SetActive(false);
         }
 
         private void OnDisable()

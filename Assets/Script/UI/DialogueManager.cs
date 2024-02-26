@@ -1,16 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
-    [SerializeField] private GameObject dialogueBox;
-    [SerializeField] private TMPro.TextMeshProUGUI textLabel;
-    [SerializeField] private float delayBetweenCharacters;
-    public bool IsDialogueActive => dialogueBox.activeInHierarchy;
-
+    [SerializeField] TextMeshProUGUI textLabel;
+    [SerializeField] float delayBetweenCharacters;
+    [SerializeField] List<RectTransform> options;
     Coroutine typeLineCR;
 
     private Queue<string> dialogue = new Queue<string>();
@@ -19,22 +18,35 @@ public class DialogueManager : MonoBehaviour
     {
         Instance = this;
     }
-    void Update()
+    private void OnEnable()
     {
-        if (dialogueBox.activeInHierarchy && Input.GetKeyDown(KeyCode.Space))
+        foreach (RectTransform option in options)
         {
-            if (typeLineCR == null)
-                DisplayNextLine();
+            option.gameObject.SetActive(false);
         }
     }
+    void Update()
+    {
+        if (GameManager.Instance.GameState == EGameState.Dialogue)
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Space pressed");
+                if (typeLineCR == null)
+                    DisplayNextLine();
+            }
 
+    }
+
+
+    /// Convert to use Scriptable objects DialogueLines[]> 
+    //Dialogue line to include string, dialogue options, ability to trigger upgrades, feed husband, etc)
     public void StartDialogue(string[] dialogue)
     {
-        Time.timeScale = 0;
-        dialogueBox.SetActive(true);
+        Debug.Log("Starting dialogue");
         this.dialogue.Clear();
         foreach (string line in dialogue)
         {
+            Debug.Log("Adding line: " + line);
             this.dialogue.Enqueue(line);
         }
         DisplayNextLine();
@@ -42,6 +54,7 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextLine()
     {
+        Debug.Log("Displaying next line");
         if (dialogue.Count == 0)
         {
             EndDialogue();
@@ -53,6 +66,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeLine(string line)
     {
+        Debug.Log("Typing line: " + line);
         textLabel.text = "";
         foreach (char c in line.ToCharArray())
         {
@@ -69,8 +83,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        dialogueBox.SetActive(false);
-        Time.timeScale = 1;
+        Debug.Log("Ending dialogue ");
+        GameManager.Instance.SetGameState(EGameState.Normal);
     }
 
 }

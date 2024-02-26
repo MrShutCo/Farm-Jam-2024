@@ -195,6 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8767024560932268644}
   - component: {fileID: 3259557411628584013}
+  - component: {fileID: 2986570808919345142}
   m_Layer: 7
   m_Name: Interactor
   m_TagString: Untagged
@@ -252,3 +253,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2
+--- !u!114 &2986570808919345142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461980144255776832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25f4bb55d9943f428f3a40ff1cd3079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueTest:
+  - Welcome!
+  - Test2
+  - What are you buyin'?

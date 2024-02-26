@@ -11,7 +11,7 @@ using UnityEngine.Events;
 
 public enum EGameState
 {
-    Normal, Build, Death
+    Normal, Build, Death, Dialogue
 }
 
 public class GameManager : MonoBehaviour
