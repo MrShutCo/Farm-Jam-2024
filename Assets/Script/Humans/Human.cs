@@ -63,6 +63,14 @@ namespace Assets.Script.Humans
             setTraitText();
         }
 
+        public void InitializeHuman(string name, List<Trait> traits)
+        {
+            Name = name;
+            _traits = traits;
+            setTraitText();
+            nameText.text = Name;
+        }
+
         private void OnEnable()
         {
             StopAllJobs();
