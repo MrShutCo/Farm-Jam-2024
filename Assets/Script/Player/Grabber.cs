@@ -14,6 +14,7 @@ public class Grabber : MonoBehaviour
     [SerializeField] GrabbableObjectBase closestGrabbable;
     Transform _transform;
     Player player;
+    Vector2 activeDirection;
 
     int grabberIndex = 0;
 
@@ -29,18 +30,20 @@ public class Grabber : MonoBehaviour
     }
     private void OnEnable()
     {
-        player.onChangeDirection += ChangeDirection;
+        player.onMove += ChangeDirection;
     }
     private void OnDisable()
     {
-        player.onChangeDirection -= ChangeDirection;
+        player.onMove -= ChangeDirection;
     }
-    void ChangeDirection(Vector2 direction)
+    void ChangeDirection(Vector2 direction, float speed)
     {
+        activeDirection = direction;
         UpdateTentaclePositions();
     }
     private void Update()
     {
+        UpdateTentaclePositions();
         HighlightClosestGrabbable(_transform.position);
     }
     void SpawnTentacles()
@@ -52,27 +55,43 @@ public class Grabber : MonoBehaviour
             tentacle.name = "Tentacle " + i;
             tentacles[i] = tentacle;
         }
-        UpdateTentaclePositions();
     }
     void UpdateTentaclePositions()
     {
         float distanceBetweenTentacles = 1f;
         float totalDist = tentacles.Length * distanceBetweenTentacles;
         float backDistance = 3;
+        bool multiTentacles = false;
 
-        for (int i = 0; i < tentacles.Length; i++)
+        Vector2 moveDirection = activeDirection;
+        Vector2 offset;
+        if (multiTentacles)
         {
-            if (player.Facing == Vector2.up)
-                tentacles[i].SetBaseOffset(-(transform.right * (totalDist / 2)) + (transform.right * i * distanceBetweenTentacles) + (transform.up * backDistance));
-            if (player.Facing == Vector2.down)
-                tentacles[i].SetBaseOffset((transform.right * (totalDist / 2)) - (transform.right * i * distanceBetweenTentacles) - (transform.up * backDistance));
-            if (player.Facing == Vector2.left)
-                tentacles[i].SetBaseOffset((transform.up * (totalDist / 2)) - (transform.up * i * distanceBetweenTentacles) + (transform.right * backDistance));
-            if (player.Facing == Vector2.right)
-                tentacles[i].SetBaseOffset(-(transform.up * (totalDist / 2)) + (transform.up * i * distanceBetweenTentacles) - (transform.right * backDistance));
-            tentacles[i].ReturnToBasePosition(false);
+            for (int i = 0; i < tentacles.Length; i++)
+            {
+                offset = Vector2.zero;
+
+                if (moveDirection == Vector2.up)
+                    offset = -(transform.right * (totalDist / 2)) + (transform.right * i * distanceBetweenTentacles) - (transform.up * backDistance);
+                else if (moveDirection == Vector2.down)
+                    offset = (transform.right * (totalDist / 2)) - (transform.right * i * distanceBetweenTentacles) + (transform.up * backDistance);
+                else if (moveDirection == Vector2.left)
+                    offset = (transform.up * (totalDist / 2)) - (transform.up * i * distanceBetweenTentacles) + (transform.right * backDistance);
+                else if (moveDirection == Vector2.right)
+                    offset = -(transform.up * (totalDist / 2)) + (transform.up * i * distanceBetweenTentacles) - (transform.right * backDistance);
+                tentacles[i].SetBaseOffset(offset);
+            }
         }
+        else
+        {
+            offset = new Vector2(moveDirection.x * -backDistance, moveDirection.y * -backDistance);
+
+            tentacles[0].SetBaseOffset(offset);
+        }
+
+
     }
+
     public void GrabAction(Vector2 facing)
     {
         if (tentacles[grabberIndex].transform.childCount > 0)

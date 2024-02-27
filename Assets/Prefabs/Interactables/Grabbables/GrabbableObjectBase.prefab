@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2670045553786947609}
   - component: {fileID: 4798844661719070186}
   - component: {fileID: 2886418457755946643}
-  - component: {fileID: 6552719998302972556}
+  - component: {fileID: 5329504894879888319}
   m_Layer: 10
   m_Name: GrabbableObjectBase
   m_TagString: Untagged
@@ -79,6 +79,11 @@ MonoBehaviour:
   exclusionLayers:
     serializedVersion: 2
     m_Bits: 512
+  explisionLayers:
+    serializedVersion: 2
+    m_Bits: 131328
+  destroyOnLanding: 0
+  impactVFXPrefab: {fileID: 0}
 --- !u!212 &2886418457755946643
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -119,7 +124,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 98358d79c00c54e4ba059d8e80f28cfe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -131,8 +136,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &6552719998302972556
-PolygonCollider2D:
+--- !u!61 &5329504894879888319
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,18 +178,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.0625, y: 0.5625}
-      - {x: -0.75, y: 0.3125}
-      - {x: -1, y: 0.3125}
-      - {x: -1, y: -0.4375}
-      - {x: -0.8125, y: -0.625}
-      - {x: 0.6875, y: -0.625}
-      - {x: 1, y: -0.4375}
-      - {x: 1, y: 0.125}
-      - {x: 0.625, y: 0.25}
-      - {x: 0.625, y: 0.25}
-      - {x: 0.625, y: 0.25}
-      - {x: 0.625, y: 0.25}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0

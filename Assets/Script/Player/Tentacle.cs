@@ -12,6 +12,7 @@ public class Tentacle : MonoBehaviour
     Vector2 facing;
     LineRenderer line;
     Coroutine grabbingCR;
+    Vector2 wiggleOffset;
 
     Vector2 lerpPosition;
 
@@ -22,10 +23,10 @@ public class Tentacle : MonoBehaviour
     public bool Grabbing { get { return grabbing; } }
 
     [Header("WiggleEffect")]
-    [SerializeField] float wiggleAmount1 = 0.92f; // Adjust this to control the amount of the first wiggle
-    [SerializeField] float wiggleSpeed1 = 4.0f; // Adjust this to control the speed of the first wiggle
-    [SerializeField] float wiggleAmount2 = 0.1f; // Adjust this to control the amount of the second wiggle
-    [SerializeField] float wiggleSpeed2 = 2.93f; // Adjust this to control the speed of the second wiggle
+    [SerializeField] float wiggleAmount1 = 0.92f;
+    [SerializeField] float wiggleSpeed1 = 4.0f;
+    [SerializeField] float wiggleAmount2 = 0.1f;
+    [SerializeField] float wiggleSpeed2 = 2.93f;
 
 
     private void Awake()
@@ -43,34 +44,55 @@ public class Tentacle : MonoBehaviour
 
     private void OnEnable()
     {
-        if (player != null) player.onChangeDirection += ChangeDirection;
+        if (player != null) player.onMove += ChangeDirection;
     }
     private void OnDisable()
     {
-        if (player != null) player.onChangeDirection -= ChangeDirection;
+        if (player != null) player.onMove -= ChangeDirection;
     }
     private void Update()
     {
         if (!grabbing)
             RefreshLinePositions();
+        if (_transform.childCount > 0)
+        {
+            transform.GetChild(0).position = line.GetPosition(0);
+        }
 
         baseOffset = Vector2.Lerp(baseOffset, lerpPosition, Time.deltaTime * 1);
     }
     public void SetBaseOffset(Vector2 position)
     {
-        if (facing == Vector2.zero || facing == Vector2.down)
-        {
-            position = new Vector2(position.x, -position.y);
-        }
-        if (facing == Vector2.up)
+
+        if (facing == Vector2.down)
         {
             position = new Vector2(position.x, position.y);
         }
-        if (facing == Vector2.left)
+        else if (facing == Vector2.up)
+        {
+            position = new Vector2(position.x, -position.y);
+        }
+        else if (facing == Vector2.left)
         {
             position = new Vector2(-position.x, position.y);
         }
-        if (facing == Vector2.right)
+        else if (facing == Vector2.right)
+        {
+            position = new Vector2(position.x, position.y);
+        }
+        else if (facing.x > 0 && facing.y > 0)
+        {
+            position = new Vector2(-position.x, position.y);
+        }
+        else if (facing.x < 0 && facing.y > 0)
+        {
+            position = new Vector2(position.x, position.y);
+        }
+        else if (facing.x > 0 && facing.y < 0)
+        {
+            position = new Vector2(-position.x, position.y);
+        }
+        else if (facing.x < 0 && facing.y < 0)
         {
             position = new Vector2(position.x, position.y);
         }
@@ -200,7 +222,7 @@ public class Tentacle : MonoBehaviour
         transform.position = (Vector2)_transform.parent.position + baseOffset;
     }
 
-    private void ChangeDirection(Vector2 direction)
+    private void ChangeDirection(Vector2 direction, float speed)
     {
         facing = direction;
         SetBaseOffset(baseOffset);

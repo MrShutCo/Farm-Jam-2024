@@ -33,7 +33,6 @@ public class Carrier : MonoBehaviour
             human.WildBehaviour.enabled = false;
             human.GetComponentInChildren<Renderer>().sortingOrder = 120;
             GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
-            //put human in tendril or bag
             return true;
         }
     }
@@ -85,7 +84,6 @@ public class Carrier : MonoBehaviour
     public List<Human> LoseHumans()
     {
         List<Human> humans;
-        //randomly select 50% of carried humans to lose
         int start = Mathf.CeilToInt(CarriedHumans.Count / 2);
         int range = CarriedHumans.Count - start;
         humans = CarriedHumans.GetRange(start, range);

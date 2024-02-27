@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Humans;
 using TMPro;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class Icon : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     TextMeshProUGUI text;
+    [SerializeField] Sprite otherIcon; //if not null, this will be used instead of the resource icon
     [SerializeField] Sprite woodIcon;
     [SerializeField] Sprite steelIcon;
     [SerializeField] Sprite electronicsIcon;
@@ -16,6 +18,7 @@ public class Icon : MonoBehaviour
     [SerializeField] Sprite bloodIcon;
     [SerializeField] Sprite boneIcon;
     [SerializeField] Sprite organIcon;
+    public EResource assignedResource { get; private set; }
 
     private Dictionary<EResource, Sprite> resourceSprites;
 
@@ -35,18 +38,37 @@ public class Icon : MonoBehaviour
                 { EResource.Bones, boneIcon },
                 { EResource.Organs, organIcon }
             };
+        if (otherIcon != null)
+        {
+            SetIcon(otherIcon, 0, false);
+        }
     }
 
-    public void SetIcon(EResource resource, int qty)
+    public void SetIcon(EResource resource, int qty, bool showQty = true)
     {
         // Set the sprite based on the resource using the dictionary
         spriteRenderer.sprite = resourceSprites[resource];
-        text.text = qty.ToString();
+        assignedResource = resource;
+        if (showQty)
+        {
+            text.text = qty.ToString();
+        }
+        else
+        {
+            text.text = "";
+        }
     }
-    public void SetIcon(Sprite customSprite, int qty)
+    public void SetIcon(Sprite customSprite, int qty, bool showQty = true)
     {
         spriteRenderer.sprite = customSprite;
-        text.text = qty.ToString();
+        if (showQty)
+        {
+            text.text = qty.ToString();
+        }
+        else
+        {
+            text.text = "";
+        }
     }
 }
 

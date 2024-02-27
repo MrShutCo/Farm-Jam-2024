@@ -3,12 +3,13 @@ using Assets.Script.Humans;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 
 
 public class Player : MonoBehaviour
 {
     public event Action<Vector2, float> onMove;
-    public event Action<Vector2> onChangeDirection;
+    public event Action<int> onUpdateMaxDodgeCharges;
     public Vector2 Facing = Vector2.down;
     public Vector2 lastDirectionPressed;
     public Stats stats;
@@ -30,9 +31,9 @@ public class Player : MonoBehaviour
 
     Animator animator;
     SpriteRenderer _spriteRenderer;
-    AttackAction attackAction;
-    CollectAction collectAction;
-    DodgeAction dodgeAction;
+    public AttackAction attackAction { get; private set; }
+    public CollectAction collectAction { get; private set; }
+    public DodgeAction dodgeAction { get; private set; }
     Carrier carrier;
     Vector2 moveDirection;
     Collider2D col;
@@ -40,6 +41,12 @@ public class Player : MonoBehaviour
     bool moveActive = true;
     bool combatActive = true;
     float runSpeed;
+    int maxDodgeCharges;
+    public void SetMaxDodgeCharges(int value)
+    {
+        maxDodgeCharges = value;
+        onUpdateMaxDodgeCharges?.Invoke(maxDodgeCharges);
+    }
 
     [Header("VFX")]
     [SerializeField] ParticleSystem dodgeVFX;
@@ -77,23 +84,29 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
+        SetMaxDodgeCharges(2);
         portalMaker = GetComponentInChildren<PortalMaker>();
+        lastDirectionPressed = Vector2.down;
     }
 
 
     private void OnEnable()
     {
-        dodgeAction.onDodge += new Action<bool>((bool isActive) => moveActive = !isActive);
-        dodgeAction.onDodge += new Action<bool>((bool isActive) => combatActive = !isActive);
-        dodgeAction.onDodge += new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
+        dodgeAction.onDodge += (isActive) => OnDodge(isActive);
         GameManager.Instance.onGameStateChange += onGameStateUpdate;
     }
     private void OnDisable()
     {
-        dodgeAction.onDodge -= new Action<bool>((bool isActive) => moveActive = !isActive);
-        dodgeAction.onDodge -= new Action<bool>((bool isActive) => combatActive = !isActive);
-        dodgeAction.onDodge -= new Action<bool>((bool isActive) => PlayVFX(dodgeVFX, isActive));
+        dodgeAction.onDodge -= (isActive) => OnDodge(isActive);
         GameManager.Instance.onGameStateChange -= onGameStateUpdate;
+    }
+    void OnDodge(bool isActive)
+    {
+        moveActive = !isActive;
+        combatActive = !isActive;
+        ParticleSystemRenderer psr = dodgeVFX.GetComponent<ParticleSystemRenderer>();
+        psr.flip = new Vector3(_spriteRenderer.transform.localScale.x < 0 ? 1 : 0, 0, 0);
+        PlayVFX(dodgeVFX, isActive);
     }
 
     private void Update()
@@ -103,19 +116,19 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            attackAction.Action(Facing, hittableLayers);
+            attackAction.Action(lastDirectionPressed, hittableLayers);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            collectAction.Action(Facing, collectableLayers);
+            collectAction.Action(lastDirectionPressed, collectableLayers);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            grabber.GrabAction(Facing);
+            grabber.GrabAction(lastDirectionPressed);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            dodgeAction.Action(moveDirection, hittableLayers);
+            dodgeAction.Action(lastDirectionPressed, hittableLayers);
         }
 
     }
@@ -127,56 +140,17 @@ public class Player : MonoBehaviour
 
     void HandleMoveInput()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            lastDirectionPressed = Vector2.up;
-            keyPressTimes[Vector2.up] = Time.time;
-        }
-        else if (Input.GetKeyUp(KeyCode.W))
-        {
-            UpdateLastDirectionPressed();
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            lastDirectionPressed = Vector2.left;
-            keyPressTimes[Vector2.left] = Time.time;
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            UpdateLastDirectionPressed();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            lastDirectionPressed = Vector2.down;
-            keyPressTimes[Vector2.down] = Time.time;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            UpdateLastDirectionPressed();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            lastDirectionPressed = Vector2.right;
-            keyPressTimes[Vector2.right] = Time.time;
-        }
-        else if (Input.GetKeyUp(KeyCode.D))
-        {
-            UpdateLastDirectionPressed();
-        }
-
-        UpdateLastDirectionPressed();
-
-        var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
-        var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
+        var horizontal = Input.GetAxisRaw("Horizontal");
+        var vertical = Input.GetAxisRaw("Vertical");
         moveDirection = new Vector2(horizontal, vertical).normalized;
+        if (moveDirection != Vector2.zero)
+            lastDirectionPressed = moveDirection;
         animator.SetBool("Moving", Mathf.Abs(moveDirection.magnitude) > 0.05f);
         onMove?.Invoke(moveDirection, runSpeed);
-        _spriteRenderer.flipX = isFacingLeft;
-        UpdateFacing();
+        if (moveDirection.x < 0) _spriteRenderer.transform.localScale = new Vector3(-1, 1, 1);
+        if (moveDirection.x > 0) _spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
     }
+
     bool HandlePortalInput()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -194,38 +168,6 @@ public class Player : MonoBehaviour
             return false;
         }
         return false;
-    }
-    KeyCode KeyCodeForDirection(Vector2 direction)
-    {
-        if (direction == Vector2.up) return KeyCode.W;
-        if (direction == Vector2.left) return KeyCode.A;
-        if (direction == Vector2.down) return KeyCode.S;
-        if (direction == Vector2.right) return KeyCode.D;
-        return KeyCode.None;
-    }
-    void UpdateLastDirectionPressed()
-    {
-        Vector2 mostRecentKey = Facing;
-        float mostRecentTime = -1;
-        foreach (var pair in keyPressTimes)
-        {
-            if (Input.GetKey(KeyCodeForDirection(pair.Key)) && pair.Value > mostRecentTime)
-            {
-                mostRecentKey = pair.Key;
-                mostRecentTime = pair.Value;
-            }
-        }
-        lastDirectionPressed = mostRecentKey;
-    }
-    void UpdateFacing()
-    {
-        if (lastDirectionPressed != Vector2.zero && lastDirectionPressed != Facing)
-        {
-            Facing = lastDirectionPressed;
-            if (Facing == Vector2.left) transform.localScale = new Vector3(-1, 1, 1);
-            if (Facing == Vector2.right) transform.localScale = new Vector3(1, 1, 1);
-            onChangeDirection?.Invoke(Facing);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

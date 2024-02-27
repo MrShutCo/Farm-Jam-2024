@@ -162,12 +162,18 @@ namespace Assets.Script.UI
         }
         void OnCarriedResourcesUpdate(Dictionary<EResource, int> resources)
         {
-            int i = 0;
+            if (resources == null) return;
             var text = "";
+            //find the playrResourceIcons that matcht he updated resources and update them
             foreach (var resource in resources)
             {
-                playerResourceIcons[i].SetIcon(resource.Key, resource.Value);
-                i++;
+                for (int i = 0; i < playerResourceIcons.Count; i++)
+                {
+                    if (playerResourceIcons[i].assignedResource == resource.Key)
+                    {
+                        playerResourceIcons[i].SetIcon(resource.Key, resource.Value);
+                    }
+                }
             }
             carriedResourcesTexts.text = text;
         }
@@ -195,7 +201,7 @@ namespace Assets.Script.UI
                 var human = lostHumans[i];
                 human.transform.SetParent(humansLostDisplay.transform);
                 human.transform.position = humansLostDisplay.position + new Vector3(i, 0);
-                human.GetComponent<Renderer>().sortingOrder = 120;
+                human.GetComponentInChildren<Renderer>().sortingOrder = 120;
             }
         }
         void OnShowResourcesLost()

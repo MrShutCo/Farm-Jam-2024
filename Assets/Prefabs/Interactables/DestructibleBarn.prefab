@@ -10,19 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2645947999417947614, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_Name
-      value: DestructibleObjectBase Variant
+      value: DestructibleBarn
       objectReference: {fileID: 0}
     - target: {fileID: 3411295225370205891, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -206
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3411295225370205891, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.436498
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3411295225370205891, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6065308
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3411295225370205891, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_LocalRotation.w

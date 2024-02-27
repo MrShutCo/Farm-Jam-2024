@@ -735,29 +735,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 154307954301517741, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
-      propertyPath: HumanTracker
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 339260006947243791, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 339260006947243791, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1171279884, guid: 14f8840e8b87b426eb500f8210d2c4e2, type: 3}
-    - target: {fileID: 339260006947243791, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
-      propertyPath: m_SortingOrder
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1460443196234750807, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2089858214932954716, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
-      propertyPath: leftClickLayer.m_Bits
-      value: 2305
       objectReference: {fileID: 0}
     - target: {fileID: 2689423139825980084, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -799,10 +779,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6293497179982223239, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
+      propertyPath: healthPanel
+      value: 
+      objectReference: {fileID: 629083736}
     - target: {fileID: 7676058026232608708, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
       propertyPath: highlightController
       value: 
       objectReference: {fileID: 679964639}
+    - target: {fileID: 7913843211112351263, guid: e2dffc1275d7235448c394bc9fa271a0, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2361,6 +2349,11 @@ PrefabInstance:
 --- !u!1 &629083735 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2775649774289123324, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
+  m_PrefabInstance: {fileID: 8497632159023034323}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &629083736 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5853433328572596194, guid: fa76f2b0f82440f4db866a6bc3e46a93, type: 3}
   m_PrefabInstance: {fileID: 8497632159023034323}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &634262062

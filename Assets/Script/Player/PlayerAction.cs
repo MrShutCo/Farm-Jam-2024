@@ -4,8 +4,7 @@ using Assets.Script.Humans;
 using System;
 using UnityEngine;
 using Unity.VisualScripting;
-using UnityEditor;
-using System.IO.Compression;
+
 
 [RequireComponent(typeof(Player))]
 public abstract class PlayerAction : MonoBehaviour
@@ -18,6 +17,8 @@ public abstract class PlayerAction : MonoBehaviour
 
     Vector2 hitBoxSize = new Vector2(3, 2);
     protected float halfExtent;
+    protected float cooldownTimer;
+    protected float cooldownDuration = 0.5f;
 
     protected bool showDebug;
 
@@ -34,6 +35,13 @@ public abstract class PlayerAction : MonoBehaviour
         halfExtent = player.GetHalfExtent();
         animator = player.Animator;
         vfxAnimator = player.VFXAnimator;
+    }
+    virtual protected void Update()
+    {
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
     }
     public abstract void Action(Vector2 direction, LayerMask targetLayers);
 
@@ -81,14 +89,17 @@ public abstract class PlayerAction : MonoBehaviour
             Gizmos.DrawWireCube((Vector2)col.bounds.center + Vector2.down * halfExtent, hitBoxSize);
         }
     }
+    protected void Cooldown()
+    {
+        cooldownTimer = cooldownDuration;
+    }
 }
 
 public class AttackAction : PlayerAction
-{
-    int hitIndex = 0;
-    float cooldownDuration = 0.5f;
-    float cooldownTimer;
 
+{
+    Collider2D[] hits;
+    int hitIndex = 0;
     float comboAvailable = 0.25f;
     float comboTimer;
     private void OnEnable()
@@ -107,51 +118,58 @@ public class AttackAction : PlayerAction
         }
         //Animate Attack
         animator.SetTrigger("AttackTrigger");
-        vfxAnimator.transform.position = HitPos(direction);
-        vfxAnimator.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent;
+        //the animation is currently oriented towards the right, how, so the vfx needs to be adjusted for that
+        vfxAnimator.transform.LookAt(vfxAnimator.transform.position + new Vector3(direction.x, direction.y, 0));
+
         vfxAnimator.SetTrigger("AttackTrigger");
 
-        Collider2D[] hits = GetHits(direction, targetLayers);
-        foreach (var hit in hits)
+        hits = GetHits(direction, targetLayers);
+        if (hits != null && hits.Length > 0)
         {
-            if (hit.gameObject.TryGetComponent(out HealthBase health))
+            foreach (var hit in hits)
             {
-                if (hitIndex == 2)
+                if (hit.gameObject.TryGetComponent(out HealthBase health))
                 {
-                    health.TakeDamage((int)player.BaseDamage * 2);
-                    StartCoroutine(KnockBack(health));
+                    if (hitIndex == 2)
+                    {
+                        health.TakeDamage((int)player.BaseDamage * 2);
+                        StartCoroutine(KnockBack(health));
+                    }
+                    else
+                        health.TakeDamage((int)player.BaseDamage);
+                    //Animate Hit
+                    //Play Hit Sound
                 }
-                else
-                    health.TakeDamage((int)player.BaseDamage);
-                //Animate Hit
-                //Play Hit Sound
+            }
+            if (hitIndex < 2)
+            {
+                comboTimer = comboAvailable;
+            }
+            if (hitIndex > 2)
+            {
+                Cooldown();
+            }
+            IEnumerator KnockBack(HealthBase health)
+            {
+                if (health == null) yield break;
+                health.TryGetComponent(out Rigidbody2D rb);
+                health.TryGetComponent(out Human human);
+                if (rb == null) yield break;
+                if (human != null)
+                    human.StopAllJobs();
+                rb.isKinematic = false;
+                rb.AddForce(direction * 8, ForceMode2D.Impulse);
+                yield return new WaitForSeconds(0.25f);
+                if (rb == null) yield break;
+                rb.isKinematic = true;
+                rb.velocity = Vector2.zero;
             }
         }
-        if (hitIndex < 2)
-        {
-            comboTimer = comboAvailable;
-        }
-        if (hitIndex > 2)
-        {
-            Cooldown();
-        }
-        IEnumerator KnockBack(HealthBase health)
-        {
-            if (health == null) yield break;
-            health.TryGetComponent(out Rigidbody2D rb);
-            health.TryGetComponent(out Human human);
-            if (rb == null) yield break;
-            if (human != null)
-                human.StopAllJobs();
-            rb.isKinematic = false;
-            rb.AddForce(direction * 8, ForceMode2D.Impulse);
-            yield return new WaitForSeconds(0.25f);
-            rb.isKinematic = true;
-            rb.velocity = Vector2.zero;
-        }
     }
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (comboTimer > 0)
         {
             comboTimer -= Time.deltaTime;
@@ -160,15 +178,8 @@ public class AttackAction : PlayerAction
         {
             hitIndex = 0;
         }
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
     }
-    void Cooldown()
-    {
-        cooldownTimer = cooldownDuration;
-    }
+
 }
 
 
@@ -192,6 +203,7 @@ public class CollectAction : PlayerAction
     }
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
+        if (cooldownTimer > 0) return;
         //Animate Collect
         vfxAnimator.transform.position = HitPos(direction);
         vfxAnimator.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction + Vector2.up);
@@ -213,6 +225,8 @@ public class CollectAction : PlayerAction
                 else { Debug.Log("No room for human"); }
             }
         }
+        Cooldown();
+
     }
 }
 
@@ -246,23 +260,44 @@ public class DropAction : PlayerAction
 public class DodgeAction : PlayerAction
 {
     public event Action<bool> onDodge;
+    public event Action<int> onUpdateCurrentCharges;
     Rigidbody2D rb;
     float dodgeDuration = 0.25f;
     float dodgeTimer;
     bool dodging;
+    float chargeDuration = .75f;
+    int maxCharges = 2;
+    int chargesAvailable;
+    float timeOfLastCharge;
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
+        chargesAvailable = maxCharges;
     }
     private void OnEnable()
     {
+        player.onUpdateMaxDodgeCharges += (charges) => maxCharges = charges;
+        chargesAvailable = maxCharges;
+        onUpdateCurrentCharges?.Invoke(chargesAvailable);
     }
     private void OnDisable()
     {
+        player.onUpdateMaxDodgeCharges -= (charges) => maxCharges = charges;
+    }
+    protected override void Start()
+    {
+        base.Start();
+        chargesAvailable = maxCharges;
+        onUpdateCurrentCharges?.Invoke(chargesAvailable);
     }
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
+        //if (cooldownDuration > 0) return;
+        if (chargesAvailable <= 0)
+        {
+            return;
+        }
         if (dodgeTimer <= 0)
         {
             dodging = true;
@@ -272,11 +307,15 @@ public class DodgeAction : PlayerAction
             dodgeTimer = dodgeDuration;
             rb.velocity = Vector2.zero;
             rb.AddForce(direction * 15f, ForceMode2D.Impulse);
+            chargesAvailable--;
+            onUpdateCurrentCharges?.Invoke(chargesAvailable);
+            timeOfLastCharge = Time.time;
         }
         //Animate Dodge
     }
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (dodgeTimer > 0)
         {
             dodgeTimer -= Time.deltaTime;
@@ -288,6 +327,15 @@ public class DodgeAction : PlayerAction
             dodging = false;
             onDodge?.Invoke(dodging);
         }
+        if (chargesAvailable < maxCharges)
+        {
+            if (timeOfLastCharge + chargeDuration < Time.time)
+            {
+                chargesAvailable++;
+                onUpdateCurrentCharges?.Invoke(chargesAvailable);
+                timeOfLastCharge = Time.time;
+            }
 
+        }
     }
 }
