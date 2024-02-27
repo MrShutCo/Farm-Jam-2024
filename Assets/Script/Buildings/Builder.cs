@@ -108,7 +108,7 @@ namespace Assets.Script.Buildings
         Vector3 MouseToWorldPos()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity,gridLayer);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
             Vector3Int cellPosition = GroundMap.LocalToCell(hit.point);
             return GroundMap.GetCellCenterLocal(cellPosition);
         }

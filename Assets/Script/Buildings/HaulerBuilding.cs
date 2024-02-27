@@ -60,7 +60,8 @@ namespace Assets.Script.Buildings
 		
 		public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
 		{
-			haulers.Add(human);
+			if (!haulers.Contains(human))
+				haulers.Add(human);
 		}
 	}
 }
