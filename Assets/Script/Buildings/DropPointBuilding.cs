@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Buildings;
+using Assets.Script.Humans;
 using UnityEngine;
 
 public class DropPointBuilding : Building
@@ -12,5 +13,10 @@ public class DropPointBuilding : Building
             Debug.Log("DropOff");
             other.gameObject.GetComponent<Carrier>().DropOff();
         }
+    }
+
+    public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
+    {
+        throw new System.NotImplementedException();
     }
 }

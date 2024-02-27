@@ -79,6 +79,10 @@ public class GameManager : MonoBehaviour
     {
         SetTargetFrameRate();
         AddResource(EResource.Food, 50);
+        AddResource(EResource.Wood, 500);
+        AddResource(EResource.Blood, 500);
+        AddResource(EResource.Bones, 500);
+        AddResource(EResource.Organs, 500);
         UpdatePathFindingGrids(true, Player.position);
     }
     private void OnEnable()

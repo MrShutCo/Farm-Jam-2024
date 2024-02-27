@@ -1,5 +1,6 @@
 ﻿using Assets.Script.Buildings;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Script.Humans
@@ -38,6 +39,7 @@ namespace Assets.Script.Humans
                     if (clickedUser != null && clickedUser.CanBePickedUp())
                     {
                         clickedUser.SelectHuman();
+                        return;
                     }
                 }
             }
@@ -54,10 +56,9 @@ namespace Assets.Script.Humans
                 {
                     if (item.collider != null)
                     {
-                        var clickedBuilding = item.collider.GetComponent<ResourceBuilding>();
+                        var clickedBuilding = item.collider.GetComponent<Building>();
                         if (clickedBuilding != null)
                         {
-                            
                             var currHuman = GameManager.Instance.CurrentlySelectedHuman;
                             clickedBuilding.AssignHuman(currHuman, Camera.main.ScreenToWorldPoint(Input.mousePosition));
                             GameManager.Instance.CurrentlySelectedHuman.Deselect();

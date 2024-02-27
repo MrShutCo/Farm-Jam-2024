@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Assets.Script.Humans
 {
@@ -18,6 +19,11 @@ namespace Assets.Script.Humans
 		private Animator _humanAnimatorBody;
 		List<Task> _tasks = new();
 		int _activeTask;
+		public string ActiveTaskText()
+		{
+			if (_tasks == null || _tasks.Count == 0) return "";
+			return _tasks.Last().Name;
+		}
 
 		public Job(Human h, string name, List<Task> jobs, bool isRepeated)
 		{

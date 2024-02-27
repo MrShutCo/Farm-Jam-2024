@@ -22,5 +22,6 @@ namespace Assets.Script.Buildings
 
         public bool AtCapacity() => CurrHumans == MaxCapacity;
         public bool CanBeWorked() => CurrHumans > 0;
+        public abstract void AssignHuman(Human human, Vector2 mouseWorldPosition);
     }
 }

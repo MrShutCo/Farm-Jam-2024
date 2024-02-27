@@ -8,7 +8,7 @@ namespace Assets.Script.Humans
 {
     public class HumanOrchestrator : MonoBehaviour
     {
-        Dictionary<Human, Queue<Job>> humans = new();
+        List<Human> humans = new();
 
         // Start is called before the first frame update
         void Start()
@@ -16,9 +16,9 @@ namespace Assets.Script.Humans
             var humanList = GetComponentsInChildren<Human>();
             foreach (var h in humanList)
             {
-                var queue = new Queue<Job>();
-                queue.Enqueue(new Job(h, "Wander", new List<Task>() { new Wander(h) }, true));
-                humans[h] = queue;
+                var v = new Job(h, "Wander", new List<Task>() { new Wander(h) }, true);
+                
+                
             }
         }
     }

@@ -71,6 +71,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
+            CarriedHumans[i].StopAllJobs();
         }
         CarriedHumans.Clear();
         foreach (var resource in CarriedResources.ToList())

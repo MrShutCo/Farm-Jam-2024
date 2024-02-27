@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -13,6 +16,11 @@ public class DialogueManager : MonoBehaviour
     Coroutine typeLineCR;
 
     private Queue<string> dialogue = new Queue<string>();
+    private DialogueText currentDialogue;
+    
+    
+    private Dictionary<string, Action> actions;
+
 
     private void Awake()
     {
@@ -28,6 +36,7 @@ public class DialogueManager : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.GameState == EGameState.Dialogue)
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Space pressed");
@@ -35,20 +44,27 @@ public class DialogueManager : MonoBehaviour
                     DisplayNextLine();
             }
 
+            if (currentDialogue is not null)
+            {
+                var next = currentDialogue.CheckButtonPressed();
+                if (next is not null)
+                {
+                    StartDialogue(next);
+                }
+            }
+        }
     }
 
 
     /// Convert to use Scriptable objects DialogueLines[]> 
     //Dialogue line to include string, dialogue options, ability to trigger upgrades, feed husband, etc)
-    public void StartDialogue(string[] dialogue)
+    public void StartDialogue(DialogueText newDialogue)
     {
         Debug.Log("Starting dialogue");
-        this.dialogue.Clear();
-        foreach (string line in dialogue)
-        {
-            Debug.Log("Adding line: " + line);
-            this.dialogue.Enqueue(line);
-        }
+        dialogue.Clear();
+        dialogue.Enqueue(newDialogue.GetText());
+        currentDialogue = newDialogue;
+        currentDialogue.OnStart();
         DisplayNextLine();
     }
 
@@ -57,7 +73,7 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Displaying next line");
         if (dialogue.Count == 0)
         {
-            EndDialogue();
+            EndDialogue(true);
             return;
         }
         StopAllCoroutines();
@@ -81,10 +97,11 @@ public class DialogueManager : MonoBehaviour
         typeLineCR = null;
     }
 
-    public void EndDialogue()
+    public void EndDialogue(bool goToNormal)
     {
         Debug.Log("Ending dialogue ");
-        GameManager.Instance.SetGameState(EGameState.Normal);
+        if (goToNormal)
+            GameManager.Instance.SetGameState(EGameState.Normal);
     }
 
 }

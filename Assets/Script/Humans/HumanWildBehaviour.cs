@@ -16,8 +16,7 @@ public class HumanWildBehaviour : MonoBehaviour
     Human human;
     Transform _target;
     Vector2 startPos;
-    float refreshInterval = .25f;
-    float refreshTimer = 0;
+    private Timer refreshTimer;
 
     private void Awake()
     {
@@ -25,7 +24,14 @@ public class HumanWildBehaviour : MonoBehaviour
         targetSensor = GetComponentInChildren<TargetSensor>();
         targetSensor.SetSensorRange(npcType.SightRange);
         targetSensor.gameObject.SetActive(false);
-        
+        refreshTimer = new Timer(0.25f, true);
+        refreshTimer.OnTrigger += () =>
+        {
+            if (_target != null)
+            {
+                human.AddTaskToJob(CheckForChange(), true);
+            }
+        };
     }
     void OnEnable()
     {
@@ -57,15 +63,7 @@ public class HumanWildBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        refreshTimer += Time.deltaTime;
-        if (refreshTimer > refreshInterval)
-        {
-            refreshTimer = 0;
-            if (_target != null)
-            {
-                human.AddTaskToJob(CheckForChange(), true);
-            }
-        }
+        refreshTimer.Update(Time.deltaTime);
     }
     public Task SetTarget(Transform target, bool overrideCurrent = false)
     {
@@ -90,7 +88,7 @@ public class HumanWildBehaviour : MonoBehaviour
 
     Task ChangeToIdle()
     {
-        human.StopCurrentJob();
+        //human.StopCurrentJob();
         return npcType.Behaviour switch
         {
             NPCBehaviour.CivilianRanged => new Wander(human),

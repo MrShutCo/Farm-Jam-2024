@@ -78,7 +78,6 @@ namespace Assets.Script.Humans
                     currPathNodeDestination = 0;
                     path = null;
                     OnStopTask?.Invoke();
-
                 }
                 else
                 {

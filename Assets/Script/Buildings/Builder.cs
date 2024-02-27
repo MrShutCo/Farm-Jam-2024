@@ -23,15 +23,21 @@ namespace Assets.Script.Buildings
         [SerializeField] Tile UnwalkableTile;
         [SerializeField] private ResourceBuildingDataSO[] buildings;
         [SerializeField] private GameObject buildingPrefab;
+        [SerializeField] LayerMask gridLayer;
         
-        [SerializeField] Camera Camera;
         public int SelectedBuilding = -1;
         
         
         bool isBuildMode;
-        Vector3Int currMouseTile;
+        Vector3 currMouseTile;
         Transform parent;
         GameObject ghostBuilding;
+        private Camera _camera;
+
+        private void Start()
+        {
+            _camera = Camera.main;
+        }
 
         private void OnEnable()
         {
@@ -67,12 +73,15 @@ namespace Assets.Script.Buildings
                     AttemptToPlace();
 
                 // Show outline of current 
-                currMouseTile = MouseToCellPos();
+                currMouseTile = MouseToWorldPos();
                 if (ghostBuilding)
                 {
                     ghostBuilding.transform.position = currMouseTile;
                 }
             }
+            
+            if ( GameManager.Instance.GameState == EGameState.Build && Input.GetKeyDown(KeyCode.Escape))
+                GameManager.Instance.SetGameState(EGameState.Normal);
         }
 
         void AttemptToPlace()
@@ -96,10 +105,18 @@ namespace Assets.Script.Buildings
             }
         }
 
+        Vector3 MouseToWorldPos()
+        {
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+            Vector3Int cellPosition = GroundMap.LocalToCell(hit.point);
+            return GroundMap.GetCellCenterLocal(cellPosition);
+        }
+        
         Vector3Int MouseToCellPos()
         {
             Vector3 mousePos = Input.mousePosition;
-            var worldPos = Camera.ScreenToWorldPoint(mousePos);
+            var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             return GroundMap.WorldToCell(worldPos);
         }
 
