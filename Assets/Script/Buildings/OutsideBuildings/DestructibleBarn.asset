@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DestructibleBarn
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: -596711152, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
-  - {fileID: -1774949204, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
+  - {fileID: -1432496254, guid: d62258042ef286e4481a8ac2276f786a, type: 3}
+  - {fileID: -364990127, guid: d62258042ef286e4481a8ac2276f786a, type: 3}
   pickUpPrefab: {fileID: 5778100177148480199, guid: ac024b30c60573c43802a0619d04f1a0, type: 3}
   health: 100

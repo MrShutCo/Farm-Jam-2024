@@ -31,7 +31,7 @@ public class PlayerHealth : HealthBase
     protected void ReturnHome()
     {
 
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, -10, 0);
         player.enabled = true;
         if (currentHealth <= 0)
         {

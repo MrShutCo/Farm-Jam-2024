@@ -45,6 +45,7 @@ namespace Assets.Script.UI
             homeResourceIcons = new List<Icon>();
             playerResourceIcons = new List<Icon>();
             PopulateResourceIcons();
+
         }
         void OnEnable()
         {
@@ -54,6 +55,7 @@ namespace Assets.Script.UI
             GameManager.Instance.onCarriedHumansChange += OnCarriedHumansUpdate;
             GameManager.Instance.onCarriedResourcesChange += OnCarriedResourcesUpdate;
             buildCanvas.gameObject.SetActive(false);
+            deathCanvas.gameObject.SetActive(false);
         }
         private void Start()
         {
@@ -211,6 +213,7 @@ namespace Assets.Script.UI
             int separation = 3;
             foreach (var resource in lostResources)
             {
+                if (resource.Value <= 0) continue;
                 var icon = Instantiate(iconPrefab, resourcesLostDisplay.transform);
                 icon.transform.position = resourcesLostDisplay.position + new Vector3(xPos * separation, 0);
                 icon.SetIcon(resource.Key, resource.Value);

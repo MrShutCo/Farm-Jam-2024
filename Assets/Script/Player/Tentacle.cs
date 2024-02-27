@@ -54,12 +54,13 @@ public class Tentacle : MonoBehaviour
     {
         if (!grabbing)
             RefreshLinePositions();
+        baseOffset = Vector2.Lerp(baseOffset, lerpPosition, Time.deltaTime * 1);
+
         if (_transform.childCount > 0)
         {
             transform.GetChild(0).position = line.GetPosition(0);
         }
 
-        baseOffset = Vector2.Lerp(baseOffset, lerpPosition, Time.deltaTime * 1);
     }
     public void SetBaseOffset(Vector2 position)
     {
@@ -122,9 +123,13 @@ public class Tentacle : MonoBehaviour
         line.positionCount = linePositionCount;
         RefreshLinePositions();
     }
-    void RefreshLinePositions()
+    void RefreshLinePositions(bool modify = false, Vector2 newStartPos = default)
     {
-        Vector2 startPos = (Vector2)_transform.parent.position + baseOffset;
+        Vector2 startPos;
+        if (!modify)
+            startPos = (Vector2)_transform.parent.position + baseOffset;
+        else startPos = newStartPos;
+
         Vector2 endPos = _transform.parent.position;
         Vector2 controlPoint1;
         Vector2 controlPoint2;
@@ -194,32 +199,34 @@ public class Tentacle : MonoBehaviour
 
     IEnumerator ReachForTargetCR(Transform target)
     {
-        float duration = .1f;
+        float duration = .25f;
         float time = 0;
-        Vector2 startPos = _transform.position;
+        Vector2 newPos = _transform.position;
         while (time < duration)
         {
-            startPos = _transform.position;
-            _transform.position = Vector2.Lerp(startPos, target.position, time / duration);
+            newPos = Vector2.Lerp(newPos, target.position, time / duration);
+            RefreshLinePositions(true, newPos);
             time += Time.deltaTime;
             yield return null;
         }
-        transform.position = target.position;
+        newPos = target.position;
+        RefreshLinePositions(true, newPos);
     }
 
     IEnumerator ReturnToBasePositionCR()
     {
-        float duration = .1f;
+        float duration = .5f;
         float time = 0;
-        Vector2 startPos = _transform.position;
+        Vector2 newPos = _transform.position;
         while (time < duration)
         {
-            startPos = _transform.position;
-            _transform.position = Vector2.Lerp(startPos, (Vector2)_transform.parent.position + baseOffset, time / duration);
+            newPos = Vector2.Lerp(newPos, (Vector2)_transform.parent.position + baseOffset, time / duration);
+            RefreshLinePositions(true, newPos);
             time += Time.deltaTime;
             yield return null;
         }
-        transform.position = (Vector2)_transform.parent.position + baseOffset;
+        newPos = (Vector2)_transform.parent.position + baseOffset;
+        RefreshLinePositions(true, newPos);
     }
 
     private void ChangeDirection(Vector2 direction, float speed)

@@ -44,6 +44,12 @@ public class Icon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set the icon to the specified resource and quantity
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <param name="qty"></param>
+    /// <param name="showQty"></param>
     public void SetIcon(EResource resource, int qty, bool showQty = true)
     {
         // Set the sprite based on the resource using the dictionary
@@ -58,6 +64,13 @@ public class Icon : MonoBehaviour
             text.text = "";
         }
     }
+
+    /// <summary>
+    /// Set the icon to a custom sprite and quantity
+    /// </summary>
+    /// <param name="customSprite"></param>
+    /// <param name="qty"></param>
+    /// <param name="showQty"></param>
     public void SetIcon(Sprite customSprite, int qty, bool showQty = true)
     {
         spriteRenderer.sprite = customSprite;
