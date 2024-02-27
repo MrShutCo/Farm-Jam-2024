@@ -123,7 +123,7 @@ namespace Assets.Script.Buildings
             }
         }
 
-        public void AssignHuman(Human human, Vector2 mouseWorldPosition)
+        public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
         {
             foreach (var subsection in _workingHumans)
             {
@@ -133,6 +133,7 @@ namespace Assets.Script.Buildings
                     subsection.Flayee = human.GetComponent<HealthBase>();
                     human.transform.position = GetWorldPosition(subsection.FlayeePosition);
                     human.AddJob(new Job(human, "flay", new List<Task>(){new GetFlayed()},false));
+                    human.GetComponent<CapsuleCollider2D>().enabled = false;
                     Debug.Log("Assigned flayee");
                 }
                 // assign to flayer
@@ -142,6 +143,7 @@ namespace Assets.Script.Buildings
                     {
                         subsection.Flayers[i] = human;
                         human.transform.position = GetWorldPosition(subsection.FlayerPositions[i]);
+                        human.GetComponent<CapsuleCollider2D>().enabled = false;
                         Debug.Log("Assigned flayer");
                     }
                 }

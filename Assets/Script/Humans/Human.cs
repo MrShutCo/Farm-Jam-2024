@@ -25,6 +25,7 @@ namespace Assets.Script.Humans
         [SerializeField] Transform targetSensor;
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI traitText;
+        [SerializeField] TextMeshProUGUI taskText;
         
         HumanWildBehaviour wildBehaviour;
         WeaponSelector weaponSelector;
@@ -98,7 +99,7 @@ namespace Assets.Script.Humans
             StatusPanel.gameObject.SetActive(false);
         }
 
-        public bool CanBePickedUp() => currentJobs.Count == 0;
+        public bool CanBePickedUp() => currentJobs.Count == 0 || currentJobs.Peek().ActiveTaskText() == "Idle";
 
         public void HoldPackage(Package p)
         {
@@ -175,7 +176,6 @@ namespace Assets.Script.Humans
 
         public void OnMouseExit()
         {
-            if (GameManager.Instance.CurrentlySelectedHuman == this) return;
             StatusPanel.gameObject.SetActive(false);
         }
 
@@ -184,7 +184,13 @@ namespace Assets.Script.Humans
             if (currentJobs != null && currentJobs.Count > 0)
             {
                 currentJobs.Peek()?.Update(Time.deltaTime);
+                taskText.text = currentJobs.Peek()?.ActiveTaskText();
             }
+            else
+            {
+                taskText.text = "Nothing";
+            }
+            
         }
 
         void setTraitText()

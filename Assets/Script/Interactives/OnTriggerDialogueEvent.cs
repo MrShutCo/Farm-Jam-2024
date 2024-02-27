@@ -10,7 +10,6 @@ public class OnTriggerDialogueEvent : MonoBehaviour
 
     private void OnEnable()
     {
-        Func<bool> noPred = () => true;
         dialogue = new DialogueText("(What would you like to do?)", new ()
         {
             new ("Talk", new TalkToHusband()),

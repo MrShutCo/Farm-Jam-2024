@@ -33,7 +33,7 @@ namespace Assets.Script.Buildings
         {
             //capacityText.text = $"{CurrHumans}/{MaxCapacity}";
         }
-        public void AssignHuman(Human human, Vector2 mouseWorldPosition)
+        public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
         {
             foreach (var subsection in workingHumans)
             {
