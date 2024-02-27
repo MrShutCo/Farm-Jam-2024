@@ -29,6 +29,7 @@ public class Carrier : MonoBehaviour
         else
         {
             CarriedHumans.Add(human);
+            human.anim.SetTrigger("ScreamTrigger");
             human.enabled = false;
             human.WildBehaviour.enabled = false;
             human.GetComponentInChildren<Renderer>().sortingOrder = 120;
@@ -70,6 +71,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
+            CarriedHumans[i].anim.SetTrigger("IdleTrigger");
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
             CarriedHumans[i].StopAllJobs();
         }

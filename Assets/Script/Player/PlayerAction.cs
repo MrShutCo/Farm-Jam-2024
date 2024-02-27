@@ -93,6 +93,12 @@ public abstract class PlayerAction : MonoBehaviour
     {
         cooldownTimer = cooldownDuration;
     }
+
+    protected void AnimateInDirection(Vector2 direction)
+    {
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        vfxAnimator.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
 }
 
 public class AttackAction : PlayerAction
@@ -116,12 +122,9 @@ public class AttackAction : PlayerAction
         {
             hitIndex++;
         }
-        //Animate Attack
         animator.SetTrigger("AttackTrigger");
-        vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent;
-        //the animation is currently oriented towards the right, how, so the vfx needs to be adjusted for that
-        vfxAnimator.transform.LookAt(vfxAnimator.transform.position + new Vector3(direction.x, direction.y, 0));
-
+        vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
+        AnimateInDirection(direction);
         vfxAnimator.SetTrigger("AttackTrigger");
 
         hits = GetHits(direction, targetLayers);
@@ -167,6 +170,9 @@ public class AttackAction : PlayerAction
             }
         }
     }
+
+
+
     protected override void Update()
     {
         base.Update();
@@ -204,9 +210,9 @@ public class CollectAction : PlayerAction
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         if (cooldownTimer > 0) return;
-        //Animate Collect
-        vfxAnimator.transform.position = HitPos(direction);
-        vfxAnimator.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction + Vector2.up);
+        animator.SetTrigger("CollectTrigger");
+        vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
+        AnimateInDirection(direction);
         vfxAnimator.SetTrigger("CollectTrigger");
 
         hits = GetHits(direction, targetLayers);

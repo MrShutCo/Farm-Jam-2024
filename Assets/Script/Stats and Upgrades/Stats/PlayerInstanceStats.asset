@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817f52e1a02c3f2419df409f03d61a60, type: 3}
   m_Name: PlayerInstanceStats
   m_EditorClassIdentifier: 
-  keys: 0000000001000000020000000400000005000000
+  keys: 000000000100000002000000040000000500000008000000
   values:
   - 200
   - 8
   - 20
   - 2
   - 10
+  - 1

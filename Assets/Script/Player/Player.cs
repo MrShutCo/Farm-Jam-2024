@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
-        SetMaxDodgeCharges(2);
+        SetMaxDodgeCharges((int)stats.GetStat(EStat.DodgeCharges));
         portalMaker = GetComponentInChildren<PortalMaker>();
         lastDirectionPressed = Vector2.down;
     }

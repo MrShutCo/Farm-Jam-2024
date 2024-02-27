@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1307031605218262484, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1672977226, guid: e3cf707af8403f04f85e923aee11480c, type: 3}
     - target: {fileID: 6565776964955352030, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50,8 +54,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7200735126398943186, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_Name
-      value: Human
+      value: Human-SoldierDefensive Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 9104582853207625807, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 9cacffa4bea1ed74ab7f6d7c5e566aaa, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

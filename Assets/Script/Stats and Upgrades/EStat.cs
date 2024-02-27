@@ -9,7 +9,8 @@ public enum EStat
     CarryHumanCapacity,
     CarryResourceCapacity,
     WorkSpeed,
-    WorkCapacity
+    WorkCapacity,
+    DodgeCharges,
 }
 
 

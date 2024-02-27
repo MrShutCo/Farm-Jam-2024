@@ -26,7 +26,7 @@ namespace Assets.Script.Humans
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI traitText;
         [SerializeField] TextMeshProUGUI taskText;
-        
+
         HumanWildBehaviour wildBehaviour;
         WeaponSelector weaponSelector;
 
@@ -43,6 +43,7 @@ namespace Assets.Script.Humans
         private EfficiencyProfile _efficiencyProfile;
         private List<Trait> _traits;
         private SpriteRenderer _spriteRenderer;
+        public Animator anim { get; private set; }
 
         public void Awake()
         {
@@ -58,6 +59,7 @@ namespace Assets.Script.Humans
             currentJobs = new Queue<Job>();
             _efficiencyProfile = new EfficiencyProfile();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            anim = _spriteRenderer.GetComponent<Animator>();
             _traits = new List<Trait>()
             {
                 new ResourceTrait(EResource.Blood, ERank.F),
@@ -105,7 +107,7 @@ namespace Assets.Script.Humans
         {
             holdingPackage = p;
             holdingPackage.transform.parent = transform;
-            holdingPackage.transform.localPosition = new Vector3(0.5f, -0.11f,0);
+            holdingPackage.transform.localPosition = new Vector3(0.5f, -0.11f, 0);
         }
 
         public void DropoffPackage()
@@ -125,7 +127,7 @@ namespace Assets.Script.Humans
         {
             StatusPanel.gameObject.SetActive(false);
         }
-        
+
         #region Jobs
 
         public void StopCurrentJob()
@@ -166,7 +168,7 @@ namespace Assets.Script.Humans
             if (currentJobs.Count == 0) return;
             currentJobs.Peek().AddTaskToJob(task, stopCurrentTask);
         }
-        
+
         #endregion
 
         public void OnMouseEnter()
@@ -190,7 +192,7 @@ namespace Assets.Script.Humans
             {
                 taskText.text = "Nothing";
             }
-            
+
         }
 
         void setTraitText()
@@ -210,7 +212,7 @@ namespace Assets.Script.Humans
             {
                 currentJobs.Peek()?.FixedUpdate(Time.deltaTime);
             }
-            
+
             _spriteRenderer.transform.localScale = new Vector3(rb.velocity.x > 0 ? 1 : -1, 1, 1);
         }
 
