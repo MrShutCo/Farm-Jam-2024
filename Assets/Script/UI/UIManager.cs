@@ -205,7 +205,7 @@ namespace Assets.Script.UI
                 var human = lostHumans[i];
                 human.transform.SetParent(humansLostDisplay.transform);
                 human.transform.position = humansLostDisplay.position + new Vector3(i, 0);
-                human.GetComponentInChildren<Renderer>().sortingOrder = 120;
+                human.GetComponentInChildren<Renderer>().sortingOrder = 150;
             }
         }
         void OnShowResourcesLost()
@@ -219,6 +219,7 @@ namespace Assets.Script.UI
                 var icon = Instantiate(iconPrefab, resourcesLostDisplay.transform);
                 icon.transform.position = resourcesLostDisplay.position + new Vector3(xPos * separation, 0);
                 icon.SetIcon(resource.Key, resource.Value);
+                icon.GetComponent<Renderer>().sortingOrder = 150;
                 xPos++;
             }
             GameManager.Instance.onCarriedResourcesChange?.Invoke(GameManager.Instance.Carrier.CarriedResources);
@@ -226,7 +227,7 @@ namespace Assets.Script.UI
 
         IEnumerator DeathUpdate()
         {
-            deathButton.gameObject.SetActive(false);
+            deathButton.transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
             humansLostText.gameObject.SetActive(false);
             resourcesLostText.gameObject.SetActive(false);
             WaitForSeconds wait = new WaitForSeconds(.5f);
@@ -237,7 +238,7 @@ namespace Assets.Script.UI
             resourcesLostText.gameObject.SetActive(true);
             OnShowResourcesLost();
             yield return wait;
-            deathButton.gameObject.SetActive(true);
+            deathButton.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 }

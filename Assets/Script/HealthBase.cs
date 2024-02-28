@@ -14,14 +14,16 @@ public class HealthBase : MonoBehaviour
     [SerializeField] public int currentHealth { get; private set; }
 
     protected Transform _transform;
-    Rigidbody2D rb;
+    protected SpriteRenderer _spriteRenderer;
+    Rigidbody2D _rb;
 
 
     protected virtual void Awake()
     {
         _transform = transform;
         currentHealth = maxHealth;
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
     protected virtual void Start()
     {
@@ -42,7 +44,19 @@ public class HealthBase : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            if (_spriteRenderer == null) return;
+            StartCoroutine(FlashRed());
+        }
     }
+    IEnumerator FlashRed()
+    {
+        _spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        _spriteRenderer.color = Color.white;
+    }
+
     public virtual void Heal(int heal)
     {
         currentHealth += heal;
@@ -58,8 +72,8 @@ public class HealthBase : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log(_transform.name + " died");
-        if (rb != null)
-            rb.velocity = Vector2.zero;
+        if (_rb != null)
+            _rb.velocity = Vector2.zero;
 
         // Play Death Anim
         //Play Death Sound
@@ -69,6 +83,8 @@ public class HealthBase : MonoBehaviour
     }
     protected virtual void DisableGameObject()
     {
+        if (_spriteRenderer != null)
+            _spriteRenderer.color = Color.white;
         gameObject.SetActive(false);
         Destroy(gameObject);
     }

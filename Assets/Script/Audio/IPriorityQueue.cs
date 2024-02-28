@@ -22,6 +22,7 @@ public class PriorityQueue<TElement, TPriority> : IPriorityQueue<TElement, TPrio
     {
         heap = new FibonacciHeap<TElement, TPriority>(minPriority);
     }
+    public int Count() => heap.Size();
 
     public void Insert(TElement item, TPriority priority)
     {
@@ -31,6 +32,16 @@ public class PriorityQueue<TElement, TPriority> : IPriorityQueue<TElement, TPrio
     public TElement Top()
     {
         return heap.Min().Data;
+    }
+    public TElement[] GetTopValues(int n)
+    {
+        var result = new TElement[n];
+        for (int i = 0; i < n; i++)
+        {
+            result[i] = heap.Min().Data;
+            heap.RemoveMin();
+        }
+        return result;
     }
 
     public TElement Pop()

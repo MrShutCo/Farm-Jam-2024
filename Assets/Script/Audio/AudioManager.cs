@@ -73,12 +73,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip[] farmMusic;
     #endregion
 
-
+    float updateInterval = 1;
+    float lastUpdateTime;
 
     private void Awake()
     {
         InstantiateAudioSources();
         InitializeClipDictionary();
+
     }
     void InitializeClipDictionary()
     {
@@ -88,14 +90,13 @@ public class AudioManager : MonoBehaviour
             AudioDictionary.Add(soundTypeName, GetClips((ESoundType)Enum.Parse(typeof(ESoundType), soundTypeName)));
         }
     }
+
+    // :( :( :(
     // private AudioClip[] GetPropertyValue(ESoundType eSoundType, string propName)
     // {
     //     return eSoundType.GetType().GetProperty(propName).GetValue(eSoundType, null);
     // }
-    // private T GetPropertyValue<T>(object obj, string propName)
-    // {
-    //     return (T)obj.GetType().GetProperty(propName).GetValue(obj, null);
-    // }
+
 
     private void InstantiateAudioSources()
     {
@@ -121,6 +122,19 @@ public class AudioManager : MonoBehaviour
     {
         GameManager.Instance.onPlayPlayerSound -= PlayPlayerSound;
     }
+    private void Start()
+    {
+        lastUpdateTime = Time.time;
+    }
+
+    private void Update()
+    {
+        if (Time.time - lastUpdateTime > updateInterval)
+        {
+            lastUpdateTime = Time.time;
+        }
+    }
+
 
     AudioClip RandomizeClip(AudioClip[] clips)
     {
@@ -155,19 +169,10 @@ public class AudioManager : MonoBehaviour
         };
     }
 
+
     public void PlayHumanSound(ESoundType soundType, Vector2 source)
     {
-        for (int i = 0; i < humanSources.Length; i++)
-        {
-            if (!humanSources[i].isPlaying)
-            {
-                RandomizePitch(humanSources[i]);
-                humanSources[i].transform.position = source;
-                humanSources[i].clip = RandomizeClip(AudioDictionary[soundType.ToString()]);
-                humanSources[i].Play();
-                return;
-            }
-        }
+
     }
     public void PlayBuildingSound(ESoundType soundType, Vector2 source)
     {

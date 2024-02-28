@@ -32,7 +32,7 @@ public class Carrier : MonoBehaviour
             human.anim.SetTrigger("ScreamTrigger");
             human.enabled = false;
             human.WildBehaviour.enabled = false;
-            human.GetComponentInChildren<Renderer>().sortingOrder = 120;
+            human.GetComponentInChildren<Renderer>().sortingOrder = 150;
             GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
             return true;
         }
@@ -72,6 +72,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
             CarriedHumans[i].anim.SetTrigger("IdleTrigger");
+            CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
             CarriedHumans[i].StopAllJobs();
         }
