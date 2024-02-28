@@ -3,7 +3,7 @@ using Assets.Script.Humans;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.EventSystems;
+
 
 
 public class Player : MonoBehaviour
@@ -47,6 +47,12 @@ public class Player : MonoBehaviour
         maxDodgeCharges = value;
         onUpdateMaxDodgeCharges?.Invoke(maxDodgeCharges);
     }
+    int initOrderInLayer;
+    public int InitOrderInLayer => initOrderInLayer;
+    public void SetOrderInLayer(int value)
+    {
+        _spriteRenderer.sortingOrder = value;
+    }
 
     [Header("VFX")]
     [SerializeField] ParticleSystem dodgeVFX;
@@ -77,6 +83,7 @@ public class Player : MonoBehaviour
         dodgeAction = gameObject.AddComponent<DodgeAction>();
         carrier = GetComponent<Carrier>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        initOrderInLayer = _spriteRenderer.sortingOrder;
         animator = _spriteRenderer.GetComponent<Animator>();
         baseDamage = stats.GetStat(EStat.Attack);
         runSpeed = stats.GetStat(EStat.Speed);
@@ -100,7 +107,7 @@ public class Player : MonoBehaviour
         dodgeAction.onDodge -= (isActive) => OnDodge(isActive);
         GameManager.Instance.onGameStateChange -= onGameStateUpdate;
     }
-    void OnDodge(bool isActive)
+    private void OnDodge(bool isActive)
     {
         moveActive = !isActive;
         combatActive = !isActive;
@@ -138,7 +145,7 @@ public class Player : MonoBehaviour
             HandleMoveInput();
     }
 
-    void HandleMoveInput()
+    private void HandleMoveInput()
     {
         var horizontal = Input.GetAxisRaw("Horizontal");
         var vertical = Input.GetAxisRaw("Vertical");
@@ -151,7 +158,7 @@ public class Player : MonoBehaviour
         if (moveDirection.x > 0) _spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
     }
 
-    bool HandlePortalInput()
+    private bool HandlePortalInput()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -193,7 +200,7 @@ public class Player : MonoBehaviour
         Gizmos.DrawRay(transform.position, Facing);
     }
 
-    void PlayVFX(ParticleSystem vfx, bool play)
+    private void PlayVFX(ParticleSystem vfx, bool play)
     {
         if (play)
             vfx.Play();
@@ -211,10 +218,47 @@ public class Player : MonoBehaviour
                 moveDirection = Vector2.zero;
                 onMove?.Invoke(moveDirection, runSpeed);
                 break;
+            case EGameState.Death:
+                moveActive = false;
+                combatActive = false;
+                moveDirection = Vector2.zero;
+                onMove?.Invoke(moveDirection, runSpeed);
+                StartCoroutine(DeathSpiral());
+                break;
             case EGameState.Normal:
                 moveActive = true;
                 combatActive = true;
                 break;
         }
     }
+    public IEnumerator DeathSpiral()
+    {
+        SetOrderInLayer(150);
+        float scale = 1.25f;
+        Vector2 initPos = transform.position;
+        transform.position = Vector2.up * 15;
+
+        while (GameManager.Instance.GameState == EGameState.Death)
+        {
+            if (transform.position.y - initPos.y < 15)
+                transform.position += Vector3.up * 0.1f;
+            if (transform.localScale.x < scale)
+                transform.localScale += new Vector3(0.01f, 0.01f, 0);
+            transform.Rotate(Vector3.forward * 2);
+            yield return null;
+        }
+        while (transform.localScale.x > 1 && transform.position.y - initPos.y > 0.1f)
+        {
+            if (transform.position.y - initPos.y > 0.1f)
+                transform.position -= Vector3.up * 0.1f;
+            if (transform.localScale.x > 1)
+                transform.localScale -= new Vector3(0.05f, 0.05f, 0);
+            yield return null;
+        }
+        transform.localScale = new Vector3(1, 1, 1);
+        transform.position = initPos;
+        transform.rotation = Quaternion.identity;
+        SetOrderInLayer(initOrderInLayer);
+    }
+
 }

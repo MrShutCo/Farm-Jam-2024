@@ -6,8 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.Events;
+
 
 public enum EGameState
 {
@@ -20,7 +19,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public EGameState GameState { get; private set; }
-
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
@@ -38,8 +36,17 @@ public class GameManager : MonoBehaviour
     public Action<Collider2D> onGridChange;
     public Action<Human> onHumanDie;
     public Action<EGameState> onGameStateChange;
-
     public Action<Building, Package> onPackageCreate;
+
+    #region Sound Events
+    public Action<ESoundType, Vector2> onPlayHumanSound;
+    public Action<ESoundType, Vector2> onPlayBuildingSound;
+    public Action<ESoundType> onPlayPlayerSound;
+    public Action<ESoundType> onPlayHusbandSound;
+    public Action<ESoundType> onPlayUISound;
+    public Action<ESoundType> onPlayMusic;
+    public Action<ESoundType> onPlayAmbientSound;
+    #endregion
 
     public List<Building> Buildings;
     public Transform Player;
@@ -48,6 +55,7 @@ public class GameManager : MonoBehaviour
     public GameObject WildHumanoidParent;
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
+
 
     bool paused;
 

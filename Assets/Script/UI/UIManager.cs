@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Assets.Script.Humans;
 using TMPro;
 using UnityEngine;
@@ -25,8 +24,11 @@ namespace Assets.Script.UI
         [SerializeField] TextMeshProUGUI performanceTexts;
 
         [Header("Death Elements")]
+        [SerializeField] RectTransform humansLostText;
         [SerializeField] RectTransform humansLostDisplay;
+        [SerializeField] RectTransform resourcesLostText;
         [SerializeField] RectTransform resourcesLostDisplay;
+        [SerializeField] RectTransform deathButton;
 
         [Header("Icons")]
         [SerializeField] Icon iconPrefab;
@@ -73,9 +75,9 @@ namespace Assets.Script.UI
                         break;
                     case EGameState.Death:
                         disableAllCanvas();
+                        normalCanvas.gameObject.SetActive(true);
                         deathCanvas.gameObject.SetActive(true);
-                        OnShowHumansLost();
-                        OnShowResourcesLost();
+                        StartCoroutine(DeathUpdate());
                         break;
                     case EGameState.Dialogue:
                         disableAllCanvas();
@@ -219,8 +221,23 @@ namespace Assets.Script.UI
                 icon.SetIcon(resource.Key, resource.Value);
                 xPos++;
             }
+            GameManager.Instance.onCarriedResourcesChange?.Invoke(GameManager.Instance.Carrier.CarriedResources);
         }
 
-
+        IEnumerator DeathUpdate()
+        {
+            deathButton.gameObject.SetActive(false);
+            humansLostText.gameObject.SetActive(false);
+            resourcesLostText.gameObject.SetActive(false);
+            WaitForSeconds wait = new WaitForSeconds(.5f);
+            yield return wait;
+            humansLostText.gameObject.SetActive(true);
+            OnShowHumansLost();
+            yield return wait;
+            resourcesLostText.gameObject.SetActive(true);
+            OnShowResourcesLost();
+            yield return wait;
+            deathButton.gameObject.SetActive(true);
+        }
     }
 }

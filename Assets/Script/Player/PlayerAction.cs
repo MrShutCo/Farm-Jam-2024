@@ -122,6 +122,7 @@ public class AttackAction : PlayerAction
         {
             hitIndex++;
         }
+        GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerMelee);
         animator.SetTrigger("AttackTrigger");
         vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
         AnimateInDirection(direction);
@@ -210,7 +211,7 @@ public class CollectAction : PlayerAction
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         if (cooldownTimer > 0) return;
-        animator.SetTrigger("CollectTrigger");
+        animator.SetTrigger("AttackTrigger");
         vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
         AnimateInDirection(direction);
         vfxAnimator.SetTrigger("CollectTrigger");
