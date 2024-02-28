@@ -49,4 +49,20 @@ namespace Assets.Script.UI
         
         public virtual void OnStart() {}
     }
+
+    public class DialogueAction : DialogueText
+    {
+        private readonly Action _action;
+
+        public DialogueAction(string text, Action action)
+        {
+            _action = action;
+            _baseText = text;
+        }
+
+        public override void OnStart()
+        {
+            _action();
+        }
+    }
 }
