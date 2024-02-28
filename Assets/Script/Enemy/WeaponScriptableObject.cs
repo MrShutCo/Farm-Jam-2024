@@ -48,6 +48,7 @@ public class WeaponScriptableObject : ScriptableObject
             LastShootTime = Time.time;
             for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
             {
+                GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanShotgun, Model.transform.position);
                 ShootSystem.Play();
                 Vector2 shootDirection = (Vector2)direction
                  + new Vector2(

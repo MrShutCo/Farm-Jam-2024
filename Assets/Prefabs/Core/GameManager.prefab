@@ -1,5 +1,70 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &274957561573810575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761016320888405454}
+  - component: {fileID: 7491277473801088903}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &761016320888405454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274957561573810575}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2844374234219422867}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7491277473801088903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274957561573810575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 217218efb15a1e84c8299e4819b96ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMelee:
+  - {fileID: 8300000, guid: cb63ba41883c61f4a94dd34dbd29970d, type: 3}
+  playerDeath: []
+  playerEnterPortal:
+  - {fileID: 8300000, guid: d678c98e96f495445b1f0a05420545d6, type: 3}
+  humanMelee: []
+  humanShotgun:
+  - {fileID: 8300000, guid: 8399b7f0d93aea54cb27b51f5da00dad, type: 3}
+  humanDeath: []
+  meleeImpact: []
+  buildingImpact: []
+  buildingDeath: []
+  buildingConstructed:
+  - {fileID: 8300000, guid: b388fe9844dadc74aadf007a77fc5b8c, type: 3}
+  buttonClick: []
+  menuOpen: []
+  menuClose: []
+  homeAmbient: []
+  farmWildAmbient: []
+  homeMusic: []
+  farmMusic: []
 --- !u!1 &1483688405647871577
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +98,7 @@ Transform:
   m_Children:
   - {fileID: 5992410348268103109}
   - {fileID: 5836543984774968513}
+  - {fileID: 761016320888405454}
   - {fileID: 4554985006927425147}
   - {fileID: 2125112198687474106}
   - {fileID: 3224358211833291119}
@@ -476,7 +542,7 @@ Transform:
   m_GameObject: {fileID: 5126212855474018695}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -34.742558, y: -1.0963099, z: -9.720936}
+  m_LocalPosition: {x: -27.93256, y: -6.6363096, z: -9.720936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

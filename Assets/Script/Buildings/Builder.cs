@@ -2,10 +2,8 @@ using Assets.Buildings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Cinemachine;
 using Script.Buildings;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,10 +22,10 @@ namespace Assets.Script.Buildings
         [SerializeField] private ResourceBuildingDataSO[] buildings;
         [SerializeField] private GameObject buildingPrefab;
         [SerializeField] LayerMask gridLayer;
-        
+
         public int SelectedBuilding = -1;
-        
-        
+
+
         bool isBuildMode;
         Vector3 currMouseTile;
         Transform parent;
@@ -42,7 +40,7 @@ namespace Assets.Script.Buildings
         private void OnEnable()
         {
             isBuildMode = false;
-                
+
             //Camera = camera.GetComponent<Camera>();
         }
 
@@ -79,8 +77,8 @@ namespace Assets.Script.Buildings
                     ghostBuilding.transform.position = currMouseTile;
                 }
             }
-            
-            if ( GameManager.Instance.GameState == EGameState.Build && Input.GetKeyDown(KeyCode.Escape))
+
+            if (GameManager.Instance.GameState == EGameState.Build && Input.GetKeyDown(KeyCode.Escape))
                 GameManager.Instance.SetGameState(EGameState.Normal);
         }
 
@@ -95,13 +93,15 @@ namespace Assets.Script.Buildings
                 PlaceTilePatternOnLayer(v, placeable.Layout, ColliderMap, placeable.IsWalkable ? WalkableTile : UnwalkableTile);
                 ghostBuilding.GetComponent<BoxCollider2D>().enabled = true;
                 ghostBuilding = null;
+                GameManager.Instance.onPlayBuildingSound?.Invoke(ESoundType.buildingConstructed, Camera.main.transform.position);
+
                 SelectedBuilding = -1;
                 for (int x = 0; x < placeable.Layout.x; x++)
-                for (int y = 0; y < placeable.Layout.y; y++)
-                {
-                    var actualPos = new Vector3Int(x, y, 0) + v;
-                    GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
-                }
+                    for (int y = 0; y < placeable.Layout.y; y++)
+                    {
+                        var actualPos = new Vector3Int(x, y, 0) + v;
+                        GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
+                    }
             }
         }
 
@@ -112,7 +112,7 @@ namespace Assets.Script.Buildings
             Vector3Int cellPosition = GroundMap.LocalToCell(hit.point);
             return GroundMap.GetCellCenterLocal(cellPosition);
         }
-        
+
         Vector3Int MouseToCellPos()
         {
             Vector3 mousePos = Input.mousePosition;
@@ -123,22 +123,22 @@ namespace Assets.Script.Buildings
         bool IsValidPlacement(Vector3Int origin, Vector2Int layout, Tilemap tilemap)
         {
             for (int x = 0; x < layout.x; x++)
-            for (int y = 0; y < layout.y; y++)
-            {
-                var potentialSpot = tilemap.GetTile(origin + new Vector3Int(x,y, 0));
-                if (potentialSpot is not null) return false;
-            }
+                for (int y = 0; y < layout.y; y++)
+                {
+                    var potentialSpot = tilemap.GetTile(origin + new Vector3Int(x, y, 0));
+                    if (potentialSpot is not null) return false;
+                }
             return true;
         }
 
         void PlaceTilePatternOnLayer(Vector3Int origin, Vector2Int layout, Tilemap tilemap, Tile tilebase)
         {
             for (int x = 0; x < layout.x; x++)
-            for (int y = 0; y < layout.y; y++)
-            {
-                tilebase.color = new Color(0, 0, 0, 0);
-                tilemap.SetTile(origin + new Vector3Int(x, y, 0), tilebase);
-            }
+                for (int y = 0; y < layout.y; y++)
+                {
+                    tilebase.color = new Color(0, 0, 0, 0);
+                    tilemap.SetTile(origin + new Vector3Int(x, y, 0), tilebase);
+                }
         }
     }
 }

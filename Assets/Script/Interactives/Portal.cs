@@ -35,6 +35,7 @@ public class Portal : MonoBehaviour
             {
                 Debug.Log("Player at portal");
                 var player = other.GetComponent<Rigidbody2D>();
+                GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerEnterPortal);
                 GameManager.Instance.onTeleport?.Invoke(true, destination.transform.position);
                 destination.Deactivate();
                 player.simulated = false;
