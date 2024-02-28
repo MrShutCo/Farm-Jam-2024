@@ -6,7 +6,6 @@ public class DestructibleObjectHealth : HealthBase
 {
     [SerializeField] DestructibleDataSO destructibleData;
     Collider2D col;
-    SpriteRenderer _spriteRenderer;
 
     protected override void Awake()
     {

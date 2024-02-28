@@ -3,6 +3,7 @@ using Assets.Script.Humans;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor.Callbacks;
 
 
 
@@ -29,14 +30,15 @@ public class Player : MonoBehaviour
     [SerializeField] Grabber grabber;
     [SerializeField] PortalMaker portalMaker;
 
-    Animator animator;
+    Animator _animator;
     SpriteRenderer _spriteRenderer;
+    Rigidbody2D _rb;
     public AttackAction attackAction { get; private set; }
     public CollectAction collectAction { get; private set; }
     public DodgeAction dodgeAction { get; private set; }
-    Carrier carrier;
+    Carrier _carrier;
     Vector2 moveDirection;
-    Collider2D col;
+    Collider2D _col;
 
     bool moveActive = true;
     bool combatActive = true;
@@ -58,9 +60,9 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem dodgeVFX;
     [SerializeField] Animator vfxAnimator;
 
-    public Animator Animator => animator;
+    public Animator Animator => _animator;
     public Animator VFXAnimator => vfxAnimator;
-    public Collider2D Col => col;
+    public Collider2D Col => _col;
 
 
     private bool isFacingLeft;
@@ -68,7 +70,7 @@ public class Player : MonoBehaviour
     public bool showDebug = true;
     public float GetHalfExtent()
     {
-        return col.bounds.extents.x;
+        return _col.bounds.extents.x;
     }
 
     private void Awake()
@@ -77,17 +79,18 @@ public class Player : MonoBehaviour
     }
     void Initialization()
     {
-        col = GetComponent<Collider2D>();
+        _col = GetComponent<Collider2D>();
         attackAction = gameObject.AddComponent<AttackAction>();
         collectAction = gameObject.AddComponent<CollectAction>();
         dodgeAction = gameObject.AddComponent<DodgeAction>();
-        carrier = GetComponent<Carrier>();
+        _rb = GetComponent<Rigidbody2D>();
+        _carrier = GetComponent<Carrier>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         initOrderInLayer = _spriteRenderer.sortingOrder;
-        animator = _spriteRenderer.GetComponent<Animator>();
+        _animator = _spriteRenderer.GetComponent<Animator>();
         baseDamage = stats.GetStat(EStat.Attack);
         runSpeed = stats.GetStat(EStat.Speed);
-        carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
+        _carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
     }
     private void Start()
     {
@@ -152,7 +155,7 @@ public class Player : MonoBehaviour
         moveDirection = new Vector2(horizontal, vertical).normalized;
         if (moveDirection != Vector2.zero)
             lastDirectionPressed = moveDirection;
-        animator.SetBool("Moving", Mathf.Abs(moveDirection.magnitude) > 0.05f);
+        _animator.SetBool("Moving", Mathf.Abs(moveDirection.magnitude) > 0.05f);
         onMove?.Invoke(moveDirection, runSpeed);
         if (moveDirection.x < 0) _spriteRenderer.transform.localScale = new Vector3(-1, 1, 1);
         if (moveDirection.x > 0) _spriteRenderer.transform.localScale = new Vector3(1, 1, 1);
@@ -215,14 +218,15 @@ public class Player : MonoBehaviour
             case EGameState.Build:
                 moveActive = false;
                 combatActive = false;
+                _rb.velocity = Vector2.zero;
                 moveDirection = Vector2.zero;
                 onMove?.Invoke(moveDirection, runSpeed);
                 break;
             case EGameState.Death:
                 moveActive = false;
                 combatActive = false;
-                moveDirection = Vector2.zero;
-                onMove?.Invoke(moveDirection, runSpeed);
+                _rb.velocity = Vector2.zero;
+                //onMove?.Invoke(moveDirection, runSpeed);
                 StartCoroutine(DeathSpiral());
                 break;
             case EGameState.Normal:

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Assets.Script.Humans;
 using System;
 using UnityEngine;
-using Unity.VisualScripting;
 
 
 [RequireComponent(typeof(Player))]
@@ -15,7 +14,7 @@ public abstract class PlayerAction : MonoBehaviour
     protected Animator animator;
     protected Animator vfxAnimator;
 
-    Vector2 hitBoxSize = new Vector2(3, 2);
+    Vector2 hitBoxSize = new Vector2(4, 4);
     protected float halfExtent;
     protected float cooldownTimer;
     protected float cooldownDuration = 0.5f;
@@ -59,13 +58,14 @@ public abstract class PlayerAction : MonoBehaviour
     }
     protected Vector2 HitPos(Vector2 direction)
     {
+        float distanceAdjuster = 1.1f;
         if (direction == Vector2.left || direction == Vector2.right)
         {
-            return (Vector2)col.bounds.center + direction * halfExtent;
+            return (Vector2)col.bounds.center + direction * distanceAdjuster * halfExtent;
         }
         else if (direction == Vector2.up || direction == Vector2.down)
         {
-            return (Vector2)_transform.position + direction * halfExtent;
+            return (Vector2)_transform.position + direction * distanceAdjuster * halfExtent;
         }
         return Vector2.zero;
     }
@@ -89,9 +89,9 @@ public abstract class PlayerAction : MonoBehaviour
             Gizmos.DrawWireCube((Vector2)col.bounds.center + Vector2.down * halfExtent, hitBoxSize);
         }
     }
-    protected void Cooldown()
+    protected void Cooldown(float multiplier = 1)
     {
-        cooldownTimer = cooldownDuration;
+        cooldownTimer = cooldownDuration * multiplier;
     }
 
     protected void AnimateInDirection(Vector2 direction)
@@ -106,7 +106,8 @@ public class AttackAction : PlayerAction
 {
     Collider2D[] hits;
     int hitIndex = 0;
-    float comboAvailable = 0.25f;
+    int maxHits = 3;
+    float comboWindow = 0.5f;
     float comboTimer;
     private void OnEnable()
     {
@@ -114,19 +115,55 @@ public class AttackAction : PlayerAction
     private void OnDisable()
     {
     }
+
+    bool CoolingDown()
+    {
+        if (hitIndex < maxHits)
+        {
+            return cooldownTimer > cooldownDuration * .5f;
+        }
+        else
+            return cooldownTimer * 1.5 > 0;
+    }
+    bool ComboValid()
+    {
+        if (hitIndex == 0)
+        {
+            return true;
+        }
+        if (hitIndex < maxHits && comboTimer > 0)
+        {
+            return true;
+        }
+        return false;
+    }
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
-        if (cooldownTimer > 0) return;
+        if (CoolingDown()) return;
+        if (ComboValid()) { hitIndex++; }
+        else hitIndex = 1;
+        comboTimer = comboWindow;
+        Debug.Log("Hit Index: " + hitIndex);
+        Cooldown();
 
-        if (comboTimer > 0 && hitIndex < 2)
+        if (hitIndex == maxHits)
         {
-            hitIndex++;
+            GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerMelee);
+            animator.SetTrigger("AttackTrigger");
+            vfxAnimator.transform.localScale = new Vector3(1.5f, 1.5f, 1);
+            vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
+            AnimateInDirection(direction);
+            vfxAnimator.SetTrigger("AttackTrigger");
         }
-        GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerMelee);
-        animator.SetTrigger("AttackTrigger");
-        vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
-        AnimateInDirection(direction);
-        vfxAnimator.SetTrigger("AttackTrigger");
+        else
+        {
+            GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerMelee);
+            animator.SetTrigger("AttackTrigger");
+            vfxAnimator.transform.localScale = new Vector3(1, 1, 1);
+            vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
+            AnimateInDirection(direction);
+            vfxAnimator.SetTrigger("AttackTrigger");
+        }
 
         hits = GetHits(direction, targetLayers);
         if (hits != null && hits.Length > 0)
@@ -135,40 +172,33 @@ public class AttackAction : PlayerAction
             {
                 if (hit.gameObject.TryGetComponent(out HealthBase health))
                 {
-                    if (hitIndex == 2)
+                    if (hitIndex == maxHits)
                     {
                         health.TakeDamage((int)player.BaseDamage * 2);
                         StartCoroutine(KnockBack(health));
                     }
                     else
+                    {
                         health.TakeDamage((int)player.BaseDamage);
-                    //Animate Hit
-                    //Play Hit Sound
+                    }
                 }
             }
-            if (hitIndex < 2)
-            {
-                comboTimer = comboAvailable;
-            }
-            if (hitIndex > 2)
-            {
-                Cooldown();
-            }
-            IEnumerator KnockBack(HealthBase health)
-            {
-                if (health == null) yield break;
-                health.TryGetComponent(out Rigidbody2D rb);
-                health.TryGetComponent(out Human human);
-                if (rb == null) yield break;
-                if (human != null)
-                    human.StopAllJobs();
-                rb.isKinematic = false;
-                rb.AddForce(direction * 8, ForceMode2D.Impulse);
-                yield return new WaitForSeconds(0.25f);
-                if (rb == null) yield break;
-                rb.isKinematic = true;
-                rb.velocity = Vector2.zero;
-            }
+        }
+
+        IEnumerator KnockBack(HealthBase health)
+        {
+            if (health == null) yield break;
+            health.TryGetComponent(out Rigidbody2D rb);
+            health.TryGetComponent(out Human human);
+            if (rb == null) yield break;
+            if (human != null)
+                human.StopAllJobs();
+            rb.isKinematic = false;
+            rb.AddForce(direction * 8, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.25f);
+            if (rb == null) yield break;
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -181,7 +211,7 @@ public class AttackAction : PlayerAction
         {
             comboTimer -= Time.deltaTime;
         }
-        else
+        else if (hitIndex < maxHits)
         {
             hitIndex = 0;
         }
