@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.Humans;
 using UnityEngine;
 
 public enum ESoundType
@@ -26,6 +27,10 @@ public enum ESoundType
 [System.Serializable]
 public class AudioManager : MonoBehaviour
 {
+    [SerializeField] public Dictionary<string, AudioClip[]> AudioDictionary = new();
+    public PriorityQueue<Vector3, float> humanSoundQueue = new PriorityQueue<Vector3, float>(0);
+
+    #region AudioSources
     AudioSource[] humanSources;
     AudioSource[] buildingSources;
     AudioSource ui;
@@ -33,12 +38,9 @@ public class AudioManager : MonoBehaviour
     AudioSource music;
     AudioSource husband;
     AudioSource player;
+    #endregion
 
-
-    [SerializeField] public Dictionary<string, AudioClip[]> AudioDictionary = new();
-
-
-
+    #region  AudioClips
     [Header("Player Clips")]
     [SerializeField] AudioClip[] playerMelee;
     [SerializeField] AudioClip[] playerDeath;
@@ -69,6 +71,7 @@ public class AudioManager : MonoBehaviour
     [Header("Music Clips")]
     [SerializeField] AudioClip[] homeMusic;
     [SerializeField] AudioClip[] farmMusic;
+    #endregion
 
 
 

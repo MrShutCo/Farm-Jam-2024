@@ -23,19 +23,18 @@ public class PlayerHealth : HealthBase
     }
     protected override void Die()
     {
-        player.enabled = false;
         Invoke("ReturnHome", .5f);
+        Debug.Log("Returning Home");
 
         // if invoked do this
     }
     protected void ReturnHome()
     {
-
         transform.position = new Vector3(0, -10, 0);
-        player.enabled = true;
         if (currentHealth <= 0)
         {
-            GameManager.Instance.onGameStateChange?.Invoke(EGameState.Death);
+            Debug.Log("Changing Game State");
+            GameManager.Instance.SetGameState(EGameState.Death);
         }
         Heal(maxHealth);
 

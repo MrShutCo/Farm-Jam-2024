@@ -393,7 +393,7 @@ Transform:
   m_GameObject: {fileID: 4231471981532455561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -34.742558, y: -1.0963099, z: -9.720936}
+  m_LocalPosition: {x: -27.93256, y: -6.6363096, z: -9.720936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -719,7 +719,7 @@ MonoBehaviour:
   showFPS: 1
   normalCanvas: {fileID: 0}
   buildCanvas: {fileID: 0}
-  deathCanvas: {fileID: 8048198383658335947, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
+  deathCanvas: {fileID: 0}
   dialogueCanvas: {fileID: 0}
 --- !u!1 &8972686581639933649
 GameObject:
@@ -749,7 +749,7 @@ Transform:
   m_GameObject: {fileID: 8972686581639933649}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -33, y: -4, z: -9.720936}
+  m_LocalPosition: {x: 0, y: 2.97, z: -9.720936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

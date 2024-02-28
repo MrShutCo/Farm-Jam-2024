@@ -7,6 +7,6 @@ public class TriggerChangeGameState : MonoBehaviour
 
     public void ChangeGameState()
     {
-        GameManager.Instance.onGameStateChange?.Invoke(gameState);
+        GameManager.Instance.SetGameState(gameState);
     }
 }
