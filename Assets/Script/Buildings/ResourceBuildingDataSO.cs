@@ -17,6 +17,7 @@ namespace Script.Buildings
 
         public int Level;
 
+        public Sprite GetSprite(int idx) => sprites[idx];
         public Sprite GetSprite() => sprites[Level];
         public int GetFlayerCount() => numFlayersPerLevel[Level];
         public int GetFlayeeCount() => numFlayeesPerLevel[Level];
