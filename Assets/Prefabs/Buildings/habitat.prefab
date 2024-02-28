@@ -124,8 +124,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7085679979023049864}
-  - component: {fileID: 8672391078527683680}
   - component: {fileID: 1183697276243359864}
+  - component: {fileID: 6908689690401972411}
   m_Layer: 7
   m_Name: habitat
   m_TagString: Untagged
@@ -155,28 +155,6 @@ Transform:
   - {fileID: 9045385749673506217}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8672391078527683680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095448434845005241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4d0cf3241eb14a96bd4b197fe309fab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PickupLocation: {fileID: 9045385749673506217}
-  CurrHumans: 0
-  MaxCapacity: 0
-  PlaceableData: {fileID: 11400000, guid: f922286c3aff546aaba1415f01798497, type: 2}
-  Origin: {x: 0, y: 0}
-  buildingData: {fileID: 11400000, guid: 26fd38e425df24c19975d0a733ea740f, type: 2}
-  packagePrefab: {fileID: 925670046710403265, guid: 8fd75c95e5d124f199b2c8f9300da774, type: 3}
-  internalBufferObject: {fileID: 8659883731114949431}
-  packages: {fileID: 1850833761412446332}
-  _spriteRenderer: {fileID: 6303815085019527183}
 --- !u!61 &1183697276243359864
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -222,6 +200,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &6908689690401972411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095448434845005241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa6a003663944f692c1e2452468e18a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickupLocation: {fileID: 9045385749673506217}
+  CurrHumans: 0
+  MaxCapacity: 0
+  PlaceableData: {fileID: 0}
+  Origin: {x: 0, y: 0}
+  buildingData: {fileID: 11400000, guid: f922286c3aff546aaba1415f01798497, type: 2}
+  packagePrefab: {fileID: 925670046710403265, guid: 8fd75c95e5d124f199b2c8f9300da774, type: 3}
+  internalBufferObject: {fileID: 8659883731114949431}
+  packages: {fileID: 1850833761412446332}
+  _spriteRenderer: {fileID: 6303815085019527183}
 --- !u!1 &2240858732192453153
 GameObject:
   m_ObjectHideFlags: 0
