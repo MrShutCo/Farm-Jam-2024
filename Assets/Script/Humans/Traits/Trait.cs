@@ -4,7 +4,7 @@ namespace Assets.Script.Humans.Traits
     {
         F = 0, D, C, B, A, S
     }
-    
+
     public abstract class Trait
     {
         protected string Name;
@@ -35,7 +35,7 @@ namespace Assets.Script.Humans.Traits
                 _ => Name
             };
         }
-        
+
         public override EfficiencyProfile ActOn(EfficiencyProfile profile)
         {
             profile.PullRate[EResource.Blood] += _rankMultipliers[(int)_rank];

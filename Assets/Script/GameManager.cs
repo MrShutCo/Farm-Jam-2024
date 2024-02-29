@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Action onResourceChange;
     public Action<List<Human>> onCarriedHumansChange;
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange;
+    public Action onHumanCarrierFull;
     public Action<int, int> onHealthChange;
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
@@ -138,7 +139,7 @@ public class GameManager : MonoBehaviour
     }
     void SetTargetFrameRate()
     {
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
     }
 
     void UpdatePathFindingGrids(bool teleport, Vector2 position = default)

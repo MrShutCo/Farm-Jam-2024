@@ -16,6 +16,7 @@ namespace Assets.Script.UI
         [SerializeField] RectTransform carriedHumansParent;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
         [SerializeField] RectTransform carriedHumanBackGround;
+        Coroutine carriedHumanFlash;
         [SerializeField] RectTransform carriedResourceBackGround;
         [SerializeField] GameObject playerHealthPanel;
         [SerializeField] FloatingStatusBar playerHealthBar;
@@ -56,6 +57,7 @@ namespace Assets.Script.UI
             GameManager.Instance.onResourceChange += onResourceUpdate;
             GameManager.Instance.onCarriedHumansChange += OnCarriedHumansUpdate;
             GameManager.Instance.onCarriedResourcesChange += OnCarriedResourcesUpdate;
+            GameManager.Instance.onHumanCarrierFull += OnHumanCarrierFull;
             buildCanvas.gameObject.SetActive(false);
             deathCanvas.gameObject.SetActive(false);
         }
@@ -143,6 +145,30 @@ namespace Assets.Script.UI
             }
             resourceTexts.text = text;
         }
+
+        #region  Carrier UI
+
+        void OnHumanCarrierFull()
+        {
+            if (carriedHumanFlash == null)
+                carriedHumanFlash = StartCoroutine(FlashBackground(carriedHumanBackGround));
+        }
+        IEnumerator FlashBackground(RectTransform background)
+        {
+            var color = background.GetComponent<UnityEngine.UI.Image>().color;
+            var originalColor = color;
+            for (int i = 0; i < 3; i++)
+            {
+                color.a = 1;
+                color = Color.red;
+                background.GetComponent<UnityEngine.UI.Image>().color = color;
+                yield return new WaitForSeconds(.25f);
+                color.a = 0;
+                background.GetComponent<UnityEngine.UI.Image>().color = color;
+                yield return new WaitForSeconds(.25f);
+            }
+            background.GetComponent<UnityEngine.UI.Image>().color = originalColor;
+        }
         void OnCarriedHumansUpdate(List<Human> humans)
         {
             int i = 0;
@@ -188,6 +214,8 @@ namespace Assets.Script.UI
             size.x = qty * width;
             carrierBackGround.sizeDelta = size;
         }
+
+        #endregion
         void OnPerformanceUpdate()
         {
             //show fps as a whole number that only updates once per second
@@ -195,8 +223,13 @@ namespace Assets.Script.UI
         }
         void OnHealthUpdate(int currentHealth, int maxHealth)
         {
+            if (currentHealth < (float)(maxHealth * .4f))
+                playerHealthBar.ActivateFlash(true, (float)currentHealth / maxHealth);
+            else playerHealthBar.ActivateFlash(false);
             playerHealthBar.UpdateStatusBar(currentHealth, maxHealth);
         }
+
+        #region Death UI
         void OnShowHumansLost()
         {
             var lostHumans = GameManager.Instance.Carrier.LoseHumans();
@@ -240,5 +273,6 @@ namespace Assets.Script.UI
             yield return wait;
             deathButton.transform.localScale = new Vector3(1, 1, 1);
         }
+        #endregion
     }
 }

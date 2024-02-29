@@ -16,6 +16,8 @@ public class WeaponScriptableObject : ScriptableObject
     public GameObject BulletPrefab;
     public Vector2 SpawnPoint;
     public Vector2 SpawnRotation;
+    public Vector3 bulletRotation;
+    public bool rotateModelToTarget;
 
     public ShootConfigScriptableObject ShootConfig;
     public TrailConfigScriptableObject TrailConfig;
@@ -26,6 +28,16 @@ public class WeaponScriptableObject : ScriptableObject
     private ParticleSystem ShootSystem;
     private ObjectPool<TrailRenderer> TrailPool;
     private ObjectPool<GameObject> BulletPool;
+
+    private GameObject ModelChild;
+
+
+    public void WeaponModelActive(bool active)
+    {
+        if (Model != null)
+            Model.SetActive(active);
+    }
+
 
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
     {
@@ -42,12 +54,14 @@ public class WeaponScriptableObject : ScriptableObject
         Model.transform.localRotation = Quaternion.Euler(SpawnRotation);
 
         ShootSystem = Model.GetComponentInChildren<ParticleSystem>();
+        if (Model.transform.childCount > 0)
+            ModelChild = Model.transform.GetChild(0).gameObject;
     }
 
-    public void Shoot(Vector2 direction)
+    public void Shoot(Vector2 direction, float fireRateMultiplier = 0)
     {
         RaycastHit2D hit;
-        if (Time.time > ShootConfig.FireRate + LastShootTime)
+        if (Time.time > ShootConfig.FireRate - (ShootConfig.FireRate * fireRateMultiplier) + LastShootTime)
         {
             LastShootTime = Time.time;
             for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
@@ -122,16 +136,25 @@ public class WeaponScriptableObject : ScriptableObject
     }
     public void Flip(Vector2 direction)
     {
-        // if direction is to the right
         if (direction.x > 0)
         {
-            Model.transform.localScale = new Vector3(Mathf.Abs(Model.transform.localScale.x), Model.transform.localScale.y, Model.transform.localScale.z);
+            // Rotate up or down towards the direction along the z axis
+            if (ModelChild != null)
+                ModelChild.transform.localScale = new Vector3(1, 1, 1);
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+            Model.transform.rotation = rotation;
         }
-        else
+        else if (direction.x < 0)
         {
-            if (Model.transform.localScale.x > 0)
-                Model.transform.localScale = new Vector3(-Model.transform.localScale.x, Model.transform.localScale.y, Model.transform.localScale.z);
+            // Flip to the left and rotate up and down towards the direction
+            if (ModelChild != null)
+                ModelChild.transform.localScale = new Vector3(1, -1, 1);
+            Model.transform.localScale = new Vector3(1, 1, 1);
+            float angle = Mathf.Atan2(-direction.y, direction.x) * Mathf.Rad2Deg;
+            Model.transform.rotation = Quaternion.Euler(0, 0, -angle);
         }
+
     }
 
     private IEnumerator PlayTrail(Vector3 start, Vector3 end, RaycastHit2D hit)
@@ -144,6 +167,7 @@ public class WeaponScriptableObject : ScriptableObject
             bullet.SetActive(true);
             bullet.transform.position = start;
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, end - start);
+            bullet.transform.Rotate(bulletRotation);
         }
 
         instance.gameObject.SetActive(true);

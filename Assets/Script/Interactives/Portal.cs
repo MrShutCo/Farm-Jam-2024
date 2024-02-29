@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Remoting;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Portal : MonoBehaviour

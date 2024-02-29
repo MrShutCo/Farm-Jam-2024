@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 3
   Name: GatlingGun
-  ModelPrefab: {fileID: 8834472410640706566, guid: 09dfc70bcb18b2e42bae6d5f24b15836, type: 3}
+  ModelPrefab: {fileID: 8834472410640706566, guid: bdba442048a68204b97c32d8c20fc7c4, type: 3}
+  BulletPrefab: {fileID: 0}
   SpawnPoint: {x: 0, y: 0}
   SpawnRotation: {x: 0, y: 0}
+  bulletRotation: {x: 0, y: 0, z: 0}
+  rotateModelToTarget: 0
   ShootConfig: {fileID: 11400000, guid: f728c431d30679141b9d83af4bfee315, type: 2}
   TrailConfig: {fileID: 11400000, guid: 664084b4a7b39684f86cebd3dda47c8d, type: 2}

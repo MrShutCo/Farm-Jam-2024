@@ -33,7 +33,7 @@ namespace Assets.Script.Humans
 			IsRepeated = isRepeated;
 			human = h;
 			_humanRigidBody = human.GetComponentInChildren<Rigidbody2D>();
-			_humanAnimatorBody = human.GetComponentInChildren<Animator>();
+			_humanAnimatorBody = human.anim;
 		}
 
 		public void StartJob()

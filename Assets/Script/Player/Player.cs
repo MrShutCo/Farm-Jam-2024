@@ -3,7 +3,6 @@ using Assets.Script.Humans;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEditor.Callbacks;
 
 
 
@@ -239,28 +238,22 @@ public class Player : MonoBehaviour
     {
         SetOrderInLayer(150);
         float scale = 1.25f;
-        Vector2 initPos = transform.position;
-        transform.position = Vector2.up * 15;
+
 
         while (GameManager.Instance.GameState == EGameState.Death)
         {
-            if (transform.position.y - initPos.y < 15)
-                transform.position += Vector3.up * 0.1f;
             if (transform.localScale.x < scale)
                 transform.localScale += new Vector3(0.01f, 0.01f, 0);
             transform.Rotate(Vector3.forward * 2);
             yield return null;
         }
-        while (transform.localScale.x > 1 && transform.position.y - initPos.y > 0.1f)
+        while (transform.localScale.x > 1)
         {
-            if (transform.position.y - initPos.y > 0.1f)
-                transform.position -= Vector3.up * 0.1f;
             if (transform.localScale.x > 1)
                 transform.localScale -= new Vector3(0.05f, 0.05f, 0);
             yield return null;
         }
         transform.localScale = new Vector3(1, 1, 1);
-        transform.position = initPos;
         transform.rotation = Quaternion.identity;
         SetOrderInLayer(initOrderInLayer);
     }

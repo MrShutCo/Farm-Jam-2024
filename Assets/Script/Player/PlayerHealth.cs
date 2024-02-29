@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class PlayerHealth : HealthBase
@@ -23,21 +22,20 @@ public class PlayerHealth : HealthBase
     }
     protected override void Die()
     {
-        Invoke("ReturnHome", .5f);
+        Invoke("ReturnHome", 2f);
         Debug.Log("Returning Home");
+        if (currentHealth <= 0)
+        {
+            Debug.Log("Changing Game State");
+            GameManager.Instance.SetGameState(EGameState.Death);
+        }
 
         // if invoked do this
     }
     protected void ReturnHome()
     {
         transform.position = new Vector3(0, -10, 0);
-        if (currentHealth <= 0)
-        {
-            Debug.Log("Changing Game State");
-            GameManager.Instance.SetGameState(EGameState.Death);
-        }
         Heal(maxHealth);
-
     }
 
 }
