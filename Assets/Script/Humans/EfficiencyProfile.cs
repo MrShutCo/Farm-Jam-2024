@@ -18,8 +18,9 @@ namespace Assets.Script.Humans
             {EResource.Organs, 1f},
             {EResource.Food, 1f}
         };
-        
+
         public float SpeedMultiplier = 1;
         public float HealthMultiplier = 1;
+        public float AttackRateMultiplier = 1;
     }
 }

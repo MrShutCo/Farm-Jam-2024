@@ -71,10 +71,10 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
-            CarriedHumans[i].anim.SetTrigger("IdleTrigger");
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
             CarriedHumans[i].StopAllJobs();
+            CarriedHumans[i].anim.SetTrigger("IdleTrigger");
         }
         CarriedHumans.Clear();
         foreach (var resource in CarriedResources.ToList())

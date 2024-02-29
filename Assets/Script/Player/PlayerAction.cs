@@ -247,21 +247,22 @@ public class CollectAction : PlayerAction
         vfxAnimator.SetTrigger("CollectTrigger");
 
         hits = GetHits(direction, targetLayers);
-        foreach (var hit in hits)
-        {
-            if (hit.gameObject.TryGetComponent(out PickUpItem item))
+        if (hits != null && hits.Length > 0)
+            foreach (var hit in hits)
             {
-                item.PickUp(carrier);
-            }
-            else if (hit.gameObject.TryGetComponent(out Human human))
-            {
-                if (carrier.AddCarriedHumans(human))
+                if (hit.gameObject.TryGetComponent(out PickUpItem item))
                 {
-                    //move sprite to bag or tendril
+                    item.PickUp(carrier);
                 }
-                else { Debug.Log("No room for human"); }
+                else if (hit.gameObject.TryGetComponent(out Human human))
+                {
+                    if (carrier.AddCarriedHumans(human))
+                    {
+                        //move sprite to bag or tendril
+                    }
+                    else { Debug.Log("No room for human"); }
+                }
             }
-        }
         Cooldown();
 
     }

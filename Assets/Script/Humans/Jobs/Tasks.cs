@@ -1,4 +1,5 @@
 ﻿using Assets.Script.Buildings;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ namespace Assets.Script.Humans
             if (path == null || path.Count == 0) return;
             var nodePos = path[currPathNodeDestination];
             var diffVector = nodePos.worldPosition - human.transform.position;
-            
+
             diffVector.z = 0; // Account for different z levels
             if (diffVector.magnitude < 0.05)
             {
@@ -131,7 +132,7 @@ namespace Assets.Script.Humans
         }
         public override void UpdateTask(Human human, double deltaTime)
         {
-            
+
             OnStopTask?.Invoke();
         }
     }
@@ -198,6 +199,7 @@ namespace Assets.Script.Humans
 
         public override void StopTask()
         {
+            animator.SetTrigger("IdleTrigger");
             if (rb is null) return;
             rb.velocity = Vector2.zero;
         }
@@ -214,17 +216,20 @@ namespace Assets.Script.Humans
 
                 if (diffVector.magnitude < 0.05 || target == Vector3.zero)
                 {
+                    animator.SetTrigger("IdleTrigger");
                     rb.velocity = Vector2.zero;
                     UpdateWanderTarget(human);
                     waitTimer = waitInterval;
                 }
                 else
                 {
+                    animator.SetTrigger("WalkTrigger");
                     rb.velocity = speed * diffVector.normalized;
                 }
             }
             else
             {
+                animator.SetTrigger("IdleTrigger");
                 rb.velocity = Vector2.zero;
                 waitTimer -= (float)fixedDeltaTime;
             }
@@ -254,10 +259,13 @@ namespace Assets.Script.Humans
         {
             base.StartTask(rb, animator);
             range = 5;
+            animator.SetTrigger("WalkTrigger");
+
         }
 
         public override void StopTask()
         {
+            animator.SetTrigger("IdleTrigger");
             rb.velocity = Vector2.zero;
         }
 
@@ -319,10 +327,16 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"DefensiveAttack {target}";
         }
+        public override void StartTask(Rigidbody2D rb, Animator animator)
+        {
+            base.StartTask(rb, animator);
+            animator.SetTrigger("IdleTrigger");
+        }
 
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
+            animator.SetTrigger("IdleTrigger");
         }
 
         public override void UpdateTask(Human human, double deltaTime)
@@ -366,6 +380,11 @@ namespace Assets.Script.Humans
             Name = $"CloseRangeTactics {target}";
         }
 
+        public override void StartTask(Rigidbody2D rb, Animator animator)
+        {
+            base.StartTask(rb, animator);
+            timeSinceLastDodge = 0;
+        }
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
@@ -446,11 +465,13 @@ namespace Assets.Script.Humans
 
             if (diffVector.magnitude < 0.05)
             {
+                animator.SetTrigger("IdleTrigger");
                 rb.velocity = Vector2.zero;
                 UpdatePatrolTarget(human);
             }
             else
             {
+                animator.SetTrigger("WalkTrigger");
                 rb.velocity = speed * diffVector.normalized;
             }
         }
@@ -468,10 +489,16 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"FleeAndFire {target}";
         }
+        public override void StartTask(Rigidbody2D rb, Animator animator)
+        {
+            base.StartTask(rb, animator);
+            animator.SetTrigger("WalkTrigger");
+        }
 
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
+            animator.SetTrigger("IdleTrigger");
         }
 
         public override void UpdateTask(Human human, double deltaTime)
@@ -501,10 +528,15 @@ namespace Assets.Script.Humans
             this.target = target;
             Name = $"ApproachAndAttack {target}";
         }
-
+        public override void StartTask(Rigidbody2D rb, Animator animator)
+        {
+            base.StartTask(rb, animator);
+            animator.SetTrigger("WalkTrigger");
+        }
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
+            animator.SetTrigger("IdleTrigger");
         }
 
         public override void UpdateTask(Human human, double deltaTime)

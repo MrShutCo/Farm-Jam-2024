@@ -9,8 +9,10 @@ public class HealthBase : MonoBehaviour
     protected FloatingStatusBar healthBar;
     [SerializeField] protected Transform healthPanel;
 
-
+    [SerializeField] protected int initHealth = 5;
+    public int InitHealth => initHealth;
     [SerializeField] protected int maxHealth = 5;
+    public int MaxHealth => maxHealth;
     [SerializeField] public int currentHealth { get; private set; }
 
     protected Transform _transform;
@@ -59,7 +61,7 @@ public class HealthBase : MonoBehaviour
 
     public virtual void Heal(int heal)
     {
-        currentHealth += heal;
+        currentHealth = Mathf.Clamp(currentHealth + heal, currentHealth + heal, maxHealth);
         UpdateHealth();
     }
     public virtual void SetMaxHealth(int health)

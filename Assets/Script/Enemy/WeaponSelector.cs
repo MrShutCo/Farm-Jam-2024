@@ -30,4 +30,8 @@ public class WeaponSelector : MonoBehaviour
         ActiveWeapon = weapon;
         weapon.Spawn(WeaponParent, this);
     }
+    public void ActivateWeeapon(bool active)
+    {
+        ActiveWeapon.WeaponModelActive(active);
+    }
 }

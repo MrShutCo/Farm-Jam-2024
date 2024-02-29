@@ -45,12 +45,18 @@ namespace Assets.Script.Humans
         private SpriteRenderer _spriteRenderer;
         public Animator anim { get; private set; }
 
+        public float initSpeed;
+        public float maxSpeed;
+        public float initAttackRateMultiplier;
+        public float currentAttackRateMultiplier;
+
         public void Awake()
         {
             if (StatusPanel == null)
                 StatusPanel = gameObject.transform.Find("StatusPanel");
             targetSensor = GetComponentInChildren<TargetSensor>().transform;
             nameText.text = Name;
+            maxSpeed = initSpeed;
             rb = GetComponent<Rigidbody2D>();
             wildBehaviour = GetComponent<HumanWildBehaviour>();
             weaponSelector = GetComponent<WeaponSelector>();
@@ -74,7 +80,24 @@ namespace Assets.Script.Humans
             _traits = traits;
             setTraitText();
             nameText.text = Name;
+            UpdateStats();
         }
+        void UpdateStats()
+        {
+            HealthBase health = GetComponent<HealthBase>();
+            foreach (var trait in _traits)
+            {
+                var addedHealth = health.InitHealth * trait.ActOn(_efficiencyProfile).HealthMultiplier;
+                health.SetMaxHealth(health.MaxHealth + (int)addedHealth);
+
+                var addedSpeed = initSpeed * trait.ActOn(_efficiencyProfile).SpeedMultiplier;
+                maxSpeed += addedSpeed;
+
+                var addedAttackRate = initAttackRateMultiplier * trait.ActOn(_efficiencyProfile).AttackRateMultiplier;
+                currentAttackRateMultiplier += addedAttackRate;
+            }
+        }
+
 
         private void OnEnable()
         {
@@ -221,7 +244,6 @@ namespace Assets.Script.Humans
             if (other.gameObject.CompareTag("Grid"))
             {
                 pathfinding.GridOwner = other.transform.parent.gameObject;
-
             }
         }
 

@@ -12,7 +12,7 @@ public class HumanWildBehaviour : MonoBehaviour
     [SerializeField] Transform selectionCollider;
     [SerializeField] Transform weaponParent;
     TargetSensor targetSensor;
-    
+
     Human human;
     Transform _target;
     Vector2 startPos;
@@ -37,6 +37,7 @@ public class HumanWildBehaviour : MonoBehaviour
     {
         SwitchTools(true);
         startPos = transform.position;
+
         var newJob = new Job(human, npcType.ToString(), new List<Task>(), true);
         if (_target != null)
         {
@@ -48,10 +49,13 @@ public class HumanWildBehaviour : MonoBehaviour
         }
         human.StopAllJobs();
         human.AddJob(newJob);
+        if (human.WeaponSelector.ActiveWeapon != null)
+            human.WeaponSelector.ActivateWeeapon(true);
     }
     void OnDisable()
     {
         ClearTarget();
+        human.WeaponSelector.ActivateWeeapon(false);
         SwitchTools(false);
     }
 
@@ -84,7 +88,7 @@ public class HumanWildBehaviour : MonoBehaviour
     }
 
     Task CheckForChange() => IsOutsideRange(npcType.DisengageRange) ? ClearTarget() : ChangeToTargetMode();
-    
+
 
     Task ChangeToIdle()
     {

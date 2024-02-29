@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Assets.Script.Humans;
 using UnityEngine;
 
@@ -15,6 +14,7 @@ public class HumanHealth : HealthBase
         human = GetComponent<Human>();
         col = GetComponent<Collider2D>();
     }
+
 
     protected override void Die()
     {

@@ -12,6 +12,8 @@ public class DropPointBuilding : Building
         {
             Debug.Log("DropOff");
             other.gameObject.GetComponent<Carrier>().DropOff();
+            HealthBase health = other.gameObject.GetComponent<HealthBase>();
+            health.Heal(health.MaxHealth);
         }
     }
 
