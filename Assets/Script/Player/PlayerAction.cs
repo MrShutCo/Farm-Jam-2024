@@ -260,7 +260,11 @@ public class CollectAction : PlayerAction
                     {
                         //move sprite to bag or tendril
                     }
-                    else { Debug.Log("No room for human"); }
+                    else
+                    {
+                        GameManager.Instance.onHumanCarrierFull?.Invoke();
+                        Debug.Log("No room for human");
+                    }
                 }
             }
         Cooldown();

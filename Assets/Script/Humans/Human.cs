@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Humans.Traits;
 using TMPro;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace Assets.Script.Humans
