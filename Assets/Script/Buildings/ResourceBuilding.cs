@@ -89,6 +89,8 @@ namespace Assets.Script.Buildings
 
         protected abstract void OnWork();
 
+        protected abstract void Upgrade();
+        
         protected void onHumanDie(Human h)
         {
             foreach (var group in _workingHumans)
@@ -104,7 +106,7 @@ namespace Assets.Script.Buildings
 
         protected bool IsOver(Vector2 position, Vector2 mousePosition)
         {
-            var a = new Rect(GetWorldPosition(position) - new Vector2(0.5f, 0.5f), new Vector2(1, 1));
+            var a = new Rect(GetWorldPosition(position) - new Vector2(1f, 1f), new Vector2(2, 2));
             return a.Contains(mousePosition);
         }
 

@@ -7,20 +7,49 @@ using UnityEngine;
 
 namespace Script.Buildings
 {
+    /// <summary>
+    /// Note: Working subsections in the prefab must be under a game object, preferably LevelN
+    /// and must follow in the order of Flayee,Flayer,Flayer,Flayee,Flayer,Flayer... 
+    /// </summary>
     public class BodyPartBuilding : ResourceBuilding
     {
 
+        [SerializeField] private List<Transform> levelPositions;
+        private List<SpriteRenderer> flayeeSpriteRenderers;
+        
+
+        private List<List<WorkingSubsection>> levelWorkingSubsections;
+        [SerializeField] private SpriteRenderer background;
+        
         public BodyPartBuilding()
         {
             _workTimer = new(1, true);
-            _workingHumans = new List<WorkingSubsection>()
-            {
-                new (new Vector2(0, 0.5f), new() { new Vector2(-1.25f, 0), new Vector2(1.25f, 0) })
-            };
         }
-        
+
+        private void OnEnable()
+        {
+            levelWorkingSubsections = new List<List<WorkingSubsection>>();
+            flayeeSpriteRenderers = new List<SpriteRenderer>();
+            foreach (var positionSet in levelPositions)
+            {
+                var subsection = new List<WorkingSubsection>();
+                var positions = positionSet.GetComponentsInChildren<Transform>()[1..];
+                for (int i = 0; i < positions.Length/3; i++)
+                {
+                    var idx = 3 * i;
+                    subsection.Add(new WorkingSubsection(positions[idx].localPosition,
+                        new() { positions[idx+1].localPosition, positions[idx+2].localPosition }));
+                    flayeeSpriteRenderers.Add(positions[idx].gameObject.GetComponent<SpriteRenderer>());
+                }
+                levelWorkingSubsections.Add(subsection);
+            }
+            // Set to level 0
+            _workingHumans = levelWorkingSubsections[buildingData.Level];
+        }
+
         public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
         {
+            int j = 0;
             foreach (var subsection in _workingHumans)
             {
                 // assign to flayee
@@ -30,6 +59,9 @@ namespace Script.Buildings
                     human.transform.position = GetWorldPosition(subsection.FlayeePosition);
                     human.AddJob(new Job(human, "flay", new List<Task>(){new GetFlayed()},false));
                     human.GetComponent<CapsuleCollider2D>().enabled = false;
+                    //human.GetComponent<SpriteRenderer>().enabled = false;
+                    flayeeSpriteRenderers[j].sprite = buildingData.workedArea;
+                    flayeeSpriteRenderers[j].color = Color.white;
                     Debug.Log("Assigned flayee");
                 }
                 // assign to flayer
@@ -43,7 +75,15 @@ namespace Script.Buildings
                         Debug.Log("Assigned flayer");
                     }
                 }
+
+                j++;
             }
+        }
+
+        protected override void Upgrade()
+        {
+            buildingData.Level++;
+             buildingData.GetSprite();
         }
 
         protected override void OnWork()

@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Layout: {x: 3, y: 3}
   IsWalkable: 1
+  workedArea: {fileID: 242575941, guid: 9322c8cefa9f249e38fea59c7b906b8e, type: 3}
   sprites:
-  - {fileID: -1534665795, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
-  resource: 4
-  numFlayeesPerLevel: 0100000002000000
-  numFlayersPerLevel: 0200000004000000
+  - {fileID: 18372427, guid: 9322c8cefa9f249e38fea59c7b906b8e, type: 3}
+  - {fileID: 860530001, guid: 9322c8cefa9f249e38fea59c7b906b8e, type: 3}
+  - {fileID: -1514035628, guid: 9322c8cefa9f249e38fea59c7b906b8e, type: 3}
+  resource: 6
+  numFlayeesPerLevel: 010000000200000003000000
+  numFlayersPerLevel: 020000000400000006000000
   internalBufferCapacity: 10
-  maximumPackagesAllowed: 0400000006000000
+  maximumPackagesAllowed: 040000000600000008000000
   Level: 0

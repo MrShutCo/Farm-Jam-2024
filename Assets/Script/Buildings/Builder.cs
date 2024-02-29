@@ -89,7 +89,6 @@ namespace Assets.Script.Buildings
                     {
                         ghostResourceBuilding.SetBuildable();
                     }
-
                 }
             }
 
