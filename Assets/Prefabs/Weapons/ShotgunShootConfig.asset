@@ -17,6 +17,6 @@ MonoBehaviour:
     m_Bits: 640
   Spread: {x: 0.4, y: 0.4}
   FireRate: 2
-  Damage: 1
+  Damage: 5
   BulletsPerShot: 3
   KnockbackForce: 0

@@ -11,6 +11,9 @@ public enum ESoundType
     playerEnterPortal,
     humanMelee,
     humanShotgun,
+    humanAssaultRifle,
+    humanGatlingGun,
+    humanPitchfork,
     humanDeath,
     meleeImpact,
     buildingImpact,
@@ -49,6 +52,9 @@ public class AudioManager : MonoBehaviour
     [Header("Human Clips")]
     [SerializeField] AudioClip[] humanMelee;
     [SerializeField] AudioClip[] humanShotgun;
+    [SerializeField] AudioClip[] humanAssaultRifle;
+    [SerializeField] AudioClip[] humanGatlingGun;
+    [SerializeField] AudioClip[] humanPitchfork;
     [SerializeField] AudioClip[] humanDeath;
 
     [Header("General Clips")]

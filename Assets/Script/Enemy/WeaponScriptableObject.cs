@@ -13,6 +13,7 @@ public class WeaponScriptableObject : ScriptableObject
     public WeaponType Type;
     public string Name;
     public GameObject ModelPrefab;
+    public GameObject BulletPrefab;
     public Vector2 SpawnPoint;
     public Vector2 SpawnRotation;
 
@@ -24,6 +25,7 @@ public class WeaponScriptableObject : ScriptableObject
     private float LastShootTime;
     private ParticleSystem ShootSystem;
     private ObjectPool<TrailRenderer> TrailPool;
+    private ObjectPool<GameObject> BulletPool;
 
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
     {
@@ -31,13 +33,15 @@ public class WeaponScriptableObject : ScriptableObject
         LastShootTime = 0;
         TrailPool = new ObjectPool<TrailRenderer>(CreateTrail);
 
+        if (BulletPrefab != null)
+            BulletPool = new ObjectPool<GameObject>(() => Instantiate(BulletPrefab));
+
         Model = Instantiate(ModelPrefab);
         Model.transform.SetParent(Parent, false);
         Model.transform.localPosition = SpawnPoint;
         Model.transform.localRotation = Quaternion.Euler(SpawnRotation);
 
         ShootSystem = Model.GetComponentInChildren<ParticleSystem>();
-
     }
 
     public void Shoot(Vector2 direction)
@@ -48,7 +52,21 @@ public class WeaponScriptableObject : ScriptableObject
             LastShootTime = Time.time;
             for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
             {
-                GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanShotgun, Model.transform.position);
+                switch (Type)
+                {
+                    case WeaponType.Shotgun:
+                        GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanShotgun, Model.transform.position);
+                        break;
+                    case WeaponType.AssaultRifle:
+                        //GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanAssaultRifle, Model.transform.position);
+                        break;
+                    case WeaponType.GatlingGun:
+                        //GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanGatlingGun, Model.transform.position);
+                        break;
+                    case WeaponType.Pitchfork:
+                        //GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanPitchfork, Model.transform.position);
+                        break;
+                }
                 ShootSystem.Play();
                 Vector2 shootDirection = (Vector2)direction
                  + new Vector2(
@@ -119,6 +137,15 @@ public class WeaponScriptableObject : ScriptableObject
     private IEnumerator PlayTrail(Vector3 start, Vector3 end, RaycastHit2D hit)
     {
         TrailRenderer instance = TrailPool.Get();
+        GameObject bullet = null;
+        if (BulletPrefab != null)
+        {
+            bullet = BulletPool.Get();
+            bullet.SetActive(true);
+            bullet.transform.position = start;
+            bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, end - start);
+        }
+
         instance.gameObject.SetActive(true);
         instance.transform.position = start;
         yield return null;
@@ -135,18 +162,28 @@ public class WeaponScriptableObject : ScriptableObject
                 Mathf.Clamp01(1 - (remainingDistance / distance))
             );
 
+            if (bullet != null)
+                bullet.transform.position = instance.transform.position;
+
             remainingDistance -= TrailConfig.SimulationSpeed * Time.deltaTime;
 
             yield return null;
         }
 
         instance.transform.position = end;
+        if (bullet != null)
+            bullet.transform.position = end;
 
         yield return new WaitForSeconds(TrailConfig.Duration);
         yield return null;
         instance.emitting = false;
         instance.gameObject.SetActive(false);
         TrailPool.Release(instance);
+        if (bullet != null)
+        {
+            bullet.SetActive(false);
+            BulletPool.Release(bullet);
+        }
     }
 
     private TrailRenderer CreateTrail()

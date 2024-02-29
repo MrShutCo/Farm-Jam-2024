@@ -41,7 +41,7 @@ MonoBehaviour:
   MinVertexDistance: 0.5
   Color:
     serializedVersion: 2
-    key0: {r: 1, g: 0.8965509, b: 0, a: 1}
+    key0: {r: 0.13207549, g: 0.11860897, b: 0, a: 0}
     key1: {r: 1, g: 0.8980393, b: 0, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -70,4 +70,4 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   MissDistance: 15
-  SimulationSpeed: 10
+  SimulationSpeed: 8
