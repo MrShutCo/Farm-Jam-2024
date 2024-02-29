@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dbb4bed27394fb1921b5d71d5f227fa, type: 3}
   m_Name: BloodBuilding
   m_EditorClassIdentifier: 
-  Layout: {x: 2, y: 2}
+  Layout: {x: 3, y: 3}
   IsWalkable: 1
   sprites:
   - {fileID: 2033498825, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}

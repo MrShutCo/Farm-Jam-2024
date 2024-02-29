@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.Script.Humans;
 using Script.Buildings;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -65,11 +66,19 @@ namespace Assets.Script.Buildings
             NumFinishedPackets--;
         }
 
+        public void SetNotBuildable()
+        {
+            _spriteRenderer.color = Color.red;
+        }
+
+        public void SetBuildable() => _spriteRenderer.color = Color.white;
+
         protected void AddPacket()
         {
             var newPackage = Instantiate(packagePrefab, packages.transform);
             newPackage.transform.localPosition = new Vector3(-1 + NumFinishedPackets * 0.6f, 2.5f);
             newPackage.GetComponent<Package>().SetPackage(buildingData.resource, (int)buildingData.internalBufferCapacity);
+            newPackage.GetComponentInChildren<Icon>().SetIcon(buildingData.resource, 0, false);
            
             _packageObjects.Push(newPackage);
             NumFinishedPackets = Math.Min(NumFinishedPackets + 1, _packageObjects.Count);

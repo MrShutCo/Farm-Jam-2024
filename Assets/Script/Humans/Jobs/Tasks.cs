@@ -38,16 +38,19 @@ namespace Assets.Script.Humans
         public override void StartTask(Rigidbody2D rb, Animator animator)
         {
             base.StartTask(rb, animator);
+            rb.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             animator.SetTrigger("WalkTrigger");
             speed = 3;
             Grid2D.onGridUpdated += onGridUpdated;
-            Debug.Log($"Started Move To");
+            Debug.Log($"Started Move To {target}");
         }
 
         public override void StopTask()
         {
             animator.SetTrigger("IdleTrigger");
             Grid2D.onGridUpdated -= onGridUpdated;
+            rb.gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
+            Debug.Log($"Finished Move To {target}");
         }
 
         public override void UpdateTask(Human human, double deltaTime)

@@ -20,6 +20,6 @@ MonoBehaviour:
   resource: 0
   numFlayeesPerLevel: 
   numFlayersPerLevel: 02000000
-  internalBufferCapacity: 10
+  internalBufferCapacity: 20
   maximumPackagesAllowed: 0500000006000000
   Level: 0

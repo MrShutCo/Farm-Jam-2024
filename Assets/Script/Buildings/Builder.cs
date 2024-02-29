@@ -2,6 +2,7 @@ using Assets.Buildings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using Script.Buildings;
 using UnityEditor;
@@ -14,6 +15,8 @@ namespace Assets.Script.Buildings
 {
     public class Builder : MonoBehaviour
     {
+        [SerializeField] private Tile[] buildableOnTiles;
+        
         [SerializeField] Tilemap GroundMap;
         [SerializeField] Tilemap EffectMap;
         [SerializeField] Tilemap ColliderMap;
@@ -30,6 +33,7 @@ namespace Assets.Script.Buildings
         Vector3 currMouseTile;
         Transform parent;
         GameObject ghostBuilding;
+        private ResourceBuilding ghostResourceBuilding;
         private Camera _camera;
 
         private void Start()
@@ -60,6 +64,7 @@ namespace Assets.Script.Buildings
             buildingPrefab.GetComponent<ResourceBuilding>().buildingData = buildings[SelectedBuilding];
             buildingPrefab.GetComponent<BoxCollider2D>().enabled = false;
             ghostBuilding = Instantiate(buildingPrefab, parent);
+            ghostResourceBuilding = ghostBuilding.GetComponent<ResourceBuilding>();
         }
 
         // Update is called once per frame
@@ -69,12 +74,22 @@ namespace Assets.Script.Buildings
             {
                 if (Input.GetMouseButtonDown(1))
                     AttemptToPlace();
-
-                // Show outline of current 
-                currMouseTile = MouseToWorldPos();
+                
                 if (ghostBuilding)
                 {
+                    var placeable = buildings[SelectedBuilding];
+                    // Show outline of current 
+                    currMouseTile = MouseToWorldPos();
                     ghostBuilding.transform.position = currMouseTile;
+                    if (!IsValidPlacement(GetTileOverMouse(placeable), placeable.Layout))
+                    {
+                        ghostResourceBuilding.SetNotBuildable();
+                    }
+                    else
+                    {
+                        ghostResourceBuilding.SetBuildable();
+                    }
+
                 }
             }
 
@@ -85,12 +100,12 @@ namespace Assets.Script.Buildings
         void AttemptToPlace()
         {
             var placeable = buildings[SelectedBuilding];
-            var mid = placeable.GetMidpoint();
-            var v = MouseToCellPos() - new Vector3Int(mid.x, mid.y);
+            var v = GetTileOverMouse(placeable);
 
-            if (IsValidPlacement(v, placeable.Layout, ColliderMap))
+            if (IsValidPlacement(v, placeable.Layout))
             {
-                PlaceTilePatternOnLayer(v, placeable.Layout, ColliderMap, placeable.IsWalkable ? WalkableTile : UnwalkableTile);
+                Debug.Log(v.ToString());
+                PlaceTilePatternOnLayer(v, placeable.Layout, UnwalkableTile);
                 ghostBuilding.GetComponent<BoxCollider2D>().enabled = true;
                 ghostBuilding = null;
                 GameManager.Instance.onPlayBuildingSound?.Invoke(ESoundType.buildingConstructed, Camera.main.transform.position);
@@ -103,6 +118,12 @@ namespace Assets.Script.Buildings
                         GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
                     }
             }
+        }
+        
+        Vector3Int GetTileOverMouse(ResourceBuildingDataSO placeable)
+        {
+            var mid = placeable.GetMidpoint();
+            return MouseToCellPos() - new Vector3Int(mid.x, mid.y);
         }
 
         Vector3 MouseToWorldPos()
@@ -120,24 +141,27 @@ namespace Assets.Script.Buildings
             return GroundMap.WorldToCell(worldPos);
         }
 
-        bool IsValidPlacement(Vector3Int origin, Vector2Int layout, Tilemap tilemap)
+        bool IsValidPlacement(Vector3Int origin, Vector2Int layout)
         {
+            origin.z = 0;
             for (int x = 0; x < layout.x; x++)
                 for (int y = 0; y < layout.y; y++)
                 {
-                    var potentialSpot = tilemap.GetTile(origin + new Vector3Int(x, y, 0));
-                    if (potentialSpot is not null) return false;
+                    // TODO!!!!!! -1 on x and y only works if building is 3x3 but its okay because we rushin 
+                    var potentialSpot = ColliderMap.GetTile(origin + new Vector3Int(x, y, 0));
+                    var potentialGroundSpot = GroundMap.GetTile(origin + new Vector3Int(x, y, 0));
+                    if (!buildableOnTiles.Contains(potentialGroundSpot) || potentialSpot is not null) return false;
                 }
             return true;
         }
 
-        void PlaceTilePatternOnLayer(Vector3Int origin, Vector2Int layout, Tilemap tilemap, Tile tilebase)
+        void PlaceTilePatternOnLayer(Vector3Int origin, Vector2Int layout, Tile tilebase)
         {
             for (int x = 0; x < layout.x; x++)
                 for (int y = 0; y < layout.y; y++)
                 {
-                    tilebase.color = new Color(0, 0, 0, 0);
-                    tilemap.SetTile(origin + new Vector3Int(x, y, 0), tilebase);
+                    tilebase.color = new Color(0, 0, 0, 1);
+                    ColliderMap.SetTile(origin + new Vector3Int(x, y, 0), tilebase);
                 }
         }
     }

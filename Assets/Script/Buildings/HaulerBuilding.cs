@@ -34,7 +34,7 @@ namespace Assets.Script.Buildings
 		bool TryPickUp(ResourceBuilding b, Package p)
 		{
 			var closestFreeHauler = haulers.
-				Where(h => h != null && h.CurrentJobs.Count() == 0 || h.CurrentJobs.Peek().Name != "Haul").
+				Where(h => h != null && !h.CurrentJobs.Any() || h.CurrentJobs.Peek().Name != "Haul").
 				OrderBy(h => Vector3.Distance(h.transform.position, b.PickupLocation.position)).
 				FirstOrDefault();
 
