@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Script.Humans;
 using System;
 using UnityEngine;
+using Unity.VisualScripting;
 
 
 [RequireComponent(typeof(Player))]
@@ -109,6 +110,49 @@ public class AttackAction : PlayerAction
     int maxHits = 3;
     float comboWindow = 0.5f;
     float comboTimer;
+
+    SoundRequest attackSound;
+    SoundRequest attackHitSound;
+    SoundRequest attackCritSound;
+    SoundRequest attackHitCritSound;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        attackSound = new SoundRequest
+        {
+            SoundType = ESoundType.playerAttack,
+            RequestingObject = gameObject,
+            SoundSource = ESoundSource.Player,
+            RandomizePitch = true,
+            Loop = false
+        };
+        attackHitSound = new SoundRequest
+        {
+            SoundType = ESoundType.playerAttackHit,
+            RequestingObject = gameObject,
+            SoundSource = ESoundSource.Player,
+            RandomizePitch = true,
+            Loop = false
+        };
+        attackCritSound = new SoundRequest
+        {
+            SoundType = ESoundType.playerAttackCrit,
+            RequestingObject = gameObject,
+            SoundSource = ESoundSource.Player,
+            RandomizePitch = true,
+            Loop = false
+        };
+        attackHitCritSound = new SoundRequest
+        {
+            SoundType = ESoundType.playerAttackHitCrit,
+            RequestingObject = gameObject,
+            SoundSource = ESoundSource.Player,
+            RandomizePitch = true,
+            Loop = false
+        };
+
+    }
     private void OnEnable()
     {
     }
@@ -148,7 +192,7 @@ public class AttackAction : PlayerAction
 
         if (hitIndex == maxHits)
         {
-            GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerMelee);
+            GameManager.Instance.onPlaySound?.Invoke(attackCritSound);
             animator.SetTrigger("AttackTrigger");
             vfxAnimator.transform.localScale = new Vector3(1.5f, 1.5f, 1);
             vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
@@ -157,7 +201,7 @@ public class AttackAction : PlayerAction
         }
         else
         {
-            GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerMelee);
+            GameManager.Instance.onPlaySound?.Invoke(attackSound);
             animator.SetTrigger("AttackTrigger");
             vfxAnimator.transform.localScale = new Vector3(1, 1, 1);
             vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
@@ -175,11 +219,13 @@ public class AttackAction : PlayerAction
                     if (hitIndex == maxHits)
                     {
                         health.TakeDamage((int)player.BaseDamage * 2);
+                        GameManager.Instance.onPlaySound?.Invoke(attackHitCritSound);
                         StartCoroutine(KnockBack(health));
                     }
                     else
                     {
                         health.TakeDamage((int)player.BaseDamage);
+                        GameManager.Instance.onPlaySound?.Invoke(attackHitSound);
                     }
                 }
             }
@@ -225,11 +271,20 @@ public class CollectAction : PlayerAction
 {
     Collider2D[] hits;
     Carrier carrier;
+    SoundRequest collectTry;
 
     protected override void Awake()
     {
         base.Awake();
         carrier = GetComponent<Carrier>();
+        collectTry = new SoundRequest
+        {
+            SoundType = ESoundType.playerCollectTry,
+            RequestingObject = gameObject,
+            SoundSource = ESoundSource.Player,
+            RandomizePitch = true,
+            Loop = false
+        };
     }
 
     private void OnEnable()
@@ -245,6 +300,8 @@ public class CollectAction : PlayerAction
         vfxAnimator.transform.position = (Vector2)col.bounds.center + direction * halfExtent * 2;
         AnimateInDirection(direction);
         vfxAnimator.SetTrigger("CollectTrigger");
+
+
 
         hits = GetHits(direction, targetLayers);
         if (hits != null && hits.Length > 0)
@@ -311,11 +368,20 @@ public class DodgeAction : PlayerAction
     int maxCharges = 2;
     int chargesAvailable;
     float timeOfLastCharge;
+    SoundRequest dodgeSound;
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         chargesAvailable = maxCharges;
+        dodgeSound = new SoundRequest
+        {
+            SoundType = ESoundType.playerDodge,
+            RequestingObject = gameObject,
+            SoundSource = ESoundSource.Player,
+            RandomizePitch = true,
+            Loop = false
+        };
     }
     private void OnEnable()
     {
@@ -343,7 +409,7 @@ public class DodgeAction : PlayerAction
         if (dodgeTimer <= 0)
         {
             dodging = true;
-
+            GameManager.Instance.onPlaySound?.Invoke(dodgeSound);
             onDodge?.Invoke(dodging);
             col.enabled = false;
             dodgeTimer = dodgeDuration;

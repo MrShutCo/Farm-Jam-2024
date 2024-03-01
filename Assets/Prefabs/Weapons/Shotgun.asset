@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   Name: Shotgun
+  soundSourceType: 3
+  soundEffect: 10
   ModelPrefab: {fileID: 8834472410640706566, guid: 09dfc70bcb18b2e42bae6d5f24b15836, type: 3}
   BulletPrefab: {fileID: 4211437310961283376, guid: 6e09a771019bf0942b2c44a30aa245cb, type: 3}
   SpawnPoint: {x: 0, y: 0}
   SpawnRotation: {x: 0, y: 0}
+  bulletRotation: {x: 0, y: 0, z: 0}
   rotateModelToTarget: 1
   ShootConfig: {fileID: 11400000, guid: fe38b81100366734094799243d91b202, type: 2}
   TrailConfig: {fileID: 11400000, guid: 8fe6ea23c9e2d9943a9470231865e119, type: 2}

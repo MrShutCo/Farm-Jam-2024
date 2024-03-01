@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
     public Grid2D PathfindingGridOutside;
+    public AudioManager AudioManager;
 
     public Action onResourceChange;
     public Action<List<Human>> onCarriedHumansChange;
@@ -40,13 +41,7 @@ public class GameManager : MonoBehaviour
     public Action<Building, Package> onPackageCreate;
 
     #region Sound Events
-    public Action<ESoundType, Vector2> onPlayHumanSound;
-    public Action<ESoundType, Vector2> onPlayBuildingSound;
-    public Action<ESoundType> onPlayPlayerSound;
-    public Action<ESoundType> onPlayHusbandSound;
-    public Action<ESoundType> onPlayUISound;
-    public Action<ESoundType> onPlayMusic;
-    public Action<ESoundType> onPlayAmbientSound;
+    public Action<SoundRequest> onPlaySound;
     #endregion
 
     public List<Building> Buildings;

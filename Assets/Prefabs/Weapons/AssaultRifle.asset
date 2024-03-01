@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 1
   Name: AssaultRifle
+  soundSourceType: 5
+  soundEffect: 11
   ModelPrefab: {fileID: 8834472410640706566, guid: 09dfc70bcb18b2e42bae6d5f24b15836, type: 3}
+  BulletPrefab: {fileID: 0}
   SpawnPoint: {x: 0, y: 0}
   SpawnRotation: {x: 0, y: 0}
+  bulletRotation: {x: 0, y: 0, z: 0}
+  rotateModelToTarget: 0
   ShootConfig: {fileID: 11400000, guid: ec77233733555b74180d4a7669942ea8, type: 2}
   TrailConfig: {fileID: 11400000, guid: 44abde8b12802eb4cb32ae4e3ec6338f, type: 2}

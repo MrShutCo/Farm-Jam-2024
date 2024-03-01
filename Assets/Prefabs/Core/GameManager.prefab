@@ -44,26 +44,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217218efb15a1e84c8299e4819b96ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMelee:
+  audioSourceCountPerType: 6
+  soundSources:
+  - Source: 0
+    instances: 3
+  - Source: 1
+    instances: 1
+  - Source: 2
+    instances: 5
+  - Source: 3
+    instances: 5
+  - Source: 4
+    instances: 4
+  - Source: 5
+    instances: 4
+  - Source: 6
+    instances: 3
+  - Source: 7
+    instances: 4
+  - Source: 8
+    instances: 2
+  - Source: 9
+    instances: 1
+  - Source: 10
+    instances: 1
+  playerAttack:
   - {fileID: 8300000, guid: cb63ba41883c61f4a94dd34dbd29970d, type: 3}
+  playerAttackCrit:
+  - {fileID: 8300000, guid: 9f3de593caf49ac4eadfd60fe28bff47, type: 3}
   playerDeath: []
   playerEnterPortal:
   - {fileID: 8300000, guid: d678c98e96f495445b1f0a05420545d6, type: 3}
-  humanMelee: []
+  playerAttackHit:
+  - {fileID: 8300000, guid: 118d63962af42094790ee677b96a1b2d, type: 3}
+  playerAttackHitCrit:
+  - {fileID: 8300000, guid: 9f3de593caf49ac4eadfd60fe28bff47, type: 3}
+  playerCollectTry: []
+  playerCollectResource:
+  - {fileID: 8300000, guid: f3c545cf7731a95439c84737254b376d, type: 3}
+  playerCollectHuman:
+  - {fileID: 8300000, guid: f3c545cf7731a95439c84737254b376d, type: 3}
+  playerDropOff:
+  - {fileID: 8300000, guid: f3c545cf7731a95439c84737254b376d, type: 3}
+  playerDodge:
+  - {fileID: 8300000, guid: 1d8a7f7eff42f43478342e8745b1cf84, type: 3}
   humanShotgun:
+  - {fileID: 8300000, guid: 90b53b37b034513409e585c7974c935f, type: 3}
+  humanAssaultRifle:
   - {fileID: 8300000, guid: 8399b7f0d93aea54cb27b51f5da00dad, type: 3}
-  humanAssaultRifle: []
-  humanGatlingGun: []
-  humanPitchfork: []
+  humanGatlingGun:
+  - {fileID: 8300000, guid: ac9263bca09a6e5448b5d67e5ad4aeba, type: 3}
+  humanPitchfork:
+  - {fileID: 8300000, guid: 8399b7f0d93aea54cb27b51f5da00dad, type: 3}
   humanDeath: []
-  meleeImpact: []
+  buildingOrganHarvester: []
+  buildingBoneHarvester: []
+  buildingBloodHarvester: []
   buildingImpact: []
   buildingDeath: []
-  buildingConstructed:
-  - {fileID: 8300000, guid: b388fe9844dadc74aadf007a77fc5b8c, type: 3}
   buttonClick: []
+  badSelection: []
   menuOpen: []
   menuClose: []
+  constructionComplete:
+  - {fileID: 8300000, guid: b388fe9844dadc74aadf007a77fc5b8c, type: 3}
+  - {fileID: 8300000, guid: 9f68bb26408db6c49977d684197d3f2d, type: 3}
+  - {fileID: 8300000, guid: 550e9337fa971b44b97e8a1fa5420f10, type: 3}
   homeAmbient: []
   farmWildAmbient: []
   homeMusic: []
@@ -126,6 +172,7 @@ MonoBehaviour:
   - {fileID: 0}
   PathfindingGrid: {fileID: 0}
   PathfindingGridOutside: {fileID: 0}
+  AudioManager: {fileID: 0}
   Buildings: []
   Player: {fileID: 0}
   CurrentlySelectedHuman: {fileID: 0}

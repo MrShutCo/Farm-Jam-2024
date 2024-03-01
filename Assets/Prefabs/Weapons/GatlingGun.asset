@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 3
   Name: GatlingGun
+  soundSourceType: 6
+  soundEffect: 12
   ModelPrefab: {fileID: 8834472410640706566, guid: bdba442048a68204b97c32d8c20fc7c4, type: 3}
   BulletPrefab: {fileID: 0}
   SpawnPoint: {x: 0, y: 0}

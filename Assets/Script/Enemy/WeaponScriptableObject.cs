@@ -12,6 +12,8 @@ public class WeaponScriptableObject : ScriptableObject
 {
     public WeaponType Type;
     public string Name;
+    public ESoundSource soundSourceType;
+    public ESoundType soundEffect;
     public GameObject ModelPrefab;
     public GameObject BulletPrefab;
     public Vector2 SpawnPoint;
@@ -30,6 +32,7 @@ public class WeaponScriptableObject : ScriptableObject
     private ObjectPool<GameObject> BulletPool;
 
     private GameObject ModelChild;
+    private SoundRequest SoundRequest;
 
 
     public void WeaponModelActive(bool active)
@@ -56,6 +59,20 @@ public class WeaponScriptableObject : ScriptableObject
         ShootSystem = Model.GetComponentInChildren<ParticleSystem>();
         if (Model.transform.childCount > 0)
             ModelChild = Model.transform.GetChild(0).gameObject;
+
+        SoundRequest = new SoundRequest
+        {
+            RequestingObject = Model,
+            SoundSource = soundSourceType,
+            SoundType = soundEffect,
+            RandomizePitch = true,
+            Loop = false,
+        };
+    }
+
+    void PlaySound()
+    {
+        GameManager.Instance.onPlaySound?.Invoke(SoundRequest);
     }
 
     public void Shoot(Vector2 direction, float fireRateMultiplier = 0)
@@ -66,21 +83,7 @@ public class WeaponScriptableObject : ScriptableObject
             LastShootTime = Time.time;
             for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
             {
-                switch (Type)
-                {
-                    case WeaponType.Shotgun:
-                        GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanShotgun, Model.transform.position);
-                        break;
-                    case WeaponType.AssaultRifle:
-                        //GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanAssaultRifle, Model.transform.position);
-                        break;
-                    case WeaponType.GatlingGun:
-                        //GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanGatlingGun, Model.transform.position);
-                        break;
-                    case WeaponType.Pitchfork:
-                        //GameManager.Instance.onPlayHumanSound?.Invoke(ESoundType.humanPitchfork, Model.transform.position);
-                        break;
-                }
+                PlaySound();
                 ShootSystem.Play();
                 Vector2 shootDirection = (Vector2)direction
                  + new Vector2(

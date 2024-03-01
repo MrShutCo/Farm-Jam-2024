@@ -48,7 +48,6 @@ public class FloatingStatusBar : MonoBehaviour
     public void ActivateFlash(bool active, float interval = 0.5f)
     {
         flashActivated = active;
-        Debug.Log("Flash activated");
         if (!active)
         {
             fill.color = Color.red;
@@ -58,17 +57,7 @@ public class FloatingStatusBar : MonoBehaviour
     }
     void Flash(bool flash)
     {
-        Debug.Log("Flashing");
-        if (flash)
-        {
-            fill.color = Color.red;
-            Debug.Log("Red");
-        }
-        else
-        {
-            fill.color = Color.white;
-            Debug.Log("White");
-        }
+        fill.color = flash ? Color.red : Color.white;
         this.flash = !flash;
     }
 

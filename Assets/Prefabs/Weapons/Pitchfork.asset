@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   Name: Pitchfork
+  soundSourceType: 4
+  soundEffect: 0
   ModelPrefab: {fileID: 4987864101835374013, guid: b8a90d078b3177742b561e4a096beb83, type: 3}
   BulletPrefab: {fileID: 4987864101835374013, guid: df10ee66731bdd54192572fe3764cd8e, type: 3}
   SpawnPoint: {x: 0, y: 0}

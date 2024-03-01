@@ -16,7 +16,7 @@ namespace Assets.Script.Buildings
     public class Builder : MonoBehaviour
     {
         [SerializeField] private Tile[] buildableOnTiles;
-        
+
         [SerializeField] Tilemap GroundMap;
         [SerializeField] Tilemap EffectMap;
         [SerializeField] Tilemap ColliderMap;
@@ -36,6 +36,11 @@ namespace Assets.Script.Buildings
         private ResourceBuilding ghostResourceBuilding;
         private Camera _camera;
 
+        SoundRequest selectBuildingSound;
+        SoundRequest cannotBuildSound;
+        SoundRequest constructionCompleteSound;
+
+
         private void Start()
         {
             _camera = Camera.main;
@@ -53,6 +58,35 @@ namespace Assets.Script.Buildings
             parent = GameObject.Find("Buildings")?.transform;
             if (parent == null)
                 parent = new GameObject("Buildings").transform;
+
+            InitializeSounds();
+        }
+        void InitializeSounds()
+        {
+            selectBuildingSound = new SoundRequest
+            {
+                SoundSource = ESoundSource.UI,
+                RequestingObject = gameObject,
+                SoundType = ESoundType.buttonClick,
+                RandomizePitch = false,
+                Loop = false
+            };
+            cannotBuildSound = new SoundRequest
+            {
+                SoundSource = ESoundSource.UI,
+                RequestingObject = gameObject,
+                SoundType = ESoundType.badSelection,
+                RandomizePitch = false,
+                Loop = false
+            };
+            constructionCompleteSound = new SoundRequest
+            {
+                SoundSource = ESoundSource.UI,
+                RequestingObject = gameObject,
+                SoundType = ESoundType.constructionComplete,
+                RandomizePitch = false,
+                Loop = false
+            };
         }
 
         public void OnClickBuildingImage(int buildingIdx)
@@ -65,6 +99,7 @@ namespace Assets.Script.Buildings
             buildingPrefab.GetComponent<BoxCollider2D>().enabled = false;
             ghostBuilding = Instantiate(buildingPrefab, parent);
             ghostResourceBuilding = ghostBuilding.GetComponent<ResourceBuilding>();
+            GameManager.Instance.onPlaySound?.Invoke(selectBuildingSound);
         }
 
         // Update is called once per frame
@@ -74,7 +109,7 @@ namespace Assets.Script.Buildings
             {
                 if (Input.GetMouseButtonDown(1))
                     AttemptToPlace();
-                
+
                 if (ghostBuilding)
                 {
                     var placeable = buildings[SelectedBuilding];
@@ -107,7 +142,7 @@ namespace Assets.Script.Buildings
                 PlaceTilePatternOnLayer(v, placeable.Layout, UnwalkableTile);
                 ghostBuilding.GetComponent<BoxCollider2D>().enabled = true;
                 ghostBuilding = null;
-                GameManager.Instance.onPlayBuildingSound?.Invoke(ESoundType.buildingConstructed, Camera.main.transform.position);
+                GameManager.Instance.onPlaySound?.Invoke(constructionCompleteSound);
 
                 SelectedBuilding = -1;
                 for (int x = 0; x < placeable.Layout.x; x++)
@@ -117,8 +152,12 @@ namespace Assets.Script.Buildings
                         GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
                     }
             }
+            else
+            {
+                GameManager.Instance.onPlaySound?.Invoke(cannotBuildSound);
+            }
         }
-        
+
         Vector3Int GetTileOverMouse(ResourceBuildingDataSO placeable)
         {
             var mid = placeable.GetMidpoint();

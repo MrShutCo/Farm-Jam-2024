@@ -11,8 +11,41 @@ public class Carrier : MonoBehaviour
 
     public List<Human> CarriedHumans;
     public Dictionary<EResource, int> CarriedResources = new();
-
     [SerializeField] RectTransform HumanTracker;
+
+    SoundRequest collectHuman;
+    SoundRequest collectResource;
+    SoundRequest dropOff;
+
+    private void Awake()
+    {
+        SoundRequest collectHuman = new SoundRequest
+        {
+            SoundSource = ESoundSource.Player,
+            RequestingObject = gameObject,
+            SoundType = ESoundType.playerCollectHuman,
+            RandomizePitch = true,
+            Loop = false
+        };
+        SoundRequest collectResource = new SoundRequest
+        {
+            SoundSource = ESoundSource.Player,
+            RequestingObject = gameObject,
+            SoundType = ESoundType.playerCollectResource,
+            RandomizePitch = true,
+            Loop = false
+        };
+        SoundRequest dropOff = new SoundRequest
+        {
+            SoundSource = ESoundSource.Player,
+            RequestingObject = gameObject,
+            SoundType = ESoundType.playerDropOff,
+            RandomizePitch = true,
+            Loop = false
+        };
+
+
+    }
 
     public void SetCarryCapacity(int humans, int resources)
     {
@@ -34,6 +67,7 @@ public class Carrier : MonoBehaviour
             human.WildBehaviour.enabled = false;
             human.GetComponentInChildren<Renderer>().sortingOrder = 150;
             GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
+            GameManager.Instance.onPlaySound?.Invoke(collectHuman);
             return true;
         }
     }
@@ -60,12 +94,13 @@ public class Carrier : MonoBehaviour
                 CarriedResources.Add(resource, amount);
             }
             GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
+            GameManager.Instance.onPlaySound?.Invoke(collectResource);
             return true;
         }
     }
     public void DropOff()
     {
-
+        int dropOffAmount = 0;
         for (int i = 0; i < CarriedHumans.Count; i++)
         {
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
@@ -75,12 +110,18 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
             CarriedHumans[i].StopAllJobs();
             CarriedHumans[i].anim.SetTrigger("IdleTrigger");
+            dropOffAmount++;
         }
         CarriedHumans.Clear();
         foreach (var resource in CarriedResources.ToList())
         {
             GameManager.Instance.AddResource(resource.Key, resource.Value);
             CarriedResources[resource.Key] = 0;
+            dropOffAmount++;
+        }
+        if (dropOffAmount > 0)
+        {
+            GameManager.Instance.onPlaySound?.Invoke(dropOff);
         }
         GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
         GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);

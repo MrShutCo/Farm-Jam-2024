@@ -17,6 +17,19 @@ public class Portal : MonoBehaviour
     [SerializeField] bool destroyDestinationOnComplete = false;
     [SerializeField] EGameState switchStateOnComplete;
 
+    SoundRequest enterPortalSound;
+    private void Awake()
+    {
+        enterPortalSound = new SoundRequest
+        {
+            SoundSource = ESoundSource.Player,
+            RequestingObject = gameObject,
+            SoundType = ESoundType.playerEnterPortal,
+            RandomizePitch = true,
+            Loop = false
+        };
+    }
+
     private void OnEnable()
     {
         if (destinationType == PortalDestinationType.Home)
@@ -34,7 +47,7 @@ public class Portal : MonoBehaviour
             {
                 Debug.Log("Player at portal");
                 var player = other.GetComponent<Rigidbody2D>();
-                GameManager.Instance.onPlayPlayerSound?.Invoke(ESoundType.playerEnterPortal);
+                GameManager.Instance.onPlaySound?.Invoke(enterPortalSound);
                 GameManager.Instance.onTeleport?.Invoke(true, destination.transform.position);
                 destination.Deactivate();
                 player.simulated = false;
