@@ -7,6 +7,7 @@ namespace Script.Buildings
     [CreateAssetMenu(fileName = "ResourceBuildingData", menuName = "ResourceBuildingData")]
     public class ResourceBuildingDataSO : Placeable
     {
+        [SerializeField] public Sprite workedArea;
         [SerializeField] private Sprite[] sprites;
         [SerializeField] public EResource resource;
 

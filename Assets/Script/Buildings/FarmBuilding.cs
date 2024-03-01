@@ -26,6 +26,11 @@ namespace Script.Buildings
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
+        protected override void Upgrade()
+        {
+            
+        }
+
         public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
         {
             var farmer = _workingHumans[0].Flayers;
