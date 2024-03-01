@@ -15,6 +15,7 @@ public class Portal : MonoBehaviour
     [SerializeField] bool isEntrance;
     [SerializeField] bool deactivate = false;
     [SerializeField] bool destroyDestinationOnComplete = false;
+    [SerializeField] EGameState switchStateOnComplete;
 
     private void OnEnable()
     {
@@ -41,6 +42,7 @@ public class Portal : MonoBehaviour
                 player.simulated = true;
                 GameManager.Instance.onTeleport?.Invoke(false, destination.transform.position);
                 onPortalComplete?.Invoke();
+                GameManager.Instance.SetGameState(switchStateOnComplete);
             }
     }
     private void OnTriggerExit2D(Collider2D other)

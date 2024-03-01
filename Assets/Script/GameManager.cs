@@ -10,7 +10,7 @@ using UnityEngine;
 
 public enum EGameState
 {
-    Normal, Build, Death, Dialogue
+    Normal, Wild, Build, Death, Dialogue
 }
 
 public class GameManager : MonoBehaviour

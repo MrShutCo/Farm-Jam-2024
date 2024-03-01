@@ -232,6 +232,10 @@ public class Player : MonoBehaviour
                 moveActive = true;
                 combatActive = true;
                 break;
+            case EGameState.Wild:
+                moveActive = true;
+                combatActive = true;
+                break;
         }
     }
     public IEnumerator DeathSpiral()

@@ -10,7 +10,7 @@ namespace Assets.Script.UI
     {
         [Header("HomeBase Elements")]
         [SerializeField]
-        TextMeshProUGUI resourceTexts;
+        RectTransform resourcesHome;
 
         [Header("Player Elements")]
         [SerializeField] RectTransform carriedHumansParent;
@@ -42,6 +42,7 @@ namespace Assets.Script.UI
         [SerializeField] private Canvas buildCanvas;
         [SerializeField] private Canvas deathCanvas;
         [SerializeField] private Canvas dialogueCanvas;
+        [SerializeField] private Canvas wildCanvas;
 
         private void Awake()
         {
@@ -60,6 +61,7 @@ namespace Assets.Script.UI
             GameManager.Instance.onHumanCarrierFull += OnHumanCarrierFull;
             buildCanvas.gameObject.SetActive(false);
             deathCanvas.gameObject.SetActive(false);
+            wildCanvas.gameObject.SetActive(false);
         }
         private void Start()
         {
@@ -75,10 +77,16 @@ namespace Assets.Script.UI
                         disableAllCanvas();
                         normalCanvas.gameObject.SetActive(true);
                         break;
+                    case EGameState.Wild:
+                        disableAllCanvas();
+                        normalCanvas.gameObject.SetActive(true);
+                        wildCanvas.gameObject.SetActive(true);
+                        break;
                     case EGameState.Death:
                         disableAllCanvas();
                         normalCanvas.gameObject.SetActive(true);
                         deathCanvas.gameObject.SetActive(true);
+                        wildCanvas.gameObject.SetActive(true);
                         StartCoroutine(DeathUpdate());
                         break;
                     case EGameState.Dialogue:
@@ -96,6 +104,7 @@ namespace Assets.Script.UI
             buildCanvas.gameObject.SetActive(false);
             deathCanvas.gameObject.SetActive(false);
             dialogueCanvas.gameObject.SetActive(false);
+            wildCanvas.gameObject.SetActive(false);
         }
 
         private void OnDisable()
@@ -116,7 +125,7 @@ namespace Assets.Script.UI
             for (int i = 0; i < resources.Length; i++)
             {
                 var resource = (EResource)resources.GetValue(i);
-                var iconHome = Instantiate(iconPrefab, resourceTexts.transform);
+                var iconHome = Instantiate(iconPrefab, resourcesHome.transform);
                 iconHome.SetIcon(resource, 0);
                 iconHome.transform.localPosition = new Vector3(0, -i * 15f);
                 homeResourceIcons.Add(iconHome);
@@ -137,13 +146,13 @@ namespace Assets.Script.UI
                 return;
             }
             int i = 0;
-            var text = "";
+
             foreach (var resource in resources)
             {
                 homeResourceIcons[i].SetIcon(resource.Key, resource.Value);
                 i++;
             }
-            resourceTexts.text = text;
+
         }
 
         #region  Carrier UI

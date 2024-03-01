@@ -52,6 +52,9 @@ MonoBehaviour:
   humanMelee: []
   humanShotgun:
   - {fileID: 8300000, guid: 8399b7f0d93aea54cb27b51f5da00dad, type: 3}
+  humanAssaultRifle: []
+  humanGatlingGun: []
+  humanPitchfork: []
   humanDeath: []
   meleeImpact: []
   buildingImpact: []
@@ -393,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 4231471981532455561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -27.93256, y: -6.6363096, z: -9.720936}
+  m_LocalPosition: {x: -28.692558, y: -7.97631, z: -9.720936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -542,7 +545,7 @@ Transform:
   m_GameObject: {fileID: 5126212855474018695}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -27.93256, y: -6.6363096, z: -9.720936}
+  m_LocalPosition: {x: -28.692558, y: -7.97631, z: -9.720936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -705,7 +708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccdcc39bd25661488a4268d958ffd31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceTexts: {fileID: 0}
+  resourcesHome: {fileID: 0}
   carriedHumansParent: {fileID: 0}
   carriedResourcesTexts: {fileID: 0}
   carriedHumanBackGround: {fileID: 0}
@@ -713,14 +716,18 @@ MonoBehaviour:
   playerHealthPanel: {fileID: 0}
   playerHealthBar: {fileID: 0}
   performanceTexts: {fileID: 0}
+  humansLostText: {fileID: 0}
   humansLostDisplay: {fileID: 0}
+  resourcesLostText: {fileID: 0}
   resourcesLostDisplay: {fileID: 0}
+  deathButton: {fileID: 0}
   iconPrefab: {fileID: 6214320308782223575, guid: fad7ec80fbe2d4d4c8a282bc6974a7d3, type: 3}
   showFPS: 1
   normalCanvas: {fileID: 0}
   buildCanvas: {fileID: 0}
   deathCanvas: {fileID: 0}
   dialogueCanvas: {fileID: 0}
+  wildCanvas: {fileID: 0}
 --- !u!1 &8972686581639933649
 GameObject:
   m_ObjectHideFlags: 0
