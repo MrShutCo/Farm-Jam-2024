@@ -35,6 +35,7 @@ namespace Assets.Script.Buildings
         }
         public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
         {
+            human.StopAllJobs();
             foreach (var subsection in workingHumans)
             {
                 for (int i = 0; i < subsection.LiveStockPositions.Count; i++)

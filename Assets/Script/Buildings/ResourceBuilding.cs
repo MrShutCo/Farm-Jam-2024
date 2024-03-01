@@ -26,6 +26,12 @@ namespace Assets.Script.Buildings
                 Flayers = new List<Human>(new Human[flayerPositions.Count]);
             }
 
+            public void SetFlayersAnim(string trigger)
+            {
+                foreach (var human in Flayers)
+                    human?.anim.SetTrigger(trigger);
+            }
+
             public bool IsBeingWorked() => Flayers.Any(f => f != null);
         }
 
@@ -36,6 +42,7 @@ namespace Assets.Script.Buildings
         [SerializeField] protected FloatingStatusBar internalBufferObject;
         [SerializeField] GameObject packages;
         [SerializeField] protected SpriteRenderer _spriteRenderer;
+        [SerializeField] protected FloatVisual callToAction;
         
         protected Stack<GameObject> _packageObjects = new();
         protected List<WorkingSubsection> _workingHumans = new();

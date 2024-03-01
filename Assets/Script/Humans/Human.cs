@@ -150,6 +150,12 @@ namespace Assets.Script.Humans
             StatusPanel.gameObject.SetActive(false);
         }
 
+        public void Hide()
+        {
+            _spriteRenderer.enabled = false;
+            GetComponent<CapsuleCollider2D>().enabled = false;
+        }
+
         #region Jobs
 
         public void StopCurrentJob()
