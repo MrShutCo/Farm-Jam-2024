@@ -19,7 +19,7 @@ public class Carrier : MonoBehaviour
 
     private void Awake()
     {
-        SoundRequest collectHuman = new SoundRequest
+        collectHuman = new SoundRequest
         {
             SoundSource = ESoundSource.Player,
             RequestingObject = gameObject,
@@ -27,7 +27,7 @@ public class Carrier : MonoBehaviour
             RandomizePitch = true,
             Loop = false
         };
-        SoundRequest collectResource = new SoundRequest
+        collectResource = new SoundRequest
         {
             SoundSource = ESoundSource.Player,
             RequestingObject = gameObject,
@@ -35,7 +35,7 @@ public class Carrier : MonoBehaviour
             RandomizePitch = true,
             Loop = false
         };
-        SoundRequest dropOff = new SoundRequest
+        dropOff = new SoundRequest
         {
             SoundSource = ESoundSource.Player,
             RequestingObject = gameObject,

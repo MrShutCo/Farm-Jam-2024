@@ -47,7 +47,7 @@ MonoBehaviour:
   audioSourceCountPerType: 6
   soundSources:
   - Source: 0
-    instances: 3
+    instances: 5
   - Source: 1
     instances: 1
   - Source: 2

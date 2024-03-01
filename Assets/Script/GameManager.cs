@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
         AddResource(EResource.Bones, 500);
         AddResource(EResource.Organs, 500);
         UpdatePathFindingGrids(true, Player.position);
+        SetGameState(EGameState.Normal);
     }
     private void OnEnable()
     {

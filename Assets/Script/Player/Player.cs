@@ -13,13 +13,7 @@ public class Player : MonoBehaviour
     public Vector2 Facing = Vector2.down;
     public Vector2 lastDirectionPressed;
     public Stats stats;
-    private Dictionary<Vector2, float> keyPressTimes = new Dictionary<Vector2, float>
-    {
-    { Vector2.up, 0 },
-    { Vector2.left, 0 },
-    { Vector2.down, 0 },
-    { Vector2.right, 0 }
-    };
+
 
     [Header("Outside Interactions")]
     [SerializeField] float baseDamage = 20;
@@ -58,6 +52,7 @@ public class Player : MonoBehaviour
     [Header("VFX")]
     [SerializeField] ParticleSystem dodgeVFX;
     [SerializeField] Animator vfxAnimator;
+    [SerializeField] ParticleSystem fogVFX;
 
     public Animator Animator => _animator;
     public Animator VFXAnimator => vfxAnimator;
@@ -231,10 +226,12 @@ public class Player : MonoBehaviour
             case EGameState.Normal:
                 moveActive = true;
                 combatActive = true;
+                fogVFX.Play();
                 break;
             case EGameState.Wild:
                 moveActive = true;
                 combatActive = true;
+                fogVFX.Stop();
                 break;
         }
     }
