@@ -53,7 +53,7 @@ namespace Assets.Script.Buildings
         {
             _workTimer.OnTrigger += OnWork;
             GameManager.Instance.onHumanDie += onHumanDie;
-            _spriteRenderer.sprite = buildingData.GetSprite();
+            _spriteRenderer.sprite = buildingData.GetSprite(Level);
         }
 
         public void OnDisable()
@@ -92,7 +92,7 @@ namespace Assets.Script.Buildings
             GameManager.Instance.onPackageCreate?.Invoke(this, newPackage.GetComponent<Package>());
         }
 
-        public bool IsPackagesFull() => NumFinishedPackets >= buildingData.GetMaxPackages();
+        public bool IsPackagesFull() => NumFinishedPackets >= buildingData.GetMaxPackages(Level);
 
         protected abstract void OnWork();
 

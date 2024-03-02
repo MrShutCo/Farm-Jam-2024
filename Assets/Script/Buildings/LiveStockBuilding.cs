@@ -23,7 +23,6 @@ namespace Assets.Script.Buildings
                 LiveStock = new List<Human>(new Human[liveStockPositions.Count]);
             }
         }
-        public int Level;
 
         [SerializeField] TextMeshProUGUI capacityText;
 

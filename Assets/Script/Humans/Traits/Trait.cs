@@ -38,8 +38,7 @@ namespace Assets.Script.Humans.Traits
 
         public override EfficiencyProfile ActOn(EfficiencyProfile profile)
         {
-            profile.PullRate[EResource.Blood] += _rankMultipliers[(int)_rank];
-            profile.PushRate[EResource.Blood] += _rankMultipliers[(int)_rank];
+            profile.WorkRate[EResource.Blood] += _rankMultipliers[(int)_rank];
             return profile;
         }
     }

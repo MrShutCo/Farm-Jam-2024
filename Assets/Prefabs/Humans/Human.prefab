@@ -650,7 +650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000000029802, y: -0.685}
+  m_AnchoredPosition: {x: -0.000000029802, y: -0.659}
   m_SizeDelta: {x: 19.7957, y: 4.6703}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2062932866242884642
@@ -985,7 +985,7 @@ MonoBehaviour:
   healthBarPrefab: {fileID: 3759767603245780192, guid: 33c90f7c44db15f44924e181874b422b, type: 3}
   healthPanel: {fileID: 2166355274715142896}
   initHealth: 5
-  maxHealth: 100
+  maxHealth: 120
 --- !u!1 &7963107023382944152
 GameObject:
   m_ObjectHideFlags: 0

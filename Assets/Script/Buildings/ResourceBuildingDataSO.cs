@@ -11,18 +11,16 @@ namespace Script.Buildings
         [SerializeField] private Sprite[] sprites;
         [SerializeField] public EResource resource;
 
+        [SerializeField] public float damageToFlayee;
         [SerializeField] private int[] numFlayeesPerLevel;
         [SerializeField] private int[] numFlayersPerLevel;
         [SerializeField] public float internalBufferCapacity;
         [SerializeField] private int[] maximumPackagesAllowed;
 
-        public int Level;
-
-        public Sprite GetSprite(int idx) => sprites[idx];
-        public Sprite GetSprite() => sprites[Level];
-        public int GetFlayerCount() => numFlayersPerLevel[Level];
-        public int GetFlayeeCount() => numFlayeesPerLevel[Level];
-        public int GetMaxPackages() => maximumPackagesAllowed[Level];
+        public Sprite GetSprite(int level) => sprites[level];
+        public int GetFlayerCount(int level) => numFlayersPerLevel[level];
+        public int GetFlayeeCount(int level) => numFlayeesPerLevel[level];
+        public int GetMaxPackages(int level) => maximumPackagesAllowed[level];
 
     }
 }
