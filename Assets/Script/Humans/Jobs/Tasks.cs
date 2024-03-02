@@ -81,6 +81,7 @@ namespace Assets.Script.Humans
                     rb.velocity = Vector2.zero;
                     currPathNodeDestination = 0;
                     path = null;
+                    Debug.Log($"Actually reached spot {target}");
                     OnStopTask?.Invoke();
                 }
                 else

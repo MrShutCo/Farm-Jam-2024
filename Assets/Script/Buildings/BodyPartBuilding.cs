@@ -58,10 +58,13 @@ namespace Script.Buildings
                     subsection.Flayee = human.GetComponent<HealthBase>();
                     human.transform.position = GetWorldPosition(subsection.FlayeePosition);
                     human.AddJob(new Job(human, "flay", new List<Task>(){new GetFlayed()},false));
-                    human.GetComponent<CapsuleCollider2D>().enabled = false;
-                    //human.GetComponent<SpriteRenderer>().enabled = false;
+                    human.Hide();
                     flayeeSpriteRenderers[j].sprite = buildingData.workedArea;
                     flayeeSpriteRenderers[j].color = Color.white;
+                    subsection.SetFlayersAnim("ScreamTrigger");
+                    if (subsection.IsBeingWorked())
+                        callToAction.gameObject.SetActive(false);
+                    
                     Debug.Log("Assigned flayee");
                 }
                 // assign to flayer
@@ -73,6 +76,10 @@ namespace Script.Buildings
                         human.transform.position = GetWorldPosition(subsection.FlayerPositions[i]);
                         human.GetComponent<CapsuleCollider2D>().enabled = false;
                         Debug.Log("Assigned flayer");
+                        if (subsection.Flayee != null)
+                        {
+                            human.anim.SetTrigger("ScreamTrigger");
+                        }
                     }
                 }
 
@@ -89,14 +96,24 @@ namespace Script.Buildings
         protected override void OnWork()
         {
             float totalResourceGained = 0.0f;
+            int i = 0;
             foreach (var group in _workingHumans)
             {
                 if (group.Flayee is not null && group.IsBeingWorked() && !IsPackagesFull())
                 {
                     totalResourceGained += group.Flayers.Sum(f => f == null ? 0 : f.GetWorkingRate(buildingData.resource));
+                    callToAction.gameObject.SetActive(false); // Someone is working it, so clear any other flags
                     group.Flayee.TakeDamage(5);
+                    if (group.Flayee == null)
+                    {
+                        flayeeSpriteRenderers[i].color = Color.clear;
+                        group.SetFlayersAnim("IdleTrigger");
+                        callToAction.gameObject.SetActive(true);
+                    }
                     Console.WriteLine("Flayed damage taken");
                 }
+
+                i++;
             }
 
             _internalBuffer += totalResourceGained;
@@ -105,6 +122,12 @@ namespace Script.Buildings
                 AddPacket();
                 _internalBuffer -= buildingData.internalBufferCapacity;
             }
+
+            if (_packageObjects.Count == buildingData.GetMaxPackages())
+            {
+                callToAction.gameObject.SetActive(true);
+            }
+
             internalBufferObject.UpdateStatusBar(_internalBuffer, (int)buildingData.internalBufferCapacity);
         }
     }

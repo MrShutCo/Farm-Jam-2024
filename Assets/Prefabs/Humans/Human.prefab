@@ -859,6 +859,10 @@ MonoBehaviour:
   nameText: {fileID: 7526953325560176802}
   traitText: {fileID: 2421187272089482677}
   taskText: {fileID: 5674180547482100953}
+  initSpeed: 0
+  maxSpeed: 0
+  initAttackRateMultiplier: 0
+  currentAttackRateMultiplier: 0
 --- !u!70 &4452934615250403022
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -964,8 +968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponParent: {fileID: 4090813393609384095}
-  Weapon: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
-  ActiveWeapon: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
+  Weapon: {fileID: 0}
+  ActiveWeapon: {fileID: 0}
 --- !u!114 &4616194808220717136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,6 +984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarPrefab: {fileID: 3759767603245780192, guid: 33c90f7c44db15f44924e181874b422b, type: 3}
   healthPanel: {fileID: 2166355274715142896}
+  initHealth: 5
   maxHealth: 100
 --- !u!1 &7963107023382944152
 GameObject:

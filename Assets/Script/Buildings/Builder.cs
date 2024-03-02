@@ -49,8 +49,13 @@ namespace Assets.Script.Buildings
         private void OnEnable()
         {
             isBuildMode = false;
-
+            GameManager.Instance.onGameStateChange += onStateChange;
             //Camera = camera.GetComponent<Camera>();
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.onGameStateChange -= onStateChange;
         }
 
         private void Awake()
@@ -145,16 +150,25 @@ namespace Assets.Script.Buildings
                 GameManager.Instance.onPlaySound?.Invoke(constructionCompleteSound);
 
                 SelectedBuilding = -1;
-                for (int x = 0; x < placeable.Layout.x; x++)
+                /*for (int x = 0; x < placeable.Layout.x; x++)
                     for (int y = 0; y < placeable.Layout.y; y++)
                     {
                         var actualPos = new Vector3Int(x, y, 0) + v;
                         GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
-                    }
+                    }*/
             }
             else
             {
                 GameManager.Instance.onPlaySound?.Invoke(cannotBuildSound);
+            }
+        }
+
+        void onStateChange(EGameState state)
+        {
+            if (state != EGameState.Build && ghostBuilding != null)
+            {
+                Destroy(ghostBuilding);
+                SelectedBuilding = -1;
             }
         }
 
