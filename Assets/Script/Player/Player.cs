@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
     [Header("VFX")]
     [SerializeField] ParticleSystem dodgeVFX;
     [SerializeField] Animator vfxAnimator;
-    [SerializeField] ParticleSystem fogVFX;
 
     public Animator Animator => _animator;
     public Animator VFXAnimator => vfxAnimator;
@@ -226,12 +225,10 @@ public class Player : MonoBehaviour
             case EGameState.Normal:
                 moveActive = true;
                 combatActive = true;
-                fogVFX.Play();
                 break;
             case EGameState.Wild:
                 moveActive = true;
                 combatActive = true;
-                fogVFX.Stop();
                 break;
         }
     }
