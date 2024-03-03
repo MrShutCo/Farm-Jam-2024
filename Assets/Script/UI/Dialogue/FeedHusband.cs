@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Humans;
 using Script.Stats_and_Upgrades;
 using UnityEditor;
 using UnityEngine;
+using Unity.VisualScripting;
 
 namespace Assets.Script.UI
 {
@@ -28,13 +30,60 @@ namespace Assets.Script.UI
                 _baseText += $"{r.Resource.ToString()} {r.Amount} \t";
             }
 
+            DialogueText success;
+            
+            // Mandatory upgrade
+            if (currCost.possibleUpgradeTypes.Count == 1)
+            {
+                success = new DialogueAction("I can feel my power growing stronger! But my thirst beckons for more, have this reward",
+                    () => Upgrade(currCost.possibleUpgradeTypes.First()));
+            }
+            // Choose different upgrades
+            else
+            {
+                var options = currCost.possibleUpgradeTypes.Select(c => new DialogueOption(UpgradeDescription(c), new DialogueAction("Very well then.",
+                    () => Upgrade(c))));
+                success = new DialogueText("I can feel my power growing stronger! I can bestow upon you on of these options", options.ToList());
+            }
+
             var failed = new DialogueText("Why must you waste my time Cynthia?", null);
-            // TODO: determine what resources are needed at each step
             Options = new List<DialogueOption>()
             {
-                new("Yes", currCost.CanBuy, new ConsumeResourceDialogue("I can feel my power growing stronger! But my thirst beckons for more", currCost), failed),
+                new("Yes", currCost.CanBuy, success, failed),
                 new("No", failed)
             };
+        }
+
+        string UpgradeDescription(EUpgradeType type)
+        {
+            return type switch
+            {
+                EUpgradeType.AttackPlus50 => "Attack +50",
+                EUpgradeType.HealthPlus50 => "Health +50",
+                EUpgradeType.CarryingCapacityPlus4 => "Carrying Capacity +4",
+                _ => ""
+            };
+        }
+
+        void Upgrade(EUpgradeType type)
+        {
+            foreach (var resource in getCurrentCost().cost)
+            {
+                GameManager.Instance.AddResource(resource.Resource, -resource.Amount);
+            }
+
+            switch (type)
+            {
+                case EUpgradeType.AttackPlus50:
+                    break;
+                case EUpgradeType.HealthPlus50:
+                    break;
+                case EUpgradeType.CarryingCapacityPlus4:
+                    break;
+            }
+
+            GameManager.Instance.Stage++;
+            GameManager.Instance.onGoalReached?.Invoke();
         }
 
         UpgradeCost getCurrentCost()
@@ -43,22 +92,22 @@ namespace Assets.Script.UI
         }
     }
 
-    public class ConsumeResourceDialogue : DialogueText
+    public class ConsumeHumanDialogue : DialogueText
     {
-        private UpgradeCost _resourcesConsumed;
+        private List<Human> _humansConsumed;
 
-        public ConsumeResourceDialogue(string text, UpgradeCost resourceConsumed)
+        public ConsumeHumanDialogue(string text, List<Human> humansConsumed)
         {
             _baseText = text;
-            _resourcesConsumed = resourceConsumed;
+            _humansConsumed = humansConsumed;
         }
-        
+
         public override void OnStart()
         {
             base.OnStart();
-            foreach (var resource in _resourcesConsumed.cost)
+            foreach (var human in _humansConsumed)
             {
-                GameManager.Instance.AddResource(resource.Resource, -resource.Amount);
+                human.GetComponent<HealthBase>().TakeDamage(human.GetComponent<HealthBase>().MaxHealth);
             }
         }
     }

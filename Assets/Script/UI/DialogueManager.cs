@@ -62,9 +62,10 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Starting dialogue");
         dialogue.Clear();
+        newDialogue.OnStart();
         dialogue.Enqueue(newDialogue.GetText());
         currentDialogue = newDialogue;
-        currentDialogue.OnStart();
+        
         DisplayNextLine();
     }
 

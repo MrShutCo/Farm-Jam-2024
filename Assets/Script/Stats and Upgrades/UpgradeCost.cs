@@ -13,6 +13,7 @@ namespace Script.Stats_and_Upgrades
     {
         public List<ResourceCost> cost;
         public string name;
+        public List<EUpgradeType> possibleUpgradeTypes;
 
         public bool CanBuy() => cost.All(r => GameManager.Instance.Resources[r.Resource] >= r.Amount);
     }
@@ -29,5 +30,12 @@ namespace Script.Stats_and_Upgrades
             Resource = resource;
             Amount = amount;
         }
+    }
+
+    public enum EUpgradeType
+    {
+        HealthPlus50,
+        CarryingCapacityPlus4,
+        AttackPlus50
     }
 }

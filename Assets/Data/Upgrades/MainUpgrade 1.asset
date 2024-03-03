@@ -20,3 +20,4 @@ MonoBehaviour:
   - Resource: 5
     Amount: 0
   name: FirstUpgrade
+  possibleUpgradeTypes: 0000000002000000
