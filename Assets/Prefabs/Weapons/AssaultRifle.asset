@@ -16,11 +16,11 @@ MonoBehaviour:
   Name: AssaultRifle
   soundSourceType: 5
   soundEffect: 11
-  ModelPrefab: {fileID: 8834472410640706566, guid: 09dfc70bcb18b2e42bae6d5f24b15836, type: 3}
-  BulletPrefab: {fileID: 0}
+  ModelPrefab: {fileID: 4222914444435694987, guid: ada2512e0063325419d23878da99559d, type: 3}
+  BulletPrefab: {fileID: 4211437310961283376, guid: 6e09a771019bf0942b2c44a30aa245cb, type: 3}
   SpawnPoint: {x: 0, y: 0}
   SpawnRotation: {x: 0, y: 0}
   bulletRotation: {x: 0, y: 0, z: 0}
-  rotateModelToTarget: 0
+  rotateModelToTarget: 1
   ShootConfig: {fileID: 11400000, guid: ec77233733555b74180d4a7669942ea8, type: 2}
   TrailConfig: {fileID: 11400000, guid: 44abde8b12802eb4cb32ae4e3ec6338f, type: 2}

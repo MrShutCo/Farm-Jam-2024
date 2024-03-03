@@ -6,6 +6,7 @@ using System.Linq;
 using Assets.Script.Humans.Traits;
 using TMPro;
 using UnityEngine;
+using JetBrains.Annotations;
 
 namespace Assets.Script.Humans
 {
@@ -15,7 +16,7 @@ namespace Assets.Script.Humans
         Food, Wood, Steel, Electronics, Blood, Organs, Bones
     }
 
-    public class Human : MonoBehaviour
+    public class Human : MonoBehaviour, ISpawnable
     {
         public string Name;
 
@@ -102,7 +103,21 @@ namespace Assets.Script.Humans
         {
             StopAllJobs();
             rb.simulated = true;
+            EnableWorldBehaviour();
+
+        }
+        public void InitializeSpawnable()
+        {
+            EnableWorldBehaviour();
+        }
+        public void EnableWorldBehaviour()
+        {
             var world = GetComponentInParent<World>();
+            if (world == null)
+            {
+                Debug.LogWarning("Human must be a child of a world");
+                return;
+            }
             pathfinding.GridOwner = world.Grid.gameObject;
             wildBehaviour.enabled = world.WorldType == EWorld.Wild;
         }

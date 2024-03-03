@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Humans;
 using Assets.Script.Humans.Traits;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
 
@@ -11,9 +13,13 @@ public class HumanSpawner : MonoBehaviour
     private List<Human> _wildHumans;
     private System.Random _random;
 
+    [SerializeField] Transform spawner;
+    List<SpawnArea> spawnAreas;
+    EGameState prevGameState;
+
     [SerializeField] private Transform portalPosition;
     [SerializeField] private List<float> distanceThresholds;
-    
+
     private readonly List<string> _lovecraftianNames = new List<string>
     {
         "Azathoth",
@@ -37,7 +43,7 @@ public class HumanSpawner : MonoBehaviour
         "Iak-Sakkath"
     };
 
-    private readonly List<string> _englishNames = new ()
+    private readonly List<string> _englishNames = new()
     {
         "Alexander",
         "Emily",
@@ -60,10 +66,23 @@ public class HumanSpawner : MonoBehaviour
         "Grace",
         "Henry"
     };
-    
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
+        GameManager.Instance.onGameStateChange += Despawn;
+
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.onGameStateChange -= Despawn;
+    }
+    void OnEnteringWild()
+    {
+        spawnAreas = spawner.GetComponentsInChildren<SpawnArea>().ToList();
+        foreach (var spawner in spawnAreas)
+        {
+            spawner.Spawn();
+        }
         _wildHumans = GetComponentsInChildren<Human>().ToList();
         _random = new Random();
         foreach (var h in _wildHumans)
@@ -89,6 +108,29 @@ public class HumanSpawner : MonoBehaviour
             var traits = generator.Select(f => f.Invoke()).ToList();
             h.InitializeHuman(_englishNames[_random.Next(0, _englishNames.Count)], traits);
         }
+    }
+
+    void Despawn(EGameState newState)
+    {
+        if (prevGameState == EGameState.Wild && GameManager.Instance.GameState == EGameState.Normal)
+        {
+            _wildHumans = GetComponentsInChildren<Human>().ToList();
+            foreach (var h in _wildHumans)
+            {
+                if (h != null)
+                    Destroy(h.gameObject);
+            }
+            _wildHumans.Clear();
+        }
+        else if (prevGameState == EGameState.Normal && GameManager.Instance.GameState == EGameState.Wild)
+        {
+            OnEnteringWild();
+        }
+        prevGameState = newState;
+    }
+    void Start()
+    {
+
     }
 
     int GetIndexOfThreshold(float distance)
@@ -117,7 +159,7 @@ public class HumanSpawner : MonoBehaviour
             _ => ERank.B
         };
     }
-    
+
     ERank GenerateLowLevelRank()
     {
         var x = _random.Next(0, 100);
