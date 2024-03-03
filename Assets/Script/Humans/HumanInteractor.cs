@@ -1,5 +1,7 @@
-﻿using Assets.Script.Buildings;
+﻿using System;
+using Assets.Script.Buildings;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,16 +13,31 @@ namespace Assets.Script.Humans
         [SerializeField] LayerMask leftClickLayer;
         RaycastHit2D[] hits;
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
+        [SerializeField] private Transform wildHumanParent;
 
         // Update is called once per frame
         void Update()
         { 
-            if (GameManager.Instance.GameState != EGameState.Normal) return; 
+            
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                var humans = wildHumanParent.GetComponentsInChildren<Human>();
+                foreach (var human in humans)
+                    human.Select();
+            }
+            
+                        
+            if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                var humans = wildHumanParent.GetComponentsInChildren<Human>();
+                foreach (var human in humans)
+                    human.Deselect();
+            }
+            
+            if (GameManager.Instance.GameState != EGameState.Normal) return;
+
+            
+
             
             if (GameManager.Instance.CurrentlySelectedHuman != null)
             {

@@ -104,12 +104,13 @@ namespace Assets.Script.Humans
             StopAllJobs();
             rb.simulated = true;
             EnableWorldBehaviour();
-
         }
+        
         public void InitializeSpawnable()
         {
             EnableWorldBehaviour();
         }
+        
         public void EnableWorldBehaviour()
         {
             var world = GetComponentInParent<World>();
@@ -129,11 +130,6 @@ namespace Assets.Script.Humans
         }
 
         protected void Start()
-        {
-            SetUpStatusPanel();
-        }
-
-        void SetUpStatusPanel()
         {
             StatusPanel.gameObject.SetActive(false);
         }
@@ -155,15 +151,14 @@ namespace Assets.Script.Humans
 
         public void SelectHuman()
         {
-            StatusPanel.gameObject.SetActive(true);
+            Select();
             GameManager.Instance.CurrentlySelectedHuman?.Deselect();
             GameManager.Instance.CurrentlySelectedHuman = this;
         }
 
-        public void Deselect()
-        {
-            StatusPanel.gameObject.SetActive(false);
-        }
+        public void Deselect() =>StatusPanel.gameObject.SetActive(false);
+        public void Select() =>StatusPanel.gameObject.SetActive(true);
+
 
         public void Hide()
         {

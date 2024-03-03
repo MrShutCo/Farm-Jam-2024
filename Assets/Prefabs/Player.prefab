@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 56259573648418426}
   - component: {fileID: 4058526955681436782}
   - component: {fileID: 154307954301517741}
-  - component: {fileID: 2089858214932954716}
   - component: {fileID: 7676058026232608708}
   - component: {fileID: 6293497179982223239}
   m_Layer: 9
@@ -225,7 +224,6 @@ MonoBehaviour:
   portalMaker: {fileID: 4087346209319487547, guid: 4413cc59d3a0dd944a7fb516568393f6, type: 3}
   dodgeVFX: {fileID: 7078853897278595012}
   vfxAnimator: {fileID: 2743371077971219079}
-  fogVFX: {fileID: 0}
   showDebug: 1
 --- !u!114 &4058526955681436782
 MonoBehaviour:
@@ -253,24 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CarriedHumans: []
   HumanTracker: {fileID: 0}
---- !u!114 &2089858214932954716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1460443196234750807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12f0933b3448f8e47b17cd74aa31cad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rightClickLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  leftClickLayer:
-    serializedVersion: 2
-    m_Bits: 2305
 --- !u!114 &7676058026232608708
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e4c5acb398cbe40a0bad32cf8a987bee
+guid: 351e2b5a13ea06a43b90a5602e75ede4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,6 +81,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -124,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 756aa1741eb694664a0e9d7b3b674bbd
-      internalID: -17309091
+      spriteID: 3233e3a83a0fa13468135365acc48b5b
+      internalID: 1769481760
       vertices: []
       indices: 
       edges: []
@@ -145,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b0acf8d5dbff4c3187f8dc41d4b4227
-      internalID: -991349396
+      spriteID: d61a39d15b8a9184696eb23309a2395d
+      internalID: 622453186
       vertices: []
       indices: 
       edges: []
@@ -166,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad3fd7967531e4d2eb6e6904fb266892
-      internalID: 287458700
+      spriteID: e02853d0124580d47a39479b38bfccc6
+      internalID: -1363562337
       vertices: []
       indices: 
       edges: []
@@ -187,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c31f08a8d436443308ac8e2e70aca935
-      internalID: 1327371374
+      spriteID: 76c3a9cae33a85a448a00aa745cd032b
+      internalID: -1744379435
       vertices: []
       indices: 
       edges: []
@@ -208,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17d473af5342646c3a149094ad3ee6ce
-      internalID: -120005611
+      spriteID: 5b4ef44cf6054eb4099454d1b3fc132a
+      internalID: 478911461
       vertices: []
       indices: 
       edges: []
@@ -229,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cec4a8037eb8b48bea50a8144310c62c
-      internalID: 231668745
+      spriteID: 916b056b6983aa2498fc78cd2d35fda5
+      internalID: 513225972
       vertices: []
       indices: 
       edges: []
@@ -250,8 +263,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 475223568bfa441bda67a379faac0b4b
-      internalID: 579701282
+      spriteID: 6bf9ac167c45c3e45905e4500c23b846
+      internalID: 1418275120
       vertices: []
       indices: 
       edges: []
@@ -271,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ae241d8878814fd7838677884b6588e
-      internalID: -1262389445
+      spriteID: 46c8105f26f720540a69b9b1dd94fcd5
+      internalID: -868061157
       vertices: []
       indices: 
       edges: []
@@ -292,8 +305,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b32cc3f0f0664d0d8b93b899d39e344
-      internalID: 1267932819
+      spriteID: c7ed489b5395c4f41b103994befe72e4
+      internalID: -1052340753
       vertices: []
       indices: 
       edges: []
@@ -309,15 +322,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      eyetilesedges_0: -17309091
-      eyetilesedges_1: -991349396
-      eyetilesedges_2: 287458700
-      eyetilesedges_3: 1327371374
-      eyetilesedges_4: -120005611
-      eyetilesedges_5: 231668745
-      eyetilesedges_6: 579701282
-      eyetilesedges_7: -1262389445
-      eyetilesedges_8: 1267932819
+      eyetilesedges_0: 1769481760
+      eyetilesedges_1: 622453186
+      eyetilesedges_2: -1363562337
+      eyetilesedges_3: -1744379435
+      eyetilesedges_4: 478911461
+      eyetilesedges_5: 513225972
+      eyetilesedges_6: 1418275120
+      eyetilesedges_7: -868061157
+      eyetilesedges_8: -1052340753
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

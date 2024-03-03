@@ -7,9 +7,14 @@ using UnityEngine;
 public class OnTriggerDialogueEvent : MonoBehaviour
 {
     [SerializeField] DialogueText dialogue;
-
+    [SerializeField] private Sprite activeSprite;
+    [SerializeField] private Sprite inactiveSprite;
+    
+    private SpriteRenderer _spriteRenderer;
+    
     private void OnEnable()
     {
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         dialogue = new DialogueText("(What would you like to do?)", new ()
         {
             new ("Talk", new TalkToHusband()),
@@ -26,6 +31,7 @@ public class OnTriggerDialogueEvent : MonoBehaviour
         {
             GameManager.Instance.SetGameState(EGameState.Dialogue);
             DialogueManager.Instance.StartDialogue(dialogue);
+            _spriteRenderer.sprite = activeSprite;
         }
     }
     
@@ -34,6 +40,7 @@ public class OnTriggerDialogueEvent : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             DialogueManager.Instance.EndDialogue(true);
+            _spriteRenderer.sprite = inactiveSprite;
         }
     }
 }
