@@ -5,7 +5,7 @@ namespace Assets.Script.UI
 {
     public class DialogueUpgrade : DialogueText
     {
-        private List<MainUpgrade> upgradeStages;
+        private List<UpgradeCost> upgradeStages;
         
         public DialogueUpgrade()
         {

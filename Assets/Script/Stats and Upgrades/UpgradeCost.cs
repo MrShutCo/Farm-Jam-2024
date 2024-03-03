@@ -9,7 +9,7 @@ namespace Script.Stats_and_Upgrades
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "MainUpgrade", menuName = "Upgrades/MainUpgrade", order = 1)]
-    public class MainUpgrade : ScriptableObject
+    public class UpgradeCost : ScriptableObject
     {
         public List<ResourceCost> cost;
         public string name;

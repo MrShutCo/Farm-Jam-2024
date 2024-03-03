@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Layout: {x: 3, y: 3}
   IsWalkable: 1
-  workedArea: {fileID: 0}
+  workedArea: {fileID: 412676082, guid: 25f6a3c612a534eeab74b5649f22f6c4, type: 3}
   sprites:
-  - {fileID: 2033498825, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
+  - {fileID: -812370711, guid: 25f6a3c612a534eeab74b5649f22f6c4, type: 3}
+  - {fileID: 323587590, guid: 25f6a3c612a534eeab74b5649f22f6c4, type: 3}
+  - {fileID: 1093018270, guid: 25f6a3c612a534eeab74b5649f22f6c4, type: 3}
   resource: 4
   damageToFlayee: 2
   numFlayeesPerLevel: 0100000002000000

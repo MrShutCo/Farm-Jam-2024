@@ -2,21 +2,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Humans;
 using Script.Stats_and_Upgrades;
+using UnityEditor;
+using UnityEngine;
 
 namespace Assets.Script.UI
 {
     public class FeedHusband : DialogueText
     {
-        private List<ResourceCost> _resourcesRequired = new()
+        private List<UpgradeCost> _resourcesRequired = new()
         {
-            new(EResource.Blood, 50),
-            new(EResource.Bones, 10)
+            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 1.asset"),
+            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 2.asset"),
+            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 3.asset"),
+            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 4.asset"),
+            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 5.asset"),
+            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 6.asset"),
         };
-        
-        public FeedHusband()
+
+        public override void OnStart()
         {
+            var currCost = getCurrentCost();
             _baseText = "This is the sacrifice I demand of you:\n";
-            foreach (var r in _resourcesRequired)
+            foreach (var r in currCost.cost)
             {
                 _baseText += $"{r.Resource.ToString()} {r.Amount} \t";
             }
@@ -25,31 +32,31 @@ namespace Assets.Script.UI
             // TODO: determine what resources are needed at each step
             Options = new List<DialogueOption>()
             {
-                new("Yes", hasRequiredResources, new ConsumeResourceDialogue("I can feel my power growing stronger! But my thirst beckons for more", _resourcesRequired), failed),
+                new("Yes", currCost.CanBuy, new ConsumeResourceDialogue("I can feel my power growing stronger! But my thirst beckons for more", currCost), failed),
                 new("No", failed)
             };
         }
 
-        bool hasRequiredResources()
+        UpgradeCost getCurrentCost()
         {
-            return _resourcesRequired.All(resource => GameManager.Instance.Resources[resource.Resource] >= resource.Amount);
+            return _resourcesRequired[GameManager.Instance.Stage];
         }
     }
 
     public class ConsumeResourceDialogue : DialogueText
     {
-        private List<ResourceCost> _resourceConsumed;
+        private UpgradeCost _resourcesConsumed;
 
-        public ConsumeResourceDialogue(string text, List<ResourceCost> resourceConsumed)
+        public ConsumeResourceDialogue(string text, UpgradeCost resourceConsumed)
         {
             _baseText = text;
-            _resourceConsumed = resourceConsumed;
+            _resourcesConsumed = resourceConsumed;
         }
         
         public override void OnStart()
         {
             base.OnStart();
-            foreach (var resource in _resourceConsumed)
+            foreach (var resource in _resourcesConsumed.cost)
             {
                 GameManager.Instance.AddResource(resource.Resource, -resource.Amount);
             }
