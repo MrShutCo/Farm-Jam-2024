@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
 
+    public int Stage;
 
     bool paused;
 

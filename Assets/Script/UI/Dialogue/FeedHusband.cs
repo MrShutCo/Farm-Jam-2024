@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Humans;
+using Script.Stats_and_Upgrades;
 
 namespace Assets.Script.UI
 {
     public class FeedHusband : DialogueText
     {
-        private List<(EResource resource, int amount)> _resourcesRequired = new()
+        private List<ResourceCost> _resourcesRequired = new()
         {
             new(EResource.Blood, 50),
             new(EResource.Bones, 10)
@@ -17,7 +18,7 @@ namespace Assets.Script.UI
             _baseText = "This is the sacrifice I demand of you:\n";
             foreach (var r in _resourcesRequired)
             {
-                _baseText += $"{r.resource.ToString()} {r.amount} \t";
+                _baseText += $"{r.Resource.ToString()} {r.Amount} \t";
             }
 
             var failed = new DialogueText("Why must you waste my time Cynthia?", null);
@@ -31,15 +32,15 @@ namespace Assets.Script.UI
 
         bool hasRequiredResources()
         {
-            return _resourcesRequired.All(resource => GameManager.Instance.Resources[resource.resource] >= resource.amount);
+            return _resourcesRequired.All(resource => GameManager.Instance.Resources[resource.Resource] >= resource.Amount);
         }
     }
 
     public class ConsumeResourceDialogue : DialogueText
     {
-        private List<(EResource resource, int amount)> _resourceConsumed;
+        private List<ResourceCost> _resourceConsumed;
 
-        public ConsumeResourceDialogue(string text, List<(EResource resource, int amount)> resourceConsumed)
+        public ConsumeResourceDialogue(string text, List<ResourceCost> resourceConsumed)
         {
             _baseText = text;
             _resourceConsumed = resourceConsumed;
@@ -50,7 +51,7 @@ namespace Assets.Script.UI
             base.OnStart();
             foreach (var resource in _resourceConsumed)
             {
-                GameManager.Instance.AddResource(resource.resource, -resource.amount);
+                GameManager.Instance.AddResource(resource.Resource, -resource.Amount);
             }
         }
     }
