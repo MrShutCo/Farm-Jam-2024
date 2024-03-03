@@ -78,7 +78,7 @@ public class HumanSpawner : MonoBehaviour
     }
     void OnEnteringWild()
     {
-        spawnAreas = spawner.GetComponentsInChildren<SpawnArea>().ToList();
+        spawnAreas = FindObjectsByType<SpawnArea>(FindObjectsSortMode.None).ToList();
         foreach (var spawner in spawnAreas)
         {
             spawner.Spawn();

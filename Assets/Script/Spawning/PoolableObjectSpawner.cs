@@ -11,11 +11,13 @@ public class PoolableObjectSpawner : MonoBehaviour
     ObjectPool<GameObject> pool;
     private MonoBehaviour ActiveMonoBehaviour;
 
+
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
     {
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
         pool = new ObjectPool<GameObject>(CreateObject);
 
+        InvokeRepeating("SpawnObject", 0, 1);
     }
     GameObject CreateObject()
     {

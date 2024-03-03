@@ -5,6 +5,7 @@ using Assets.Script.Humans;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
+using JetBrains.Annotations;
 
 
 
@@ -40,6 +41,21 @@ namespace Assets.Script.Buildings
                 for (int i = 0; i < subsection.LiveStockPositions.Count; i++)
                 {
                     if (IsOver(subsection.LiveStockPositions[i], mouseWorldPosition) && subsection.LiveStock[i] == null)
+                    {
+                        subsection.LiveStock[i] = human;
+                        human.transform.position = GetWorldPosition(subsection.LiveStockPositions[i]);
+                    }
+                }
+            }
+        }
+
+        public void AutoAssignHuman(Human human)
+        {
+            foreach (var subsection in workingHumans)
+            {
+                for (int i = 0; i < subsection.LiveStockPositions.Count; i++)
+                {
+                    if (subsection.LiveStock[i] == null)
                     {
                         subsection.LiveStock[i] = human;
                         human.transform.position = GetWorldPosition(subsection.LiveStockPositions[i]);

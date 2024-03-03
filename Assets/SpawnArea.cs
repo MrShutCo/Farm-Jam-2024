@@ -19,13 +19,11 @@ public class SpawnArea : MonoBehaviour
     private BoxCollider2D _spawnArea;
     private WeightedRouletteWheel<GameObject> wheel;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _spawnArea = GetComponent<BoxCollider2D>();
 
         wheel = new WeightedRouletteWheel<GameObject>(spawnables, weights);
-        Spawn();
     }
 
     public void Spawn()
@@ -53,11 +51,6 @@ public class SpawnArea : MonoBehaviour
         return new Vector3(x, y, 0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
 
 public class WeightedRouletteWheel<T>

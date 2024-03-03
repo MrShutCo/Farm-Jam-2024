@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public GameObject WildHumanoidParent;
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
+    public ProgressManager ProgressManager;
 
     public int Stage;
 
