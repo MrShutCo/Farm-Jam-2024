@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public Action<Human> onHumanDie;
     public Action<EGameState> onGameStateChange;
     public Action<Building, Package> onPackageCreate;
+    public Action onGoalReached;
 
     #region Sound Events
     public Action<SoundRequest> onPlaySound;
