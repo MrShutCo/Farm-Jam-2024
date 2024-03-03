@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public Action<List<Human>> onCarriedHumansChange;
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange;
     public Action onHumanCarrierFull;
-    public Action<int, int> onHealthChange;
+    public Action<float, float> onHealthChange;
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
     public Action<bool> onPause;

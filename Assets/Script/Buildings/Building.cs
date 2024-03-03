@@ -16,6 +16,8 @@ namespace Assets.Script.Buildings
         public int CurrHumans;
         public int MaxCapacity;
 
+        public int Level;
+        
         public Placeable PlaceableData;
         public Vector2Int Origin;
 

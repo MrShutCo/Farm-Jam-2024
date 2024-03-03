@@ -87,7 +87,7 @@ namespace Assets.Script.Humans
             foreach (var trait in _traits)
             {
                 var addedHealth = health.InitHealth * trait.ActOn(_efficiencyProfile).HealthMultiplier;
-                health.SetMaxHealth(health.MaxHealth + (int)addedHealth);
+                health.SetMaxHealth(health.MaxHealth + addedHealth);
 
                 var addedSpeed = initSpeed * trait.ActOn(_efficiencyProfile).SpeedMultiplier;
                 maxSpeed += addedSpeed;
@@ -214,7 +214,7 @@ namespace Assets.Script.Humans
             if (currentJobs != null && currentJobs.Count > 0)
             {
                 currentJobs.Peek()?.Update(Time.deltaTime);
-                taskText.text = currentJobs.Peek()?.ActiveTaskText();
+                taskText.text = currentJobs?.Peek()?.ActiveTaskText();
             }
             else
             {
@@ -255,7 +255,7 @@ namespace Assets.Script.Humans
         public float GetWorkingRate(EResource resource)
         {
             var newProfile = _traits.Aggregate(_efficiencyProfile, (current, trait) => trait.ActOn(current));
-            return newProfile.PullRate[resource];
+            return newProfile.WorkRate[resource];
         }
     }
 }

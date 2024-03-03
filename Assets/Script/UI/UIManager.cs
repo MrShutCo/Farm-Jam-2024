@@ -230,7 +230,7 @@ namespace Assets.Script.UI
             //show fps as a whole number that only updates once per second
             performanceTexts.text = $"FPS: {Mathf.Round(1 / Time.deltaTime)} \n Time: {(int)Time.timeSinceLevelLoad}";
         }
-        void OnHealthUpdate(int currentHealth, int maxHealth)
+        void OnHealthUpdate(float currentHealth, float maxHealth)
         {
             if (currentHealth < (float)(maxHealth * .4f))
                 playerHealthBar.ActivateFlash(true, (float)currentHealth / maxHealth);

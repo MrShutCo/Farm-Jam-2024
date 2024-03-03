@@ -9,11 +9,11 @@ public class HealthBase : MonoBehaviour
     protected FloatingStatusBar healthBar;
     [SerializeField] protected Transform healthPanel;
 
-    [SerializeField] protected int initHealth = 5;
-    public int InitHealth => initHealth;
-    [SerializeField] protected int maxHealth = 5;
-    public int MaxHealth => maxHealth;
-    [SerializeField] public int currentHealth { get; private set; }
+    [SerializeField] protected float initHealth = 5;
+    public float InitHealth => initHealth;
+    [SerializeField] protected float maxHealth = 5;
+    public float MaxHealth => maxHealth;
+    [SerializeField] public float currentHealth { get; private set; }
 
     protected Transform _transform;
     protected SpriteRenderer _spriteRenderer;
@@ -34,7 +34,7 @@ public class HealthBase : MonoBehaviour
         UpdateHealth();
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
         if (IsInvoking())
         {
@@ -59,12 +59,12 @@ public class HealthBase : MonoBehaviour
         _spriteRenderer.color = Color.white;
     }
 
-    public virtual void Heal(int heal)
+    public virtual void Heal(float heal)
     {
         currentHealth = Mathf.Clamp(currentHealth + heal, currentHealth + heal, maxHealth);
         UpdateHealth();
     }
-    public virtual void SetMaxHealth(int health)
+    public virtual void SetMaxHealth(float health)
     {
         maxHealth = health;
         currentHealth = maxHealth;

@@ -86,6 +86,7 @@ namespace Assets.Script.Humans
 			{
 				onJobComplete?.Invoke(human);
 				if (IsRepeated) _activeTask = 0;
+				else return;
 			}
 			else
 			{
