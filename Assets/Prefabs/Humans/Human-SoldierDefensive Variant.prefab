@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human-SoldierDefensive Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7485466022761394409, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
+      propertyPath: Weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 282e5576fd286d4408f500a2b3c58f40, type: 2}
     - target: {fileID: 9104582853207625807, guid: 8a366c76b4cfac5429a34d7a1dd5cc8b, type: 3}
       propertyPath: m_Controller
       value: 
