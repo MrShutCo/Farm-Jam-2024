@@ -11,14 +11,14 @@ public class SpawnArea : MonoBehaviour
     [SerializeField] private int MinSpawn;
     [SerializeField] private int MaxSpawn;
     [SerializeField] private bool SnapToGrid;
-    
+
     [SerializeField] private Transform parentTransform;
     [SerializeField] List<GameObject> spawnables;
     [SerializeField] private List<int> weights;
-    
+
     private BoxCollider2D _spawnArea;
     private WeightedRouletteWheel<GameObject> wheel;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,13 +28,15 @@ public class SpawnArea : MonoBehaviour
         Spawn();
     }
 
-    void Spawn()
+    public void Spawn()
     {
         int numSpawn = Random.Range(MinSpawn, MaxSpawn);
         for (int i = 0; i < numSpawn; i++)
         {
             var obj = Instantiate(wheel.Spin(), GetRandomPosition(), Quaternion.identity);
             obj.transform.parent = parentTransform;
+            obj.TryGetComponent<ISpawnable>(out var spawnable);
+            spawnable?.InitializeSpawnable();
         }
     }
 
@@ -54,7 +56,7 @@ public class SpawnArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
 
