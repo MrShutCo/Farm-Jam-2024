@@ -85,7 +85,7 @@ public class Carrier : MonoBehaviour
     }
     public bool AddCarriedResources(EResource resource, int amount)
     {
-        if (CarriedResources.Values.Sum() + amount > maxResources)
+        if (maxResources > -1 && CarriedResources.Values.Sum() + amount > maxResources)
         {
             return false;
         }

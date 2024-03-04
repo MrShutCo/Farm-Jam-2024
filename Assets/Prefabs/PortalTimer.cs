@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,29 +9,12 @@ public class PortalTimer : MonoBehaviour
     [SerializeField] UnityEngine.UI.Image radialImage;
     private void OnEnable()
     {
-        GameManager.Instance.onGameStateChange += StartTimer;
+        StartCoroutine(Teleport());
     }
     private void OnDisable()
     {
-        GameManager.Instance.onGameStateChange -= StartTimer;
-    }
-    void StartTimer(EGameState gameState)
-    {
-        Debug.Log("Start Timer? " + gameState);
-        if (gameState == EGameState.Wild)
-        {
-            StartCoroutine(Teleport());
-        }
-        if (gameState == EGameState.Normal)
-        {
-            StopAllCoroutines();
-            radialImage.fillAmount = 0;
-        }
-        if (gameState == EGameState.Death)
-        {
-            StopAllCoroutines();
-            radialImage.fillAmount = 0;
-        }
+        radialImage.fillAmount = 0;
+        StopAllCoroutines();
     }
     IEnumerator Teleport()
     {

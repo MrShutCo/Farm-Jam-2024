@@ -241,6 +241,10 @@ public class AttackAction : PlayerAction
                 human.StopAllJobs();
             rb.AddForce(direction * 8, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.25f);
+            if (health == null) yield break;
+            HumanWildBehaviour wildBehaviour = health.GetComponent<HumanWildBehaviour>();
+            wildBehaviour.enabled = false;
+            wildBehaviour.enabled = true;
             if (rb == null) yield break;
             rb.velocity = Vector2.zero;
         }
