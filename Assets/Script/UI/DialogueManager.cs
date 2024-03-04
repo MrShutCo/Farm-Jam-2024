@@ -41,7 +41,14 @@ public class DialogueManager : MonoBehaviour
             {
                 Debug.Log("Space pressed");
                 if (typeLineCR == null)
+                {
                     DisplayNextLine();
+                    if (currentDialogue.NextText != null)
+                    {
+                        StartDialogue(currentDialogue.NextText);
+                        return;
+                    }
+                }
             }
 
             if (currentDialogue is not null)

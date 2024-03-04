@@ -35,9 +35,6 @@ namespace Assets.Script.Humans
             }
             
             if (GameManager.Instance.GameState != EGameState.Normal) return;
-
-            
-
             
             if (GameManager.Instance.CurrentlySelectedHuman != null)
             {
@@ -63,12 +60,9 @@ namespace Assets.Script.Humans
 
             if (Input.GetMouseButtonDown(1) && GameManager.Instance.CurrentlySelectedHuman != null)
             {
-
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                
-
                 hits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, rightClickLayer);
-
+                
                 foreach (var item in hits)
                 {
                     if (item.collider != null)

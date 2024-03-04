@@ -134,7 +134,10 @@ namespace Assets.Script.Humans
             StatusPanel.gameObject.SetActive(false);
         }
 
-        public bool CanBePickedUp() => currentJobs.Count == 0 || currentJobs.Peek().ActiveTaskText() == "Idle";
+        public bool CanBePickedUp()
+        {
+            return currentJobs.Count == 0 || currentJobs.Peek().ActiveTaskText() == "Idle";;  
+        } 
 
         public void HoldPackage(Package p)
         {
@@ -154,6 +157,7 @@ namespace Assets.Script.Humans
             Select();
             GameManager.Instance.CurrentlySelectedHuman?.Deselect();
             GameManager.Instance.CurrentlySelectedHuman = this;
+            rb.velocity = Vector2.zero;
         }
 
         public void Deselect() =>StatusPanel.gameObject.SetActive(false);
@@ -211,11 +215,13 @@ namespace Assets.Script.Humans
 
         public void OnMouseEnter()
         {
+            if (GameManager.Instance.GameState != EGameState.Normal) return;
             StatusPanel.gameObject.SetActive(true);
         }
 
         public void OnMouseExit()
         {
+            if (GameManager.Instance.GameState != EGameState.Normal) return;
             StatusPanel.gameObject.SetActive(false);
         }
 
