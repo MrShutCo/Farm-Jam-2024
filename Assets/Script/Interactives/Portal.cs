@@ -16,10 +16,14 @@ public class Portal : MonoBehaviour
     [SerializeField] bool deactivate = false;
     [SerializeField] bool destroyDestinationOnComplete = false;
     [SerializeField] EGameState switchStateOnComplete;
+    [SerializeField] bool wildPortal;
+    SpriteRenderer spriteRenderer;
 
     SoundRequest enterPortalSound;
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (wildPortal) spriteRenderer.enabled = false;
         enterPortalSound = new SoundRequest
         {
             SoundSource = ESoundSource.Player,
@@ -37,6 +41,9 @@ public class Portal : MonoBehaviour
             SetDestination(GameObject.Find("Portal-Home").GetComponent<Portal>());
         }
     }
+    private void OnDisable()
+    {
+    }
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -53,8 +60,9 @@ public class Portal : MonoBehaviour
                 player.simulated = false;
                 player.transform.position = destination.transform.position;
                 player.simulated = true;
-                GameManager.Instance.SetGameState(switchStateOnComplete);
                 GameManager.Instance.onTeleport?.Invoke(false, destination.transform.position);
+                GameManager.Instance.SetGameState(switchStateOnComplete);
+
                 onPortalComplete?.Invoke();
 
             }

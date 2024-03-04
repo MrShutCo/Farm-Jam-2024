@@ -126,6 +126,7 @@ public class AudioManager : MonoBehaviour
     float lastUpdateTime;
     Transform _player;
     Transform _child;
+    EGameState prevState;
 
     public AudioClip[] GetClips(ESoundType soundType)
     {
@@ -201,15 +202,52 @@ public class AudioManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.onPlaySound += OnAudioPlay;
+        GameManager.Instance.onGameStateChange += OnGameStateChange;
     }
     private void OnDisable()
     {
         GameManager.Instance.onPlaySound += OnAudioPlay;
+        GameManager.Instance.onGameStateChange -= OnGameStateChange;
+    }
+    void OnGameStateChange(EGameState gameState)
+    {
+        if (gameState == EGameState.Normal)
+        {
+            GameManager.Instance.onPlaySound.Invoke(new SoundRequest
+            {
+                SoundSource = ESoundSource.Music,
+                RequestingObject = gameObject,
+                SoundType = ESoundType.homeMusic,
+                Loop = true,
+                RandomizePitch = false
+            });
+        }
+        else if (prevState == EGameState.Normal && gameState == EGameState.Wild)
+        {
+            GameManager.Instance.onPlaySound.Invoke(new SoundRequest
+            {
+                SoundSource = ESoundSource.Music,
+                RequestingObject = gameObject,
+                SoundType = ESoundType.farmMusic,
+                Loop = true,
+                RandomizePitch = false
+            });
+        }
     }
     private void Start()
     {
         _player = GameManager.Instance.Player;
         lastUpdateTime = Time.time;
+
+        GameManager.Instance.onPlaySound.Invoke(new SoundRequest
+        {
+            SoundSource = ESoundSource.Music,
+            RequestingObject = gameObject,
+            SoundType = ESoundType.homeMusic,
+            Loop = true,
+            RandomizePitch = false
+        });
+        prevState = EGameState.Normal;
     }
 
     private void Update()
