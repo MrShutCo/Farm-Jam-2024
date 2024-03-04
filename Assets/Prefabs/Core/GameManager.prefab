@@ -783,7 +783,7 @@ MonoBehaviour:
   resourcesLostDisplay: {fileID: 0}
   deathButton: {fileID: 0}
   iconPrefab: {fileID: 6214320308782223575, guid: fad7ec80fbe2d4d4c8a282bc6974a7d3, type: 3}
-  showFPS: 1
+  showFPS: 0
   normalCanvas: {fileID: 0}
   buildCanvas: {fileID: 0}
   deathCanvas: {fileID: 0}

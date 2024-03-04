@@ -13,7 +13,7 @@ namespace Assets.Script.UI
         RectTransform resourcesHome;
 
         [SerializeField] private RectTransform resourcesBuild;
-        
+
         [Header("Player Elements")]
         [SerializeField] RectTransform carriedHumansParent;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
@@ -41,6 +41,7 @@ namespace Assets.Script.UI
 
         [SerializeField] bool showFPS;
 
+
         [SerializeField] private Canvas normalCanvas;
         [SerializeField] private Canvas buildCanvas;
         [SerializeField] private Canvas deathCanvas;
@@ -49,7 +50,7 @@ namespace Assets.Script.UI
 
         private void Awake()
         {
-            
+
             playerResourceIcons = new List<Icon>();
             homeResourceIcons = PopulateResourceIcons(resourcesHome);
             buildResourceIcons = PopulateResourceIcons(resourcesBuild);
@@ -144,7 +145,7 @@ namespace Assets.Script.UI
             var resources = EResource.GetValues(typeof(EResource));
             for (int i = 0; i < resources.Length; i++)
             {
-                var resource = (EResource)resources.GetValue(i);   
+                var resource = (EResource)resources.GetValue(i);
                 var iconCarried = Instantiate(iconPrefab, carriedResourcesTexts.transform);
                 iconCarried.SetIcon(resource, 0);
                 iconCarried.transform.localPosition = new Vector3(i * 36, 0);
