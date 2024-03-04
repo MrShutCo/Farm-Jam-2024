@@ -238,10 +238,9 @@ namespace Assets.Script.Humans
         {
             if (currentJobs != null && currentJobs.Count > 0)
             {
-                currentJobs.Peek()?.Update(Time.deltaTime);
                 taskText.text = currentJobs?.Peek()?.ActiveTaskText();
                 debugTaskText.text = currentJobs?.Peek()?.ActiveTaskText();
-
+                currentJobs.Peek()?.Update(Time.deltaTime);
             }
             else
             {
