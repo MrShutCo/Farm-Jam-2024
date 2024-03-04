@@ -20,7 +20,9 @@ namespace Script.Interactives
                     new DialogueText("First, there are two types of resources. Natural and human resources. Natural resources include Food, Wood, Steel, and Electronics. These will be used for building and upgrading machines." +
                                      "Human resources include Blood, Bones, and Organs. These are used in sacrifices, and will give you various upgrades to yourself. Human resources are extracted by flaying humans", null)), 
                 new ("How does flaying work?", new DialogueText("Your husband can create flaying buildings that you can assign flayees and flayers to. You must have at least one of each in" +
-                    " a building in order to generate resources. The flayee takes until dead, and the amount of resources harvested calculated by ", null)),
+                    " a building in order to generate resources. The flayee takes damage they're until dead, and the amount of resources harvested is calculated by number of people working them and their respective traits", null)),
+                new ("What are traits?", new DialogueText("Traits affect how good a person is at a particular skill. Theres ranks F-S from worst to best.", null)),
+                new ("Why are you here?", new DialogueText("I fell asleep reading Lovecraftian Erotica and I woke up here...", null))
             });
             firstTimeText = new DialogueText("Tutor Pete: Howdy, I'm Tutor Pete. I'll be your guide through the underworld and help you raise your husband back to his former glory!", null, dialogue);
         }
