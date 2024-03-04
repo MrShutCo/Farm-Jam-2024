@@ -19,9 +19,8 @@ public class OnTriggerDialogueEvent : MonoBehaviour
         {
             new ("Talk", new TalkToHusband()),
             new ("Build", new BuildDialogue()), 
-            new ("Human Sacrifice", new DialogueText("Get sacrificed scrub", null)),
             new ("Resource Sacrifice", new FeedHusband()),
-            new ("Upgrade",new DialogueUpgrade())
+            new ("Upgrade Buildings",new DialogueUpgrade())
         });
     }
 
