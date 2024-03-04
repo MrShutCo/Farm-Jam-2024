@@ -401,6 +401,7 @@ public class DodgeAction : PlayerAction
         chargesAvailable = maxCharges;
         onUpdateCurrentCharges?.Invoke(chargesAvailable);
     }
+
     public override void Action(Vector2 direction, LayerMask targetLayers)
     {
         //if (cooldownDuration > 0) return;
@@ -413,7 +414,7 @@ public class DodgeAction : PlayerAction
             dodging = true;
             GameManager.Instance.onPlaySound?.Invoke(dodgeSound);
             onDodge?.Invoke(dodging);
-            col.enabled = false;
+            player.gameObject.layer = LayerMask.NameToLayer("Default");
             dodgeTimer = dodgeDuration;
             rb.velocity = Vector2.zero;
             rb.AddForce(direction * 15f, ForceMode2D.Impulse);
@@ -432,7 +433,7 @@ public class DodgeAction : PlayerAction
         }
         else if (dodging)
         {
-            col.enabled = true;
+            player.gameObject.layer = LayerMask.NameToLayer("Player");
             rb.velocity = Vector2.zero;
             dodging = false;
             onDodge?.Invoke(dodging);

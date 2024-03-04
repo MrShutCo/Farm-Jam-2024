@@ -214,6 +214,17 @@ MonoBehaviour:
   lastDirectionPressed: {x: 0, y: 0}
   stats: {fileID: 11400000, guid: b54e458899a892a4aa40b00337677ff9, type: 2}
   baseDamage: 20
+  carryingCapacityHuman: 4
+  carryingCapacityResources: -1
+  moveSpeed: 8
+  health: 150
+  dodgeCharges: 1
+  defaultLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  dodgeLayer:
+    serializedVersion: 2
+    m_Bits: 1
   collectableLayers:
     serializedVersion: 2
     m_Bits: 65792

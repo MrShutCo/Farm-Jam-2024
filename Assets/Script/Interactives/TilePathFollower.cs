@@ -21,6 +21,11 @@ public class TilePathFollowers : MonoBehaviour, IGrabStoppable
     Animator animator;
     bool active = true;
 
+    public void SetFacingDirection(Vector2 direction)
+    {
+        FacingDirection = direction;
+    }
+
     private void Awake()
     {
         _transform = transform;

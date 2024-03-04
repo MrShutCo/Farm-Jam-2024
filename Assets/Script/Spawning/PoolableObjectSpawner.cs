@@ -10,6 +10,7 @@ public class PoolableObjectSpawner : MonoBehaviour
     public Vector2 SpawnRotation;
     ObjectPool<GameObject> pool;
     private MonoBehaviour ActiveMonoBehaviour;
+    [SerializeField] Vector2 Direction;
 
 
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
@@ -30,9 +31,10 @@ public class PoolableObjectSpawner : MonoBehaviour
     {
         GameObject instance = pool.Get();
         instance.gameObject.SetActive(true);
-        instance.transform.position = startPos;
+        instance.transform.position = (Vector2)transform.position + startPos + Direction;
         instance.transform.rotation = rotation;
         instance.transform.SetParent(this.transform);
+        instance.GetComponent<TilePathFollowers>().SetFacingDirection(Direction);
     }
 
     public void ReturnObject(GameObject obj)

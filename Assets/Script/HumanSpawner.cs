@@ -16,7 +16,7 @@ public class HumanSpawner : MonoBehaviour
 
     [SerializeField] Transform spawner;
     List<SpawnArea> spawnAreas;
-    EGameState prevGameState;
+    EGameState prevGameState = EGameState.Normal;
 
     [SerializeField] private Transform portalPosition;
     [SerializeField] private List<float> distanceThresholds;
@@ -124,16 +124,28 @@ public class HumanSpawner : MonoBehaviour
             _wildHumans = GetComponentsInChildren<Human>().ToList();
             foreach (var h in _wildHumans)
             {
-                if (h != null)
-                    Destroy(h.gameObject);
+                Debug.Log("Destorying Human: " + h.name);
+                Destroy(h.gameObject);
             }
             _wildHumans.Clear();
+            DespawnOtherTransforms();
         }
         else if (prevGameState == EGameState.Normal && GameManager.Instance.GameState == EGameState.Wild)
         {
             OnEnteringWild();
         }
         prevGameState = newState;
+    }
+    void DespawnOtherTransforms()
+    {
+        Transform[] children = GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)
+        {
+            if (child != transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
     void Start()
     {

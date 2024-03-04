@@ -110,13 +110,12 @@ public class Carrier : MonoBehaviour
         int dropOffAmount = 0;
         for (int i = 0; i < CarriedHumans.Count; i++)
         {
+            CarriedHumans[i].anim.SetTrigger("IdleTrigger");
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
             CarriedHumans[i].transform.position = (Vector2)transform.position + Vector2.down * 10 + new Vector2(i, 0);
-            CarriedHumans[i].anim.SetTrigger("IdleTrigger");
-            CarriedHumans[i].InitializeSpawnable();
             dropOffAmount++;
         }
         CarriedHumans.Clear();
