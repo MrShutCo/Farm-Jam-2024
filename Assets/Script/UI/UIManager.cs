@@ -12,6 +12,8 @@ namespace Assets.Script.UI
         [SerializeField]
         RectTransform resourcesHome;
 
+        [SerializeField] private RectTransform resourcesBuild;
+        
         [Header("Player Elements")]
         [SerializeField] RectTransform carriedHumansParent;
         [SerializeField] TextMeshProUGUI carriedResourcesTexts;
@@ -34,6 +36,7 @@ namespace Assets.Script.UI
         [Header("Icons")]
         [SerializeField] Icon iconPrefab;
         List<Icon> homeResourceIcons;
+        private List<Icon> buildResourceIcons;
         List<Icon> playerResourceIcons;
 
         [SerializeField] bool showFPS;
@@ -46,10 +49,11 @@ namespace Assets.Script.UI
 
         private void Awake()
         {
-            homeResourceIcons = new List<Icon>();
+            
             playerResourceIcons = new List<Icon>();
-            PopulateResourceIcons();
-
+            homeResourceIcons = PopulateResourceIcons(resourcesHome);
+            buildResourceIcons = PopulateResourceIcons(resourcesBuild);
+            PopulatePlayerCarried();
         }
         void OnEnable()
         {
@@ -119,17 +123,28 @@ namespace Assets.Script.UI
                 OnPerformanceUpdate();
         }
 
-        void PopulateResourceIcons()
+        List<Icon> PopulateResourceIcons(RectTransform parent)
+        {
+            var resources = EResource.GetValues(typeof(EResource));
+            var icons = new List<Icon>();
+            for (int i = 0; i < resources.Length; i++)
+            {
+                var resource = (EResource)resources.GetValue(i);
+                var iconHome = Instantiate(iconPrefab, parent);
+                iconHome.SetIcon(resource, 0);
+                iconHome.transform.localPosition = new Vector3(0, -i * 15f);
+                icons.Add(iconHome);
+            }
+
+            return icons;
+        }
+
+        void PopulatePlayerCarried()
         {
             var resources = EResource.GetValues(typeof(EResource));
             for (int i = 0; i < resources.Length; i++)
             {
-                var resource = (EResource)resources.GetValue(i);
-                var iconHome = Instantiate(iconPrefab, resourcesHome.transform);
-                iconHome.SetIcon(resource, 0);
-                iconHome.transform.localPosition = new Vector3(0, -i * 15f);
-                homeResourceIcons.Add(iconHome);
-
+                var resource = (EResource)resources.GetValue(i);   
                 var iconCarried = Instantiate(iconPrefab, carriedResourcesTexts.transform);
                 iconCarried.SetIcon(resource, 0);
                 iconCarried.transform.localPosition = new Vector3(i * 36, 0);
@@ -150,6 +165,7 @@ namespace Assets.Script.UI
             foreach (var resource in resources)
             {
                 homeResourceIcons[i].SetIcon(resource.Key, resource.Value);
+                buildResourceIcons[i].SetIcon(resource.Key, resource.Value);
                 i++;
             }
 

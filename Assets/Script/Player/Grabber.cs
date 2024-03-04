@@ -31,11 +31,25 @@ public class Grabber : MonoBehaviour
     private void OnEnable()
     {
         player.onMove += ChangeDirection;
+        GameManager.Instance.onGameStateChange += onGameStateChange;
     }
     private void OnDisable()
     {
         player.onMove -= ChangeDirection;
     }
+
+    void onGameStateChange(EGameState state)
+    {
+        if (state == EGameState.Normal)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+    }
+    
     void ChangeDirection(Vector2 direction, float speed)
     {
         activeDirection = direction;
