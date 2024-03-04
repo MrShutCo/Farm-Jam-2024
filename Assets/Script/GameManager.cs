@@ -92,13 +92,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetTargetFrameRate();
-        AddResource(EResource.Food, 50);
-        AddResource(EResource.Wood, 900);
-        AddResource(EResource.Steel, 900);
-        AddResource(EResource.Electronics, 900);
-        AddResource(EResource.Blood, 500);
-        AddResource(EResource.Bones, 500);
-        AddResource(EResource.Organs, 500);
+        AddResource(EResource.Food, 0);
+        AddResource(EResource.Wood, 300);
+        AddResource(EResource.Steel, 0);
+        AddResource(EResource.Electronics, 0);
+        AddResource(EResource.Blood, 0);
+        AddResource(EResource.Bones, 0);
+        AddResource(EResource.Organs, 0);
         UpdatePathFindingGrids(true, Player.position);
         SetGameState(EGameState.Normal);
     }

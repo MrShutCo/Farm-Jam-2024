@@ -8436,7 +8436,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 17
-      m_TileSpriteIndex: 14
+      m_TileSpriteIndex: 12
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -8856,7 +8856,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 14
-      m_TileSpriteIndex: 12
+      m_TileSpriteIndex: 13
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -8866,7 +8866,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 19
-      m_TileSpriteIndex: 13
+      m_TileSpriteIndex: 14
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -12004,13 +12004,13 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 1418275120, guid: 351e2b5a13ea06a43b90a5602e75ede4, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: -1052340753, guid: 351e2b5a13ea06a43b90a5602e75ede4, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: 1769481760, guid: 351e2b5a13ea06a43b90a5602e75ede4, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1363562337, guid: 351e2b5a13ea06a43b90a5602e75ede4, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -1052340753, guid: 351e2b5a13ea06a43b90a5602e75ede4, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 981
+  - m_RefCount: 989
     m_Data:
       e00: 1
       e01: 0
@@ -12065,7 +12065,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 984
+  - m_RefCount: 992
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -14589,9 +14589,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1508971453, guid: ae992e4f082df7d4b9e36052c6861aad, type: 3}
     - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
       propertyPath: dialogueTest.Array.data[0]
       value: 'Husbando: Why must you disturb me? \n This is line two btw'
       objectReference: {fileID: 0}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c5e4d44d00d9c432baf90b186721ff0f, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6bfb642146cb0495ca62b3ad73264e52, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cf8329678e704c54ba432c8e12cb31d, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 408b6f11776994b91bc108d54adfd365, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: f09a486e510bc4a12bb9b3bdc10ff4f6, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: mainUpgrades.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: ef6499fb7e5234056aaeb8d32fc98d63, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: buildingUpgrades.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: buildingUpgrades.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a1e130f4a4b554084b69389b56752119, type: 2}
+    - target: {fileID: 2986570808919345142, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: buildingUpgrades.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ca7214c4dcdd45aca1a93a595daa5d5, type: 2}
     - target: {fileID: 8767024560932268644, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1

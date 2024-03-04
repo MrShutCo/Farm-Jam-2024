@@ -9,14 +9,11 @@ namespace Assets.Script.UI
 {
     public class DialogueUpgrade : DialogueText
     {
-        private List<UpgradeCost> _resourcesRequired = new()
-        {
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/BuildingUpgrade 1.asset"),
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/BuildingUpgrade 2.asset"),
-        };
+        private List<UpgradeCost> _resourcesRequired;
         
-        public DialogueUpgrade()
+        public DialogueUpgrade(List<UpgradeCost> resourcesRequired)
         {
+            _resourcesRequired = resourcesRequired;
             _baseText = "What would you like to upgrade?";
             var failedText = new DialogueText("Thou doth not have enough resources to upgrade", null);
             Options = new List<DialogueOption>()

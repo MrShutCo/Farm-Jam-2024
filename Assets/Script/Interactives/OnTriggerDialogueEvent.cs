@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.UI;
+using Script.Stats_and_Upgrades;
 using UnityEngine;
 
 public class OnTriggerDialogueEvent : MonoBehaviour
@@ -11,6 +12,10 @@ public class OnTriggerDialogueEvent : MonoBehaviour
     [SerializeField] private Sprite inactiveSprite;
     
     private SpriteRenderer _spriteRenderer;
+
+    [SerializeField] private List<UpgradeCost> buildingUpgrades;
+
+    [SerializeField] private List<UpgradeCost> mainUpgrades;
     
     private void OnEnable()
     {
@@ -19,8 +24,8 @@ public class OnTriggerDialogueEvent : MonoBehaviour
         {
             new ("Talk", new TalkToHusband()),
             new ("Build", new BuildDialogue()), 
-            new ("Resource Sacrifice", new FeedHusband()),
-            new ("Upgrade Buildings",new DialogueUpgrade())
+            new ("Resource Sacrifice", new FeedHusband(mainUpgrades)),
+            new ("Upgrade Buildings",new DialogueUpgrade(buildingUpgrades))
         });
     }
 

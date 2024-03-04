@@ -11,15 +11,12 @@ namespace Assets.Script.UI
 {
     public class FeedHusband : DialogueText
     {
-        private List<UpgradeCost> _resourcesRequired = new()
+        private List<UpgradeCost> _resourcesRequired;
+
+        public FeedHusband(List<UpgradeCost> costs)
         {
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 1.asset"),
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 2.asset"),
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 3.asset"),
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 4.asset"),
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 5.asset"),
-            AssetDatabase.LoadAssetAtPath<UpgradeCost>("Assets/Data/Upgrades/MainUpgrade 6.asset"),
-        };
+            _resourcesRequired = costs;
+        }
 
         public override void OnStart()
         {
