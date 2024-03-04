@@ -163,6 +163,7 @@ public class AudioManager : MonoBehaviour
             for (int i = 0; i < source.instances; i++)
             {
                 AudioSource audioSource = _child.gameObject.AddComponent<AudioSource>();
+
                 audioSourcePools[source.Source].Add(audioSource);
             }
         }
@@ -213,6 +214,7 @@ public class AudioManager : MonoBehaviour
     {
         if (gameState == EGameState.Normal)
         {
+
             GameManager.Instance.onPlaySound.Invoke(new SoundRequest
             {
                 SoundSource = ESoundSource.Music,
