@@ -9,7 +9,7 @@ public class TitleMenu : MonoBehaviour
 {
 
     [SerializeField] Button startButton;
-    [SerializeField] TextMeshProUGUI startText;
+    [SerializeField] SpriteRenderer startText;
     [SerializeField] Image startPanel;
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource sfxSource;
@@ -17,16 +17,9 @@ public class TitleMenu : MonoBehaviour
     private void Awake()
     {
 
-        if (startText != null)
-            startText.canvasRenderer.SetAlpha(0);
-        startPanel.canvasRenderer.SetAlpha(1);
-        if (startButton != null)
-            startButton.onClick.AddListener(StartGame);
+        startButton.onClick.AddListener(StartGame);
     }
-    private void Start()
-    {
-        StartCoroutine(StartUpSequence());
-    }
+
     private void OnDisable()
     {
         if (startButton != null)
@@ -38,70 +31,14 @@ public class TitleMenu : MonoBehaviour
         if (startButton != null)
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                if (!startButtonFadeActive)
-                {
-                    startButtonFadeActive = true;
-                    StartCoroutine(StartButtonFadeInOut());
-                }
-                else
-                    StartGame();
+                StartGame();
             }
     }
     void StartGame()
     {
         SceneManager.LoadScene(1);
     }
-    IEnumerator StartUpSequence()
-    {
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(PanelFadeOut());
-        yield return StartCoroutine(BloodAndSound());
-        if (!startButtonFadeActive)
-            yield return StartCoroutine(StartButtonFadeInOut());
-    }
-    IEnumerator PanelFadeOut()
-    {
-        startPanel.CrossFadeAlpha(0, 2, false);
-        yield return new WaitForSeconds(2);
-    }
-    IEnumerator PanelFadeIn()
-    {
-        startPanel.CrossFadeAlpha(1, 2, false);
-        yield return new WaitForSeconds(2);
-    }
-    IEnumerator BloodAndSound()
-    {
 
-        //Play Slash Sound
-        yield return new WaitForSeconds(2.25f);
-        //Play 2 Slashes
-        yield return new WaitForSeconds(2.5f);
-        //Play juicy slash sound
-        yield return new WaitForSeconds(1.5f);
-        //Play loud percussion;
-        //Play Music
-    }
-    IEnumerator StartButtonFadeInOut()
-    {
-        startButtonFadeActive = true;
-        if (startText != null)
-            while (true)
-            {
-                startText.CrossFadeAlpha(1, 1, false);
-                yield return new WaitForSeconds(1);
-                startText.CrossFadeAlpha(0, 1, false);
-                yield return new WaitForSeconds(1);
-
-            }
-    }
-
-    IEnumerator StartButtonPressed()
-    {
-        StartCoroutine(FadeOutSoundAndMusic());
-        yield return StartCoroutine(PanelFadeIn());
-
-        StartGame();
-    }
 
     IEnumerator FadeOutSoundAndMusic()
     {

@@ -15,10 +15,13 @@ public class Background : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.onGameStateChange += ChangeBackground;
+        if (GameManager.Instance != null)
+            GameManager.Instance.onGameStateChange += ChangeBackground;
     }
     private void OnDisable()
     {
+        if (GameManager.Instance != null)
+            GameManager.Instance.onGameStateChange -= ChangeBackground;
         GameManager.Instance.onGameStateChange -= ChangeBackground;
     }
     void ChangeBackground(EGameState gameState)

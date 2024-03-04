@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DestructibleWarehouse
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 1933722541, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
-  - {fileID: 1764504398, guid: 6805c0c4f6e87e442a276b33a33a415d, type: 3}
+  - {fileID: 21300000, guid: 944e73552de1b8940acea0cbfdf2ab3d, type: 3}
+  - {fileID: -2091627303, guid: 8b2cbce491e83374dafb50a8c29d068b, type: 3}
   pickUpPrefab: {fileID: 7361624677579321503, guid: fab2157ef51e93849af26e03c3fb08f2, type: 3}
   health: 100

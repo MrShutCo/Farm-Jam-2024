@@ -22,6 +22,7 @@ public class SpawnArea : MonoBehaviour
     private void Awake()
     {
         _spawnArea = GetComponent<BoxCollider2D>();
+        parentTransform = GameManager.Instance.WildHumanoidParent.transform;
 
         wheel = new WeightedRouletteWheel<GameObject>(spawnables, weights);
     }
