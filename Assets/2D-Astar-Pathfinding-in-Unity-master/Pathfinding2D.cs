@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,14 +11,15 @@ public class Pathfinding2D : MonoBehaviour
     Node2D seekerNode, targetNode;
     public GameObject GridOwner;
 
-    void Start()
+
+    private void OnEnable()
     {
         //Instantiate grid
-        grid = GridOwner.GetComponent<Grid2D>();
     }
 
     public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
     {
+        grid = GridOwner.GetComponent<Grid2D>();
         //get player and target position in grid coords
         seekerNode = grid.NodeFromWorldPoint(startPos);
         targetNode = grid.NodeFromWorldPoint(targetPos);
