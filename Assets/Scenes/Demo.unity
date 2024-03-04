@@ -1020,7 +1020,6 @@ Transform:
   - {fileID: 1260403081}
   - {fileID: 125466655}
   - {fileID: 631010413}
-  - {fileID: 798637019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &397473113 stripped
@@ -13592,7 +13591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorldType: 0
-  Grid: {fileID: 1302900335}
+  Grid: {fileID: 0}
 --- !u!114 &1676694249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13605,8 +13604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292f286d2ea984366bab49a587d83e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 1668145675}
-  portalPosition: {fileID: 421613281}
+  spawner: {fileID: 0}
+  portalPosition: {fileID: 0}
   distanceThresholds:
   - 103.9
   - 183.6
@@ -14521,7 +14520,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 370203397}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1340612019311238439, guid: 52b89ed9e1284044fbb3de4114858b05, type: 3}
       propertyPath: m_Radius
@@ -14581,7 +14580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7440617721454326622, guid: 52b89ed9e1284044fbb3de4114858b05, type: 3}
       propertyPath: destroyDestinationOnComplete
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8996113023316204099, guid: 52b89ed9e1284044fbb3de4114858b05, type: 3}
       propertyPath: m_Name
@@ -14981,6 +14980,10 @@ PrefabInstance:
     - target: {fileID: 8683989078090457296, guid: 22f724958d549b846b4f92684beffbd3, type: 3}
       propertyPath: m_Name
       value: Canvas-Wild
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683989078090457296, guid: 22f724958d549b846b4f92684beffbd3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15391,11 +15394,12 @@ SceneRoots:
   - {fileID: 134691801}
   - {fileID: 7654276714868274380}
   - {fileID: 5984535025129683840}
+  - {fileID: 5781208804495595216}
+  - {fileID: 1002515560}
   - {fileID: 2020328238}
   - {fileID: 1287556938}
   - {fileID: 1179230775}
   - {fileID: 657554657}
-  - {fileID: 6367859337638776959}
   - {fileID: 1926093760}
   - {fileID: 191684024}
   - {fileID: 1545908169}

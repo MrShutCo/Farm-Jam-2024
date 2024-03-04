@@ -53,9 +53,10 @@ public class Portal : MonoBehaviour
                 player.simulated = false;
                 player.transform.position = destination.transform.position;
                 player.simulated = true;
+                GameManager.Instance.SetGameState(switchStateOnComplete);
                 GameManager.Instance.onTeleport?.Invoke(false, destination.transform.position);
                 onPortalComplete?.Invoke();
-                GameManager.Instance.SetGameState(switchStateOnComplete);
+
             }
     }
     private void OnTriggerExit2D(Collider2D other)
