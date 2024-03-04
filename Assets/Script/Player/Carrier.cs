@@ -8,7 +8,7 @@ using Assets.Script.Buildings;
 public class Carrier : MonoBehaviour
 {
     int maxHumans = 2;
-    int maxResources = 5;
+    int maxResources = -1;
 
     public List<Human> CarriedHumans;
     public Dictionary<EResource, int> CarriedResources = new();
