@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Script.Stats_and_Upgrades;
 using UnityEngine;
 
 
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour
     public Carrier Carrier;
     public ProgressManager ProgressManager;
 
+    public Dictionary<EResource, int> BaseBuildLevel;
+    
     public int Stage;
 
     bool paused;
@@ -67,6 +70,10 @@ public class GameManager : MonoBehaviour
         Resources = InitializeResources();
         PathfindingGrid = FindObjectOfType<Grid2D>();
         Carrier = Player.GetComponent<Carrier>();
+        BaseBuildLevel = new Dictionary<EResource, int>()
+        {
+            { EResource.Blood, 0 }, { EResource.Bones, 0 }, { EResource.Organs, 0 }
+        };
 
         int count = FindObjectsOfType<GameManager>().Length;
         if (count > 1)
@@ -86,7 +93,9 @@ public class GameManager : MonoBehaviour
     {
         SetTargetFrameRate();
         AddResource(EResource.Food, 50);
-        AddResource(EResource.Wood, 500);
+        AddResource(EResource.Wood, 900);
+        AddResource(EResource.Steel, 900);
+        AddResource(EResource.Electronics, 900);
         AddResource(EResource.Blood, 500);
         AddResource(EResource.Bones, 500);
         AddResource(EResource.Organs, 500);
@@ -110,6 +119,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
     public void SetGameState(EGameState gameState)
     {
         GameState = gameState;
@@ -120,6 +130,23 @@ public class GameManager : MonoBehaviour
     {
         Resources[resource] += amount;
         onResourceChange?.Invoke();
+    }
+
+    public bool CanAfford(UpgradeCost cost)
+    {
+        foreach (var c in cost.cost)
+        {
+            if (Resources[c.Resource] < c.Amount) return false;
+        }
+        return true;
+    }
+
+    public void SubtractUpgradeCost(UpgradeCost cost)
+    {
+        foreach (var c in cost.cost)
+        {
+            AddResource(c.Resource, -c.Amount);
+        }
     }
 
     public Dictionary<EResource, int> InitializeResources()

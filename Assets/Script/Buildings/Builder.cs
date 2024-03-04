@@ -3,8 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Script.Humans;
 using Cinemachine;
 using Script.Buildings;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,23 +29,34 @@ namespace Assets.Script.Buildings
         [SerializeField] LayerMask gridLayer;
 
         public int SelectedBuilding = -1;
-
-
+        
         bool isBuildMode;
         Vector3 currMouseTile;
         Transform parent;
         GameObject ghostBuilding;
-        private ResourceBuilding ghostResourceBuilding;
+        private BodyPartBuilding ghostResourceBuilding;
         private Camera _camera;
 
         SoundRequest selectBuildingSound;
         SoundRequest cannotBuildSound;
         SoundRequest constructionCompleteSound;
 
-
+        [Header("Building Costs")]
+        [Range(1, 4)]
+        [SerializeField] private float costRatioMultiplier;
+        [SerializeField] private float baseCost;
+        [SerializeField] private TextMeshProUGUI bloodCostText;
+        [SerializeField] private TextMeshProUGUI boneCostText;
+        [SerializeField] private TextMeshProUGUI organCostText;
+        
+        private Dictionary<EResource, float> costRatios;
         private void Start()
         {
             _camera = Camera.main;
+            costRatios = new Dictionary<EResource, float>()
+            {
+                { EResource.Blood, 1}, { EResource.Organs, 1}, { EResource.Bones, 1 }
+            };
         }
 
         private void OnEnable()
@@ -96,6 +109,12 @@ namespace Assets.Script.Buildings
 
         public void OnClickBuildingImage(int buildingIdx)
         {
+            if (!HasEnough(getTypeOfBuilding(buildingIdx)))
+            {
+                GameManager.Instance.onPlaySound?.Invoke(cannotBuildSound);
+                return;
+            }
+            
             if (ghostBuilding && SelectedBuilding != buildingIdx) Destroy(ghostBuilding);
             SelectedBuilding = buildingIdx;
             Debug.Log($"Selected building {buildingIdx}");
@@ -103,8 +122,30 @@ namespace Assets.Script.Buildings
             buildingPrefab.GetComponent<ResourceBuilding>().buildingData = buildings[SelectedBuilding];
             buildingPrefab.GetComponent<BoxCollider2D>().enabled = false;
             ghostBuilding = Instantiate(buildingPrefab, parent);
-            ghostResourceBuilding = ghostBuilding.GetComponent<ResourceBuilding>();
+            ghostResourceBuilding = ghostBuilding.GetComponent<BodyPartBuilding>();
+            ghostResourceBuilding.SetLevel(GameManager.Instance.BaseBuildLevel[getTypeOfBuilding(buildingIdx)]);
             GameManager.Instance.onPlaySound?.Invoke(selectBuildingSound);
+        }
+
+        EResource getTypeOfBuilding(int buildingIdx)
+        {
+            if (buildingIdx == 0) return EResource.Blood;
+            if (buildingIdx == 1) return EResource.Bones;
+            if (buildingIdx == 2) return EResource.Organs;
+            return EResource.Blood;
+        }
+
+        bool HasEnough(EResource resource)
+        {
+            return GameManager.Instance.Resources[EResource.Wood] >= baseCost * costRatios[resource];
+        }
+
+        void SetCostText(EResource resource)
+        {
+            var amount = (int)(baseCost * costRatios[resource]);
+            if (resource == EResource.Blood) bloodCostText.text = $"{amount} Wood";
+            if (resource == EResource.Bones) boneCostText.text = $"{amount} Wood";
+            if (resource == EResource.Organs) organCostText.text = $"{amount} Wood";
         }
 
         // Update is called once per frame
@@ -149,13 +190,12 @@ namespace Assets.Script.Buildings
                 ghostBuilding = null;
                 GameManager.Instance.onPlaySound?.Invoke(constructionCompleteSound);
 
+                var typeofBuilding = getTypeOfBuilding(SelectedBuilding);
+                GameManager.Instance.AddResource(EResource.Wood, (int)(-baseCost * costRatios[typeofBuilding]));
+                costRatios[typeofBuilding] *= costRatioMultiplier;
+                SetCostText(typeofBuilding);
+                GameManager.Instance.Buildings.Add(ghostResourceBuilding);
                 SelectedBuilding = -1;
-                /*for (int x = 0; x < placeable.Layout.x; x++)
-                    for (int y = 0; y < placeable.Layout.y; y++)
-                    {
-                        var actualPos = new Vector3Int(x, y, 0) + v;
-                        GameManager.Instance.PathfindingGrid.SetWalkableAt(actualPos.x, actualPos.y, false);
-                    }*/
             }
             else
             {
@@ -175,7 +215,7 @@ namespace Assets.Script.Buildings
         Vector3Int GetTileOverMouse(ResourceBuildingDataSO placeable)
         {
             var mid = placeable.GetMidpoint();
-            return MouseToCellPos() - new Vector3Int(mid.x, mid.y);
+            return MouseToCellPos() - new Vector3Int(mid.x, mid.y, 0);
         }
 
         Vector3 MouseToWorldPos()
@@ -195,11 +235,11 @@ namespace Assets.Script.Buildings
 
         bool IsValidPlacement(Vector3Int origin, Vector2Int layout)
         {
+            Debug.Log($"Checking is valid 3x3 at {origin}");
             origin.z = 0;
             for (int x = 0; x < layout.x; x++)
                 for (int y = 0; y < layout.y; y++)
                 {
-                    // TODO!!!!!! -1 on x and y only works if building is 3x3 but its okay because we rushin 
                     var potentialSpot = ColliderMap.GetTile(origin + new Vector3Int(x, y, 0));
                     var potentialGroundSpot = GroundMap.GetTile(origin + new Vector3Int(x, y, 0));
                     if (!buildableOnTiles.Contains(potentialGroundSpot) || potentialSpot is not null) return false;
@@ -209,6 +249,8 @@ namespace Assets.Script.Buildings
 
         void PlaceTilePatternOnLayer(Vector3Int origin, Vector2Int layout, Tile tilebase)
         {
+            Debug.Log($"Placed 3x3 at {origin}");
+            origin.z = 0;
             for (int x = 0; x < layout.x; x++)
                 for (int y = 0; y < layout.y; y++)
                 {
