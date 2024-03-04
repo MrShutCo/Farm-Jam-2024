@@ -26,5 +26,6 @@ public class PortalTimer : MonoBehaviour
             yield return null;
         }
         GameManager.Instance.Player.GetComponent<Player>().EnablePortal();
+        GameManager.Instance.SetGameState(EGameState.Normal);
     }
 }

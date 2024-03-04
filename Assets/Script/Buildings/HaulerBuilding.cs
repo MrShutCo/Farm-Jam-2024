@@ -26,7 +26,8 @@ namespace Assets.Script.Buildings
 
 			// Try to assign someone to all packages once a second
 			checkPickupsTimer = new Timer(1, true);
-			checkPickupsTimer.OnTrigger += () => {
+			checkPickupsTimer.OnTrigger += () =>
+			{
 				packagesToBePickedUp.RemoveAll(p => TryPickUp(p.building, p.p));
 			};
 		}
@@ -57,11 +58,14 @@ namespace Assets.Script.Buildings
 		{
 			checkPickupsTimer.Update(Time.deltaTime);
 		}
-		
+
 		public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
 		{
 			if (!haulers.Contains(human))
+			{
+				human.StopAllJobs();
 				haulers.Add(human);
+			}
 		}
 	}
 }

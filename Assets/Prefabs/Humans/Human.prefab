@@ -863,6 +863,8 @@ MonoBehaviour:
   maxSpeed: 0
   initAttackRateMultiplier: 0
   currentAttackRateMultiplier: 0
+  debugTaskText: {fileID: 0}
+  debugActive: 0
 --- !u!70 &4452934615250403022
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

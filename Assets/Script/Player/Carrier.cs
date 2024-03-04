@@ -116,6 +116,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
             CarriedHumans[i].transform.position = (Vector2)transform.position + Vector2.down * 10 + new Vector2(i, 0);
             CarriedHumans[i].anim.SetTrigger("IdleTrigger");
+            CarriedHumans[i].InitializeSpawnable();
             dropOffAmount++;
         }
         CarriedHumans.Clear();

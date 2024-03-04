@@ -28,7 +28,9 @@ public class WorldSpawner : MonoBehaviour
                 world = industrialPrefabs[Random.Range(0, industrialPrefabs.Length)];
             else
                 world = cityPrefabs[Random.Range(0, cityPrefabs.Length)];
-            Instantiate(world, SpawnPos, Quaternion.identity);
+            GameObject newWorld = Instantiate(world, SpawnPos, Quaternion.identity);
+            GameObject wildHumanoids = GameManager.Instance.WildHumanoidParent;
+            wildHumanoids.GetComponent<World>().Grid = newWorld.GetComponent<Grid2D>();
         }
     }
 }

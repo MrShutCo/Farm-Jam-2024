@@ -18,6 +18,7 @@ public class Portal : MonoBehaviour
     [SerializeField] EGameState switchStateOnComplete;
     [SerializeField] bool wildPortal;
     SpriteRenderer spriteRenderer;
+    Vector2 offset = new Vector2(0, -.5f);
 
     SoundRequest enterPortalSound;
     private void Awake()
@@ -55,12 +56,12 @@ public class Portal : MonoBehaviour
                 Debug.Log("Player at portal");
                 var player = other.GetComponent<Rigidbody2D>();
                 GameManager.Instance.onPlaySound?.Invoke(enterPortalSound);
-                GameManager.Instance.onTeleport?.Invoke(true, destination.transform.position);
+                GameManager.Instance.onTeleport?.Invoke(true, (Vector2)destination.transform.position + offset);
                 destination.Deactivate();
                 player.simulated = false;
                 player.transform.position = destination.transform.position;
                 player.simulated = true;
-                GameManager.Instance.onTeleport?.Invoke(false, destination.transform.position);
+                GameManager.Instance.onTeleport?.Invoke(false, (Vector2)destination.transform.position + offset);
                 GameManager.Instance.SetGameState(switchStateOnComplete);
 
                 onPortalComplete?.Invoke();

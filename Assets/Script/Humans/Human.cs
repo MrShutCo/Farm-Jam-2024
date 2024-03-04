@@ -50,6 +50,7 @@ namespace Assets.Script.Humans
         public float initAttackRateMultiplier;
         public float currentAttackRateMultiplier;
 
+
         public void Awake()
         {
             if (StatusPanel == null)
@@ -105,12 +106,12 @@ namespace Assets.Script.Humans
             rb.simulated = true;
             EnableWorldBehaviour();
         }
-        
+
         public void InitializeSpawnable()
         {
             EnableWorldBehaviour();
         }
-        
+
         public void EnableWorldBehaviour()
         {
             var world = GetComponentInParent<World>();
@@ -136,8 +137,8 @@ namespace Assets.Script.Humans
 
         public bool CanBePickedUp()
         {
-            return currentJobs.Count == 0 || currentJobs.Peek().ActiveTaskText() == "Idle";;  
-        } 
+            return currentJobs.Count == 0 || currentJobs.Peek().ActiveTaskText() == "Idle";
+        }
 
         public void HoldPackage(Package p)
         {
@@ -160,8 +161,8 @@ namespace Assets.Script.Humans
             rb.velocity = Vector2.zero;
         }
 
-        public void Deselect() =>StatusPanel.gameObject.SetActive(false);
-        public void Select() =>StatusPanel.gameObject.SetActive(true);
+        public void Deselect() => StatusPanel.gameObject.SetActive(false);
+        public void Select() => StatusPanel.gameObject.SetActive(true);
 
 
         public void Hide()
@@ -231,10 +232,12 @@ namespace Assets.Script.Humans
             {
                 currentJobs.Peek()?.Update(Time.deltaTime);
                 taskText.text = currentJobs?.Peek()?.ActiveTaskText();
+
             }
             else
             {
                 taskText.text = "Nothing";
+
             }
 
         }

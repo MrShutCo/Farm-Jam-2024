@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Humans;
@@ -109,10 +110,16 @@ public class HumanSpawner : MonoBehaviour
             h.InitializeHuman(_englishNames[_random.Next(0, _englishNames.Count)], traits);
         }
     }
-
     void Despawn(EGameState newState)
     {
-        if (prevGameState == EGameState.Wild && GameManager.Instance.GameState == EGameState.Normal)
+        StartCoroutine(DespawnCoroutine(newState));
+    }
+
+    IEnumerator DespawnCoroutine(EGameState newState)
+    {
+        yield return new WaitForSeconds(.1f);
+        if (prevGameState == EGameState.Wild && GameManager.Instance.GameState == EGameState.Normal ||
+        prevGameState == EGameState.Death && GameManager.Instance.GameState == EGameState.Normal)
         {
             _wildHumans = GetComponentsInChildren<Human>().ToList();
             foreach (var h in _wildHumans)

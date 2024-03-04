@@ -10,7 +10,7 @@ public class PlayerHealth : HealthBase
     {
         base.Awake();
         player = GetComponent<Player>();
-        maxHealth = (int)player.stats.GetStat(EStat.Health);
+        maxHealth = (int)player.Health;
     }
     protected override void Start()
     {

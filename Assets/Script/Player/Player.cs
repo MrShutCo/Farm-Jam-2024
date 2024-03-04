@@ -14,10 +14,19 @@ public class Player : MonoBehaviour
     public Vector2 lastDirectionPressed;
     public Stats stats;
 
-
-    [Header("Outside Interactions")]
+    [Header("InitStats")]
     [SerializeField] float baseDamage = 20;
     public float BaseDamage => baseDamage;
+    [SerializeField] int carryingCapacityHuman = 4;
+    [SerializeField] int carryingCapacityResources = -1;
+    [SerializeField] float moveSpeed = 8;
+    public float MoveSpeed => moveSpeed;
+    [SerializeField] float health = 150;
+    public float Health => health;
+    [SerializeField] int dodgeCharges = 1;
+
+    [Header("Outside Interactions")]
+
     [SerializeField] LayerMask collectableLayers;
     [SerializeField] LayerMask hittableLayers;
     [SerializeField] Grabber grabber;
@@ -81,13 +90,12 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         initOrderInLayer = _spriteRenderer.sortingOrder;
         _animator = _spriteRenderer.GetComponent<Animator>();
-        baseDamage = stats.GetStat(EStat.Attack);
-        runSpeed = stats.GetStat(EStat.Speed);
-        _carrier.SetCarryCapacity((int)stats.GetStat(EStat.CarryHumanCapacity), (int)stats.GetStat(EStat.CarryResourceCapacity));
+        runSpeed = MoveSpeed;
+        _carrier.SetCarryCapacity(carryingCapacityHuman, carryingCapacityResources);
     }
     private void Start()
     {
-        SetMaxDodgeCharges((int)stats.GetStat(EStat.DodgeCharges));
+        SetMaxDodgeCharges(dodgeCharges);
         portalMaker = GetComponentInChildren<PortalMaker>();
         lastDirectionPressed = Vector2.down;
     }

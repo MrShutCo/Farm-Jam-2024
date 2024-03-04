@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 54bbcf1cebd275448911e3d77ff9fc4d, type: 3}
   m_Name: PlayerStats
-  m_EditorClassIdentifier: Assembly-CSharp::Stats
-  instanceStats: {fileID: 11400000, guid: a62fb38228929f24ba20706db8c7ef20, type: 2}
-  stats: {fileID: 11400000, guid: 788d88aa017f9e54db92ad19b1863fe9, type: 2}
+  m_EditorClassIdentifier: 
+  instanceStats: {fileID: 11400000, guid: 788d88aa017f9e54db92ad19b1863fe9, type: 2}
+  stats: {fileID: 0}
