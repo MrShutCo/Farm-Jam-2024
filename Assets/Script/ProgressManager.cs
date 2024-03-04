@@ -8,7 +8,12 @@ using UnityEngine;
 public class ProgressManager : MonoBehaviour
 {
     [SerializeField] Renderer[] progressStatues;
-    int progressIndex = 0;
+    public int ProgressIndex { get; private set; }
+
+    private void Awake()
+    {
+        ProgressIndex = 0;
+    }
 
     private void OnEnable()
     {
@@ -30,12 +35,12 @@ public class ProgressManager : MonoBehaviour
         while (progress < 360)
         {
             progress++;
-            progressStatues[progressIndex].material.SetFloat("_Arc1", 360 - progress);
+            progressStatues[ProgressIndex].material.SetFloat("_Arc1", 360 - progress);
             yield return null;
         }
-        progressStatues[progressIndex].material.SetFloat("_Arc1", 0);
-        progressIndex++;
-        if (progressIndex >= progressStatues.Length)
+        progressStatues[ProgressIndex].material.SetFloat("_Arc1", 0);
+        ProgressIndex++;
+        if (ProgressIndex >= progressStatues.Length)
         {
             Debug.Log("YOU WIN");
         }

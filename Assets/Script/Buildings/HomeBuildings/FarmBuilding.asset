@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Layout: {x: 2, y: 2}
   IsWalkable: 1
+  workedArea: {fileID: 0}
   sprites:
   - {fileID: -1199121107, guid: d62258042ef286e4481a8ac2276f786a, type: 3}
   - {fileID: 315128392, guid: d62258042ef286e4481a8ac2276f786a, type: 3}
   resource: 0
+  damageToFlayee: 0
   numFlayeesPerLevel: 
   numFlayersPerLevel: 02000000
   internalBufferCapacity: 20
   maximumPackagesAllowed: 0500000006000000
-  Level: 0

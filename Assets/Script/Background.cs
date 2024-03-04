@@ -4,11 +4,39 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
+    [SerializeField] Sprite BackgroundHome;
+    [SerializeField] Vector2 HomePos = new Vector2(0, 0);
+    [SerializeField] Sprite BackgroundWild;
+    [SerializeField] Vector2 WildPos = new Vector2(-220, 0);
     private Material _material;
     [SerializeField] private float speed;
 
     private float currentscroll = 0;
-    
+
+    private void OnEnable()
+    {
+        GameManager.Instance.onGameStateChange += ChangeBackground;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.onGameStateChange -= ChangeBackground;
+    }
+    void ChangeBackground(EGameState gameState)
+    {
+        Debug.Log("Changing background");
+        if (gameState == EGameState.Normal)
+        {
+            transform.position = HomePos;
+            GetComponent<SpriteRenderer>().sprite = BackgroundHome;
+        }
+        else if (gameState == EGameState.Wild)
+        {
+            Debug.Log("Changing sprite background");
+            transform.position = WildPos;
+            GetComponent<SpriteRenderer>().sprite = BackgroundWild;
+        }
+    }
+
     void Start()
     {
         _material = GetComponent<SpriteRenderer>().material;

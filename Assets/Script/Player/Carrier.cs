@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Script.Humans;
 using System.Linq;
+using Assets.Script.Buildings;
 
 public class Carrier : MonoBehaviour
 {
     int maxHumans = 2;
-    int maxResources = 5;
+    int maxResources = -1;
 
     public List<Human> CarriedHumans;
     public Dictionary<EResource, int> CarriedResources = new();
@@ -16,6 +17,7 @@ public class Carrier : MonoBehaviour
     SoundRequest collectHuman;
     SoundRequest collectResource;
     SoundRequest dropOff;
+    LiveStockBuilding liveStockBuilding;
 
     private void Awake()
     {
@@ -45,6 +47,10 @@ public class Carrier : MonoBehaviour
         };
 
 
+    }
+    private void Start()
+    {
+        liveStockBuilding = FindObjectOfType<LiveStockBuilding>();
     }
 
     public void SetCarryCapacity(int humans, int resources)
@@ -100,6 +106,7 @@ public class Carrier : MonoBehaviour
     }
     public void DropOff()
     {
+
         int dropOffAmount = 0;
         for (int i = 0; i < CarriedHumans.Count; i++)
         {
@@ -107,8 +114,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
-            CarriedHumans[i].transform.position = transform.position + new Vector3(i, 0);
-            CarriedHumans[i].StopAllJobs();
+            CarriedHumans[i].transform.position = (Vector2)transform.position + Vector2.down * 10 + new Vector2(i, 0);
             CarriedHumans[i].anim.SetTrigger("IdleTrigger");
             dropOffAmount++;
         }

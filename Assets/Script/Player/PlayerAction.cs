@@ -239,11 +239,9 @@ public class AttackAction : PlayerAction
             if (rb == null) yield break;
             if (human != null)
                 human.StopAllJobs();
-            rb.isKinematic = false;
             rb.AddForce(direction * 8, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.25f);
             if (rb == null) yield break;
-            rb.isKinematic = true;
             rb.velocity = Vector2.zero;
         }
     }

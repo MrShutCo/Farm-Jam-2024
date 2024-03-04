@@ -172,6 +172,10 @@ public class Player : MonoBehaviour
         }
         return false;
     }
+    public void EnablePortal()
+    {
+        portalMaker.enabled = true;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
