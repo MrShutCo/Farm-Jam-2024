@@ -34,7 +34,7 @@ namespace Assets.Script.Buildings
         Vector3 currMouseTile;
         Transform parent;
         GameObject ghostBuilding;
-        private ResourceBuilding ghostResourceBuilding;
+        private BodyPartBuilding ghostResourceBuilding;
         private Camera _camera;
 
         SoundRequest selectBuildingSound;
@@ -50,9 +50,6 @@ namespace Assets.Script.Buildings
         [SerializeField] private TextMeshProUGUI organCostText;
         
         private Dictionary<EResource, float> costRatios;
-        
-        
-        
         private void Start()
         {
             _camera = Camera.main;
@@ -125,7 +122,8 @@ namespace Assets.Script.Buildings
             buildingPrefab.GetComponent<ResourceBuilding>().buildingData = buildings[SelectedBuilding];
             buildingPrefab.GetComponent<BoxCollider2D>().enabled = false;
             ghostBuilding = Instantiate(buildingPrefab, parent);
-            ghostResourceBuilding = ghostBuilding.GetComponent<ResourceBuilding>();
+            ghostResourceBuilding = ghostBuilding.GetComponent<BodyPartBuilding>();
+            ghostResourceBuilding.SetLevel(GameManager.Instance.BaseBuildLevel[getTypeOfBuilding(buildingIdx)]);
             GameManager.Instance.onPlaySound?.Invoke(selectBuildingSound);
         }
 
@@ -196,6 +194,7 @@ namespace Assets.Script.Buildings
                 GameManager.Instance.AddResource(EResource.Wood, (int)(-baseCost * costRatios[typeofBuilding]));
                 costRatios[typeofBuilding] *= costRatioMultiplier;
                 SetCostText(typeofBuilding);
+                GameManager.Instance.Buildings.Add(ghostResourceBuilding);
                 SelectedBuilding = -1;
             }
             else

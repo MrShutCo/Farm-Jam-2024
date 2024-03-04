@@ -17,7 +17,6 @@ namespace Script.Buildings
 
         [SerializeField] private List<Transform> levelPositions;
         private List<SpriteRenderer> flayeeSpriteRenderers;
-        
 
         private List<List<WorkingSubsection>> levelWorkingSubsections;
         [SerializeField] private SpriteRenderer background;
@@ -46,6 +45,12 @@ namespace Script.Buildings
             }
             // Set to level 0
             _workingHumans = levelWorkingSubsections[Level];
+        }
+
+        public void SetLevel(int level)
+        {
+            Level = level;
+            background.sprite = buildingData.GetSprite(Level);
         }
 
         public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
@@ -91,7 +96,7 @@ namespace Script.Buildings
             }
         }
 
-        protected override void Upgrade()
+        public override void Upgrade()
         {
             Level++;
             // Dear God, please never read this code, I beg of you
@@ -121,14 +126,6 @@ namespace Script.Buildings
             
             background.sprite = buildingData.GetSprite(Level);
             _workingHumans = levelWorkingSubsections[Level];
-        }
-
-        void FixedUpdate()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Upgrade();
-            }    
         }
 
         protected override void OnWork()

@@ -26,7 +26,7 @@ namespace Script.Buildings
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        protected override void Upgrade()
+        public override void Upgrade()
         {
             
         }

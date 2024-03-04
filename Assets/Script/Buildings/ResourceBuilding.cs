@@ -96,7 +96,7 @@ namespace Assets.Script.Buildings
 
         protected abstract void OnWork();
 
-        protected abstract void Upgrade();
+        public abstract void Upgrade();
         
         protected void onHumanDie(Human h)
         {
