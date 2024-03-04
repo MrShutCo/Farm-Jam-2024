@@ -10,13 +10,15 @@ namespace Assets.Script.UI
     {
         protected string _baseText;
         [CanBeNull] public List<DialogueOption> Options;
-
+        [CanBeNull] public DialogueText NextText;
+        
         public DialogueText(){}
         
-        public DialogueText(string baseText, List<DialogueOption> options)
+        public DialogueText(string baseText, List<DialogueOption> options, DialogueText nextText = null)
         {
             _baseText = baseText;
             Options = options;
+            NextText = nextText;
         }
         
         private List<KeyCode> numKeyCodes = new ()

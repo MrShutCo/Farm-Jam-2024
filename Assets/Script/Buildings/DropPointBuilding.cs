@@ -19,6 +19,6 @@ public class DropPointBuilding : Building
 
     public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

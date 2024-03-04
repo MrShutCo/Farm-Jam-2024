@@ -114,10 +114,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
-
             CarriedHumans[i].transform.position = (Vector2)transform.position + Vector2.down * 10 + new Vector2(i, 0);
-            liveStockBuilding.AutoAssignHuman(CarriedHumans[i]);
-
             CarriedHumans[i].anim.SetTrigger("IdleTrigger");
             dropOffAmount++;
         }
