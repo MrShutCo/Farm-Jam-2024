@@ -74,6 +74,11 @@ namespace Assets.Script.Humans
                 new ResourceTrait(EResource.Bones, ERank.F)
             };
             setTraitText();
+#if UNITY_EDITOR
+            taskText.enabled = true;
+#else
+            taskText.enabled = false;
+#endif
         }
 
         public void InitializeHuman(string name, List<Trait> traits)

@@ -16,7 +16,6 @@ public class TitleMenu : MonoBehaviour
     bool startButtonFadeActive = false;
     private void Awake()
     {
-
         startButton.onClick.AddListener(StartGame);
     }
 

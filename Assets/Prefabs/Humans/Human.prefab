@@ -855,17 +855,14 @@ MonoBehaviour:
   Name: Ziggy
   StatusBar: {fileID: 5000687817149657336, guid: 20e920e31418e7b48b2cecd633573a0e, type: 3}
   StatusPanel: {fileID: 1369910885371355747}
-  DebugStatusPanel: {fileID: 0}
   targetSensor: {fileID: 0}
   nameText: {fileID: 7526953325560176802}
   traitText: {fileID: 2421187272089482677}
   taskText: {fileID: 5674180547482100953}
-  debugTaskText: {fileID: 0}
   initSpeed: 0
   maxSpeed: 0
   initAttackRateMultiplier: 0
   currentAttackRateMultiplier: 0
-  debug: 0
 --- !u!70 &4452934615250403022
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

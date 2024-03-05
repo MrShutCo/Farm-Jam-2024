@@ -102,6 +102,9 @@ namespace Script.Buildings
             // Dear God, please never read this code, I beg of you
             if (Level == 1)
             {
+                // TODO: this is a bad hack
+                _packageSlots.Add(null);
+                _packageSlots.Add(null);
                 levelWorkingSubsections[1][0].Flayee = levelWorkingSubsections[0][0].Flayee;
                 for (int i = 0; i < levelWorkingSubsections[1][0].Flayers.Count; i++)
                 {
@@ -161,7 +164,7 @@ namespace Script.Buildings
                 _internalBuffer -= buildingData.internalBufferCapacity;
             }
 
-            if (_packageObjects.Count == buildingData.GetMaxPackages(Level))
+            if (_packageSlots.Count == buildingData.GetMaxPackages(Level))
             {
                 callToAction.gameObject.SetActive(true);
             }

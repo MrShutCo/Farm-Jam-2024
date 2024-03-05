@@ -112,10 +112,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   otherIcon: {fileID: 0}
+  foodIcon: {fileID: 2059424358, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
   woodIcon: {fileID: 21300000, guid: ca5afb4ce16f8c04fbe9e4e958c8f6cf, type: 3}
   steelIcon: {fileID: 21300000, guid: e9f185c18d7b2664792025ee36362ba5, type: 3}
   electronicsIcon: {fileID: -1220577185, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
-  foodIcon: {fileID: 2059424358, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
   bloodIcon: {fileID: 2033498825, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
   boneIcon: {fileID: -1534665795, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
   organIcon: {fileID: -971492945, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 69
+  m_text: 6969
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -0.2252388, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
