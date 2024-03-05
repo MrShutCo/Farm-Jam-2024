@@ -217,14 +217,8 @@ MonoBehaviour:
   carryingCapacityHuman: 4
   carryingCapacityResources: -1
   moveSpeed: 8
-  health: 150
+  health: 125
   dodgeCharges: 1
-  defaultLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  dodgeLayer:
-    serializedVersion: 2
-    m_Bits: 1
   collectableLayers:
     serializedVersion: 2
     m_Bits: 65792

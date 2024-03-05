@@ -986,6 +986,7 @@ MonoBehaviour:
   healthPanel: {fileID: 2166355274715142896}
   initHealth: 5
   maxHealth: 120
+  pickUpItemPrefab: {fileID: 1218937627463467097, guid: d9e78241f1fe9c84f9ef58366686bd75, type: 3}
 --- !u!1 &7963107023382944152
 GameObject:
   m_ObjectHideFlags: 0

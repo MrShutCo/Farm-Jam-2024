@@ -7,6 +7,7 @@ public class HumanHealth : HealthBase
 {
     Human human;
     Collider2D col;
+    [SerializeField] PickUpItem pickUpItemPrefab;
 
     protected override void Awake()
     {
@@ -20,7 +21,15 @@ public class HumanHealth : HealthBase
     {
         human.StopAllJobs();
         human.enabled = false;
-        human.WildBehaviour.enabled = false;
+        if (human.WildBehaviour.enabled)
+        {
+            if (pickUpItemPrefab != null)
+            {
+                Transform pickup = Instantiate(pickUpItemPrefab, transform.position, Quaternion.identity).transform;
+                pickup.SetParent(_transform.parent);
+            }
+            human.WildBehaviour.enabled = false;
+        }
         col.enabled = false;
         Debug.Log("Human died");
         base.Die();

@@ -15,5 +15,5 @@ MonoBehaviour:
   sprites:
   - {fileID: 21300000, guid: a8ee30d5ccd2c4d4b8cbb44ef7c80edc, type: 3}
   - {fileID: -2091627303, guid: 8b2cbce491e83374dafb50a8c29d068b, type: 3}
-  pickUpPrefab: {fileID: 7361624677579321503, guid: fab2157ef51e93849af26e03c3fb08f2, type: 3}
+  pickUpPrefab: {fileID: 7361624677579321503, guid: 8efb0d331ee77d946939f740624bebb8, type: 3}
   health: 100

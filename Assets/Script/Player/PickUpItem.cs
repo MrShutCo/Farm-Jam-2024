@@ -44,6 +44,12 @@ public class PickUpItem : MonoBehaviour
 
             if (distance < 0.1f)
             {
+                if (resource.name == "Time")
+                {
+                    GameManager.Instance.onAddTime(resource.Quantity);
+                    Destroy(gameObject);
+                }
+                else
                 if (carrier.AddCarriedResources(resource.ResourceType, resource.Quantity))
                     Destroy(gameObject);
                 else Debug.Log("Not enough space");

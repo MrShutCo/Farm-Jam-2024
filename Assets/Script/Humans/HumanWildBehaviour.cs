@@ -29,7 +29,8 @@ public class HumanWildBehaviour : MonoBehaviour
         {
             if (_target != null)
             {
-                human.AddTaskToJob(CheckForChange(), true);
+                if (human.CurrentJobs.Count == 0)
+                    human.AddTaskToJob(CheckForChange(), true);
             }
         };
     }
@@ -67,7 +68,8 @@ public class HumanWildBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        refreshTimer.Update(Time.deltaTime);
+        if (_target != null)
+            refreshTimer.Update(Time.deltaTime);
     }
     public Task SetTarget(Transform target, bool overrideCurrent = false)
     {
@@ -88,7 +90,6 @@ public class HumanWildBehaviour : MonoBehaviour
     }
 
     Task CheckForChange() => IsOutsideRange(npcType.DisengageRange) ? ClearTarget() : ChangeToTargetMode();
-
 
     Task ChangeToIdle()
     {

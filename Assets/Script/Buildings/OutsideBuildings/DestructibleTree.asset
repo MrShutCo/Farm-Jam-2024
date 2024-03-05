@@ -16,4 +16,4 @@ MonoBehaviour:
   - {fileID: 1356963090, guid: 8b2cbce491e83374dafb50a8c29d068b, type: 3}
   - {fileID: 0}
   pickUpPrefab: {fileID: 5778100177148480199, guid: ac024b30c60573c43802a0619d04f1a0, type: 3}
-  health: 100
+  health: 40

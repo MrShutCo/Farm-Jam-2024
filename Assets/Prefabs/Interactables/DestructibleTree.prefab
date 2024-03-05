@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2645947999417947614, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_Name
-      value: DestructibleBarn
+      value: DestructibleTree
       objectReference: {fileID: 0}
     - target: {fileID: 3411295225370205891, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 7110771331934976500, guid: 38fcfaa410efffc499e94530b9316d2a, type: 3}
       propertyPath: destructibleData
       value: 
-      objectReference: {fileID: 11400000, guid: 3c741799c2f94da45b51adba8fbfb358, type: 2}
+      objectReference: {fileID: 11400000, guid: ead62b43b21f4f049ba1b48d5d027108, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

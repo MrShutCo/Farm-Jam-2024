@@ -16,7 +16,7 @@ MonoBehaviour:
   - Resource: 4
     Amount: 150
   - Resource: 6
-    Amount: 100
+    Amount: 80
   - Resource: 5
     Amount: 0
   name: FirstUpgrade

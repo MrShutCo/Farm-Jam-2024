@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public Action<Dictionary<EResource, int>> onCarriedResourcesChange;
     public Action onHumanCarrierFull;
     public Action<float, float> onHealthChange;
+    public Action<int> onAddTime;
     public Action onEnterHomeBase;
     public Action onExitHomeBase;
     public Action<bool> onPause;
