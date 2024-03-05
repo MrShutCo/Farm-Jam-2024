@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
     public ProgressManager ProgressManager;
-    public TutorialManager TutorialManager;
     
     public Dictionary<EResource, int> BaseBuildLevel;
 
@@ -71,7 +70,6 @@ public class GameManager : MonoBehaviour
         Resources = InitializeResources();
         PathfindingGrid = FindObjectOfType<Grid2D>();
         Carrier = Player.GetComponent<Carrier>();
-        TutorialManager = GetComponentInChildren<TutorialManager>();
         BaseBuildLevel = new Dictionary<EResource, int>()
         {
             { EResource.Blood, 0 }, { EResource.Bones, 0 }, { EResource.Organs, 0 }
@@ -95,9 +93,9 @@ public class GameManager : MonoBehaviour
     {
         SetTargetFrameRate();
         AddResource(EResource.Food, 0);
-        AddResource(EResource.Wood, 300);
-        AddResource(EResource.Steel, 0);
-        AddResource(EResource.Electronics, 0);
+        AddResource(EResource.Wood, 2000);
+        AddResource(EResource.Steel, 2000);
+        AddResource(EResource.Electronics, 2000);
         AddResource(EResource.Blood, 0);
         AddResource(EResource.Bones, 0);
         AddResource(EResource.Organs, 0);

@@ -44,11 +44,10 @@ public class DialogueManager : MonoBehaviour
                     if (currentDialogue.NextText != null)
                     {
                         StartDialogue(currentDialogue.NextText);
+                        return;
                     }
-                    else
-                    {
-                        DisplayNextLine();
-                    }
+                    DisplayNextLine();
+                    
                 }
             }
 
@@ -86,11 +85,12 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         StopAllCoroutines();
-        typeLineCR = StartCoroutine(TypeLine(dialogue.Dequeue()));
+        typeLineCR = StartCoroutine( TypeLine(dialogue.Dequeue()));
     }
 
     IEnumerator TypeLine(string line)
     {
+        yield return new WaitForFixedUpdate();
         Debug.Log("Typing line: " + line);
         textLabel.text = "";
         foreach (char c in line.ToCharArray())
