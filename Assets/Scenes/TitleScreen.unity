@@ -844,8 +844,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BackgroundHome: {fileID: 21300000, guid: a4991016be82c418d8604987f6fd8747, type: 3}
   HomePos: {x: 0, y: 0}
-  BackgroundWild: {fileID: 21300000, guid: deb22e1aaf9d4b445a53ca5dfb526bf0, type: 3}
-  WildPos: {x: -220, y: 0}
   speed: 0.1
 --- !u!114 &579024904389594239
 MonoBehaviour:
@@ -980,7 +978,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 68772094377976240af8e3839eeb182b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.74
+  m_Volume: 0.65
   m_Pitch: 1
   Loop: 0
   Mute: 0

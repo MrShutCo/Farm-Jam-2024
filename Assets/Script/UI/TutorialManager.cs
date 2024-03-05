@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Humans;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -89,6 +90,7 @@ public class TutorialManager : MonoBehaviour
             go.transform.localScale = Vector3.Lerp(startScale, endScale, t);
             yield return null;
         }
+        go.GetComponentInChildren<VideoPlayer>().Play();
     }
     IEnumerator LerpIntoAbyss(GameObject go)
     {
