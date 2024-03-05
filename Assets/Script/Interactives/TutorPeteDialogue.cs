@@ -9,18 +9,18 @@ namespace Script.Interactives
         private bool firstTimeTalking = true;
 
         private DialogueText firstTimeText;
-        
+
         private void OnEnable()
         {
-            dialogue = new DialogueText(" Do you have any questions for me?", new ()
+            dialogue = new DialogueText(" Do you have any questions for me?", new()
             {
-                new ("How do I bring back my husband?", 
+                new ("How do I bring back my husband?",
                     new DialogueText("You must gather enough resources and sacrifice enough humans to light the six pillars and complete the sacrifice", null)),
-                new ("How do I collect resources?", 
+                new ("How do I collect resources?",
                     new DialogueText("First, there are two types of resources. Natural and human resources. Natural resources include Food, Wood, Steel, and Electronics. These will be used for building and upgrading machines." +
-                                     "Human resources include Blood, Bones, and Organs. These are used in sacrifices, and will give you various upgrades to yourself. Human resources are extracted by flaying humans", null)), 
+                                     "Human resources include Blood, Bones, and Organs. These are used in sacrifices, and will give you various upgrades to yourself. Human resources are extracted by flaying humans", null)),
                 new ("How does flaying work?", new DialogueText("Your husband can create flaying buildings that you can assign flayees and flayers to. You must have at least one of each in" +
-                    " a building in order to generate resources. The flayee takes damage they're until dead, and the amount of resources harvested is calculated by number of people working them and their respective traits.", null, 
+                    " a building in order to generate resources. The flayee takes damage they're until dead, and the amount of resources harvested is calculated by number of people working them and their respective traits.", null,
                     new DialogueText("You also must assign haulers in the building below me to take away resources", null))),
                 new ("What are traits?", new DialogueText("Traits affect how good a person is at a particular skill. Theres ranks F-S from worst to best.", null)),
                 new ("Why are you here?", new DialogueText("I fell asleep reading Lovecraftian Erotica and I woke up here...", null))
@@ -37,7 +37,7 @@ namespace Script.Interactives
                 firstTimeTalking = false;
             }
         }
-    
+
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.CompareTag("Player"))

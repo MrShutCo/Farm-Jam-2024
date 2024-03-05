@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 8
-  MaxSpawn: 16
+  MinSpawn: 4
+  MaxSpawn: 5
   SnapToGrid: 0
   parentTransform: {fileID: 0}
   spawnables:
@@ -193,7 +193,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 96.8, y: 25}
+  m_Size: {x: 61.1, y: 25}
   m_EdgeRadius: 0
 --- !u!1 &1006581769539392506
 GameObject:
@@ -394,8 +394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -808,8 +808,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 8
-  MaxSpawn: 16
+  MinSpawn: 4
+  MaxSpawn: 5
   SnapToGrid: 0
   parentTransform: {fileID: 0}
   spawnables:
@@ -859,7 +859,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 96.8, y: 25}
+  m_Size: {x: 60.16, y: 25}
   m_EdgeRadius: 0
 --- !u!1 &2592624428605250617
 GameObject:
@@ -982,8 +982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -47149,7 +47149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinSpawn: 8
-  MaxSpawn: 16
+  MaxSpawn: 10
   SnapToGrid: 0
   parentTransform: {fileID: 0}
   spawnables:
@@ -47247,7 +47247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinSpawn: 8
-  MaxSpawn: 16
+  MaxSpawn: 10
   SnapToGrid: 0
   parentTransform: {fileID: 0}
   spawnables:
@@ -47344,8 +47344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -47441,8 +47441,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -47577,8 +47577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -49340,8 +49340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -49471,7 +49471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinSpawn: 8
-  MaxSpawn: 16
+  MaxSpawn: 10
   SnapToGrid: 0
   parentTransform: {fileID: 0}
   spawnables:
@@ -49568,8 +49568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 6
+  MinSpawn: 2
+  MaxSpawn: 3
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:

@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -17,8 +16,8 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<string> dialogue = new Queue<string>();
     private DialogueText currentDialogue;
-    
-    
+
+
     private Dictionary<string, Action> actions;
 
 
@@ -74,7 +73,7 @@ public class DialogueManager : MonoBehaviour
         newDialogue.OnStart();
         dialogue.Enqueue(newDialogue.GetText());
         currentDialogue = newDialogue;
-        
+
         DisplayNextLine();
     }
 

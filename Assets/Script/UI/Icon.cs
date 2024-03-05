@@ -10,10 +10,10 @@ public class Icon : MonoBehaviour
     SpriteRenderer spriteRenderer;
     TextMeshProUGUI text;
     [SerializeField] Sprite otherIcon; //if not null, this will be used instead of the resource icon
+    [SerializeField] Sprite foodIcon;
     [SerializeField] Sprite woodIcon;
     [SerializeField] Sprite steelIcon;
     [SerializeField] Sprite electronicsIcon;
-    [SerializeField] Sprite foodIcon;
     [SerializeField] Sprite bloodIcon;
     [SerializeField] Sprite boneIcon;
     [SerializeField] Sprite organIcon;
@@ -29,10 +29,10 @@ public class Icon : MonoBehaviour
         // Initialize the dictionary with the mappings
         resourceSprites = new Dictionary<EResource, Sprite>
             {
+                { EResource.Food, foodIcon },
                 { EResource.Wood, woodIcon },
                 { EResource.Steel, steelIcon },
                 { EResource.Electronics, electronicsIcon },
-                { EResource.Food, foodIcon },
                 { EResource.Blood, bloodIcon },
                 { EResource.Bones, boneIcon },
                 { EResource.Organs, organIcon }

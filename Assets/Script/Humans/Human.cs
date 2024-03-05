@@ -22,12 +22,10 @@ namespace Assets.Script.Humans
 
         [SerializeField] GameObject StatusBar;
         [SerializeField] Transform StatusPanel;
-        [SerializeField] Transform DebugStatusPanel;
         [SerializeField] Transform targetSensor;
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI traitText;
         [SerializeField] TextMeshProUGUI taskText;
-        [SerializeField] TextMeshProUGUI debugTaskText;
 
         HumanWildBehaviour wildBehaviour;
         WeaponSelector weaponSelector;
@@ -52,15 +50,12 @@ namespace Assets.Script.Humans
         public float initAttackRateMultiplier;
         public float currentAttackRateMultiplier;
 
-        [Header("Debug")]
-        public bool debug = false;
 
         public void Awake()
         {
             if (StatusPanel == null)
                 StatusPanel = gameObject.transform.Find("StatusPanel");
-            if (DebugStatusPanel == null)
-                DebugStatusPanel = gameObject.transform.Find("DebugStatusPanel");
+
             targetSensor = GetComponentInChildren<TargetSensor>().transform;
             nameText.text = Name;
             maxSpeed = initSpeed;
@@ -139,8 +134,6 @@ namespace Assets.Script.Humans
         protected void Start()
         {
             StatusPanel.gameObject.SetActive(false);
-            if (!debug)
-                DebugStatusPanel.gameObject.SetActive(false);
         }
 
         public bool CanBePickedUp()
@@ -239,13 +232,11 @@ namespace Assets.Script.Humans
             if (currentJobs != null && currentJobs.Count > 0)
             {
                 taskText.text = currentJobs?.Peek()?.ActiveTaskText();
-                debugTaskText.text = currentJobs?.Peek()?.ActiveTaskText();
                 currentJobs.Peek()?.Update(Time.deltaTime);
             }
             else
             {
                 taskText.text = "Nothing";
-                debugTaskText.text = "Nothing";
             }
 
         }
