@@ -43,7 +43,11 @@ public class FloatingStatusBar : MonoBehaviour
 
     public void UpdateStatusBar(float currentValue, float maxValue)
     {
+        Debug.Log("Updating status bar");
+        Debug.Log("Current value: " + currentValue);
+        Debug.Log("Max value: " + maxValue);
         slider.value = currentValue / maxValue;
+        Debug.Log("Slider value: " + slider.value);
     }
     public void ActivateFlash(bool active, float interval = 0.5f)
     {
