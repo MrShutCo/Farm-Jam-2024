@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Grabber : MonoBehaviour
 {
+    public event Action onObjectInRange;
+    public event Action onObjectGrabbed;
+    public event Action onObjectThrown;
     [SerializeField] LayerMask targetLayers;
     [SerializeField] Tentacle tentaclePrefab;
     [SerializeField] int maxTentacles = 1;
@@ -49,7 +53,7 @@ public class Grabber : MonoBehaviour
             gameObject.SetActive(true);
         }
     }
-    
+
     void ChangeDirection(Vector2 direction, float speed)
     {
         activeDirection = direction;
@@ -112,12 +116,14 @@ public class Grabber : MonoBehaviour
         {
             var heldObject = tentacles[grabberIndex].GetComponentInChildren<GrabbableObjectBase>();
             heldObject.Throw(facing);
+            onObjectThrown?.Invoke();
             grabbables.Remove(heldObject);
         }
 
         else if (closestGrabbable != null && !tentacles[grabberIndex].Grabbing)
         {
             tentacles[grabberIndex].GrabObject(closestGrabbable);
+            onObjectGrabbed?.Invoke();
         }
     }
 
@@ -168,6 +174,7 @@ public class Grabber : MonoBehaviour
                 closestGrabbable = grabbable;
             }
         }
+        onObjectInRange?.Invoke();
         return closestGrabbable;
     }
 

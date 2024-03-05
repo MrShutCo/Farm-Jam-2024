@@ -28,7 +28,7 @@ namespace Assets.Script.UI
             }
 
             DialogueText success;
-            
+
             // Mandatory upgrade
             if (currCost.possibleUpgradeTypes.Count == 1)
             {
@@ -43,7 +43,7 @@ namespace Assets.Script.UI
                 success = new DialogueText("I can feel my power growing stronger! I can bestow upon you on of these options", options.ToList());
             }
 
-            var failed = new DialogueText("Why must you waste my time Cynthia?", null);
+            var failed = new DialogueText("Why must you waste my time Cthylla?", null);
             Options = new List<DialogueOption>()
             {
                 new("Yes", currCost.CanBuy, success, failed),

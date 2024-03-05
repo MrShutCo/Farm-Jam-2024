@@ -7,6 +7,7 @@ public class PortalTimer : MonoBehaviour
 {
     [SerializeField] float timeToTeleport;
     [SerializeField] UnityEngine.UI.Image radialImage;
+    [SerializeField] UnityEngine.UI.Image destructibleImage;
     private void OnEnable()
     {
         StartCoroutine(Teleport());
@@ -26,6 +27,9 @@ public class PortalTimer : MonoBehaviour
             yield return null;
         }
         GameManager.Instance.Player.GetComponent<Player>().EnablePortal();
-        GameManager.Instance.SetGameState(EGameState.Normal);
+        if (destructibleImage != null)
+        {
+            Destroy(destructibleImage.gameObject);
+        }
     }
 }

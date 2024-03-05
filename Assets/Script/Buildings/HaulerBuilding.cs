@@ -11,6 +11,8 @@ namespace Assets.Script.Buildings
 		List<Human> haulers;
 		Timer checkPickupsTimer;
 
+		[SerializeField] GameObject TipToDestroy;
+
 		// Use this for initialization
 		void Start()
 		{
@@ -66,6 +68,8 @@ namespace Assets.Script.Buildings
 				human.StopAllJobs();
 				haulers.Add(human);
 			}
+			if (TipToDestroy != null && haulers.Count > 0)
+				Destroy(TipToDestroy);
 		}
 	}
 }

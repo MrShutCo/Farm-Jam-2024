@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     public ProgressManager ProgressManager;
 
     public Dictionary<EResource, int> BaseBuildLevel;
-    
+
     public int Stage;
 
     bool paused;
@@ -119,9 +119,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+
     public void SetGameState(EGameState gameState)
     {
+        Debug.Log("Game State Changed to: " + gameState);
         GameState = gameState;
         onGameStateChange?.Invoke(gameState);
     }

@@ -8,6 +8,7 @@ public class WorldSpawner : MonoBehaviour
     [SerializeField] GameObject[] industrialPrefabs;
     [SerializeField] GameObject[] cityPrefabs;
     [SerializeField] Vector2 SpawnPos;
+    GameObject activeWorld;
     private void OnEnable()
     {
         GameManager.Instance.onGameStateChange += SpawnWorld;
@@ -18,6 +19,7 @@ public class WorldSpawner : MonoBehaviour
     }
     void SpawnWorld(EGameState gameState)
     {
+
         if (gameState == EGameState.Wild)
         {
             GameObject world;
@@ -31,6 +33,11 @@ public class WorldSpawner : MonoBehaviour
             GameObject newWorld = Instantiate(world, SpawnPos, Quaternion.identity);
             GameObject wildHumanoids = GameManager.Instance.WildHumanoidParent;
             wildHumanoids.GetComponent<World>().Grid = newWorld.GetComponent<Grid2D>();
+            activeWorld = newWorld;
+        }
+        else if (activeWorld != null && gameState == EGameState.Normal)
+        {
+            Destroy(activeWorld);
         }
     }
 }

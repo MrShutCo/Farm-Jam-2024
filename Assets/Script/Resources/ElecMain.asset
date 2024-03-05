@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceName: ElecMain
   resourceSprite: {fileID: -1220577185, guid: 6c676de1a0adc1e4db527b5ca3e60510, type: 3}
-  resourceType: 2
+  resourceType: 3
   quantity: 20

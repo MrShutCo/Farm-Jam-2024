@@ -98,6 +98,8 @@ namespace Assets.Script.UI
                         disableAllCanvas();
                         normalCanvas.gameObject.SetActive(true);
                         dialogueCanvas.gameObject.SetActive(true);
+                        Debug.Log("Activating DIalogue canvas: " + dialogueCanvas.gameObject.activeSelf);
+
                         break;
                 };
             };
