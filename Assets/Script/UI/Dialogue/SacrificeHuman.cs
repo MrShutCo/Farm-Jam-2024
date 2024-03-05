@@ -17,7 +17,7 @@ namespace Assets.Script.UI
             {
                 _baseText += $"{h.Name} \t";
             }
-            var failed = new DialogueText("Why must you waste my time Cynthia?", null);
+            var failed = new DialogueText("Why must you waste my time Cthylla?", null);
             Options = new List<DialogueOption>()
             {
                 new("Yes", hasRequiredHumans, new ConsumeHumanDialogue("I can feel my power growing stronger! But my thirst beckons for more", _humansRequired), failed),

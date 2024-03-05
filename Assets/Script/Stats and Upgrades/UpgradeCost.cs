@@ -34,8 +34,9 @@ namespace Script.Stats_and_Upgrades
 
     public enum EUpgradeType
     {
-        HealthPlus50,
+        HealthPlus,
         CarryingCapacityPlus4,
-        AttackPlus50
+        AttackPlus,
+        DashUp,
     }
 }

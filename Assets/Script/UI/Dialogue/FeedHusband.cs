@@ -55,9 +55,10 @@ namespace Assets.Script.UI
         {
             return type switch
             {
-                EUpgradeType.AttackPlus50 => "Attack +50",
-                EUpgradeType.HealthPlus50 => "Health +50",
+                EUpgradeType.AttackPlus => "Attack +10",
+                EUpgradeType.HealthPlus => "Health +25",
                 EUpgradeType.CarryingCapacityPlus4 => "Carrying Capacity +4",
+                EUpgradeType.DashUp => "Dodge +1",
                 _ => ""
             };
         }
@@ -68,17 +69,7 @@ namespace Assets.Script.UI
             {
                 GameManager.Instance.AddResource(resource.Resource, -resource.Amount);
             }
-
-            switch (type)
-            {
-                case EUpgradeType.AttackPlus50:
-                    break;
-                case EUpgradeType.HealthPlus50:
-                    break;
-                case EUpgradeType.CarryingCapacityPlus4:
-                    break;
-            }
-
+            GameManager.Instance.Player.GetComponent<global::Player>().Upgrade(type);
             GameManager.Instance.Stage++;
             GameManager.Instance.onGoalReached?.Invoke();
         }

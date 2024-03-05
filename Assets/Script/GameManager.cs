@@ -96,9 +96,9 @@ public class GameManager : MonoBehaviour
         AddResource(EResource.Wood, 2000);
         AddResource(EResource.Steel, 2000);
         AddResource(EResource.Electronics, 2000);
-        AddResource(EResource.Blood, 0);
-        AddResource(EResource.Bones, 0);
-        AddResource(EResource.Organs, 0);
+        AddResource(EResource.Blood, 1000);
+        AddResource(EResource.Bones, 1000);
+        AddResource(EResource.Organs, 1000);
         UpdatePathFindingGrids(true, Player.position);
         SetGameState(EGameState.Normal);
     }

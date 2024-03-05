@@ -3,7 +3,7 @@ using Assets.Script.Humans;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Script.Stats_and_Upgrades;
 
 
 public class Player : MonoBehaviour
@@ -143,6 +143,28 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    public void Upgrade(EUpgradeType upgrade)
+    {
+        switch (upgrade)
+        {
+            case EUpgradeType.AttackPlus:
+                baseDamage += 10;
+                break;
+            case EUpgradeType.HealthPlus:
+                health += 25;
+                GetComponent<PlayerHealth>().SetMaxHealth(health);
+                break;
+            case EUpgradeType.CarryingCapacityPlus4:
+                carryingCapacityHuman += 4;
+                _carrier.SetCarryCapacity(carryingCapacityHuman, carryingCapacityResources);
+                break;
+            case EUpgradeType.DashUp:
+                SetMaxDodgeCharges(maxDodgeCharges + 1);
+                break;
+        }
+    }
+    
     private void FixedUpdate()
     {
         if (moveActive)
