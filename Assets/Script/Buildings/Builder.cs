@@ -185,7 +185,7 @@ namespace Assets.Script.Buildings
             if (IsValidPlacement(v, placeable.Layout))
             {
                 Debug.Log(v.ToString());
-                PlaceTilePatternOnLayer(v, placeable.Layout, UnwalkableTile);
+                PlaceBuildingOnCollisionLayer(v, placeable.Layout);
                 ghostBuilding.GetComponent<BoxCollider2D>().enabled = true;
                 ghostBuilding = null;
                 GameManager.Instance.onPlaySound?.Invoke(constructionCompleteSound);
@@ -247,16 +247,18 @@ namespace Assets.Script.Buildings
             return true;
         }
 
-        void PlaceTilePatternOnLayer(Vector3Int origin, Vector2Int layout, Tile tilebase)
+        void PlaceBuildingOnCollisionLayer(Vector3Int origin, Vector2Int layout)
         {
             Debug.Log($"Placed 3x3 at {origin}");
             origin.z = 0;
             for (int x = 0; x < layout.x; x++)
                 for (int y = 0; y < layout.y; y++)
                 {
-                    tilebase.color = new Color(0, 0, 0, 1);
-                    ColliderMap.SetTile(origin + new Vector3Int(x, y, 0), tilebase);
+                    WalkableTile.color = new Color(0, 0, 0, 1);
+                    ColliderMap.SetTile(origin + new Vector3Int(x, y, 0), WalkableTile);
                 }
+            ColliderMap.SetTile(origin + new Vector3Int(1,1,0), UnwalkableTile);
+            GameManager.Instance.PathfindingGrid.SetWalkableAt(origin.x + 1, origin.y + 1, false);
         }
     }
 }

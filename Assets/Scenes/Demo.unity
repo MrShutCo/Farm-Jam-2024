@@ -17022,6 +17022,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2819742463304296967, guid: 9c506ffb45d9c4957a932dd4ae1122ba, type: 3}
+      propertyPath: m_text
+      value: Under Construction (Forever)
+      objectReference: {fileID: 0}
     - target: {fileID: 5169369251496832421, guid: 9c506ffb45d9c4957a932dd4ae1122ba, type: 3}
       propertyPath: m_Name
       value: Farm
@@ -17029,6 +17033,14 @@ PrefabInstance:
     - target: {fileID: 5833808965120131819, guid: 9c506ffb45d9c4957a932dd4ae1122ba, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852242936668608798, guid: 9c506ffb45d9c4957a932dd4ae1122ba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00000037998
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852242936668608798, guid: 9c506ffb45d9c4957a932dd4ae1122ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
