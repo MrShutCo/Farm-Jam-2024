@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03804249, g: 0.04552831, b: 0.0827582, a: 1}
+  m_IndirectSpecularColor: {r: 0.03809649, g: 0.0456279, b: 0.082956865, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1185,7 +1185,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644248230}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -16340,7 +16340,7 @@ Transform:
   m_GameObject: {fileID: 2020328236}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6.91, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17222,6 +17222,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2829403893102503282, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -14.199997
+      objectReference: {fileID: 0}
     - target: {fileID: 4173461511114829923, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
       propertyPath: EffectMap
       value: 
@@ -17242,6 +17246,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1026014516}
+    - target: {fileID: 6165179042276587346, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -7.5999756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165179042276587346, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 75.29999
+      objectReference: {fileID: 0}
+    - target: {fileID: 9152945300196759266, guid: 2027a27a927584386b4d21d55a88e541, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -20.899994
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

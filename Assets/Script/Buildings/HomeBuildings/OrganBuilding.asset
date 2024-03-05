@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: -710782348, guid: d3c8340098b5b43ad8d2f0bd7ae569a5, type: 3}
   - {fileID: 38663346, guid: d3c8340098b5b43ad8d2f0bd7ae569a5, type: 3}
   - {fileID: 463835770, guid: d3c8340098b5b43ad8d2f0bd7ae569a5, type: 3}
-  resource: 4
+  resource: 5
   damageToFlayee: 2
   numFlayeesPerLevel: 0100000002000000
   numFlayersPerLevel: 0200000004000000

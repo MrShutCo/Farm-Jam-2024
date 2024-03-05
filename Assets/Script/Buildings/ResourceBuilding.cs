@@ -44,7 +44,7 @@ namespace Assets.Script.Buildings
         [SerializeField] protected SpriteRenderer _spriteRenderer;
         [SerializeField] protected FloatVisual callToAction;
         
-        protected Stack<GameObject> _packageObjects = new();
+        protected List<GameObject> _packageSlots = new();
         protected List<WorkingSubsection> _workingHumans = new();
         protected Timer _workTimer;
         protected float _internalBuffer;
@@ -69,7 +69,7 @@ namespace Assets.Script.Buildings
 
         public void RemovePacket(Human h)
         {
-            _packageObjects.Pop();
+            _packageSlots.RemoveAt(0);
             NumFinishedPackets--;
         }
 
@@ -83,12 +83,13 @@ namespace Assets.Script.Buildings
         protected void AddPacket()
         {
             var newPackage = Instantiate(packagePrefab, packages.transform);
-            newPackage.transform.localPosition = new Vector3(-1 + NumFinishedPackets * 0.6f, 2.5f);
+            
+            newPackage.transform.localPosition = new Vector3(0, 2.5f);
             newPackage.GetComponent<Package>().SetPackage(buildingData.resource, (int)buildingData.internalBufferCapacity);
             newPackage.GetComponentInChildren<Icon>().SetIcon(buildingData.resource, 0, false);
-           
-            _packageObjects.Push(newPackage);
-            NumFinishedPackets = Math.Min(NumFinishedPackets + 1, _packageObjects.Count);
+            _packageSlots.Add(newPackage);
+            
+            NumFinishedPackets = Math.Min(NumFinishedPackets + 1, _packageSlots.Count);
             GameManager.Instance.onPackageCreate?.Invoke(this, newPackage.GetComponent<Package>());
         }
 
