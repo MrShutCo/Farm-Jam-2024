@@ -54,7 +54,8 @@ public class GameManager : MonoBehaviour
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
     public ProgressManager ProgressManager;
-
+    public TutorialManager TutorialManager;
+    
     public Dictionary<EResource, int> BaseBuildLevel;
     
     public int Stage;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
         Resources = InitializeResources();
         PathfindingGrid = FindObjectOfType<Grid2D>();
         Carrier = Player.GetComponent<Carrier>();
+        TutorialManager = GetComponentInChildren<TutorialManager>();
         BaseBuildLevel = new Dictionary<EResource, int>()
         {
             { EResource.Blood, 0 }, { EResource.Bones, 0 }, { EResource.Organs, 0 }
