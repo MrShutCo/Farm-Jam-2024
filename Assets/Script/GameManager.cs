@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     public GameObject HomeHumanoidParent;
     public Carrier Carrier;
     public ProgressManager ProgressManager;
-    
+
     public Dictionary<EResource, int> BaseBuildLevel;
 
     public int Stage;
@@ -93,9 +93,9 @@ public class GameManager : MonoBehaviour
     {
         SetTargetFrameRate();
         AddResource(EResource.Food, 0);
-        AddResource(EResource.Wood, 2000);
-        AddResource(EResource.Steel, 2000);
-        AddResource(EResource.Electronics, 2000);
+        AddResource(EResource.Wood, 100);
+        AddResource(EResource.Steel, 0);
+        AddResource(EResource.Electronics, 0);
         AddResource(EResource.Blood, 0);
         AddResource(EResource.Bones, 0);
         AddResource(EResource.Organs, 0);
