@@ -121,6 +121,7 @@ public class Carrier : MonoBehaviour
         CarriedHumans.Clear();
         foreach (var resource in CarriedResources.ToList())
         {
+            if (resource.Value == 0) { continue; }
             GameManager.Instance.AddResource(resource.Key, resource.Value);
             CarriedResources[resource.Key] = 0;
             dropOffAmount++;

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost:
   - Resource: 4
-    Amount: 100
+    Amount: 400
   - Resource: 6
-    Amount: 100
+    Amount: 300
   - Resource: 5
-    Amount: 100
+    Amount: 400
   name: FirstUpgrade
   possibleUpgradeTypes: 0000000002000000

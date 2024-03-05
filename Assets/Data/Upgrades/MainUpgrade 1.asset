@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost:
   - Resource: 4
-    Amount: 50
+    Amount: 150
   - Resource: 6
-    Amount: 10
+    Amount: 100
   - Resource: 5
     Amount: 0
   name: FirstUpgrade
