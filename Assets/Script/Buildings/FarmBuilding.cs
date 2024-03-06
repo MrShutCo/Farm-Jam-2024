@@ -44,6 +44,11 @@ namespace Script.Buildings
             }
         }
 
+        public override bool TryUnassignHuman(Human human)
+        {
+            return false;
+        }
+
         protected override void OnWork()
         {
             if (!_workingHumans[0].IsBeingWorked()) return;

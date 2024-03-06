@@ -15,6 +15,7 @@ namespace Script.Buildings
     public class BodyPartBuilding : ResourceBuilding
     {
 
+        [SerializeField] private float secondPersonRateModifier;
         [SerializeField] private List<Transform> levelPositions;
         private List<SpriteRenderer> flayeeSpriteRenderers;
 
@@ -70,7 +71,7 @@ namespace Script.Buildings
                     human.Hide();
                     flayeeSpriteRenderers[j+baseIndex].sprite = buildingData.workedArea;
                     flayeeSpriteRenderers[j+baseIndex].color = Color.white;
-                    subsection.SetFlayersAnim("ScreamTrigger");
+                    subsection.SetFlayersAnim("IsScreaming", true);
                     if (subsection.IsBeingWorked())
                         callToAction.gameObject.SetActive(false);
                     
@@ -83,17 +84,35 @@ namespace Script.Buildings
                     {
                         subsection.Flayers[i] = human;
                         human.transform.position = GetWorldPosition(subsection.FlayerPositions[i]);
-                        human.GetComponent<CapsuleCollider2D>().enabled = false;
+                        human.GetComponent<Rigidbody2D>().isKinematic = true;
                         Debug.Log("Assigned flayer");
                         if (subsection.Flayee != null)
                         {
-                            human.anim.SetTrigger("ScreamTrigger");
+                            human.anim.SetBool("IsScreaming", true);
                         }
                     }
                 }
 
                 j++;
             }
+        }
+
+        public override bool TryUnassignHuman(Human human)
+        {
+            foreach (var subsection in _workingHumans)
+            {
+                for (int i = 0; i < subsection.Flayers.Count(); i++)
+                {
+                    if (subsection.Flayers[i] == human)
+                    {
+                        human.GetComponent<Rigidbody2D>().isKinematic = false;
+                        subsection.Flayers[i] = null;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public override void Upgrade()
@@ -143,12 +162,16 @@ namespace Script.Buildings
                 if (group.Flayee is not null && group.IsBeingWorked() && !IsPackagesFull())
                 {
                     totalResourceGained += group.Flayers.Sum(f => f == null ? 0 : f.GetWorkingRate(buildingData.resource));
+                    if (group.Flayers.Count(f => f != null) > 1)
+                    {
+                        totalResourceGained *= secondPersonRateModifier;
+                    }
                     callToAction.gameObject.SetActive(false); // Someone is working it, so clear any other flags
                     group.Flayee.TakeDamage(buildingData.damageToFlayee);
                     if (group.Flayee == null)
                     {
                         flayeeSpriteRenderers[i+baseIndex].color = Color.clear;
-                        group.SetFlayersAnim("IdleTrigger");
+                        group.SetFlayersAnim("IsScreaming", false);
                         callToAction.gameObject.SetActive(true);
                     }
                     Console.WriteLine("Flayed damage taken");

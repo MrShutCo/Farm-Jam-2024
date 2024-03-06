@@ -121,7 +121,14 @@ public class GameManager : MonoBehaviour
             TogglePause();
         }
     }
-
+    
+    public void UnassignHumanFromBuilding(Human human)
+    {
+        foreach (var building in Instance.Buildings)
+        {
+            if (building.TryUnassignHuman(human)) return;
+        }
+    }
 
     public void SetGameState(EGameState gameState)
     {

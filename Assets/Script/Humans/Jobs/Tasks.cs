@@ -40,7 +40,7 @@ namespace Assets.Script.Humans
         {
             base.StartTask(rb, animator);
             rb.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-            animator.SetTrigger("WalkTrigger");
+            animator.SetBool("IsWalking", true);
             speed = 3;
             Grid2D.onGridUpdated += onGridUpdated;
             Debug.Log($"Started Move To {target}");
@@ -48,7 +48,7 @@ namespace Assets.Script.Humans
 
         public override void StopTask()
         {
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
             Grid2D.onGridUpdated -= onGridUpdated;
             rb.gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
             Debug.Log($"Finished Move To {target}");
@@ -169,7 +169,8 @@ namespace Assets.Script.Humans
         public override void StartTask(Rigidbody2D rb, Animator animator)
         {
             base.StartTask(rb, animator);
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsScreaming", false);
         }
 
         public override void FixedUpdateTask(Human human, double fixedDeltaTime) { }
@@ -200,7 +201,8 @@ namespace Assets.Script.Humans
 
         public override void StopTask()
         {
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsScreaming", false);
             if (rb is null) return;
             rb.velocity = Vector2.zero;
         }
@@ -217,23 +219,20 @@ namespace Assets.Script.Humans
 
                 if (diffVector.magnitude < 0.05 || target == Vector3.zero)
                 {
-                    animator.ResetTrigger("WalkTrigger");
-                    animator.SetTrigger("IdleTrigger");
+                    animator.SetBool("IsWalking", false);
                     rb.velocity = Vector2.zero;
                     UpdateWanderTarget(human);
                     waitTimer = waitInterval;
                 }
                 else
                 {
-                    animator.ResetTrigger("IdleTrigger");
-                    animator.SetTrigger("WalkTrigger");
+                    animator.SetBool("IsWalking", true);
                     rb.velocity = speed * diffVector.normalized;
                 }
             }
             else
             {
-                animator.ResetTrigger("WalkTrigger");
-                animator.SetTrigger("IdleTrigger");
+                animator.SetBool("IsWalking", false);
                 rb.velocity = Vector2.zero;
                 waitTimer -= (float)fixedDeltaTime;
             }
@@ -263,15 +262,12 @@ namespace Assets.Script.Humans
         {
             base.StartTask(rb, animator);
             range = 5;
-            animator.ResetTrigger("IdleTrigger");
-            animator.SetTrigger("WalkTrigger");
-
+            animator.SetBool("IsWalking", true);
         }
 
         public override void StopTask()
         {
-            animator.ResetTrigger("WalkTrigger");
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
             rb.velocity = Vector2.zero;
         }
 
@@ -336,15 +332,13 @@ namespace Assets.Script.Humans
         public override void StartTask(Rigidbody2D rb, Animator animator)
         {
             base.StartTask(rb, animator);
-            animator.ResetTrigger("WalkTrigger");
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
         }
 
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
-            animator.ResetTrigger("WalkTrigger");
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
         }
 
         public override void UpdateTask(Human human, double deltaTime)
@@ -393,15 +387,13 @@ namespace Assets.Script.Humans
             Debug.Log("Starting CloseRangeAssault");
             base.StartTask(rb, animator);
             timeSinceLastDodge = 0;
-            animator.ResetTrigger("IdleTrigger");
-            animator.SetTrigger("WalkTrigger");
+            animator.SetBool("IsWalking", true);
         }
         public override void StopTask()
         {
             Debug.Log("Stopping CloseRangeAssault");
             rb.velocity = Vector2.zero;
-            animator.ResetTrigger("WalkTrigger");
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
         }
 
         public override void UpdateTask(Human human, double deltaTime)
@@ -482,15 +474,13 @@ namespace Assets.Script.Humans
 
             if (diffVector.magnitude < 0.05)
             {
-                animator.ResetTrigger("WalkTrigger");
-                animator.SetTrigger("IdleTrigger");
+                animator.SetBool("IsWalking", false);
                 rb.velocity = Vector2.zero;
                 UpdatePatrolTarget(human);
             }
             else
             {
-                animator.ResetTrigger("IdleTrigger");
-                animator.SetTrigger("WalkTrigger");
+                animator.SetBool("IsWalking", true);
                 rb.velocity = speed * diffVector.normalized;
             }
         }
@@ -511,15 +501,13 @@ namespace Assets.Script.Humans
         public override void StartTask(Rigidbody2D rb, Animator animator)
         {
             base.StartTask(rb, animator);
-            animator.ResetTrigger("IdleTrigger");
-            animator.SetTrigger("WalkTrigger");
+            animator.SetBool("IsWalking", true);
         }
 
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
-            animator.ResetTrigger("WalkTrigger");
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
         }
 
         public override void UpdateTask(Human human, double deltaTime)
@@ -552,14 +540,12 @@ namespace Assets.Script.Humans
         public override void StartTask(Rigidbody2D rb, Animator animator)
         {
             base.StartTask(rb, animator);
-            animator.ResetTrigger("IdleTrigger");
-            animator.SetTrigger("WalkTrigger");
+            animator.SetBool("IsWalking", true);
         }
         public override void StopTask()
         {
             rb.velocity = Vector2.zero;
-            animator.ResetTrigger("WalkTrigger");
-            animator.SetTrigger("IdleTrigger");
+            animator.SetBool("IsWalking", false);
         }
 
         public override void UpdateTask(Human human, double deltaTime)

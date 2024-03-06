@@ -24,7 +24,7 @@ namespace Assets.Script.Humans.Traits
     public class ResourceTrait : Trait
     {
         private EResource _resource;
-        private float[] _rankMultipliers = { 0f, 0.1f, 0.3f, 0.4f, 0.75f, 1f };
+        private float[] _rankMultipliers = { 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
 
         public ResourceTrait(EResource resource, ERank rank)
         {

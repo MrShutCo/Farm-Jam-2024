@@ -21,9 +21,9 @@ namespace Assets.Script.Buildings
         public Placeable PlaceableData;
         public Vector2Int Origin;
 
-
         public bool AtCapacity() => CurrHumans == MaxCapacity;
         public bool CanBeWorked() => CurrHumans > 0;
         public abstract void AssignHuman(Human human, Vector2 mouseWorldPosition);
+        public abstract bool TryUnassignHuman(Human human);
     }
 }

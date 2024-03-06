@@ -23,6 +23,10 @@ namespace Assets.Script.Buildings
             human.StopAllJobs();
         }
 
+        public override bool TryUnassignHuman(Human human)
+        {
+            return false;
+        }
     }
 }
 
