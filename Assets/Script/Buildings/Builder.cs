@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 namespace Assets.Script.Buildings
 {
@@ -25,11 +26,12 @@ namespace Assets.Script.Buildings
         [SerializeField] Tile WalkableTile;
         [SerializeField] Tile UnwalkableTile;
         [SerializeField] private ResourceBuildingDataSO[] buildings;
+        [SerializeField] private Image[] buildingImage;
         [SerializeField] private GameObject buildingPrefab;
         [SerializeField] LayerMask gridLayer;
 
         public int SelectedBuilding = -1;
-        
+
         bool isBuildMode;
         Vector3 currMouseTile;
         Transform parent;
@@ -48,7 +50,7 @@ namespace Assets.Script.Buildings
         [SerializeField] private TextMeshProUGUI bloodCostText;
         [SerializeField] private TextMeshProUGUI boneCostText;
         [SerializeField] private TextMeshProUGUI organCostText;
-        
+
         private Dictionary<EResource, float> costRatios;
         private void Start()
         {
@@ -111,10 +113,11 @@ namespace Assets.Script.Buildings
         {
             if (!HasEnough(getTypeOfBuilding(buildingIdx)))
             {
+                StartCoroutine(FlashImage(buildingIdx, Color.red, 2));
                 GameManager.Instance.onPlaySound?.Invoke(cannotBuildSound);
                 return;
             }
-            
+
             if (ghostBuilding && SelectedBuilding != buildingIdx) Destroy(ghostBuilding);
             SelectedBuilding = buildingIdx;
             Debug.Log($"Selected building {buildingIdx}");
@@ -125,7 +128,23 @@ namespace Assets.Script.Buildings
             ghostResourceBuilding = ghostBuilding.GetComponent<BodyPartBuilding>();
             ghostResourceBuilding.SetLevel(GameManager.Instance.BaseBuildLevel[getTypeOfBuilding(buildingIdx)]);
             GameManager.Instance.onPlaySound?.Invoke(selectBuildingSound);
+            StartCoroutine(FlashImage(buildingIdx, Color.green, 1));
         }
+        IEnumerator FlashImage(int buildingIdx, Color color, int flashes, float duration = 0.1f)
+        {
+            WaitForSeconds wait = new WaitForSeconds(duration);
+            var image = buildingImage[buildingIdx];
+            var originalColor = image.color;
+
+            for (int i = 0; i < flashes; i++)
+            {
+                image.color = color;
+                yield return wait;
+                image.color = originalColor;
+                yield return wait;
+            }
+        }
+
 
         EResource getTypeOfBuilding(int buildingIdx)
         {
@@ -257,7 +276,7 @@ namespace Assets.Script.Buildings
                     WalkableTile.color = new Color(0, 0, 0, 1);
                     ColliderMap.SetTile(origin + new Vector3Int(x, y, 0), WalkableTile);
                 }
-            ColliderMap.SetTile(origin + new Vector3Int(1,1,0), UnwalkableTile);
+            ColliderMap.SetTile(origin + new Vector3Int(1, 1, 0), UnwalkableTile);
             GameManager.Instance.PathfindingGrid.SetWalkableAt(origin.x + 1, origin.y + 1, false);
         }
     }

@@ -290,6 +290,7 @@ MonoBehaviour:
   HomeHumanoidParent: {fileID: 0}
   Carrier: {fileID: 0}
   ProgressManager: {fileID: 1160620265967255090}
+  Icon: {fileID: 11400000, guid: 3737e75400ef2d0438f1f043595191d5, type: 2}
   Stage: 0
 --- !u!114 &741441017489475019
 MonoBehaviour:
