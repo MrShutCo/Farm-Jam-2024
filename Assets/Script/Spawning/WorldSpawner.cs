@@ -22,14 +22,14 @@ public class WorldSpawner : MonoBehaviour
 
         if (gameState == EGameState.Wild)
         {
-            GameObject world;
-            int progressIndex = GameManager.Instance.ProgressManager.ProgressIndex;
-            if (progressIndex < 2)
-                world = farmPrefabs[Random.Range(0, farmPrefabs.Length)];
-            else if (progressIndex < 4)
-                world = industrialPrefabs[Random.Range(0, industrialPrefabs.Length)];
-            else
-                world = cityPrefabs[Random.Range(0, cityPrefabs.Length)];
+            GameObject world = GameManager.Instance.ChosenWorld switch
+            {
+                "Farm" => farmPrefabs[Random.Range(0, farmPrefabs.Length)],
+                "Industrial Block" => industrialPrefabs[Random.Range(0, industrialPrefabs.Length)],
+                "City" => cityPrefabs[Random.Range(0, cityPrefabs.Length)],
+                _ => farmPrefabs[Random.Range(0, farmPrefabs.Length)]
+            };
+
             GameObject newWorld = Instantiate(world, SpawnPos, Quaternion.identity);
             GameObject wildHumanoids = GameManager.Instance.WildHumanoidParent;
             wildHumanoids.GetComponent<World>().Grid = newWorld.GetComponent<Grid2D>();

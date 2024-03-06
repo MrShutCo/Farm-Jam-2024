@@ -16,7 +16,6 @@ public class HumanSpawner : MonoBehaviour
 
     [SerializeField] Transform spawner;
     List<SpawnArea> spawnAreas;
-    EGameState prevGameState = EGameState.Normal;
 
     [SerializeField] private Transform portalPosition;
     [SerializeField] private List<float> distanceThresholds;
@@ -117,9 +116,10 @@ public class HumanSpawner : MonoBehaviour
 
     IEnumerator DespawnCoroutine(EGameState newState)
     {
+        var prevGameState = GameManager.Instance.PreviousGameState;
         yield return new WaitForSeconds(.1f);
-        if (prevGameState == EGameState.Wild && GameManager.Instance.GameState == EGameState.Normal ||
-        prevGameState == EGameState.Death && GameManager.Instance.GameState == EGameState.Normal)
+        if (prevGameState == EGameState.Wild && newState == EGameState.Normal ||
+        prevGameState == EGameState.Death && newState == EGameState.Normal)
         {
             _wildHumans = GetComponentsInChildren<Human>().ToList();
             foreach (var h in _wildHumans)
@@ -130,11 +130,11 @@ public class HumanSpawner : MonoBehaviour
             _wildHumans.Clear();
             DespawnOtherTransforms();
         }
-        else if (prevGameState == EGameState.Normal && GameManager.Instance.GameState == EGameState.Wild)
+        else if (prevGameState == EGameState.Normal && newState == EGameState.Wild)
         {
             OnEnteringWild();
         }
-        prevGameState = newState;
+        
     }
     void DespawnOtherTransforms()
     {

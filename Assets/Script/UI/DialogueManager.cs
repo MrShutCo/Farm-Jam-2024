@@ -17,7 +17,6 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> dialogue = new Queue<string>();
     private DialogueText currentDialogue;
 
-
     private Dictionary<string, Action> actions;
 
 
@@ -110,7 +109,7 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Ending dialogue ");
         if (goToNormal)
-            GameManager.Instance.SetGameState(EGameState.Normal);
+            GameManager.Instance.SetGameState(GameManager.Instance.PreviousGameState);
     }
 
 }

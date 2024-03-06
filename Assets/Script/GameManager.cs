@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public EGameState GameState { get; private set; }
+    public EGameState PreviousGameState { get; private set; }
     public Dictionary<EResource, int> Resources { get; private set; }
     public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
@@ -59,7 +60,8 @@ public class GameManager : MonoBehaviour
     public Dictionary<EResource, int> BaseBuildLevel;
 
     public int Stage;
-
+    public string ChosenWorld;
+    
     bool paused;
 
 
@@ -130,9 +132,10 @@ public class GameManager : MonoBehaviour
 
     public void SetGameState(EGameState gameState)
     {
-        Debug.Log("Game State Changed to: " + gameState);
-        GameState = gameState;
+        PreviousGameState = GameState;
         onGameStateChange?.Invoke(gameState);
+        GameState = gameState;
+        Debug.Log("Game State Changed to: " + gameState);
     }
 
     public void AddResource(EResource resource, int amount)
