@@ -185,7 +185,7 @@ namespace Script.Buildings
                 if (newSub[1].Flayee)
                 {
                     flayeeSpriteRenderers[4].color = Color.white;
-                    flayeeSpriteRenderers[5].sprite = buildingData.workedArea;
+                    flayeeSpriteRenderers[4].sprite = buildingData.workedArea;
                 }
             }
             
