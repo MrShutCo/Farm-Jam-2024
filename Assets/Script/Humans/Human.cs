@@ -89,7 +89,8 @@ namespace Assets.Script.Humans
         {
             Name = name;
             _traits = traits;
-            setTraitText();
+            //setTraitText();
+            setTraitIcons();
             nameText.text = Name;
             UpdateStats();
         }
