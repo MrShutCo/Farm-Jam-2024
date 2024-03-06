@@ -282,6 +282,11 @@ public class Player : MonoBehaviour
                 //onMove?.Invoke(moveDirection, runSpeed);
                 StartCoroutine(DeathSpiral());
                 break;
+            case EGameState.Dialogue:
+                moveActive = false;
+                combatActive = false;
+                _rb.velocity = Vector2.zero;
+                break;
             case EGameState.Normal:
                 moveActive = true;
                 combatActive = true;

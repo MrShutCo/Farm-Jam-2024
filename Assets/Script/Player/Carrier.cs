@@ -162,7 +162,7 @@ public class Carrier : MonoBehaviour
             return null;
         }
         List<Human> humans;
-        int start = Mathf.CeilToInt(CarriedHumans.Count / 4);
+        int start = Mathf.CeilToInt(CarriedHumans.Count * .75f);
         int range = CarriedHumans.Count - start;
         humans = CarriedHumans.GetRange(start, range);
 

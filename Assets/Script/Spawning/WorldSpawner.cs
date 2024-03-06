@@ -35,7 +35,7 @@ public class WorldSpawner : MonoBehaviour
             wildHumanoids.GetComponent<World>().Grid = newWorld.GetComponent<Grid2D>();
             activeWorld = newWorld;
         }
-        else if (activeWorld != null && gameState == EGameState.Normal)
+        else if (activeWorld != null && gameState == EGameState.Normal || gameState == EGameState.Death)
         {
             Destroy(activeWorld);
         }

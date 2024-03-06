@@ -26,7 +26,7 @@ public class PoolableObjectSpawner : MonoBehaviour
         Random.InitState(System.DateTime.Now.Millisecond);
         int startTime = Random.Range(0, 4);
 
-        InvokeRepeating("GetObject", startTime, 12);
+        InvokeRepeating("GetObject", startTime, 16);
     }
     GameObject CreateObject()
     {
@@ -42,6 +42,7 @@ public class PoolableObjectSpawner : MonoBehaviour
         instance.transform.position = (Vector2)transform.position + Direction;
         instance.transform.rotation = Quaternion.identity;
         instance.transform.SetParent(this.transform);
+        instance.transform.SetParent(GameManager.Instance.WildHumanoidParent.transform);
         instance.GetComponent<TilePathFollowers>().SetFacingDirection(Direction);
     }
 

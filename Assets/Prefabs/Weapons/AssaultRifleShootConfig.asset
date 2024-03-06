@@ -16,7 +16,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 640
   Spread: {x: 0.3, y: 0.3}
-  FireRate: 0.5
+  FireRate: 0.8
   Damage: 5
   BulletsPerShot: 1
   KnockbackForce: 0

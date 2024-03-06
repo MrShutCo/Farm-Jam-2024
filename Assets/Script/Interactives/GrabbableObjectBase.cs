@@ -72,7 +72,7 @@ public class GrabbableObjectBase : MonoBehaviour
     {
         onThrown?.Invoke();
         _rb.sharedMaterial = frictionLess;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.4f);
         Landing();
     }
     public void Reset()
@@ -102,13 +102,13 @@ public class GrabbableObjectBase : MonoBehaviour
         if (impactVFX != null)
         {
             impactVFX.transform.position = _transform.position;
-            explosionHits = Physics2D.OverlapCircleAll(_transform.position, 2, explisionLayers);
+            explosionHits = Physics2D.OverlapCircleAll(_transform.position, 4, explisionLayers);
             foreach (var hit in explosionHits)
             {
                 if (hit.gameObject.TryGetComponent(out HealthBase health))
                 {
                     if (health is PlayerHealth) return;
-                    health.TakeDamage(100);
+                    health.TakeDamage(200);
                 }
             }
             impactVFX.Play();

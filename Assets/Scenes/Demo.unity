@@ -486,6 +486,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas-Death
       objectReference: {fileID: 0}
+    - target: {fileID: 3335742096421911937, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4108434925386805298, guid: 4aab19b346cf7494eb8ec4436fd45031, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -21413,6 +21417,30 @@ PrefabInstance:
       propertyPath: textLabel
       value: 
       objectReference: {fileID: 979877825157283075}
+    - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: buildingBoneHarvester.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: buildingBloodHarvester.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: buildingOrganHarvester.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: buildingBoneHarvester.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7363ac3046071d14b848d54a31dfcd8b, type: 3}
+    - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: buildingBloodHarvester.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b4ec26c279511749b94c603ce3f568d, type: 3}
+    - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
+      propertyPath: buildingOrganHarvester.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 43793a0a757a98b4ba1cd47e6dfc61a7, type: 3}
     - target: {fileID: 7510701013775425619, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
@@ -21719,6 +21747,14 @@ PrefabInstance:
     - target: {fileID: 1908094337219031786, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
       propertyPath: m_Name
       value: Husband
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259557411628584013, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: m_Radius
+      value: 1.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259557411628584013, guid: 1df741ae4cae3784e887a3bcbf86f2fd, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
