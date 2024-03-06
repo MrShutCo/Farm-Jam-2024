@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Assets.Script.Humans;
 
 public class HealthBase : MonoBehaviour
 {
@@ -26,11 +27,11 @@ public class HealthBase : MonoBehaviour
         currentHealth = maxHealth;
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (healthPanel == null) return;
+        healthBar = Instantiate(healthBarPrefab, healthPanel.transform);
     }
     protected virtual void Start()
     {
-        if (healthPanel == null) return;
-        healthBar = Instantiate(healthBarPrefab, healthPanel.transform);
         UpdateHealth();
     }
 

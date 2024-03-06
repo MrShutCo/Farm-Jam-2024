@@ -79,6 +79,7 @@ public class Carrier : MonoBehaviour
             human.enabled = false;
             human.WildBehaviour.enabled = false;
             human.GetComponentInChildren<Renderer>().sortingOrder = 150;
+            human.gameObject.GetComponent<HumanHealth>().MoveToStatusBar();
             GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
             GameManager.Instance.onPlaySound?.Invoke(collectHuman);
             return true;
@@ -120,11 +121,10 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
-            CarriedHumans[i].gameObject.GetComponent<HumanHealth>().SetVisibility(false);
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
             CarriedHumans[i].transform.position = this.transform.position;
 
-            StartCoroutine(MoveToStable(CarriedHumans[i], (Vector2)GetRandomPosition()));
+            CarriedHumans[i].StartCoroutine(CarriedHumans[i].LerpToPosition((Vector2)GetRandomPosition()));
             //CarriedHumans[i].GetComponent<HumanHealth>().SetVisiblily(false);
             dropOffAmount++;
         }
@@ -153,21 +153,7 @@ public class Carrier : MonoBehaviour
         return new Vector3(x, y, 0);
     }
 
-    IEnumerator MoveToStable(Human human, Vector2 endPos)
-    {
-        Vector2 startPos = human.transform.position;
 
-        //get random position within the stablecollider bounds
-
-        float time = 0;
-        float duration = .5f;
-        while (time < duration)
-        {
-            human.transform.position = Vector2.Lerp(startPos, endPos, time / duration);
-            time += Time.deltaTime;
-            yield return null;
-        }
-    }
 
     public List<Human> LoseHumans()
     {

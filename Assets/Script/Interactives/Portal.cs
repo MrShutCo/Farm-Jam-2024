@@ -79,12 +79,12 @@ public class Portal : MonoBehaviour
     void CreateDialogue(Collider2D other)
     {
         int progressIndex = GameManager.Instance.ProgressManager.ProgressIndex;
-        List<DialogueOption> locations = new List<DialogueOption>(); 
-        locations.Add(new DialogueOption("Farm", new DialogueAction("Teleporting...", () => onChoose(other,"Farm"))));
+        List<DialogueOption> locations = new List<DialogueOption>();
+        locations.Add(new DialogueOption("Farm", new DialogueAction("Teleporting...", () => onChoose(other, "Farm"))));
         if (progressIndex >= 2)
-            locations.Add(new DialogueOption("Industrial Block", new DialogueAction("Teleporting...", () => onChoose(other,"Industrial Block"))));
+            locations.Insert(0, new DialogueOption("Industrial Block", new DialogueAction("Teleporting...", () => onChoose(other, "Industrial Block"))));
         if (progressIndex >= 4)
-            locations.Add(new DialogueOption("City", new DialogueAction("Teleporting...", () => onChoose(other,"City"))));
+            locations.Insert(0, new DialogueOption("City", new DialogueAction("Teleporting...", () => onChoose(other, "City"))));
         choosePortalLocation = new DialogueText("Where would you like to teleport to", locations);
     }
 

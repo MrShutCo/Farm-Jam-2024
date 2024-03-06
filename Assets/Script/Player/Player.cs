@@ -61,6 +61,11 @@ public class Player : MonoBehaviour
     [Header("VFX")]
     [SerializeField] ParticleSystem dodgeVFX;
     [SerializeField] Animator vfxAnimator;
+    [Header("UpgradeMsg")]
+    [SerializeField] Sprite AttackUp;
+    [SerializeField] Sprite HealthUp;
+    [SerializeField] Sprite CarryUp;
+    [SerializeField] Sprite DashUp;
 
     public Animator Animator => _animator;
     public Animator VFXAnimator => vfxAnimator;
@@ -146,25 +151,46 @@ public class Player : MonoBehaviour
 
     public void Upgrade(EUpgradeType upgrade)
     {
+        GameObject go = new GameObject();
+        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        sr.sortingOrder = _spriteRenderer.sortingOrder + 1;
+
+        go.transform.position = transform.position;
         switch (upgrade)
         {
             case EUpgradeType.AttackPlus:
                 baseDamage += 10;
+                sr.sprite = AttackUp;
                 break;
             case EUpgradeType.HealthPlus:
                 health += 25;
                 GetComponent<PlayerHealth>().SetMaxHealth(health);
+                sr.sprite = HealthUp;
                 break;
             case EUpgradeType.CarryingCapacityPlus4:
                 carryingCapacityHuman += 4;
                 _carrier.SetCarryCapacity(carryingCapacityHuman, carryingCapacityResources);
+                sr.sprite = CarryUp;
                 break;
             case EUpgradeType.DashUp:
                 SetMaxDodgeCharges(maxDodgeCharges + 1);
+                sr.sprite = DashUp;
                 break;
         }
+        StartCoroutine(UpgradeAnim(go));
     }
-    
+    IEnumerator UpgradeAnim(GameObject go)
+    {
+        float time = 0;
+        while (time < 3)
+        {
+            time += Time.deltaTime;
+            go.transform.position += new Vector3(0, 0.01f, 0);
+            yield return null;
+        }
+        Destroy(go);
+    }
+
     private void FixedUpdate()
     {
         if (moveActive)

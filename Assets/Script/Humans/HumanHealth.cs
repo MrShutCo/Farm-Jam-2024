@@ -20,6 +20,10 @@ public class HumanHealth : HealthBase
     {
         healthBar.gameObject.SetActive(isVisible);
     }
+    public void MoveToStatusBar()
+    {
+        healthBar.transform.SetParent(human.GetStatusPanel);
+    }
 
     protected override void Die()
     {
