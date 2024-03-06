@@ -122,6 +122,17 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
+
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            AddResource(EResource.Food, 1000);
+            AddResource(EResource.Wood, 1000);
+            AddResource(EResource.Steel, 1000);
+            AddResource(EResource.Electronics, 1000);
+            AddResource(EResource.Blood, 1000);
+            AddResource(EResource.Bones, 1000);
+            AddResource(EResource.Organs, 1000);
+        }
     }
     
     public void UnassignHumanFromBuilding(Human human)
