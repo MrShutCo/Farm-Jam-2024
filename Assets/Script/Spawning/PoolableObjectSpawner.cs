@@ -12,13 +12,21 @@ public class PoolableObjectSpawner : MonoBehaviour
     private MonoBehaviour ActiveMonoBehaviour;
     [SerializeField] Vector2 Direction;
 
+    private void Start()
+    {
+        Spawn(transform, this);
+    }
+
 
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
     {
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
         pool = new ObjectPool<GameObject>(CreateObject);
 
-        InvokeRepeating("SpawnObject", 0, 1);
+        Random.InitState(System.DateTime.Now.Millisecond);
+        int startTime = Random.Range(0, 4);
+
+        InvokeRepeating("GetObject", startTime, 12);
     }
     GameObject CreateObject()
     {
@@ -27,12 +35,12 @@ public class PoolableObjectSpawner : MonoBehaviour
         return obj;
     }
 
-    public void GetObject(Vector2 startPos, Quaternion rotation)
+    public void GetObject()
     {
         GameObject instance = pool.Get();
         instance.gameObject.SetActive(true);
-        instance.transform.position = (Vector2)transform.position + startPos + Direction;
-        instance.transform.rotation = rotation;
+        instance.transform.position = (Vector2)transform.position + Direction;
+        instance.transform.rotation = Quaternion.identity;
         instance.transform.SetParent(this.transform);
         instance.GetComponent<TilePathFollowers>().SetFacingDirection(Direction);
     }
