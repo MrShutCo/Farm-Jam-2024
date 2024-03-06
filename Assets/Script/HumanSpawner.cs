@@ -43,29 +43,77 @@ public class HumanSpawner : MonoBehaviour
         "Iak-Sakkath"
     };
 
-    private readonly List<string> _englishNames = new()
+    List<string> _farmerNames = new List<string>
     {
-        "Alexander",
-        "Emily",
-        "Jacob",
-        "Sophia",
-        "William",
-        "Olivia",
-        "Michael",
-        "Emma",
-        "Daniel",
-        "Isabella",
-        "Matthew",
-        "Ava",
-        "Christopher",
-        "Mia",
-        "Andrew",
-        "Abigail",
-        "Ethan",
-        "Madison",
-        "Grace",
-        "Henry"
+        "Earl",
+        "Jethro",
+        "Cletus",
+        "Bubba",
+        "Luther",
+        "Mabel",
+        "Bertha",
+        "Hank",
+        "Buford",
+        "Wilma",
+        "Ezekiel",
+        "Daisy",
+        "Gus",
+        "Clyde",
+        "Enid",
+        "Cyrus",
+        "Opal",
+        "Roscoe",
+        "Myrtle",
+        "Floyd"
     };
+    
+    List<string> industrialWorkerNames = new List<string>
+    {
+        "George",
+        "Edna",
+        "Frank",
+        "Alice",
+        "Arthur",
+        "Mildred",
+        "Walter",
+        "Ethel",
+        "Harold",
+        "Dorothy",
+        "Clarence",
+        "Florence",
+        "Albert",
+        "Gertrude",
+        "Henry",
+        "Helen",
+        "Raymond",
+        "Gladys",
+        "Chester",
+        "Marie"
+    };
+
+    List<string> militaryNames = new List<string>
+    {
+        "Sgt. Johnson",
+        "Cpl. Baker",
+        "Prv. Williams",
+        "Cpl. Martin",
+        "Sgt. Jones",
+        "Prv. Davis",
+        "Sgt. Smith",
+        "Cpl. Taylor",
+        "Sgt. Brown",
+        "Cpl. Robinson",
+        "Prv. Miller",
+        "Prv. Harris",
+        "Prv. Wilson",
+        "Prv. Clark",
+        "Sgt. Turner",
+        "Cpl. Anderson",
+        "Prv. Carter",
+        "Cpl. Thompson",
+        "Prv. Nelson"
+    };
+
 
     private void OnEnable()
     {
@@ -106,9 +154,20 @@ public class HumanSpawner : MonoBehaviour
             }
 
             var traits = generator.Select(f => f.Invoke()).ToList();
-            h.InitializeHuman(_englishNames[_random.Next(0, _englishNames.Count)], traits);
+            traits = traits.DistinctBy(t => t.Name).ToList(); // Remove duplicate traits
+            h.InitializeHuman(randomName(), traits);
         }
     }
+
+    string randomName()
+    {
+        if (GameManager.Instance.ChosenWorld == "Farm") return _farmerNames[_random.Next(0, _farmerNames.Count)];
+        if (GameManager.Instance.ChosenWorld == "Industrial Block")
+            return industrialWorkerNames[_random.Next(0, industrialWorkerNames.Count)];
+        if (GameManager.Instance.ChosenWorld == "City") return militaryNames[_random.Next(0, militaryNames.Count)];
+        return "Unknown Entity";
+    }
+    
     void Despawn(EGameState newState)
     {
         StartCoroutine(DespawnCoroutine(newState));
@@ -185,7 +244,7 @@ public class HumanSpawner : MonoBehaviour
         return x switch
         {
             < 60 => ERank.F,
-            < 85 => ERank.D,
+            < 90 => ERank.D,
             _ => ERank.C
         };
     }

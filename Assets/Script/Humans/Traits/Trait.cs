@@ -10,7 +10,7 @@ namespace Assets.Script.Humans.Traits
 
     public abstract class Trait
     {
-        protected string Name;
+        public string Name;
         protected ERank _rank;
 
         public abstract EfficiencyProfile ActOn(EfficiencyProfile profile);

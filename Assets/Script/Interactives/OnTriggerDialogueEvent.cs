@@ -43,7 +43,8 @@ public class OnTriggerDialogueEvent : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            DialogueManager.Instance.EndDialogue(true);
+            DialogueManager.Instance.EndDialogue(false);
+            GameManager.Instance.SetGameState(EGameState.Normal);
             _spriteRenderer.sprite = inactiveSprite;
         }
     }

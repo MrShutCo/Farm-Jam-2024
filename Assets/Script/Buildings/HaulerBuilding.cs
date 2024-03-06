@@ -10,6 +10,7 @@ namespace Assets.Script.Buildings
 		List<(ResourceBuilding building, Package p)> packagesToBePickedUp;
 		List<Human> haulers;
 		Timer checkPickupsTimer;
+		[SerializeField] private Animator _chestAnimator;
 
 		[SerializeField] GameObject TipToDestroy;
 
@@ -49,7 +50,7 @@ namespace Assets.Script.Buildings
 				new MoveToTask(b.PickupLocation.position),
 				new InstantTask("Pickup", () => { closestFreeHauler.HoldPackage(p); b.RemovePacket(closestFreeHauler); }),
 				new MoveToTask(transform.position),
-				new InstantTask("Dropoff", () => { closestFreeHauler.DropoffPackage(); })
+				new InstantTask("Dropoff", () => { _chestAnimator.SetTrigger("ChestTrigger"); closestFreeHauler.DropoffPackage(); })
 			}, false);
 			closestFreeHauler.AddJob(job);
 			return true;

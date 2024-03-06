@@ -178,6 +178,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3179455387150775462}
   - component: {fileID: 9207439319800942396}
+  - component: {fileID: 5497838203297987731}
+  - component: {fileID: 9042816588581521818}
   m_Layer: 0
   m_Name: chest
   m_TagString: Untagged
@@ -241,7 +243,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: c0186f6e93e9049f79a02b0c40c74bc5, type: 3}
+  m_Sprite: {fileID: 1630767684, guid: 741103d263f3841539f28149cfe85116, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -252,6 +254,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!111 &5497838203297987731
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919907395713033686}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &9042816588581521818
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919907395713033686}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d7b7485441b07426ca3b32696abd8d26, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5754037145615235766
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +483,7 @@ MonoBehaviour:
   Level: 0
   PlaceableData: {fileID: 0}
   Origin: {x: 0, y: 0}
+  _chestAnimator: {fileID: 9042816588581521818}
   TipToDestroy: {fileID: 909261782496734694}
 --- !u!61 &5540873159582070125
 BoxCollider2D:

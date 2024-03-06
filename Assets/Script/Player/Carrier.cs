@@ -68,6 +68,7 @@ public class Carrier : MonoBehaviour
         else
         {
             CarriedHumans.Add(human);
+            human.Deselect();
             human.anim.SetBool("IsWalking", false);
             human.anim.SetBool("IsScreaming", true);
             human.enabled = false;
@@ -111,7 +112,6 @@ public class Carrier : MonoBehaviour
         int dropOffAmount = 0;
         for (int i = 0; i < CarriedHumans.Count; i++)
         {
-            CarriedHumans[i].anim.ResetTrigger("IdleTrigger");
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;

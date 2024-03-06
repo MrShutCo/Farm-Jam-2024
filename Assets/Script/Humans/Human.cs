@@ -71,11 +71,7 @@ namespace Assets.Script.Humans
             _efficiencyProfile = new EfficiencyProfile();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             anim = _spriteRenderer.GetComponent<Animator>();
-            _traits = new List<Trait>()
-            {
-                new ResourceTrait(EResource.Blood, ERank.F),
-                new ResourceTrait(EResource.Bones, ERank.F)
-            };
+            _traits = new List<Trait>();
             //setTraitText();
             setTraitIcons();
 #if UNITY_EDITOR
@@ -268,11 +264,20 @@ namespace Assets.Script.Humans
         }
         void setTraitIcons()
         {
-            for (int i = 0; i < _traits.Count; i++)
+            for (int i = 0; i < traitImages.Count(); i++)
             {
-                ResourceTrait resourceTrait = (ResourceTrait)_traits[i];
-                traitImages[i].sprite = GameManager.Instance.GetIcon(resourceTrait.GetResourceType());
-                traitValueTexts[i].text = resourceTrait.GetRank();
+                if (i < _traits.Count())
+                {
+                    ResourceTrait resourceTrait = (ResourceTrait)_traits[i];
+                    traitImages[i].enabled = true;
+                    traitImages[i].sprite = GameManager.Instance.GetIcon(resourceTrait.GetResourceType());
+                    traitValueTexts[i].text = resourceTrait.GetRank();
+                }
+                else
+                {
+                    traitImages[i].enabled = false;
+                    traitValueTexts[i].text = "";
+                }
             }
         }
 
