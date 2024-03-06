@@ -5,6 +5,7 @@ using Assets.Script.Buildings;
 using Assets.Script.Humans;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Script.Buildings
 {
@@ -45,13 +46,14 @@ namespace Script.Buildings
                 levelWorkingSubsections.Add(subsection);
             }
             // Set to level 0
-            _workingHumans = levelWorkingSubsections[Level];
+            SetLevel(Level);
         }
 
         public void SetLevel(int level)
         {
             Level = level;
             background.sprite = buildingData.GetSprite(Level);
+            _workingHumans = levelWorkingSubsections[Level];
         }
 
         public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
@@ -143,6 +145,47 @@ namespace Script.Buildings
                 {
                     if (first.Flayers[i] == null) continue;
                     first.Flayers[i].transform.position = GetWorldPosition(first.FlayerPositions[i]);
+                }
+            }
+            if (Level == 2)
+            {
+                var currSub = levelWorkingSubsections[1];
+                var newSub = levelWorkingSubsections[2];
+                // Move over humans in code
+                newSub[0].Flayee = currSub[0].Flayee;
+                newSub[1].Flayee = currSub[1].Flayee;
+                for (var i = 0; i < currSub.Count; i++)
+                {
+                    newSub[i].Flayers = currSub[i].Flayers;
+                }
+                levelWorkingSubsections[1].Clear();
+
+                // For every subsection, update the positions for flayer and flayee
+                for (var i = 0; i < newSub.Count; i++)
+                {
+                    if (newSub[i].Flayee)
+                    {
+                        newSub[i].Flayee.transform.position = GetWorldPosition(newSub[i].FlayeePosition);
+                    }
+                    // Update flayers position
+                    for (var j = 0; j < newSub[i].FlayerPositions.Count; j++)
+                    {
+                        if (newSub[i].Flayers[j] == null) continue;
+                        newSub[i].Flayers[j].transform.position = GetWorldPosition(newSub[i].FlayerPositions[j]);
+                    }
+                }
+                // Update visuals. Clear old ones and possibly update new ones
+                flayeeSpriteRenderers[1].color = Color.clear;
+                flayeeSpriteRenderers[2].color = Color.clear;
+                if (newSub[0].Flayee)
+                {
+                    flayeeSpriteRenderers[3].color = Color.white;
+                    flayeeSpriteRenderers[3].sprite = buildingData.workedArea;
+                }
+                if (newSub[1].Flayee)
+                {
+                    flayeeSpriteRenderers[4].color = Color.white;
+                    flayeeSpriteRenderers[4].sprite = buildingData.workedArea;
                 }
             }
             
