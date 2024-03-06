@@ -137,24 +137,49 @@ public class HumanSpawner : MonoBehaviour
         foreach (var h in _wildHumans)
         {
             var distance = Vector3.Distance(h.transform.position, portalPosition.position);
-            List<Func<Trait>> generator;
-            switch (GetIndexOfThreshold(distance))
+            List<Trait> traits = new List<Trait>();
+            /*switch (GameManager.Instance.ProgressManager.ProgressIndex)
             {
                 case 0:
-                    generator = new() { GenerateLowLevelTrait, GenerateLowLevelTrait };
+                    traits = generateUpToN(1, Gen1);
                     break;
                 case 1:
-                    generator = new() { GenerateLowLevelTrait, GenerateMidLevelTrait };
+                    traits = generateUpToN(2, Gen2);
                     break;
                 case 2:
-                    generator = new() { GenerateMidLevelTrait, GenerateMidLevelTrait };
+                    traits = generateUpToN(1, Gen3);
+                    break;
+                case 3:
+                    traits = generateUpToN(2, Gen4);
+                    break;
+                case 4:
+                    traits = generateUpToN(1, Gen5);
+                    break;
+                case 5:
+                    traits = generateUpToN(2, Gen6);
                     break;
                 default:
-                    generator = new() { GenerateLowLevelTrait };
+                    
+                    break;
+            }*/
+            switch (GameManager.Instance.ChosenWorld)
+            {
+                case "Farm":
+                    traits = GameManager.Instance.ProgressManager.ProgressIndex > 0
+                        ? generateUpToN(2, Gen1)
+                        : generateUpToN(1, Gen1);
+                    break;
+                case "Industrial Block":
+                    traits = GameManager.Instance.ProgressManager.ProgressIndex > 2
+                        ? generateUpToN(2, Gen3)
+                        : generateUpToN(1, Gen3);
+                    break;
+                case "City":
+                    traits = GameManager.Instance.ProgressManager.ProgressIndex > 4
+                        ? generateUpToN(2, Gen5)
+                        : generateUpToN(1, Gen5);
                     break;
             }
-
-            var traits = generator.Select(f => f.Invoke()).ToList();
             traits = traits.DistinctBy(t => t.Name).ToList(); // Remove duplicate traits
             h.InitializeHuman(randomName(), traits);
         }
@@ -172,6 +197,17 @@ public class HumanSpawner : MonoBehaviour
     void Despawn(EGameState newState)
     {
         StartCoroutine(DespawnCoroutine(newState));
+    }
+
+    List<Trait> generateUpToN(int n, Func<ERank> gen)
+    {
+        var traits = new List<Trait>();
+        var count = _random.Next(1, n+1);
+        for (int i = 0; i < count; i++)
+        {
+            traits.Add(new ResourceTrait(GenerateRandomHumanResource(), gen()));
+        }
+        return traits;
     }
 
     IEnumerator DespawnCoroutine(EGameState newState)
@@ -212,41 +248,37 @@ public class HumanSpawner : MonoBehaviour
 
     }
 
-    int GetIndexOfThreshold(float distance)
-    {
-        for (int i = 0; i < distanceThresholds.Count; i++)
-            if (distance < distanceThresholds[i]) return i;
-        return distanceThresholds.Count - 1;
-    }
-
-    private Trait GenerateMidLevelTrait()
-        => new ResourceTrait(GenerateRandomHumanResource(), GenerateMidLevelRank());
-
-    private Trait GenerateLowLevelTrait()
-    => new ResourceTrait(GenerateRandomHumanResource(), GenerateLowLevelRank());
-
     EResource GenerateRandomHumanResource() => (EResource)_random.Next(4, 7);
 
-    ERank GenerateMidLevelRank()
+    ERank Gen1()
     {
         var x = _random.Next(0, 100);
         return x switch
         {
-            < 15 => ERank.F,
-            < 30 => ERank.D,
-            < 75 => ERank.C,
+            < 75 => ERank.F,
+            _ => ERank.D
+        };
+    }
+    
+    ERank Gen3()
+    {
+        var x = _random.Next(0, 100);
+        return x switch
+        {
+            < 40 => ERank.D,
+            < 80 => ERank.C,
             _ => ERank.B
         };
     }
-
-    ERank GenerateLowLevelRank()
+    
+    ERank Gen5()
     {
         var x = _random.Next(0, 100);
         return x switch
         {
-            < 60 => ERank.F,
-            < 90 => ERank.D,
-            _ => ERank.C
+            < 50 => ERank.B,
+            < 85 => ERank.A,
+            _ => ERank.S
         };
     }
 
