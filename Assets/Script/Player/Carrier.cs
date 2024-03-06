@@ -4,6 +4,7 @@ using UnityEngine;
 using Assets.Script.Humans;
 using System.Linq;
 using Assets.Script.Buildings;
+using Unity.VisualScripting;
 
 public class Carrier : MonoBehaviour
 {
@@ -119,6 +120,7 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].transform.SetParent(GameManager.Instance.HomeHumanoidParent.transform);
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
+            CarriedHumans[i].gameObject.GetComponent<HumanHealth>().SetVisibility(false);
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
             CarriedHumans[i].transform.position = this.transform.position;
 
