@@ -717,7 +717,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 030000000100000001000000
 --- !u!61 &5757777757387170788
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -989,7 +990,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 030000000100000001000000
 --- !u!61 &6720735153540472507
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5673,7 +5675,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 030000000100000001000000
 --- !u!61 &7380227466365257809
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5771,7 +5774,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 030000000100000001000000
 --- !u!61 &8382817070416777504
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5968,7 +5972,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 030000000100000001000000
 --- !u!61 &986689106951884378
 BoxCollider2D:
   m_ObjectHideFlags: 0

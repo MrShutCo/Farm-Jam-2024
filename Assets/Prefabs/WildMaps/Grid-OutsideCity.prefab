@@ -45,14 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
-  - {fileID: 2237218773219261461, guid: 98f113f9757122f42a3c0b1d13d19141, type: 3}
+  - {fileID: 2237218773219261461, guid: 54588d62ea2b9784093381b5530405bb, type: 3}
   - {fileID: 2237218773219261461, guid: c0cf0b0d4e9eb274388d6f45a411bcf8, type: 3}
-  weights: 0100000001000000
+  weights: 0300000001000000
 --- !u!61 &6809102518841737480
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1003,14 +1003,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
   - {fileID: 2237218773219261461, guid: 35f7ede9d4b0f8942a7ea4e5d596aeee, type: 3}
-  - {fileID: 2237218773219261461, guid: 98f113f9757122f42a3c0b1d13d19141, type: 3}
-  - {fileID: 2237218773219261461, guid: f6faefeeffcb63849a0897fb81171f61, type: 3}
+  - {fileID: 2237218773219261461, guid: 54588d62ea2b9784093381b5530405bb, type: 3}
+  - {fileID: 2237218773219261461, guid: 30c09246d4a8dc24caae4696a61cd276, type: 3}
   weights: 030000000100000002000000
 --- !u!61 &9194128736090625380
 BoxCollider2D:
@@ -1102,8 +1102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -1284,7 +1284,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 040000000100000001000000
 --- !u!61 &5757777757387170788
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1375,14 +1376,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
   - {fileID: 2237218773219261461, guid: 98f113f9757122f42a3c0b1d13d19141, type: 3}
   - {fileID: 2237218773219261461, guid: 35f7ede9d4b0f8942a7ea4e5d596aeee, type: 3}
-  weights: 0100000001000000
+  weights: 0100000004000000
 --- !u!61 &2149258487403505632
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1557,7 +1558,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 040000000100000001000000
 --- !u!61 &6720735153540472507
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5140,14 +5142,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
   - {fileID: 2237218773219261461, guid: 35f7ede9d4b0f8942a7ea4e5d596aeee, type: 3}
   - {fileID: 2237218773219261461, guid: 98f113f9757122f42a3c0b1d13d19141, type: 3}
-  weights: 0100000001000000
+  weights: 0100000004000000
 --- !u!61 &1959011196473421774
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5238,13 +5240,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
-  - {fileID: 2237218773219261461, guid: 98f113f9757122f42a3c0b1d13d19141, type: 3}
-  - {fileID: 2237218773219261461, guid: c0cf0b0d4e9eb274388d6f45a411bcf8, type: 3}
+  - {fileID: 2237218773219261461, guid: 54588d62ea2b9784093381b5530405bb, type: 3}
+  - {fileID: 2237218773219261461, guid: 30c09246d4a8dc24caae4696a61cd276, type: 3}
   weights: 0100000001000000
 --- !u!61 &281780516802691911
 BoxCollider2D:
@@ -5336,8 +5338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -5715,8 +5717,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -5891,8 +5893,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -6151,7 +6153,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 040000000100000001000000
 --- !u!61 &7380227466365257809
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6249,7 +6252,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 040000000100000001000000
 --- !u!61 &8382817070416777504
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6340,8 +6344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -6445,7 +6449,8 @@ MonoBehaviour:
   spawnables:
   - {fileID: 6270584142690480916, guid: 3a67ec830a346c247981c0f84799b71d, type: 3}
   - {fileID: 3948577712135125585, guid: ef0f307b1caf7104fadcc8595d65457a, type: 3}
-  weights: 0400000001000000
+  - {fileID: 734075971943274425, guid: 5ea4e7d257ed1ec4ea1b37dd213ff9aa, type: 3}
+  weights: 040000000100000001000000
 --- !u!61 &986689106951884378
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6536,8 +6541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
@@ -6708,14 +6713,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c77de98e94492595a6b2b7377e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawn: 3
-  MaxSpawn: 5
+  MinSpawn: 5
+  MaxSpawn: 8
   SnapToGrid: 1
   parentTransform: {fileID: 0}
   spawnables:
-  - {fileID: 2237218773219261461, guid: 98f113f9757122f42a3c0b1d13d19141, type: 3}
+  - {fileID: 2237218773219261461, guid: 54588d62ea2b9784093381b5530405bb, type: 3}
   - {fileID: 2237218773219261461, guid: c0cf0b0d4e9eb274388d6f45a411bcf8, type: 3}
-  weights: 0100000001000000
+  weights: 0300000001000000
 --- !u!61 &3768703225353854081
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6791,11 +6796,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8919056718646836299}
+  - {fileID: 203395842841431475}
   - {fileID: 1737375672685522887}
   - {fileID: 1782734090782056367}
   - {fileID: 3068429912583685676}
   - {fileID: 2991888395956632901}
-  - {fileID: 203395842841431475}
   - {fileID: 6625402711362149744}
   - {fileID: 2824398743943475743}
   - {fileID: 1742116532315901328}

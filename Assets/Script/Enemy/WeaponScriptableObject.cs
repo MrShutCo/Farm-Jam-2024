@@ -78,7 +78,7 @@ public class WeaponScriptableObject : ScriptableObject
     public void Shoot(Vector2 direction, float fireRateMultiplier = 0)
     {
         RaycastHit2D hit;
-        if (Time.time > ShootConfig.FireRate - (ShootConfig.FireRate * fireRateMultiplier) + LastShootTime)
+        if (Time.time > ShootConfig.FireRate - (ShootConfig.FireRate * fireRateMultiplier * .5f) + LastShootTime)
         {
             LastShootTime = Time.time;
             for (int i = 0; i < ShootConfig.BulletsPerShot; i++)
@@ -170,6 +170,7 @@ public class WeaponScriptableObject : ScriptableObject
             bullet.SetActive(true);
             bullet.transform.position = start;
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, end - start);
+            bullet.transform.SetParent(GameManager.Instance.WildHumanoidParent.transform, true);
             bullet.transform.Rotate(bulletRotation);
         }
 

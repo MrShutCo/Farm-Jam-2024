@@ -17,7 +17,10 @@ public class Carrier : MonoBehaviour
     SoundRequest collectHuman;
     SoundRequest collectResource;
     SoundRequest dropOff;
-    LiveStockBuilding liveStockBuilding;
+    LiveStockBuilding stable;
+    Collider2D stableCollider;
+    int randIndex;
+
 
     private void Awake()
     {
@@ -50,7 +53,8 @@ public class Carrier : MonoBehaviour
     }
     private void Start()
     {
-        liveStockBuilding = FindObjectOfType<LiveStockBuilding>();
+        stable = FindObjectOfType<LiveStockBuilding>();
+        stableCollider = stable.GetComponent<Collider2D>();
     }
 
     public void SetCarryCapacity(int humans, int resources)
@@ -108,7 +112,7 @@ public class Carrier : MonoBehaviour
     }
     public void DropOff()
     {
-
+        randIndex = 0;
         int dropOffAmount = 0;
         for (int i = 0; i < CarriedHumans.Count; i++)
         {
@@ -116,7 +120,10 @@ public class Carrier : MonoBehaviour
             CarriedHumans[i].enabled = false;
             CarriedHumans[i].enabled = true;
             CarriedHumans[i].GetComponentInChildren<SpriteRenderer>().sortingOrder = 100;
-            CarriedHumans[i].transform.position = (Vector2)transform.position + Vector2.down * 10 + new Vector2(i, 0);
+            CarriedHumans[i].transform.position = this.transform.position;
+
+            StartCoroutine(MoveToStable(CarriedHumans[i], (Vector2)GetRandomPosition()));
+            //CarriedHumans[i].GetComponent<HumanHealth>().SetVisiblily(false);
             dropOffAmount++;
         }
         CarriedHumans.Clear();
@@ -134,12 +141,38 @@ public class Carrier : MonoBehaviour
         GameManager.Instance.onCarriedHumansChange?.Invoke(CarriedHumans);
         GameManager.Instance.onCarriedResourcesChange?.Invoke(CarriedResources);
     }
+    Vector3 GetRandomPosition()
+    {
+        randIndex++;
+        Random.InitState(System.DateTime.Now.Millisecond + randIndex);
+        var b = stableCollider.bounds;
+        var (x, y) = (Random.Range(b.min.x * .8f, b.max.x * .8f), Random.Range(b.min.y * .8f, b.max.y * .8f));
+
+        return new Vector3(x, y, 0);
+    }
+
+    IEnumerator MoveToStable(Human human, Vector2 endPos)
+    {
+        Vector2 startPos = human.transform.position;
+
+        //get random position within the stablecollider bounds
+
+        float time = 0;
+        float duration = .5f;
+        while (time < duration)
+        {
+            human.transform.position = Vector2.Lerp(startPos, endPos, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     public List<Human> LoseHumans()
     {
         List<Human> humans;
-        int start = Mathf.CeilToInt(CarriedHumans.Count / 2);
+        int start = Mathf.CeilToInt(CarriedHumans.Count / 4);
         int range = CarriedHumans.Count - start;
-        humans = CarriedHumans.GetRange(start, range);
+        humans = CarriedHumans.GetRange(start - 1, range - 1);
 
         foreach (var human in humans)
         {
@@ -153,7 +186,7 @@ public class Carrier : MonoBehaviour
 
         foreach (var resource in CarriedResources)
         {
-            int quantityToLose = Mathf.CeilToInt(resource.Value / 2);
+            int quantityToLose = Mathf.CeilToInt(resource.Value / 4);
             resourcesToRemove.Add(resource.Key, quantityToLose);
         }
 

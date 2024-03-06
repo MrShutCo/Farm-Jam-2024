@@ -66,7 +66,7 @@ public class HumanSpawner : MonoBehaviour
         "Myrtle",
         "Floyd"
     };
-    
+
     List<string> industrialWorkerNames = new List<string>
     {
         "George",
@@ -111,7 +111,8 @@ public class HumanSpawner : MonoBehaviour
         "Cpl. Anderson",
         "Prv. Carter",
         "Cpl. Thompson",
-        "Prv. Nelson"
+        "Prv. Nelson",
+        "Cpl. Davis",
     };
 
 
@@ -167,7 +168,7 @@ public class HumanSpawner : MonoBehaviour
         if (GameManager.Instance.ChosenWorld == "City") return militaryNames[_random.Next(0, militaryNames.Count)];
         return "Unknown Entity";
     }
-    
+
     void Despawn(EGameState newState)
     {
         StartCoroutine(DespawnCoroutine(newState));
@@ -193,7 +194,7 @@ public class HumanSpawner : MonoBehaviour
         {
             OnEnteringWild();
         }
-        
+
     }
     void DespawnOtherTransforms()
     {

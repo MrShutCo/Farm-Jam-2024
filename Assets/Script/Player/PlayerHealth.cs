@@ -34,7 +34,7 @@ public class PlayerHealth : HealthBase
     }
     protected void ReturnHome()
     {
-        transform.position = new Vector3(0, -10, 0);
+        transform.position = (Vector2)FindObjectOfType<DropPointBuilding>().transform.position + Vector2.up * 3f;
         Heal(maxHealth);
     }
 
