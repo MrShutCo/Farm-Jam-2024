@@ -46,7 +46,7 @@ public class DialogueManager : MonoBehaviour
                         return;
                     }
                     DisplayNextLine();
-                    
+
                 }
             }
 
@@ -84,7 +84,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         StopAllCoroutines();
-        typeLineCR = StartCoroutine( TypeLine(dialogue.Dequeue()));
+        typeLineCR = StartCoroutine(TypeLine(dialogue.Dequeue()));
     }
 
     IEnumerator TypeLine(string line)
@@ -92,16 +92,17 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForFixedUpdate();
         Debug.Log("Typing line: " + line);
         textLabel.text = "";
-        foreach (char c in line.ToCharArray())
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                textLabel.text = line;
-                break;
-            }
-            textLabel.text += c;
-            yield return new WaitForSecondsRealtime(delayBetweenCharacters);
-        }
+        // foreach (char c in line.ToCharArray())
+        // {
+        //     if (Input.GetKeyDown(KeyCode.Space))
+        //     {
+        //         textLabel.text = line;
+        //         break;
+        //     }
+        //     textLabel.text += c;
+        //     yield return new WaitForSecondsRealtime(delayBetweenCharacters);
+        // }
+        textLabel.text = line;
         typeLineCR = null;
     }
 

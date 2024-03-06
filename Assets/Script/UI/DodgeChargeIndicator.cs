@@ -39,7 +39,7 @@ public class DodgeChargeIndicator : MonoBehaviour
         {
             for (int i = iconsList.Count; i < maxDiff; i++)
             {
-                Icon newIcon = Instantiate(icon, transform.position + new Vector3(0.1f * i, 0, 0), Quaternion.identity, transform);
+                Icon newIcon = Instantiate(icon, transform.position + new Vector3(0.25f * i, 0, 0), Quaternion.identity, transform);
                 iconsList.Add(newIcon);
                 newIcon.SetIcon(dodgeIcon, 0, false);
             }

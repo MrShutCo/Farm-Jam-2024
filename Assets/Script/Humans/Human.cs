@@ -23,6 +23,7 @@ namespace Assets.Script.Humans
 
         [SerializeField] GameObject StatusBar;
         [SerializeField] Transform StatusPanel;
+        public Transform GetStatusPanel => StatusPanel;
         [SerializeField] Transform targetSensor;
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI traitText;
@@ -52,7 +53,8 @@ namespace Assets.Script.Humans
         public float maxSpeed;
         public float initAttackRateMultiplier;
         public float currentAttackRateMultiplier;
-        
+        public bool starterHuman;
+
 
         public void Awake()
         {
@@ -153,6 +155,21 @@ namespace Assets.Script.Humans
             holdingPackage.transform.parent = transform;
             holdingPackage.transform.localPosition = new Vector3(0.5f, -0.11f, 0);
         }
+        public IEnumerator LerpToPosition(Vector2 endPos)
+        {
+            Vector2 startPos = this.transform.position;
+
+            //get random position within the stablecollider bounds
+
+            float time = 0;
+            float duration = .5f;
+            while (time < duration)
+            {
+                this.transform.position = Vector2.Lerp(startPos, endPos, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
 
         public void DropoffPackage()
         {
@@ -173,7 +190,7 @@ namespace Assets.Script.Humans
         {
             StatusPanel.gameObject.SetActive(false);
             anim.SetBool("IsScreaming", false);
-        } 
+        }
         public void Select() => StatusPanel.gameObject.SetActive(true);
 
 
