@@ -52,7 +52,7 @@ namespace Assets.Script.Humans
         public float maxSpeed;
         public float initAttackRateMultiplier;
         public float currentAttackRateMultiplier;
-
+        
 
         public void Awake()
         {

@@ -16,6 +16,10 @@ public class HumanHealth : HealthBase
         col = GetComponent<Collider2D>();
     }
 
+    public void SetVisibility(bool isVisible)
+    {
+        healthBar.gameObject.SetActive(isVisible);
+    }
 
     protected override void Die()
     {
