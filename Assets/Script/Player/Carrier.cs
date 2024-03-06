@@ -157,10 +157,14 @@ public class Carrier : MonoBehaviour
 
     public List<Human> LoseHumans()
     {
+        if (CarriedHumans.Count == 0)
+        {
+            return null;
+        }
         List<Human> humans;
         int start = Mathf.CeilToInt(CarriedHumans.Count / 4);
         int range = CarriedHumans.Count - start;
-        humans = CarriedHumans.GetRange(start - 1, range - 1);
+        humans = CarriedHumans.GetRange(start, range);
 
         foreach (var human in humans)
         {

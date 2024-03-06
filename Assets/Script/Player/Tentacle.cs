@@ -204,6 +204,10 @@ public class Tentacle : MonoBehaviour
         Vector2 newPos = _transform.position;
         while (time < duration)
         {
+            if (target == null || target.gameObject.activeSelf == false)
+            {
+                break;
+            }
             newPos = Vector2.Lerp(newPos, target.position, time / duration);
             RefreshLinePositions(true, newPos);
             time += Time.deltaTime;

@@ -90,7 +90,9 @@ public class GrabbableObjectBase : MonoBehaviour
             other.gameObject.TryGetComponent(out HealthBase health);
             if (health != null)
             {
-                health.TakeDamage(100);
+                if (health is PlayerHealth) return;
+                health.TakeDamage(250);
+                StopAllCoroutines();
                 Landing();
             }
         }
@@ -105,7 +107,8 @@ public class GrabbableObjectBase : MonoBehaviour
             {
                 if (hit.gameObject.TryGetComponent(out HealthBase health))
                 {
-                    health.TakeDamage(75);
+                    if (health is PlayerHealth) return;
+                    health.TakeDamage(100);
                 }
             }
             impactVFX.Play();
