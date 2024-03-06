@@ -1,3 +1,6 @@
+using System;
+using JetBrains.Annotations;
+
 namespace Assets.Script.Humans.Traits
 {
     public enum ERank
@@ -40,6 +43,14 @@ namespace Assets.Script.Humans.Traits
         {
             profile.WorkRate[EResource.Blood] += _rankMultipliers[(int)_rank];
             return profile;
+        }
+        public EResource GetResourceType()
+        {
+            return _resource;
+        }
+        public string GetRank()
+        {
+            return _rank.ToString();
         }
     }
 }

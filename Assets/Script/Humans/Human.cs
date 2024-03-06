@@ -7,6 +7,7 @@ using Assets.Script.Humans.Traits;
 using TMPro;
 using UnityEngine;
 using JetBrains.Annotations;
+using UnityEngine.UI;
 
 namespace Assets.Script.Humans
 {
@@ -26,6 +27,8 @@ namespace Assets.Script.Humans
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI traitText;
         [SerializeField] TextMeshProUGUI taskText;
+        [SerializeField] Image[] traitImages;
+        [SerializeField] TextMeshProUGUI[] traitValueTexts;
 
         HumanWildBehaviour wildBehaviour;
         WeaponSelector weaponSelector;
@@ -73,7 +76,8 @@ namespace Assets.Script.Humans
                 new ResourceTrait(EResource.Blood, ERank.F),
                 new ResourceTrait(EResource.Bones, ERank.F)
             };
-            setTraitText();
+            //setTraitText();
+            setTraitIcons();
 #if UNITY_EDITOR
             taskText.enabled = true;
 #else
@@ -85,7 +89,8 @@ namespace Assets.Script.Humans
         {
             Name = name;
             _traits = traits;
-            setTraitText();
+            //setTraitText();
+            setTraitIcons();
             nameText.text = Name;
             UpdateStats();
         }
@@ -260,6 +265,15 @@ namespace Assets.Script.Humans
             }
 
             traitText.text = s;
+        }
+        void setTraitIcons()
+        {
+            for (int i = 0; i < _traits.Count; i++)
+            {
+                ResourceTrait resourceTrait = (ResourceTrait)_traits[i];
+                traitImages[i].sprite = GameManager.Instance.GetIcon(resourceTrait.GetResourceType());
+                traitValueTexts[i].text = resourceTrait.GetRank();
+            }
         }
 
         public void FixedUpdate()

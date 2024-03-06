@@ -218,12 +218,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f922286c3aff546aaba1415f01798497, type: 2}
   - {fileID: 11400000, guid: 26fd38e425df24c19975d0a733ea740f, type: 2}
   - {fileID: 11400000, guid: 01f4cb310fa2f40b296ff858cf5b64a4, type: 2}
+  buildingImage:
+  - {fileID: 8978812608545732331}
+  - {fileID: 9059777138591929913}
+  - {fileID: 5611168027498594207}
   buildingPrefab: {fileID: 2095448434845005241, guid: 941aafd64c7f5494196595d802aa84a2, type: 3}
   gridLayer:
     serializedVersion: 2
     m_Bits: 64
   SelectedBuilding: -1
-  costRatioMultiplier: 1.25
+  costRatioMultiplier: 2
   baseCost: 100
   bloodCostText: {fileID: 3095194263594785296}
   boneCostText: {fileID: 2949114271177862779}
@@ -922,9 +926,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'FPS
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

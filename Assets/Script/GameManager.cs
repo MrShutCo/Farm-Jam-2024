@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<EResource, int> BaseBuildLevel;
 
+    public IconSO Icon;
+
     public int Stage;
     public string ChosenWorld;
     
@@ -197,5 +199,9 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+    public Sprite GetIcon(EResource resource)
+    {
+        return Icon.GetIcon(resource);
     }
 }
