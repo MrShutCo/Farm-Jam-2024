@@ -24,7 +24,7 @@ namespace Script.Interactives
                     new DialogueText("You also must assign haulers in the building below me to take away resources. Make sure you have enough haulers to prevent bottlenecks!", null))),
                 new ("What are traits?", new DialogueText("Traits affect how good a person is at a particular skill. There's ranks F-S from worst to best.", null,
                     new DialogueText("*Extra Juicy - Bonus to blood flaying\n* Big Boned - Bonus to bone flaying\n* Gutsy - Bonus to organ harvesting", null))),
-                new ("Why are you here?", new DialogueText("I fell asleep reading Lovecraftian Erotica and I woke up here...", null))F
+                new ("Why are you here?", new DialogueText("I fell asleep reading Lovecraftian Erotica and I woke up here...", null))
             });
             firstTimeText = new DialogueText("Tutor Pete: Howdy, I'm Tutor Pete. I'll be your guide through the underworld and help you raise your husband back to his former glory!", null, dialogue);
         }

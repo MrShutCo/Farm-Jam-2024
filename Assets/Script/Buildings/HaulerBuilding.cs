@@ -13,12 +13,14 @@ namespace Assets.Script.Buildings
 		[SerializeField] private Animator _chestAnimator;
 
 		[SerializeField] GameObject TipToDestroy;
+		BoxCollider2D _boundingBox;
 
 		// Use this for initialization
 		void Start()
 		{
 			haulers = new();
 			packagesToBePickedUp = new();
+			_boundingBox = GetComponent<BoxCollider2D>();
 
 			// Instantly try to assign a package
 			GameManager.Instance.onPackageCreate += (Building b, Package p) =>
@@ -50,7 +52,14 @@ namespace Assets.Script.Buildings
 				new MoveToTask(b.PickupLocation.position),
 				new InstantTask("Pickup", () => { closestFreeHauler.HoldPackage(p); b.RemovePacket(closestFreeHauler); }),
 				new MoveToTask(transform.position),
-				new InstantTask("Dropoff", () => { _chestAnimator.SetTrigger("ChestTrigger"); closestFreeHauler.DropoffPackage(); })
+				new InstantTask("Dropoff", () => {
+					_chestAnimator.SetTrigger("ChestTrigger"); 
+					closestFreeHauler.DropoffPackage();
+					if (packagesToBePickedUp.Count == 0)
+						closestFreeHauler.AddTaskToJob(new MoveToTask(GetRandomPosition()), false);
+
+				})
+				
 			}, false);
 			closestFreeHauler.AddJob(job);
 			return true;
@@ -62,7 +71,14 @@ namespace Assets.Script.Buildings
 			checkPickupsTimer.Update(Time.deltaTime);
 		}
 
-		public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
+        Vector3 GetRandomPosition()
+        {
+            var b = _boundingBox.bounds;
+            var (x, y) = (Random.Range(b.min.x, b.max.x), Random.Range(b.min.y, b.max.y));
+            return new Vector3(x, y, 0);
+        }
+
+        public override void AssignHuman(Human human, Vector2 mouseWorldPosition)
 		{
 			if (!haulers.Contains(human))
 			{
