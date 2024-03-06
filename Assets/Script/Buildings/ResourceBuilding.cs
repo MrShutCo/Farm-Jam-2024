@@ -26,10 +26,10 @@ namespace Assets.Script.Buildings
                 Flayers = new List<Human>(new Human[flayerPositions.Count]);
             }
 
-            public void SetFlayersAnim(string trigger)
+            public void SetFlayersAnim(string trigger, bool isSet)
             {
                 foreach (var human in Flayers)
-                    human?.anim.SetTrigger(trigger);
+                    human?.anim.SetBool(trigger, isSet);
             }
 
             public bool IsBeingWorked() => Flayers.Any(f => f != null);

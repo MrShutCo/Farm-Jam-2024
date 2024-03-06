@@ -68,7 +68,8 @@ public class Carrier : MonoBehaviour
         else
         {
             CarriedHumans.Add(human);
-            human.anim.SetTrigger("ScreamTrigger");
+            human.anim.SetBool("IsWalking", false);
+            human.anim.SetBool("IsScreaming", true);
             human.enabled = false;
             human.WildBehaviour.enabled = false;
             human.GetComponentInChildren<Renderer>().sortingOrder = 150;

@@ -21,4 +21,9 @@ public class DropPointBuilding : Building
     {
         
     }
+
+    public override bool TryUnassignHuman(Human human)
+    {
+        return false;
+    }
 }

@@ -143,7 +143,7 @@ namespace Assets.Script.Humans
 
         public bool CanBePickedUp()
         {
-            return currentJobs.Count == 0 || currentJobs.Peek().ActiveTaskText() == "Idle";
+            return true;
         }
 
         public void HoldPackage(Package p)
@@ -162,12 +162,17 @@ namespace Assets.Script.Humans
         public void SelectHuman()
         {
             Select();
+            anim.SetBool("IsScreaming", true);
             GameManager.Instance.CurrentlySelectedHuman?.Deselect();
             GameManager.Instance.CurrentlySelectedHuman = this;
             rb.velocity = Vector2.zero;
         }
 
-        public void Deselect() => StatusPanel.gameObject.SetActive(false);
+        public void Deselect()
+        {
+            StatusPanel.gameObject.SetActive(false);
+            anim.SetBool("IsScreaming", false);
+        } 
         public void Select() => StatusPanel.gameObject.SetActive(true);
 
 

@@ -71,5 +71,19 @@ namespace Assets.Script.Buildings
 			if (TipToDestroy != null && haulers.Count > 0)
 				Destroy(TipToDestroy);
 		}
+
+		public override bool TryUnassignHuman(Human human)
+		{
+			for (int i = 0; i < haulers.Count(); i++)
+			{
+				if (haulers[i] == human)
+				{
+					haulers.RemoveAt(i);
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
 }

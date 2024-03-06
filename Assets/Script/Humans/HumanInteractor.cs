@@ -11,10 +11,12 @@ namespace Assets.Script.Humans
     {
         [SerializeField] LayerMask rightClickLayer;
         [SerializeField] LayerMask leftClickLayer;
+        [SerializeField] private LayerMask humanLayer;
         RaycastHit2D[] hits;
 
         [SerializeField] private Transform wildHumanParent;
-
+        
+        
         // Update is called once per frame
         void Update()
         { 
@@ -46,20 +48,23 @@ namespace Assets.Script.Humans
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, leftClickLayer);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, leftClickLayer);
                 if (hit.collider != null)
                 {
                     var clickedUser = hit.collider.GetComponent<Human>();
                     if (clickedUser != null && clickedUser.CanBePickedUp())
                     {
                         clickedUser.SelectHuman();
+                        GameManager.Instance.UnassignHumanFromBuilding(clickedUser);
                         return;
                     }
                 }
             }
+            
 
             if (Input.GetMouseButtonDown(1) && GameManager.Instance.CurrentlySelectedHuman != null)
             {
+                GameManager.Instance.CurrentlySelectedHuman.Deselect();
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 hits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, rightClickLayer);
                 
@@ -72,14 +77,13 @@ namespace Assets.Script.Humans
                         {
                             var currHuman = GameManager.Instance.CurrentlySelectedHuman;
                             clickedBuilding.AssignHuman(currHuman, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                            GameManager.Instance.CurrentlySelectedHuman.Deselect();
                             GameManager.Instance.CurrentlySelectedHuman = null;
                         }
 
                         return;
                     }
                 }
-
+                
                 GameManager.Instance.CurrentlySelectedHuman = null;
             }
         }
