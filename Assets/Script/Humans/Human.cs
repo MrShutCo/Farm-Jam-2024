@@ -73,15 +73,7 @@ namespace Assets.Script.Humans
             _efficiencyProfile = new EfficiencyProfile();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             anim = _spriteRenderer.GetComponent<Animator>();
-            _traits = new List<Trait>()
-            {
-                new ResourceTrait(EResource.Blood, ERank.S),
-                new ResourceTrait(EResource.Bones, ERank.C)
-            };
-            foreach (var t in _traits)
-            {
-                _efficiencyProfile = t.ActOn(_efficiencyProfile);
-            }
+            _traits = new List<Trait>();
             //setTraitText();
             setTraitIcons();
 #if UNITY_EDITOR
