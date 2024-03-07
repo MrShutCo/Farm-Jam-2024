@@ -41,13 +41,15 @@ namespace Assets.Script.Humans.Traits
 
         public override EfficiencyProfile ActOn(EfficiencyProfile profile)
         {
-            profile.WorkRate[EResource.Blood] += _rankMultipliers[(int)_rank];
+            profile.WorkRate[_resource] += _rankMultipliers[(int)_rank];
             return profile;
         }
+        
         public EResource GetResourceType()
         {
             return _resource;
         }
+        
         public string GetRank()
         {
             return _rank.ToString();

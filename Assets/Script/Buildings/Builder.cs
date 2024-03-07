@@ -192,7 +192,7 @@ namespace Assets.Script.Buildings
                 }
             }
 
-            if (GameManager.Instance.GameState == EGameState.Build && Input.GetKeyDown(KeyCode.Backspace))
+            if (GameManager.Instance.GameState == EGameState.Build && (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Backspace)))
                 GameManager.Instance.SetGameState(EGameState.Normal);
         }
 
