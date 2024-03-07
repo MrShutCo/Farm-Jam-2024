@@ -16,8 +16,7 @@ namespace Assets.Script.Buildings
 		BoxCollider2D _boundingBox;
 
 		// Use this for initialization
-		void Start()
-		{
+		void Start() {
 			haulers = new();
 			packagesToBePickedUp = new();
 			_boundingBox = GetComponent<BoxCollider2D>();

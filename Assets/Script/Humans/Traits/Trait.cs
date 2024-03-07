@@ -24,7 +24,7 @@ namespace Assets.Script.Humans.Traits
     public class ResourceTrait : Trait
     {
         private EResource _resource;
-        private float[] _rankMultipliers = { 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
+        private float[] _rankMultipliers = { 1.0f, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f };
 
         public ResourceTrait(EResource resource, ERank rank)
         {
@@ -41,7 +41,7 @@ namespace Assets.Script.Humans.Traits
 
         public override EfficiencyProfile ActOn(EfficiencyProfile profile)
         {
-            profile.WorkRate[_resource] += _rankMultipliers[(int)_rank];
+            profile.WorkRate[_resource] *= _rankMultipliers[(int)_rank];
             return profile;
         }
         
