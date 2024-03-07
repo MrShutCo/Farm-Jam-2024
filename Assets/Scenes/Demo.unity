@@ -21237,7 +21237,7 @@ PrefabInstance:
     - target: {fileID: 8883834575435628639, guid: 252c05ca440224eac8d879362653d7d5, type: 3}
       propertyPath: _chestAnimator
       value: 
-      objectReference: {fileID: 7443837064838157134}
+      objectReference: {fileID: 739922459}
     - target: {fileID: 9207439319800942396, guid: 252c05ca440224eac8d879362653d7d5, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -21769,11 +21769,6 @@ Canvas:
 --- !u!4 &7443837064838157133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5651137208837718437, guid: 252c05ca440224eac8d879362653d7d5, type: 3}
-  m_PrefabInstance: {fileID: 1374380985685103474}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7443837064838157134 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4763992826722350589, guid: 252c05ca440224eac8d879362653d7d5, type: 3}
   m_PrefabInstance: {fileID: 1374380985685103474}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7654276714868274380
