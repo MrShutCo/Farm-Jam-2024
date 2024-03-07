@@ -38,10 +38,6 @@ public class GrabbableObjectBase : MonoBehaviour
     }
     private void Update()
     {
-        if (!_rb.simulated && transform.localScale.x < 1.25f)
-        {
-            transform.localScale += new Vector3(0.01f, 0.01f, 0);
-        }
     }
 
     public virtual GrabbableObjectBase Grabbing(Transform grabParent)

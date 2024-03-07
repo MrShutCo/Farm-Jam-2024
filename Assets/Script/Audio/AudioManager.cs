@@ -204,11 +204,13 @@ public class AudioManager : MonoBehaviour
     {
         GameManager.Instance.onPlaySound += OnAudioPlay;
         GameManager.Instance.onGameStateChange += OnGameStateChange;
+        GameManager.Instance.onStopSound += OnAudioStop;
     }
     private void OnDisable()
     {
         GameManager.Instance.onPlaySound += OnAudioPlay;
         GameManager.Instance.onGameStateChange -= OnGameStateChange;
+        GameManager.Instance.onStopSound -= OnAudioStop;
     }
     void OnGameStateChange(EGameState gameState)
     {
@@ -311,6 +313,19 @@ public class AudioManager : MonoBehaviour
             audioSource.Play();
         }
     }
+
+
+    public void OnAudioStop(SoundRequest request)
+    {
+        var matchingAudioSources = audioSourcePools[request.SoundSource]
+            .Where(a => a.clip.name.ToString() == request.SoundType.ToString() && a.isPlaying)
+            .ToList();
+        foreach (var audioSource in matchingAudioSources)
+        {
+            audioSource.Stop();
+        }
+    }
+
 
     public AudioClip RandomizeClip(AudioClip[] clips)
     {

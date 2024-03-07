@@ -21,6 +21,8 @@ public class TilePathFollowers : MonoBehaviour, IGrabStoppable
     Animator animator;
     bool active = true;
 
+
+
     public void SetFacingDirection(Vector2 direction)
     {
         FacingDirection = direction;
@@ -43,12 +45,26 @@ public class TilePathFollowers : MonoBehaviour, IGrabStoppable
         }
         // SelectDirection(CheckViableDirections());
 
+        GameManager.Instance.onGameStateChange += OnGameStateChange;
+
+
     }
     private void OnDisable()
     {
         if (grabbable != null)
         {
             grabbable.onGrabbed -= () => active = false;
+        }
+        GameManager.Instance.onGameStateChange -= OnGameStateChange;
+    }
+    void OnGameStateChange(EGameState newState)
+    {
+        if (newState == EGameState.Normal || newState == EGameState.Death)
+        {
+            if (!active)
+            {
+                Destroy(this);
+            }
         }
     }
 

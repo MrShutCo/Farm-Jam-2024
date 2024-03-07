@@ -21419,15 +21419,15 @@ PrefabInstance:
       objectReference: {fileID: 979877825157283075}
     - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: buildingBoneHarvester.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: buildingBloodHarvester.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: buildingOrganHarvester.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7491277473801088903, guid: f6e603934c06ffc4b8851ee9871ef111, type: 3}
       propertyPath: buildingBoneHarvester.Array.data[0]
