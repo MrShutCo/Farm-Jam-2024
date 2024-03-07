@@ -42,14 +42,14 @@ namespace Assets.Script.Humans
             rb.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             animator.SetBool("IsWalking", true);
             speed = 3;
-            Grid2D.onGridUpdated += onGridUpdated;
+            //Grid2D.onGridUpdated += onGridUpdated;
             Debug.Log($"Started Move To {target}");
         }
 
         public override void StopTask()
         {
             animator.SetBool("IsWalking", false);
-            Grid2D.onGridUpdated -= onGridUpdated;
+            //Grid2D.onGridUpdated -= onGridUpdated;
             rb.gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
             Debug.Log($"Finished Move To {target}");
         }

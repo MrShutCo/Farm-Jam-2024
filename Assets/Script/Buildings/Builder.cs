@@ -277,7 +277,7 @@ namespace Assets.Script.Buildings
                     ColliderMap.SetTile(origin + new Vector3Int(x, y, 0), WalkableTile);
                 }
             ColliderMap.SetTile(origin + new Vector3Int(1, 1, 0), UnwalkableTile);
-            GameManager.Instance.PathfindingGrid.SetWalkableAt(origin.x + 1, origin.y + 1, false);
+            //GameManager.Instance.PathfindingGrid.SetWalkableAt(origin.x + 1, origin.y + 1, false);
         }
     }
 }
