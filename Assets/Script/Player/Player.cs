@@ -130,6 +130,14 @@ public class Player : MonoBehaviour
         if (!combatActive) return;
         if (HandlePortalInput()) return;
 
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            dodgeAction.Action(lastDirectionPressed, hittableLayers);
+        }
+        
+        // Only do this in the wild
+        if (GameManager.Instance.GameState != EGameState.Wild) return;
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             attackAction.Action(lastDirectionPressed, hittableLayers);
@@ -142,10 +150,7 @@ public class Player : MonoBehaviour
         {
             grabber.GrabAction(lastDirectionPressed);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            dodgeAction.Action(lastDirectionPressed, hittableLayers);
-        }
+       
 
     }
 

@@ -90,7 +90,11 @@ namespace Assets.Script.Humans
             //setTraitText();
             setTraitIcons();
             nameText.text = Name;
-            UpdateStats();
+            //UpdateStats();
+            foreach (var t in _traits)
+            {
+                _efficiencyProfile = t.ActOn(_efficiencyProfile);
+            }
         }
         void UpdateStats()
         {
@@ -318,8 +322,7 @@ namespace Assets.Script.Humans
 
         public float GetWorkingRate(EResource resource)
         {
-            var newProfile = _traits.Aggregate(_efficiencyProfile, (current, trait) => trait.ActOn(current));
-            return newProfile.WorkRate[resource];
+            return _efficiencyProfile.WorkRate[resource];
         }
     }
 }
