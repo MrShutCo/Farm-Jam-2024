@@ -13,7 +13,7 @@ namespace Script.Buildings
         
         public FarmBuilding()
         {
-            _workTimer = new Timer(0.75f, false);
+            _workTimer = new Timer(1f, false);
             _workingHumans = new List<WorkingSubsection>(new[] { new WorkingSubsection(Vector2.zero, new ()
                 {
                     Vector2.zero
@@ -46,6 +46,13 @@ namespace Script.Buildings
 
         public override bool TryUnassignHuman(Human human)
         {
+            if (_workingHumans[0].Flayers.First() == human)
+            {
+                _workingHumans[0].Flayers = null;
+                _workTimer.Toggle();
+                return true;
+            }
+
             return false;
         }
 

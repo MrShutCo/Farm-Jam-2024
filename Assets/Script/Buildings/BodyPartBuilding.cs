@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
+
+
 namespace Script.Buildings
 {
     /// <summary>
@@ -117,81 +119,84 @@ namespace Script.Buildings
             return false;
         }
 
-        public override void Upgrade()
+public override void Upgrade()
+{
+    Level++;
+    
+    if (Level == 1)
+    {
+        // TODO: this is a bad hack
+        _packageSlots.Add(null);
+        _packageSlots.Add(null);
+        levelWorkingSubsections[1][0].Flayee = levelWorkingSubsections[0][0].Flayee;
+        for (int i = 0; i < levelWorkingSubsections[1][0].Flayers.Count; i++)
         {
-            Level++;
-            // Dear God, please never read this code, I beg of you
-            if (Level == 1)
-            {
-                // TODO: this is a bad hack
-                _packageSlots.Add(null);
-                _packageSlots.Add(null);
-                levelWorkingSubsections[1][0].Flayee = levelWorkingSubsections[0][0].Flayee;
-                for (int i = 0; i < levelWorkingSubsections[1][0].Flayers.Count; i++)
-                {
-                    levelWorkingSubsections[1][0].Flayers[i] = levelWorkingSubsections[0][0].Flayers[i];
-                }
-                levelWorkingSubsections[0].Clear();
-                var first = levelWorkingSubsections[1][0];
-                if (first.Flayee)
-                {
-                    first.Flayee.transform.position = GetWorldPosition(first.FlayeePosition);
-                    flayeeSpriteRenderers[0].color = Color.clear;
-                    flayeeSpriteRenderers[1].color = Color.white;
-                    flayeeSpriteRenderers[1].sprite = buildingData.workedArea;
-                }
-
-                for (var i = 0; i < first.FlayerPositions.Count; i++)
-                {
-                    if (first.Flayers[i] == null) continue;
-                    first.Flayers[i].transform.position = GetWorldPosition(first.FlayerPositions[i]);
-                }
-            }
-            if (Level == 2)
-            {
-                var currSub = levelWorkingSubsections[1];
-                var newSub = levelWorkingSubsections[2];
-                // Move over humans in code
-                newSub[0].Flayee = currSub[0].Flayee;
-                newSub[1].Flayee = currSub[1].Flayee;
-                for (var i = 0; i < currSub.Count; i++)
-                {
-                    newSub[i].Flayers = currSub[i].Flayers;
-                }
-                levelWorkingSubsections[1].Clear();
-
-                // For every subsection, update the positions for flayer and flayee
-                for (var i = 0; i < newSub.Count; i++)
-                {
-                    if (newSub[i].Flayee)
-                    {
-                        newSub[i].Flayee.transform.position = GetWorldPosition(newSub[i].FlayeePosition);
-                    }
-                    // Update flayers position
-                    for (var j = 0; j < newSub[i].FlayerPositions.Count; j++)
-                    {
-                        if (newSub[i].Flayers[j] == null) continue;
-                        newSub[i].Flayers[j].transform.position = GetWorldPosition(newSub[i].FlayerPositions[j]);
-                    }
-                }
-                // Update visuals. Clear old ones and possibly update new ones
-                flayeeSpriteRenderers[1].color = Color.clear;
-                flayeeSpriteRenderers[2].color = Color.clear;
-                if (newSub[0].Flayee)
-                {
-                    flayeeSpriteRenderers[3].color = Color.white;
-                    flayeeSpriteRenderers[3].sprite = buildingData.workedArea;
-                }
-                if (newSub[1].Flayee)
-                {
-                    flayeeSpriteRenderers[4].color = Color.white;
-                    flayeeSpriteRenderers[4].sprite = buildingData.workedArea;
-                }
-            }
-            
-            background.sprite = buildingData.GetSprite(Level);
-            _workingHumans = levelWorkingSubsections[Level];
+            levelWorkingSubsections[1][0].Flayers[i] = levelWorkingSubsections[0][0].Flayers[i];
         }
+        levelWorkingSubsections[0].Clear();
+        var first = levelWorkingSubsections[1][0];
+        if (first.Flayee)
+        {
+            first.Flayee.transform.position = GetWorldPosition(first.FlayeePosition);
+            flayeeSpriteRenderers[0].color = Color.clear;
+            flayeeSpriteRenderers[1].color = Color.white;
+            flayeeSpriteRenderers[1].sprite = buildingData.workedArea;
+        }
+
+        for (var i = 0; i < first.FlayerPositions.Count; i++)
+        {
+            if (first.Flayers[i] == null) continue;
+            first.Flayers[i].transform.position = GetWorldPosition(first.FlayerPositions[i]);
+        }
+    }
+    // Dear God, please never read this code, I beg of you
+if (Level == 2)
+{
+    _packageSlots.Add(null);
+    _packageSlots.Add(null);
+    var currSub = levelWorkingSubsections[1];
+    var newSub = levelWorkingSubsections[2];
+    // Move over humans in code
+    newSub[0].Flayee = currSub[0].Flayee;
+    newSub[1].Flayee = currSub[1].Flayee;
+    for (var i = 0; i < currSub.Count; i++)
+    {
+        newSub[i].Flayers = currSub[i].Flayers;
+    }
+    levelWorkingSubsections[1].Clear();
+
+    // For every subsection, update the positions for flayer and flayee
+    for (var i = 0; i < newSub.Count; i++)
+    {
+        if (newSub[i].Flayee)
+        {
+            newSub[i].Flayee.transform.position = GetWorldPosition(newSub[i].FlayeePosition);
+        }
+        // Update flayers position
+        for (var j = 0; j < newSub[i].FlayerPositions.Count; j++)
+        {
+            if (newSub[i].Flayers[j] == null) continue;
+            newSub[i].Flayers[j].transform.position = GetWorldPosition(newSub[i].FlayerPositions[j]);
+        }
+    }
+    // Update visuals. Clear old ones and possibly update new ones
+    flayeeSpriteRenderers[1].color = Color.clear;
+    flayeeSpriteRenderers[2].color = Color.clear;
+    if (newSub[0].Flayee)
+    {
+        flayeeSpriteRenderers[3].color = Color.white;
+        flayeeSpriteRenderers[3].sprite = buildingData.workedArea;
+    }
+    if (newSub[1].Flayee)
+    {
+        flayeeSpriteRenderers[4].color = Color.white;
+        flayeeSpriteRenderers[4].sprite = buildingData.workedArea;
+    }
+}
+    
+    background.sprite = buildingData.GetSprite(Level);
+    _workingHumans = levelWorkingSubsections[Level];
+}
 
         protected override void OnWork()
         {

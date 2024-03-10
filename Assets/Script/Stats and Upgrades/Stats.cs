@@ -20,13 +20,11 @@ public class Stats : ScriptableObject
     {
         if (instanceStats.TryGetValue(stat, out var instanceValue))
             return GetUpgradedValue(stat, instanceValue);
-        else if (stats.TryGetValue(stat, out float value))
+        if (stats.TryGetValue(stat, out float value))
             return GetUpgradedValue(stat, value);
-        else
-        {
-            Debug.LogError($"No stat found for {stat} on {this.name}");
-            return 0;
-        }
+       
+        Debug.LogError($"No stat found for {stat} on {this.name}");
+        return 0;
     }
     public void UnlockUpgrade(StatsUpgrade upgrade)
     {

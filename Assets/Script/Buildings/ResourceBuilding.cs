@@ -84,7 +84,7 @@ namespace Assets.Script.Buildings
         {
             var newPackage = Instantiate(packagePrefab, packages.transform);
             
-            newPackage.transform.localPosition = new Vector3(0, 2.5f);
+            newPackage.transform.localPosition = PickupLocation.position;
             newPackage.GetComponent<Package>().SetPackage(buildingData.resource, (int)buildingData.internalBufferCapacity);
             newPackage.GetComponentInChildren<Icon>().SetIcon(buildingData.resource, 0, false);
             _packageSlots.Add(newPackage);
