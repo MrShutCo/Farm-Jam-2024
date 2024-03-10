@@ -24,7 +24,10 @@ namespace Script.Buildings
 
         private List<List<WorkingSubsection>> levelWorkingSubsections;
         [SerializeField] private SpriteRenderer background;
-        
+
+        SoundRequest processingSound;
+        bool wasPlaying = false;
+
         public BodyPartBuilding()
         {
             _workTimer = new(1, true);
@@ -38,17 +41,51 @@ namespace Script.Buildings
             {
                 var subsection = new List<WorkingSubsection>();
                 var positions = positionSet.GetComponentsInChildren<Transform>()[1..];
-                for (int i = 0; i < positions.Length/3; i++)
+                for (int i = 0; i < positions.Length / 3; i++)
                 {
                     var idx = 3 * i;
                     subsection.Add(new WorkingSubsection(positions[idx].localPosition,
-                        new() { positions[idx+1].localPosition, positions[idx+2].localPosition }));
+                        new() { positions[idx + 1].localPosition, positions[idx + 2].localPosition }));
                     flayeeSpriteRenderers.Add(positions[idx].gameObject.GetComponent<SpriteRenderer>());
                 }
                 levelWorkingSubsections.Add(subsection);
             }
             // Set to level 0
             SetLevel(Level);
+
+            if (buildingData.resource == EResource.Blood)
+            {
+                processingSound = new SoundRequest
+                {
+                    SoundSource = ESoundSource.Building,
+                    RequestingObject = gameObject,
+                    SoundType = ESoundType.buildingBloodHarvester,
+                    RandomizePitch = true,
+                    Loop = false
+                };
+            }
+            else if (buildingData.resource == EResource.Bones)
+            {
+                processingSound = new SoundRequest
+                {
+                    SoundSource = ESoundSource.Building,
+                    RequestingObject = gameObject,
+                    SoundType = ESoundType.buildingBoneHarvester,
+                    RandomizePitch = true,
+                    Loop = false
+                };
+            }
+            else if (buildingData.resource == EResource.Organs)
+            {
+                processingSound = new SoundRequest
+                {
+                    SoundSource = ESoundSource.Building,
+                    RequestingObject = gameObject,
+                    SoundType = ESoundType.buildingOrganHarvester,
+                    RandomizePitch = true,
+                    Loop = false
+                };
+            }
         }
 
         public void SetLevel(int level)
@@ -71,14 +108,14 @@ namespace Script.Buildings
                 {
                     subsection.Flayee = human.GetComponent<HealthBase>();
                     human.transform.position = GetWorldPosition(subsection.FlayeePosition);
-                    human.AddJob(new Job(human, "flay", new List<Task>(){new GetFlayed()},false));
+                    human.AddJob(new Job(human, "flay", new List<Task>() { new GetFlayed() }, false));
                     human.Hide();
-                    flayeeSpriteRenderers[j+baseIndex].sprite = buildingData.workedArea;
-                    flayeeSpriteRenderers[j+baseIndex].color = Color.white;
+                    flayeeSpriteRenderers[j + baseIndex].sprite = buildingData.workedArea;
+                    flayeeSpriteRenderers[j + baseIndex].color = Color.white;
                     subsection.SetFlayersAnim("IsScreaming", true);
                     if (subsection.IsBeingWorked())
                         callToAction.gameObject.SetActive(false);
-                    
+
                     Debug.Log("Assigned flayee");
                 }
                 // assign to flayer
@@ -216,13 +253,25 @@ if (Level == 2)
                     }
                     callToAction.gameObject.SetActive(false); // Someone is working it, so clear any other flags
                     group.Flayee.TakeDamage(buildingData.damageToFlayee);
+                    if (!wasPlaying)
+                    {
+                        GameManager.Instance.onPlaySound?.Invoke(processingSound);
+                        wasPlaying = true;
+                    }
                     if (group.Flayee == null)
                     {
-                        flayeeSpriteRenderers[i+baseIndex].color = Color.clear;
+                        flayeeSpriteRenderers[i + baseIndex].color = Color.clear;
                         group.SetFlayersAnim("IsScreaming", false);
                         callToAction.gameObject.SetActive(true);
+                        if (wasPlaying)
+                        {
+                            GameManager.Instance.onStopSound?.Invoke(processingSound);
+                            wasPlaying = false;
+                        }
                     }
+
                     Console.WriteLine("Flayed damage taken");
+
                 }
 
                 i++;

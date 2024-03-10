@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     #region Sound Events
     public Action<SoundRequest> onPlaySound;
+    public Action<SoundRequest> onStopSound;
     #endregion
 
     public List<Building> Buildings;
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     public int Stage;
     public string ChosenWorld;
-    
+
     bool paused;
 
 
@@ -134,7 +135,7 @@ public class GameManager : MonoBehaviour
             AddResource(EResource.Organs, 1000);
         }
     }
-    
+
     public void UnassignHumanFromBuilding(Human human)
     {
         foreach (var building in Instance.Buildings)
