@@ -233,7 +233,7 @@ namespace Assets.Script.Humans
             }
         }
 
-        void onJobComplete(Human h)
+        void onJobComplete(Human h, bool wasSuccessful)
         {
             currentJobs.Peek().onJobComplete -= onJobComplete;
             currentJobs.Dequeue();

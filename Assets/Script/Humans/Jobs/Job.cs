@@ -11,7 +11,7 @@ namespace Assets.Script.Humans
 	{
 		public bool IsActive;
 		public string Name;
-		public Action<Human> onJobComplete;
+		public Action<Human, bool> onJobComplete;
 		public bool IsRepeated { get; private set; }
 
 		Human human;
@@ -57,7 +57,7 @@ namespace Assets.Script.Humans
 			_tasks.Add(newTask);
 			if (stopCurrentTask && _tasks.Count > 0)
 			{
-				_tasks[_activeTask].OnStopTask?.Invoke();
+				_tasks[_activeTask].OnStopTask?.Invoke(true);
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace Assets.Script.Humans
 			_tasks[_activeTask].FixedUpdateTask(human, deltaTime);
 		}
 
-		void OnTaskComplete()
+		void OnTaskComplete(bool wasSuccessful)
 		{
 			if (_tasks.Count > 0)
 			{
@@ -81,10 +81,15 @@ namespace Assets.Script.Humans
 				_tasks[_activeTask].StopTask();
 			}
 
+			if (!wasSuccessful)
+			{
+				onJobComplete?.Invoke(human, false);
+			}
+
 			// If theres no more tasks, job is complete
 			if (_activeTask >= _tasks.Count - 1)
 			{
-				onJobComplete?.Invoke(human);
+				onJobComplete?.Invoke(human, true);
 				if (IsRepeated) _activeTask = 0;
 				else return;
 			}

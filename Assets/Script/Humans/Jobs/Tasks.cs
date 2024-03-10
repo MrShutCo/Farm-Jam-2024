@@ -19,7 +19,7 @@ namespace Assets.Script.Humans
         public abstract void UpdateTask(Human human, double deltaTime);
         public abstract void FixedUpdateTask(Human human, double fixedDeltaTime);
         public abstract void StopTask();
-        public Action OnStopTask { get; set; }
+        public Action<bool> OnStopTask { get; set; }
         public string Name { get; set; }
     }
 
@@ -62,7 +62,8 @@ namespace Assets.Script.Humans
                 path = pathfinding.FindPath(human.transform.position, target);
                 if (path.Count == 0)
                 {
-                    OnStopTask?.Invoke();
+                    bool isCloseEnough = Vector3.Distance(human.transform.position, target) < 1;
+                    OnStopTask?.Invoke(isCloseEnough);
                 }
             }
 
@@ -82,7 +83,7 @@ namespace Assets.Script.Humans
                     currPathNodeDestination = 0;
                     path = null;
                     Debug.Log($"Actually reached spot {target}");
-                    OnStopTask?.Invoke();
+                    OnStopTask?.Invoke(true);
                 }
                 else
                 {
@@ -134,7 +135,7 @@ namespace Assets.Script.Humans
         public override void UpdateTask(Human human, double deltaTime)
         {
 
-            OnStopTask?.Invoke();
+            OnStopTask?.Invoke(true);
         }
     }
 
