@@ -75,6 +75,7 @@ namespace Assets.Script.Buildings
 
         private void Awake()
         {
+            ColliderMap.SetTile(new Vector3Int(0,0,0), UnwalkableTile);
             parent = GameObject.Find("Buildings")?.transform;
             if (parent == null)
                 parent = new GameObject("Buildings").transform;
@@ -254,7 +255,7 @@ namespace Assets.Script.Buildings
 
         bool IsValidPlacement(Vector3Int origin, Vector2Int layout)
         {
-            Debug.Log($"Checking is valid 3x3 at {origin}");
+            //Debug.Log($"Checking is valid 3x3 at {origin}");
             origin.z = 0;
             for (int x = 0; x < layout.x; x++)
                 for (int y = 0; y < layout.y; y++)
@@ -277,7 +278,7 @@ namespace Assets.Script.Buildings
                     ColliderMap.SetTile(origin + new Vector3Int(x, y, 0), WalkableTile);
                 }
             ColliderMap.SetTile(origin + new Vector3Int(1, 1, 0), UnwalkableTile);
-            //GameManager.Instance.PathfindingGrid.SetWalkableAt(origin.x + 1, origin.y + 1, false);
+            GameManager.Instance.PathfindingGrid.SetWalkableAt(origin.x + 1, origin.y + 1, true);
         }
     }
 }

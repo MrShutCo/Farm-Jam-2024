@@ -22,9 +22,7 @@ public class GameManager : MonoBehaviour
     public EGameState GameState { get; private set; }
     public EGameState PreviousGameState { get; private set; }
     public Dictionary<EResource, int> Resources { get; private set; }
-    public List<Placeable> EnabledPlaceables;
     public Grid2D PathfindingGrid;
-    public Grid2D PathfindingGridOutside;
     public AudioManager AudioManager;
 
     public Action onResourceChange;
@@ -196,7 +194,7 @@ public class GameManager : MonoBehaviour
 
     void UpdatePathFindingGrids(bool teleport, Vector2 position = default)
     {
-        if (teleport)
+        /*if (teleport)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(position, 10);
             if (colliders.Length > 0)
@@ -210,7 +208,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
     public Sprite GetIcon(EResource resource)
     {
